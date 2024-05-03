@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'Zen Tokyo Zoo';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./ZenTokyoZoo.woff') format('woff');
+  }
+  
+
+
+@font-face {
+  font-family: 'LINESeedKR-Bd';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
