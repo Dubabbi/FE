@@ -21,7 +21,7 @@ export const Page = styled.div`
   border-radius: 2rem; 
   justify-content: center;
   height: 600px;
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
   
   @media (max-width: 1024px) { // 태블릿
@@ -45,10 +45,10 @@ export const Page = styled.div`
 `;
 
 export const TitleWrap = styled.div`
-  font-size: 2.5rem;
+  font-size: 2.6rem;
   font-weight: bold;
   margin-bottom: 4%;
-  text-align: center;
+  margin-left: 12%;
   color: #262626;
   letter-spacing: 0px;
   line-height: 1.5;
@@ -130,6 +130,7 @@ export const ErrorMessageWrap = styled.div`
   font-size: 1.3rem;
 `;
 
+/*
 export const NoAccount = styled.div`
   margin-top: 4%;
   margin-bottom: 2%;
@@ -146,6 +147,34 @@ export const NoAccount = styled.div`
   }
   a {
     font-size: 1.3rem;
+  }
+`
+*/
+
+export const NoAccount = styled.div`
+  display: flex;
+  justify-content: space-around;  // 각 항목 사이에 균일한 공간 배분
+  align-items: center;           // 세로 중심 정렬
+  margin-top: 4%;
+  margin-bottom: 2%;
+  max-width: 80%;
+  margin-left: 10%;
+  font-size: 1.3rem;             // 폰트 크기 유지
+  color: white;                  // 폰트 색상 지정 (선택적)
+  @media (max-width: 500px) {   // 작은 모바일
+    margin-top: 8%;
+  } 
+  p {
+    color: #2B2180;              // 링크 색상 조정
+    }
+  a {
+    color: #2B2180;              // 링크 색상 조정
+    text-decoration: none;       // 밑줄 제거
+    font-weight: bold;           // 폰트 굵기
+    &:hover {
+      text-decoration: underline; // 호버 시 밑줄 추가
+    }
+    
   }
 `
 

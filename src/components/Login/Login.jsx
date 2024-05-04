@@ -31,10 +31,17 @@ const Login = () => {
               로그인
             </L.BottomButton>
             <L.NoAccount>
+              <a href="/">아이디 찾기</a>
+              <p>|</p>
+              <a href="/">비밀번호 찾기</a>
+              <p>|</p>
+              <a href="/Select">회원가입</a>
+            {/*
               <p>계정이 없으신가요? </p>
               <p style={{ color: 'blue' }}>
               <a href="/Select" style={{ color: 'blue', textDecoration: 'underline' }}>회원가입</a>
               </p>
+            */}
             </L.NoAccount>
 
       </L.Page>
