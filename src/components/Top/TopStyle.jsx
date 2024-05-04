@@ -1,16 +1,15 @@
 import styled from 'styled-components';
 
-export const navHeight = '7vw';
 
 export const TopWrapper = styled.div`
     position: fixed;
     background-color: #45464b;
     width : 100%;
-    height : 55px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 1000;  
+    padding: 1rem 1rem;
 `
 
 export const LinkWrapper = styled.div`
@@ -25,7 +24,7 @@ export const Header = styled.div`
 `
 
 export const Title = styled.div`
-    font-size: 3rem;
+    font-size: 2.5rem;
     display: flex;
     align-items: center;
     margin-left: 25px;
