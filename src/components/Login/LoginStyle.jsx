@@ -21,7 +21,7 @@ export const Page = styled.div`
   border-radius: 2rem; 
   justify-content: center;
   height: 600px;
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
   
   @media (max-width: 1024px) { // 태블릿
@@ -45,10 +45,10 @@ export const Page = styled.div`
 `;
 
 export const TitleWrap = styled.div`
-  font-size: 2.5rem;
+  font-size: 2.6rem;
   font-weight: bold;
   margin-bottom: 4%;
-  text-align: center;
+  margin-left: 12%;
   color: #262626;
   letter-spacing: 0px;
   line-height: 1.5;
