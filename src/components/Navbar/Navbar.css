@@ -1,15 +1,15 @@
-.footer{
+.navbar{
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
     background-color: #45464b;
     margin-bottom: 0;
-    z-index: 1000; /* Ensure the footer stays on top of other content */
+    z-index: 1000; 
 }
 
-/* Ensure padding within the footer */
-.si__footer{
+
+.si__navbar{
     display: flex;
     flex-direction: column;
 }
@@ -18,19 +18,35 @@
     padding: 2rem 2rem;
 }
 
-.si__footer-below{
-    align-items: center;
-    justify-content: center;
+.si__navbar-select{
     display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    align-items: flex-start;
     flex-direction: row;
-    margin-top: 0.2rem;
+    flex-wrap: wrap;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 0;
+    margin-left: 3rem;
+
 }
 
-.si__footer-copyright p{
-    font-size: 13px;
-    line-height: 15px;
+.si__navbar-select p{
+    margin: 1rem;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    font-size: 1.5rem;
+    line-height: 0.3rem;
     color: rgb(255, 255, 255);
     font-weight: 600;
+    align-items: center;
+    margin-right: 3rem;
+}
+
+.si__navbar-select a{
+    color: #222;
+    text-decoration: none;;
 }
 
 .main-content {
@@ -38,18 +54,18 @@
 }
 
 @media screen and (max-width: 850px) {
-    .si__footer-heading h1{
+    .si__navbar-heading h1{
         font-size: 44px;
         line-height: 50px;
     }
 }
 
 @media screen and (max-width: 550px) {
-    .si__footer-heading h1{
+    .si__navbar-heading h1{
         font-size: 34px;
         line-height: 42px;
     }
-    .si__footer-below{
+    .si__navbar-below{
         flex-direction: column;
         justify-content: center;
     }
