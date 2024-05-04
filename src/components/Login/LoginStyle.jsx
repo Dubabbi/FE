@@ -130,6 +130,7 @@ export const ErrorMessageWrap = styled.div`
   font-size: 1.3rem;
 `;
 
+/*
 export const NoAccount = styled.div`
   margin-top: 4%;
   margin-bottom: 2%;
@@ -146,6 +147,34 @@ export const NoAccount = styled.div`
   }
   a {
     font-size: 1.3rem;
+  }
+`
+*/
+
+export const NoAccount = styled.div`
+  display: flex;
+  justify-content: space-around;  // 각 항목 사이에 균일한 공간 배분
+  align-items: center;           // 세로 중심 정렬
+  margin-top: 4%;
+  margin-bottom: 2%;
+  max-width: 80%;
+  margin-left: 10%;
+  font-size: 1.3rem;             // 폰트 크기 유지
+  color: white;                  // 폰트 색상 지정 (선택적)
+  @media (max-width: 500px) {   // 작은 모바일
+    margin-top: 8%;
+  } 
+  p {
+    color: #2B2180;              // 링크 색상 조정
+    }
+  a {
+    color: #2B2180;              // 링크 색상 조정
+    text-decoration: none;       // 밑줄 제거
+    font-weight: bold;           // 폰트 굵기
+    &:hover {
+      text-decoration: underline; // 호버 시 밑줄 추가
+    }
+    
   }
 `
 
