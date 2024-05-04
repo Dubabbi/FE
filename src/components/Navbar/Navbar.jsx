@@ -12,6 +12,8 @@ export default function Navbar() {
                 <div className='si__navbar-select'>
                 <p>이동</p>
                 <p>이동</p>
+                <p>이동</p>
+                <p>이동</p>
                 </div>
             </div>
             </div>
