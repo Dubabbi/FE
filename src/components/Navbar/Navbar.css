@@ -1,15 +1,15 @@
-.footer{
+.navbar{
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
     background-color: #45464b;
     margin-bottom: 0;
-    z-index: 1000; /* Ensure the footer stays on top of other content */
+    z-index: 1000; 
 }
 
-/* Ensure padding within the footer */
-.si__footer{
+
+.si__navbar{
     display: flex;
     flex-direction: column;
 }
@@ -18,19 +18,30 @@
     padding: 2rem 2rem;
 }
 
-.si__footer-below{
-    align-items: center;
-    justify-content: center;
+.si__navbar-select {
     display: flex;
+    justify-content: space-between; /* 중앙 정렬에서 좌우 균등 간격으로 변경 */
+    align-items: center; /* 세로 중앙 정렬 유지 */
     flex-direction: row;
-    margin-top: 0.2rem;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-left: 0; /* 마진 조정 */
+    margin-bottom: 0;
 }
 
-.si__footer-copyright p{
-    font-size: 13px;
-    line-height: 15px;
+.si__navbar-select p {
+    flex: 1; /* 각 p 태그가 동일한 공간을 차지하도록 설정 */
+    margin: 1rem;
+    font-size: 1.7rem;
+    line-height: 1rem; /* line-height 조정 */
     color: rgb(255, 255, 255);
     font-weight: 600;
+    text-align: center; /* 텍스트 중앙 정렬로 변경 */
+}
+
+.si__navbar-select a{
+    color: #222;
+    text-decoration: none;;
 }
 
 .main-content {
@@ -38,18 +49,18 @@
 }
 
 @media screen and (max-width: 850px) {
-    .si__footer-heading h1{
+    .si__navbar-heading h1{
         font-size: 44px;
         line-height: 50px;
     }
 }
 
 @media screen and (max-width: 550px) {
-    .si__footer-heading h1{
+    .si__navbar-heading h1{
         font-size: 34px;
         line-height: 42px;
     }
-    .si__footer-below{
+    .si__navbar-below{
         flex-direction: column;
         justify-content: center;
     }
