@@ -108,20 +108,18 @@ const SignupTchr = () => {
                 onChange={handleName}
               />
           </S.InputWrap>
-          <S.InputWrap>
+          <S.InputWrap invalid={!emailValid && email.length > 0}>
             <S.Input
               type="text"
               placeholder="이메일"
               value={email}
               onChange={handleEmail}
             />
-          <S.ErrorMessageWrap>
-            {!emailValid && email.length > 0 && (
-              <div>올바른 이메일 형식으로 입력해주세요.</div>
-            )}
-          </S.ErrorMessageWrap>
+              { !emailValid && email.length > 0 && (
+              <S.ErrorMessageWrap>올바른 이메일 형식으로 입력해주세요.</S.ErrorMessageWrap>
+             )}
           </S.InputWrap>
-          <S.InputWrap>
+          <S.InputWrap invalid={!pwValid && pw.length > 0}>
             <S.Input
               type="password"
               placeholder="비밀번호"
@@ -134,7 +132,7 @@ const SignupTchr = () => {
             )}
           </S.ErrorMessageWrap>
           </S.InputWrap>
-          <S.InputWrap>
+          <S.InputWrap invalid={confirmPwMsg !== ''}>
             <S.Input
               type="password"
               placeholder="비밀번호 확인"

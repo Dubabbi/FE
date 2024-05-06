@@ -95,7 +95,7 @@ export const InputWrap = styled.div`
   background-color: #EFF0F2;
   border: 2px solid #e2e0e0;
   &:focus-within {
-    border: 2px solid #4B518F;
+    border: 2px solid ${({ invalid }) => invalid ? 'red' : '#4B518F'};
   }
 `;
 
@@ -106,9 +106,8 @@ export const Input = styled.input`
   height: 14%;
   font-size: 1.5rem;
   font-weight: 400;
-
   &::placeholder {
-    color: ${({ invalid }) => (invalid ? 'red' : '#666666')};
+    color: '#666666' // 플레이스홀더 색상 조정
   }
 `;
 
@@ -167,12 +166,12 @@ export const ErrorMessageWrap = styled.div`
 
 export const ErrorMessageWrap = styled.div`
   position: absolute;
-  bottom: -17px; // InputWrap 아래에 오류 메시지를 위치시키기 위해
+  bottom: -17px; 
   left: 1%;
   width: 80%;
   color: red;
   font-size: 1.1rem;
-  z-index: 10; // 필요에 따라 z-index를 조정하여 다른 요소들 위에 표시되도록 함
+  z-index: 10; 
 `;
 
 export const ImageWrap = styled.div`
