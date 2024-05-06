@@ -65,7 +65,7 @@ export const LostPwMessage = styled.div`
   text-align: right;
 `;
 
-
+/*
 export const InputWrap = styled.div`
   display: flex;
   border-radius: 8px;
@@ -81,19 +81,34 @@ export const InputWrap = styled.div`
   @media (max-width: 500px) { // 작은 모바일
     padding: 1.2rem;
   }
+`;
+*/
 
+export const InputWrap = styled.div`
+  position: relative;
+  display: flex;
+  border-radius: 8px;
+  padding: 1.3rem;
+  margin-bottom: 4%;
+  margin-left: 10%;
+  max-width: 80%;
+  background-color: #EFF0F2;
+  border: 2px solid #e2e0e0;
+  &:focus-within {
+    border: 2px solid #4B518F;
+  }
 `;
 
 export const Input = styled.input`
   width: 100%;
   outline: none;
   border: none;
-  height: 15%;
+  height: 14%;
   font-size: 1.5rem;
   font-weight: 400;
 
   &::placeholder {
-    color: #666666;
+    color: ${({ invalid }) => (invalid ? 'red' : '#666666')};
   }
 `;
 
@@ -102,7 +117,7 @@ export const Select = styled.select`
   width: 100%;
   outline: none;
   border: none;
-  height: 15%;
+  height: 14%;
   font-size: 1.5rem;
   font-weight: 400;
   background-color: #EFF0F2;
@@ -112,7 +127,7 @@ export const Select = styled.select`
     width: 100%;
     outline: none;
     border: none;
-    height: 15%;
+    height: 14%;
     font-size: 1.5rem;
     font-weight: 400;
     background-color: #EFF0F2;
@@ -139,21 +154,39 @@ export const BottomButton = styled.button`
 }
 `;
 
+/*
 export const ErrorMessageWrap = styled.div`
   position: fixed;
   padding-left: 5%;
-  margin-top: 1%;
+  margin-bottom: 3%;
   width: 90%;
   color: red;
-  font-size: 1.3rem;
+  font-size: 1rem;
+`;
+*/
+
+export const ErrorMessageWrap = styled.div`
+  position: absolute;
+  bottom: -17px; // InputWrap 아래에 오류 메시지를 위치시키기 위해
+  left: 1%;
+  width: 80%;
+  color: red;
+  font-size: 1.1rem;
+  z-index: 10; // 필요에 따라 z-index를 조정하여 다른 요소들 위에 표시되도록 함
 `;
 
 export const ImageWrap = styled.div`
     display: flex;
     justify-content: flex-end; /* 우측 정렬 */
+    justify-content: space-between;
     img {
-        margin: 10% 10 10; /* 상단 마진 유지, 좌우 마진을 0으로 설정 */
+        margin-right: 7%;
         max-width: 30%; /* 이미지의 최대 너비 제한 */
+    }
+    a{
+      width: 20%;
+      margin-left: 10%;
+      margin-top: 10%;
     }
 `
 
