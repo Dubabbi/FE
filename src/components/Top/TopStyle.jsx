@@ -31,9 +31,6 @@ export const Title = styled.div`
     color: white;
 `
 
-//
-
-
 export const Avatar = styled.div`
     margin: 0 20px 0 10px;
 `
