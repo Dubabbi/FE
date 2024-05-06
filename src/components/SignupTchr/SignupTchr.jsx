@@ -115,9 +115,17 @@ const SignupTchr = () => {
               value={email}
               onChange={handleEmail}
             />
+<<<<<<< HEAD
               { !emailValid && email.length > 0 && (
               <S.ErrorMessageWrap>올바른 이메일 형식으로 입력해주세요.</S.ErrorMessageWrap>
              )}
+=======
+          <S.ErrorMessageWrap>
+            {!emailValid && email.length > 0 && (
+              <div>올바른 이메일 형식으로 입력해주세요.</div>
+            )}
+          </S.ErrorMessageWrap>
+>>>>>>> 3e000f8f0a01a553c617828e1a601c61fc4edc2a
           </S.InputWrap>
           <S.InputWrap invalid={!pwValid && pw.length > 0}>
             <S.Input
