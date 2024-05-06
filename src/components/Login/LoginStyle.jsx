@@ -69,15 +69,15 @@ export const LostPwMessage = styled.div`
 export const InputWrap = styled.div`
   display: flex;
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 1.3rem;
   margin-bottom: 5%;
   margin-left: 10%;
   max-width: 80%;
   background-color: #EFF0F2;
-  border: 1px solid #e2e0e0;
+  border: 2px solid #e2e0e0;
 
   &:focus-within {
-    border: 1px solid #4B518F;
+    border: 2px solid #4B518F;
   }
 
   @media (max-width: 500px) { // 작은 모바일
