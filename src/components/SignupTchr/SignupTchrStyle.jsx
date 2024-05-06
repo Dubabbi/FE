@@ -1,4 +1,4 @@
-//LoginStyle
+//SignupTchrStyle.jsx
 import styled from 'styled-components';
 
 export const AppContainer = styled.div`
@@ -70,16 +70,14 @@ export const InputWrap = styled.div`
   display: flex;
   border-radius: 8px;
   padding: 1.5rem;
-  margin-bottom: 5%;
+  margin-bottom: 3%;
   margin-left: 10%;
   max-width: 80%;
   background-color: #EFF0F2;
-  border: 1px solid #e2e0e0;
-
+  border: 2px solid #e2e0e0;
   &:focus-within {
-    border: 1px solid #4B518F;
+    border: 2px solid #4B518F;
   }
-
   @media (max-width: 500px) { // 작은 모바일
     padding: 1.2rem;
   }
@@ -97,7 +95,27 @@ export const Input = styled.input`
   &::placeholder {
     color: #666666;
   }
-  
+`;
+
+
+export const Select = styled.select`
+  width: 100%;
+  outline: none;
+  border: none;
+  height: 15%;
+  font-size: 1.5rem;
+  font-weight: 400;
+  background-color: #EFF0F2;
+
+  option {
+    cursor: pointer; // 옵션 호버 시 커서 변경
+    width: 100%;
+    outline: none;
+    border: none;
+    height: 15%;
+    font-size: 1.5rem;
+    font-weight: 400;
+    background-color: #EFF0F2;
 `;
 
 export const BottomButton = styled.button`
@@ -130,6 +148,15 @@ export const ErrorMessageWrap = styled.div`
   font-size: 1.3rem;
 `;
 
+export const ImageWrap = styled.div`
+    display: flex;
+    justify-content: flex-end; /* 우측 정렬 */
+    img {
+        margin: 10% 10 10; /* 상단 마진 유지, 좌우 마진을 0으로 설정 */
+        max-width: 30%; /* 이미지의 최대 너비 제한 */
+    }
+`
+
 /*
 export const NoAccount = styled.div`
   margin-top: 4%;
@@ -152,30 +179,18 @@ export const NoAccount = styled.div`
 */
 
 export const NoAccount = styled.div`
-  display: flex;
-  justify-content: space-around;  // 각 항목 사이에 균일한 공간 배분
-  align-items: center;           // 세로 중심 정렬
-  margin-top: 4%;
-  margin-bottom: 2%;
-  max-width: 80%;
-  margin-left: 10%;
-  font-size: 1.3rem;             // 폰트 크기 유지
-  color: white;                  // 폰트 색상 지정 (선택적)
-  @media (max-width: 500px) {   // 작은 모바일
-    margin-top: 8%;
-  } 
-  p {
-    color: #2B2180;              // 링크 색상 조정
-    }
-  a {
-    color: #2B2180;              // 링크 색상 조정
-    text-decoration: none;       // 밑줄 제거
-    font-weight: bold;           // 폰트 굵기
-    &:hover {
-      text-decoration: underline; // 호버 시 밑줄 추가
-    }
-    
-  }
+margin-top: 3%;
+max-width: 100%;
+cursor: pointer;
+text-align: center; 
+p {
+  font-weight: bold;
+  display: inline; 
+  font-size: 13px;
+}
+a {
+  font-size: 14px;
+}
 `
 
 export const UnderlinedText = styled.span`

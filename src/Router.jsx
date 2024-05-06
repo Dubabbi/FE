@@ -5,6 +5,8 @@ import Navbar from './components/Navbar/Navbar';
 
 import SelectPage  from './pages/Select';
 import LoginPage from './pages/Login';
+import SignupStdPage from './pages/SignupStd';
+import SignupTchrPage from './pages/SignupTchr';
 
 
 
@@ -15,7 +17,9 @@ export default function Router() {
         <Top/>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/Select" element={<SelectPage />} />     
+          <Route path="/Select" element={<SelectPage />} />
+          <Route path="/SignupStd" element={<SignupStdPage />} />
+          <Route path="/SignupTchr" element={<SignupTchrPage />} />              
         </Routes>
         <Navbar/>
       </BrowserRouter>
