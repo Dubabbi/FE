@@ -16,7 +16,7 @@ export const LoginWrapper = styled.div`
 export const Page = styled.div`
   position: relative;
   max-width: 480px;
-  margin: 0% auto 0; // 좌우 중앙 정렬 및 상단 여백 조정
+  margin: 0% auto 0; 
   flex-direction: column;
   border-radius: 2rem; 
   justify-content: center;
@@ -27,13 +27,13 @@ export const Page = styled.div`
   @media (max-width: 1024px) { // 태블릿
     padding: 0 2rem; 
     height: auto; 
-    margin-top: 5%; // 상단 여백 증가
+    margin-top: 3%; 
     min-height: 550px;
   }
 
   @media (max-width: 768px) { // 중간 크기 모바일
     padding: 0 1.5rem; // 좀 더 적은 패딩
-    margin-top: 10%; // 상단 여백 더 크게
+    margin-top: 7%; // 상단 여백 더 크게
   }
 
   @media (max-width: 480px) { // 작은 모바일
