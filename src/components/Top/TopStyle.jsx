@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 export const TopWrapper = styled.div`
     position: fixed;
     background-color: #45464b;
