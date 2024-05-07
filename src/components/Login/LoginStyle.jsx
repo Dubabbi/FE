@@ -1,4 +1,4 @@
-//LoginStyle
+//LoginStyle.jsx
 import styled from 'styled-components';
 
 export const AppContainer = styled.div`
@@ -129,27 +129,6 @@ export const ErrorMessageWrap = styled.div`
   color: red;
   font-size: 1.3rem;
 `;
-
-/*
-export const NoAccount = styled.div`
-  margin-top: 4%;
-  margin-bottom: 2%;
-  max-width: 100%;
-  cursor: pointer;
-  text-align: center; 
-  @media (max-width: 500px) { // 작은 모바일
-    margin-top: 8%;
-  } 
-  p {
-    font-weight: bold;
-    display: inline; 
-    font-size: 1.3rem;
-  }
-  a {
-    font-size: 1.3rem;
-  }
-`
-*/
 
 export const NoAccount = styled.div`
   display: flex;

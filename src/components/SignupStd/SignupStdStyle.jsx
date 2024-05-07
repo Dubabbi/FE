@@ -32,8 +32,8 @@ export const Page = styled.div`
   }
 
   @media (max-width: 768px) { // 중간 크기 모바일
-    padding: 0 1.5rem; // 좀 더 적은 패딩
-    margin-top: 7%; // 상단 여백 더 크게
+    padding: 0 1.5rem;
+    margin-top: 7%;
   }
 
   @media (max-width: 480px) { // 작은 모바일
@@ -89,7 +89,7 @@ export const Input = styled.input`
   font-size: 1.5rem;
   font-weight: 400;
   &::placeholder {
-    color: '#666666' // 플레이스홀더 색상 조정
+    color: '#666666'
   }
 `;
 
@@ -137,21 +137,21 @@ export const BottomButton = styled.button`
 
 export const ErrorMessageWrap = styled.div`
   position: absolute;
-  bottom: -17px; // InputWrap 아래에 오류 메시지를 위치시키기 위해
+  bottom: -17px; 
   left: 1%;
   width: 80%;
   color: red;
   font-size: 1.1rem;
-  z-index: 10; // 필요에 따라 z-index를 조정하여 다른 요소들 위에 표시되도록 함
+  z-index: 10;
 `;
 
 export const ImageWrap = styled.div`
     display: flex;
-    justify-content: flex-end; /* 우측 정렬 */
+    justify-content: flex-end; 
     justify-content: space-between;
     img {
         margin-right: 7%;
-        max-width: 30%; /* 이미지의 최대 너비 제한 */
+        max-width: 30%; 
     }
     a{
       width: 20%;
@@ -159,28 +159,6 @@ export const ImageWrap = styled.div`
       margin-top: 10%;
     }
 `
-
-
-/*
-export const NoAccount = styled.div`
-  margin-top: 4%;
-  margin-bottom: 2%;
-  max-width: 100%;
-  cursor: pointer;
-  text-align: center; 
-  @media (max-width: 500px) { // 작은 모바일
-    margin-top: 8%;
-  } 
-  p {
-    font-weight: bold;
-    display: inline; 
-    font-size: 1.3rem;
-  }
-  a {
-    font-size: 1.3rem;
-  }
-`
-*/
 
 export const NoAccount = styled.div`
 margin-top: 3%;

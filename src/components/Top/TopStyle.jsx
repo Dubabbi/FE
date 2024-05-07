@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 export const TopWrapper = styled.div`
     position: fixed;
     background-color: #45464b;
@@ -30,9 +29,6 @@ export const Title = styled.div`
     margin-left: 25px;
     color: white;
 `
-
-//
-
 
 export const Avatar = styled.div`
     margin: 0 20px 0 10px;

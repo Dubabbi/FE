@@ -65,25 +65,6 @@ export const LostPwMessage = styled.div`
   text-align: right;
 `;
 
-/*
-export const InputWrap = styled.div`
-  display: flex;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 3%;
-  margin-left: 10%;
-  max-width: 80%;
-  background-color: #EFF0F2;
-  border: 2px solid #e2e0e0;
-  &:focus-within {
-    border: 2px solid #4B518F;
-  }
-  @media (max-width: 500px) { // 작은 모바일
-    padding: 1.2rem;
-  }
-`;
-*/
-
 export const InputWrap = styled.div`
   position: relative;
   display: flex;
@@ -153,17 +134,6 @@ export const BottomButton = styled.button`
 }
 `;
 
-/*
-export const ErrorMessageWrap = styled.div`
-  position: fixed;
-  padding-left: 5%;
-  margin-bottom: 3%;
-  width: 90%;
-  color: red;
-  font-size: 1rem;
-`;
-*/
-
 export const ErrorMessageWrap = styled.div`
   position: absolute;
   bottom: -17px; 
@@ -188,27 +158,6 @@ export const ImageWrap = styled.div`
       margin-top: 10%;
     }
 `
-
-/*
-export const NoAccount = styled.div`
-  margin-top: 4%;
-  margin-bottom: 2%;
-  max-width: 100%;
-  cursor: pointer;
-  text-align: center; 
-  @media (max-width: 500px) { // 작은 모바일
-    margin-top: 8%;
-  } 
-  p {
-    font-weight: bold;
-    display: inline; 
-    font-size: 1.3rem;
-  }
-  a {
-    font-size: 1.3rem;
-  }
-`
-*/
 
 export const NoAccount = styled.div`
 margin-top: 3%;
