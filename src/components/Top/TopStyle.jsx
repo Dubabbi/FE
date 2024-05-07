@@ -9,6 +9,7 @@ export const TopWrapper = styled.div`
     align-items: center;
     z-index: 1000;  
     padding: 1rem 1rem;
+    margin-bottom: 2rem;
 `
 
 export const LinkWrapper = styled.div`
