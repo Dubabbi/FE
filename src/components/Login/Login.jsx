@@ -18,13 +18,13 @@ const Login = () => {
           <L.InputWrap>
             <L.Input
               type="text"
-              placeholder="Email address"
+              placeholder="이메일"
             />
           </L.InputWrap>
           <L.InputWrap>
             <L.Input
               type="password"
-              placeholder="Password"
+              placeholder="비밀번호"
             />
           </L.InputWrap>
             <L.BottomButton>

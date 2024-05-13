@@ -142,10 +142,9 @@ const SignupStd = () => {
           <S.InputWrap>
             <S.Select>
             <option value="" disabled selected hidden>지능지수</option>
-            <option value="100">100</option>
-            <option value="110">110</option>
-            <option value="120">120</option>
-            </S.Select>
+            <option value="100">지능지수 50~69(경도)</option>
+            <option value="110">지능지수 35~49(중등도)</option>
+              </S.Select>
           </S.InputWrap>
 
             <S.BottomButton>
