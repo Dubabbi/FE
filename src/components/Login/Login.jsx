@@ -1,30 +1,36 @@
 // Login.jsx
 import React from 'react';
 import * as L from './LoginStyle';
-import Star from '/src/assets/image/starsvg.svg'
-import * as S from '../Select/SelectStyle';
+import Logo from '/src/assets/image/logo.svg'
 
 const Login = () => {
   return (
     <L.AppContainer>
+    <L.Logo>
+    <p>마음말</p>
+    <img src={Logo} alt = "마음말 로고"/>
+    </L.Logo>
     <L.LoginWrapper>
       <L.Page>
-      <S.ImageWrap>
-                <img src={Star} alt="" />
-            </S.ImageWrap>
       <L.TitleWrap>
-          <p>마음말</p>       
+          <p>로그인</p>       
       </L.TitleWrap>
+      <L.InputTitle>
+        이메일
+      </L.InputTitle>
           <L.InputWrap>
             <L.Input
               type="text"
-              placeholder="이메일"
+              placeholder="example@email.com"
             />
           </L.InputWrap>
+          <L.InputTitle>
+          <p>비밀번호</p>       
+          </L.InputTitle>
           <L.InputWrap>
             <L.Input
               type="password"
-              placeholder="비밀번호"
+              placeholder="Password"
             />
           </L.InputWrap>
             <L.BottomButton>
