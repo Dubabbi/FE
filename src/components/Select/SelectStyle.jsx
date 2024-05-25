@@ -18,7 +18,7 @@ export const ChoiceBox = styled.div`
     display: flex;
     justify-content: center;
     gap: 3%;
-    margin-top: 5%;
+    margin-top: 10%;
 `;
 
 
@@ -33,7 +33,7 @@ export const TitleWrap = styled.div`
 
 export const OptionLink = styled.a`
     display: block;
-    background-color: #4B518F;
+    background-color: #ACAACC;
     text-align: center;
     line-height: 1.7;
     padding: 8%;
@@ -45,7 +45,7 @@ export const OptionLink = styled.a`
     transition: background-color 0.3s;
 
     &:hover {
-        background-color: #5D639A;
+        background-color: #8C84B0;
     }
 `;
 
