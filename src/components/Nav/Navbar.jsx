@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Avvvatars from 'avvvatars-react'
-import * as T from './TopStyle';
+import * as T from './NavbarStyle';
 
 export default function Nav() {
 return(
