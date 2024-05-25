@@ -1,8 +1,10 @@
 // SignupStd.jsx
 import React, { useEffect, useState } from 'react';
-import * as S from './SignupStdStyle';
-import Star from '/src/assets/image/starsvg.svg'
+import * as S from '../SignupTchr/SignupTchrStyle';
+import * as L from '../Login/LoginStyle';
+import * as D from './SignupStdStyle';
 import Back from '/src/assets/image/back.svg'
+import Logo from '/src/assets/image/logo.svg'
 
 const SignupStd = () => {
   const [email, setEmail] = useState('');
@@ -21,6 +23,13 @@ const SignupStd = () => {
   }; 
 
 
+  // 기존 상태 유지
+  const [showSelectionScreen, setShowSelectionScreen] = useState(false);
+
+  // 회원가입 버튼 클릭 핸들러
+  const handleSignupClick = () => {
+    setShowSelectionScreen(true);
+  };
   useEffect(() => { 
     if (confirmPw.length >= 1) { 
       if (confirmPw === pw) {
@@ -88,28 +97,46 @@ const SignupStd = () => {
     }
     setNotAllow(true);
   }, [nameValid, emailValid, pwValid, confirmPw, pw]);
+
   return (
-    <S.AppContainer>
-    <S.LoginWrapper>
-      <S.Page>
+    <L.AppContainer>
+      <L.Logo>
+        <p>마음말</p>
+        <img src={Logo} alt = "마음말 로고"/>
+      </L.Logo>
+      <L.LoginWrapper>
+      <L.Page>
+      {!showSelectionScreen ? (
+            <>
         <S.ImageWrap>
           <a href="/Select"><img src={Back} alt="" /></a>
-          <img src={Star} alt="" />
         </S.ImageWrap>
       <S.TitleWrap>
           <p>마음말</p>       
       </S.TitleWrap>
-      <S.InputWrap invalid={!emailValid && email.length > 0}>
+      <S.InputWrap>
             <S.Input
-              type="text"
-              placeholder="이메일"
-              value={email}
-              onChange={handleEmail}
-            />
-              { !emailValid && email.length > 0 && (
-              <S.ErrorMessageWrap>올바른 이메일 형식으로 입력해주세요.</S.ErrorMessageWrap>
-             )}
+                type="name"
+                placeholder="이름"
+                value={name}
+                onChange={handleName}
+              />
           </S.InputWrap>
+          <S.ErrorMessageWrap>
+              <div>.</div>
+            </S.ErrorMessageWrap>
+          <S.InputWrap invalid={!emailValid && email.length > 0}>
+          <S.Input
+            type="text"
+            placeholder="이메일"
+            value={email}
+            onChange={handleEmail}
+          />
+          </S.InputWrap>
+          <S.ErrorMessageWrap show={!emailValid && email.length > 0}>
+            올바른 이메일 형식으로 입력해주세요.
+          </S.ErrorMessageWrap>
+          
           <S.InputWrap invalid={!pwValid && pw.length > 0}>
             <S.Input
               type="password"
@@ -117,12 +144,10 @@ const SignupStd = () => {
               value={pw}
               onChange={handlePw}
             />
-            <S.ErrorMessageWrap>
-            {!pwValid && pw.length > 0 && (
+            </S.InputWrap>
+            <S.ErrorMessageWrap show={!pwValid && pw.length > 0}>
               <div>영문, 숫자, 특수기호 조합 8자리 이상의 비밀번호를 입력하세요.</div>
-            )}
-          </S.ErrorMessageWrap>
-          </S.InputWrap>
+            </S.ErrorMessageWrap>
           <S.InputWrap invalid={confirmPwMsg !== ''}>
             <S.Input
               type="password"
@@ -130,27 +155,13 @@ const SignupStd = () => {
               value={confirmPw}
               onChange={handleConfirmPw}
             />
-          <S.ErrorMessageWrap>
-                {confirmPwMsg && <div>{confirmPwMsg}</div>}
-              </S.ErrorMessageWrap>
-          <S.ErrorMessageWrap>
-            {!pwValid && pw.length > 0 && (
-              <div></div>
-            )}
-          </S.ErrorMessageWrap>
           </S.InputWrap>
-          <S.InputWrap>
-            <S.Select>
-            <option value="" disabled selected hidden>지능지수</option>
-            <option value="100">100</option>
-            <option value="110">110</option>
-            <option value="120">120</option>
-            </S.Select>
-          </S.InputWrap>
-
-            <S.BottomButton>
+          <S.ErrorMessageWrap show={confirmPwMsg && <div>{confirmPwMsg}</div>}>
+              <div>비밀번호가 일치하지 않습니다.</div>
+            </S.ErrorMessageWrap>
+            <L.BottomButton onClick={handleSignupClick}>
               회원가입
-            </S.BottomButton>
+            </L.BottomButton>
             <S.NoAccount>
               <p>이미 계정이 있으신가요? </p>
               <p style={{ color: '#2B2180' }}>
@@ -159,10 +170,26 @@ const SignupStd = () => {
                 </S.UnderlinedText>
               </p>
             </S.NoAccount>
-
-      </S.Page>
-    </S.LoginWrapper>
-    </S.AppContainer>
+          </>
+          ) : (
+            <>
+            <L.TitleWrap>
+            <p>지능지수 선택</p>
+            </L.TitleWrap>
+            <D.ChoiceBox>
+                <D.OptionLink href=''>경도
+                </D.OptionLink>
+                <D.OptionLink href=''>중등도
+                </D.OptionLink>
+            </D.ChoiceBox>
+            <D.BottomButton>
+              확인
+            </D.BottomButton>
+          </>
+          )}
+      </L.Page>
+      </L.LoginWrapper>
+    </L.AppContainer>
   );
 };
 

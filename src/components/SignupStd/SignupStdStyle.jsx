@@ -1,128 +1,42 @@
 //SignupStdStyle.jsx
 import styled from 'styled-components';
 
-export const AppContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+export const ChoiceBox = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 3%;
+    margin-top: 15%;
 `;
 
-export const LoginWrapper = styled.div`
-  justify-content: center;
-  align-items: center;
-  background-color: #d5d8df;
-  padding: 5.5%;
-`;
-
-export const Page = styled.div`
-  position: relative;
-  max-width: 480px;
-  margin: 0% auto 0; 
-  flex-direction: column;
-  border-radius: 2rem; 
-  justify-content: center;
-  height: 600px;
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
-  
-  @media (max-width: 1024px) { // 태블릿
-    padding: 0 2rem; 
-    height: auto; 
-    margin-top: 3%; 
-    min-height: 550px;
-  }
-
-  @media (max-width: 768px) { // 중간 크기 모바일
-    padding: 0 1.5rem;
-    margin-top: 7%;
-  }
-
-  @media (max-width: 480px) { // 작은 모바일
-    padding: 5 5rem; 
-    margin-top: 10%; 
-    font-size: 0.8rem; 
-    border-radius: 1rem; 
-  }
-`;
-
-export const TitleWrap = styled.div`
-  font-size: 2.6rem;
-  font-weight: bold;
-  margin-bottom: 4%;
-  margin-left: 12%;
-  color: #262626;
-  letter-spacing: 0px;
-  line-height: 1.5;
-`;
-
-
-export const LostPwMessage = styled.div`
-  position: relative;
-  margin-top: 8px;
-  cursor: pointer;
-  width: 90%;
-  color: red;
-  font-size: 14px;
-  text-align: right;
-`;
-
-
-export const InputWrap = styled.div`
-  position: relative;
-  display: flex;
-  border-radius: 8px;
-  padding: 1.3rem;
-  margin-bottom: 4%;
-  margin-left: 10%;
-  max-width: 80%;
-  background-color: #EFF0F2;
-  border: 2px solid #e2e0e0;
-  &:focus-within {
-    border: 2px solid ${({ invalid }) => invalid ? 'red' : '#4B518F'};
-  }
-`;
-
-export const Input = styled.input`
-  width: 100%;
-  outline: none;
-  border: none;
-  height: 14%;
-  font-size: 1.5rem;
-  font-weight: 400;
-  &::placeholder {
-    color: '#666666'
-  }
-`;
-
-
-export const Select = styled.select`
-  width: 100%;
-  outline: none;
-  border: none;
-  height: 15%;
-  font-size: 1.5rem;
-  font-weight: 400;
-  background-color: #EFF0F2;
-
-  option {
-    cursor: pointer; // 옵션 호버 시 커서 변경
-    width: 100%;
-    outline: none;
-    border: none;
-    height: 15%;
-    font-size: 1.5rem;
-    font-weight: 400;
-    background-color: #EFF0F2;
+export const OptionLink = styled.a`
+    display: flex; /* Flexbox를 사용 */
+    align-items: center; /* 수직 정렬 */
+    justify-content: center; /* 수평 정렬 */
+    background-color: rgba(255, 255, 255, 0.1);
+    text-align: center; /* 텍스트 중앙 정렬 */
+    line-height: 1.7;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 5.5%;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #222222;
+    font-size: 2rem;
+    transition: transform 0.3s ease-in-out;  // 부드러운 변환 효과
+    &:hover {
+      transform: scale(1.04);  // 5%만큼 크기 증가
+    }
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 `;
 
 export const BottomButton = styled.button`
-  margin-left: 10%;
-  width: 80%;
-  padding: 1.5rem;
-  height: 9%;
+  margin-left: 30%;
+  width: 40%;
+  height: 5.5rem;
   border: none;
   font-weight: bold;
   border-radius: 10px;
-  background-color: #4B518F;
+  background-color: #ACAACC;
   color: white;
   font-size: 1.8rem;
   cursor: pointer;
@@ -131,51 +45,6 @@ export const BottomButton = styled.button`
     padding: 1.2rem;
   } 
   &:hover {
-    background-color: #5D639A;
+    background-color: #8C84B0;
 }
 `;
-
-export const ErrorMessageWrap = styled.div`
-  position: absolute;
-  bottom: -17px; 
-  left: 1%;
-  width: 80%;
-  color: red;
-  font-size: 1.1rem;
-  z-index: 10;
-`;
-
-export const ImageWrap = styled.div`
-    display: flex;
-    justify-content: flex-end; 
-    justify-content: space-between;
-    img {
-        margin-right: 7%;
-        max-width: 30%; 
-    }
-    a{
-      width: 20%;
-      margin-left: 10%;
-      margin-top: 10%;
-    }
-`
-
-export const NoAccount = styled.div`
-margin-top: 3%;
-max-width: 100%;
-cursor: pointer;
-text-align: center; 
-p {
-  font-weight: bold;
-  display: inline; 
-  font-size: 13px;
-}
-a {
-  font-size: 14px;
-}
-`
-
-export const UnderlinedText = styled.span`
-  text-decoration: underline;
-`;
-
