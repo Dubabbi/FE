@@ -1,8 +1,9 @@
 // SignupTchr.jsx
 import React, { useEffect, useState } from 'react';
 import * as S from './SignupTchrStyle';
-import Star from '/src/assets/image/starsvg.svg'
+import * as L from '../Login/LoginStyle';
 import Back from '/src/assets/image/back.svg'
+import Logo from '/src/assets/image/logo.svg'
 
 const SignupTchr = () => {
   const [email, setEmail] = useState('');
@@ -90,12 +91,15 @@ const SignupTchr = () => {
   }, [nameValid, emailValid, pwValid, confirmPw, pw]);
 
   return (
-    <S.AppContainer>
-    <S.LoginWrapper>
-      <S.Page>
+    <L.AppContainer>
+      <L.Logo>
+        <p>마음말</p>
+        <img src={Logo} alt = "마음말 로고"/>
+      </L.Logo>
+      <L.LoginWrapper>
+      <L.Page>
         <S.ImageWrap>
           <a href="/Select"><img src={Back} alt="" /></a>
-          <img src={Star} alt="" />
         </S.ImageWrap>
       <S.TitleWrap>
           <p>마음말</p>       
@@ -108,17 +112,21 @@ const SignupTchr = () => {
                 onChange={handleName}
               />
           </S.InputWrap>
+          <S.ErrorMessageWrap>
+              <div>.</div>
+            </S.ErrorMessageWrap>
           <S.InputWrap invalid={!emailValid && email.length > 0}>
-            <S.Input
-              type="text"
-              placeholder="이메일"
-              value={email}
-              onChange={handleEmail}
-            />
-              { !emailValid && email.length > 0 && (
-              <S.ErrorMessageWrap>올바른 이메일 형식으로 입력해주세요.</S.ErrorMessageWrap>
-             )}
+          <S.Input
+            type="text"
+            placeholder="이메일"
+            value={email}
+            onChange={handleEmail}
+          />
           </S.InputWrap>
+          <S.ErrorMessageWrap show={!emailValid && email.length > 0}>
+            올바른 이메일 형식으로 입력해주세요.
+          </S.ErrorMessageWrap>
+          
           <S.InputWrap invalid={!pwValid && pw.length > 0}>
             <S.Input
               type="password"
@@ -126,12 +134,10 @@ const SignupTchr = () => {
               value={pw}
               onChange={handlePw}
             />
-            <S.ErrorMessageWrap>
-            {!pwValid && pw.length > 0 && (
+            </S.InputWrap>
+            <S.ErrorMessageWrap show={!pwValid && pw.length > 0}>
               <div>영문, 숫자, 특수기호 조합 8자리 이상의 비밀번호를 입력하세요.</div>
-            )}
-          </S.ErrorMessageWrap>
-          </S.InputWrap>
+            </S.ErrorMessageWrap>
           <S.InputWrap invalid={confirmPwMsg !== ''}>
             <S.Input
               type="password"
@@ -139,18 +145,13 @@ const SignupTchr = () => {
               value={confirmPw}
               onChange={handleConfirmPw}
             />
-          <S.ErrorMessageWrap>
-                {confirmPwMsg && <div>{confirmPwMsg}</div>}
-              </S.ErrorMessageWrap>
-          <S.ErrorMessageWrap>
-            {!pwValid && pw.length > 0 && (
-              <div></div>
-            )}
-          </S.ErrorMessageWrap>
           </S.InputWrap>
-            <S.BottomButton>
+          <S.ErrorMessageWrap show={confirmPwMsg && <div>{confirmPwMsg}</div>}>
+              <div>비밀번호가 일치하지 않습니다.</div>
+            </S.ErrorMessageWrap>
+            <L.BottomButton>
               회원가입
-            </S.BottomButton>
+            </L.BottomButton>
             <S.NoAccount>
               <p>이미 계정이 있으신가요? </p>
               <p style={{ color: '#2B2180' }}>
@@ -159,10 +160,9 @@ const SignupTchr = () => {
                 </S.UnderlinedText>
               </p>
             </S.NoAccount>
-
-      </S.Page>
-    </S.LoginWrapper>
-    </S.AppContainer>
+      </L.Page>
+      </L.LoginWrapper>
+    </L.AppContainer>
   );
 };
 

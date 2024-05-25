@@ -47,13 +47,53 @@ export const Page = styled.div`
 export const TitleWrap = styled.div`
   font-size: 2.6rem;
   font-weight: bold;
+  margin-top: 4%;
   margin-bottom: 4%;
-  margin-left: 12%;
+  text-align: center;
   color: #262626;
   letter-spacing: 0px;
   line-height: 1.5;
 `;
 
+export const InputTitle = styled.div`
+  margin-left: 21%;
+  max-width: 60%;
+  margin-bottom: 1%;
+  font-size: 1.5rem;
+`
+
+export const InputWrap = styled.div`
+  display: flex;
+  border-radius: 10px;
+  padding: 1.3rem;
+  margin-top: 1%;
+  margin-left: 20%;
+  max-width: 60%;
+  background-color: #EFF0F2;
+  border: 2px solid #e2e0e0;
+
+  &:focus-within {
+    border: 2px solid ${({ invalid }) => invalid ? 'red' : '#ACAACC'};
+  }
+
+  @media (max-width: 500px) { // 작은 모바일
+    padding: 1.2rem;
+  }
+`;
+
+export const Input = styled.input`
+  width: 100%;
+  outline: none;
+  border: none;
+  height: 2.5rem;
+  font-size: 1.5rem;
+  font-weight: 400;
+
+  &::placeholder {
+    color: #aaaaaa;
+  }
+
+`;
 
 export const LostPwMessage = styled.div`
   position: relative;
@@ -63,33 +103,6 @@ export const LostPwMessage = styled.div`
   color: red;
   font-size: 14px;
   text-align: right;
-`;
-
-export const InputWrap = styled.div`
-  position: relative;
-  display: flex;
-  border-radius: 8px;
-  padding: 1.3rem;
-  margin-bottom: 4%;
-  margin-left: 10%;
-  max-width: 80%;
-  background-color: #EFF0F2;
-  border: 2px solid #e2e0e0;
-  &:focus-within {
-    border: 2px solid ${({ invalid }) => invalid ? 'red' : '#4B518F'};
-  }
-`;
-
-export const Input = styled.input`
-  width: 100%;
-  outline: none;
-  border: none;
-  height: 14%;
-  font-size: 1.5rem;
-  font-weight: 400;
-  &::placeholder {
-    color: '#666666' // 플레이스홀더 색상 조정
-  }
 `;
 
 
@@ -135,14 +148,19 @@ export const BottomButton = styled.button`
 `;
 
 export const ErrorMessageWrap = styled.div`
-  position: absolute;
-  bottom: -17px; 
-  left: 1%;
-  width: 80%;
+  margin-left: 22%;
+  margin-top: 0.5%;
+  max-width: 60%;
   color: red;
   font-size: 1.1rem;
-  z-index: 10; 
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+
+  ${({ show }) => show && `
+    opacity: 1; 
+  `}
 `;
+
 
 export const ImageWrap = styled.div`
     display: flex;
