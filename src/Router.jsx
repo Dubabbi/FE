@@ -4,6 +4,8 @@ import Navbar from './components/Nav/Navbar';
 import Footer from './components/Footer/Footer';
 import SelectPage from './pages/Select';
 import LoginPage from './pages/Login';
+import MainStdPage from './pages/MainStd';
+import MainTchrPage from './pages/MainTchr';
 import SignupStdPage from './pages/SignupStd';
 import SignupTchrPage from './pages/SignupTchr';
 
@@ -26,6 +28,8 @@ function AppWrapper() {
       {showNavBar && <Navbar />}
       <Routes>
         <Route path="/" element={<LoginPage />} />
+        <Route path="/mainstd" element={<MainStdPage />} />
+        <Route path="/maintchr" element={<MainTchrPage />} />
         <Route path="/select" element={<SelectPage />} />
         <Route path="/signupstd" element={<SignupStdPage />} />
         <Route path="/signuptchr" element={<SignupTchrPage />} />
