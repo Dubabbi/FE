@@ -81,6 +81,25 @@ export const InputWrap = styled.div`
   }
 `;
 
+export const SecondInputWrap = styled.div`
+  display: flex;
+  border-radius: 10px;
+  padding: 1.3rem;
+  margin-top: 1%;
+  margin-left: 20%;
+  max-width: 60%;
+  background-color: #EFF0F2;
+  border: 2px solid #e2e0e0;
+
+  &:focus-within {
+    border: 2px solid #ACAACC;
+  }
+
+  @media (max-width: 500px) { // 작은 모바일
+    padding: 1.2rem;
+  }
+`;
+
 export const Input = styled.input`
   width: 100%;
   outline: none;

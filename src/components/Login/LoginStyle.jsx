@@ -7,7 +7,7 @@ export const AppContainer = styled.div`
 `;
 
 export const Logo = styled.div`
-  font-size: 2.6rem;
+  font-size: 3rem;
   font-weight: bold;
   text-align: center;
   color: #262626;
@@ -21,25 +21,16 @@ export const Logo = styled.div`
     height: 35%; // 로고 이미지의 높이를 조절
     margin-top: 5%;
   }
-`;
+  
+  @media (max-width: 1024px) { // 태블릿
+    height: 25%;
+    margin-top: 10%;
+  }
 
-/*
-export const Logo = styled.div`
-  font-size: 2.6rem;
-  font-weight: bold;
-  text-align: center;
-  color: #262626;
-  display: flex;
-  align-items: center;
-`
-
-export const LoginWrapper = styled.div`
-  padding-top: 0.5%;  // 위쪽 패딩
-  padding-bottom: 0.5%;  // 아래쪽 패딩
-  padding-left: 0;  // 좌측 패딩 제거
-  padding-right: 0;  // 우측 패딩 제거
+  @media (max-width: 768px) { // 중간 크기 모바일
+    display: none; // 768px 이하에서 Logo 컴포넌트 숨기기
+  }
 `;
-*/
 
 export const LoginWrapper = styled.div`
   width: 100%; // 전체 너비를 사용
@@ -50,46 +41,15 @@ export const LoginWrapper = styled.div`
   padding: 0; // 패딩 제거
 `;
 
-/*
-export const Page = styled.div`
-  position: relative;
-  width: 700px;
-  margin: 0% auto 0; 
-  flex-direction: column;
-  border-radius: 2rem; 
-  height: 98vh;
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
-  
-  @media (max-width: 1024px) { // 태블릿
-    padding: 0 2rem; 
-    height: auto; 
-    margin-top: 3%; 
-    min-height: 550px;
-  }
-
-  @media (max-width: 768px) { // 중간 크기 모바일
-    padding: 0 1.5rem; // 좀 더 적은 패딩
-    margin-top: 7%; // 상단 여백 더 크게
-  }
-
-  @media (max-width: 480px) { // 작은 모바일
-    padding: 5 5rem; 
-    margin-top: 10%; 
-    font-size: 0.8rem; 
-    border-radius: 1rem; 
-  }
-`;*/
 export const Page = styled.div`
   position: fixed; // 고정 위치
-  right: 0; // 화면의 오른쪽에 고정
-  top: 0; // 화면의 상단부터 시작
-  width: 700px; // 고정 너비
-  height: 98vh; // 높이를 뷰포트의 98%로 설정
-  margin: 0; // 자동 마진 제거
+  right: 5%; // 화면의 오른쪽에 고정
+  top: 7%; // 화면의 상단부터 시작
+  width: 38%; // 고정 너비
+  height: 85vh; // 높이를 뷰포트의 98%로 설정
   flex-direction: column;
   border-radius: 5rem;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
   
   @media (max-width: 1024px) { // 태블릿
@@ -99,6 +59,7 @@ export const Page = styled.div`
 
   @media (max-width: 768px) { // 중간 크기 모바일
     padding: 0 1.5rem;
+    min-height: 550px;
     margin-top: 7%;
   }
 
