@@ -112,55 +112,55 @@ const SignupStd = () => {
           <a href="/Select"><img src={Back} alt="" /></a>
         </S.ImageWrap>
       <S.TitleWrap>
-          <p>마음말</p>       
+          <p>회원가입</p>       
       </S.TitleWrap>
-      <S.InputWrap>
+      <S.SecondInputWrap>
             <S.Input
                 type="name"
                 placeholder="이름"
                 value={name}
                 onChange={handleName}
               />
-          </S.InputWrap>
+          </S.SecondInputWrap>
           <S.ErrorMessageWrap>
               <div>.</div>
             </S.ErrorMessageWrap>
-          <S.InputWrap invalid={!emailValid && email.length > 0}>
+          <S.SecondInputWrap invalid={!emailValid && email.length > 0}>
           <S.Input
             type="text"
             placeholder="이메일"
             value={email}
             onChange={handleEmail}
           />
-          </S.InputWrap>
+          </S.SecondInputWrap>
           <S.ErrorMessageWrap show={!emailValid && email.length > 0}>
             올바른 이메일 형식으로 입력해주세요.
           </S.ErrorMessageWrap>
           
-          <S.InputWrap invalid={!pwValid && pw.length > 0}>
+          <S.SecondInputWrap invalid={!pwValid && pw.length > 0}>
             <S.Input
               type="password"
               placeholder="비밀번호"
               value={pw}
               onChange={handlePw}
             />
-            </S.InputWrap>
+            </S.SecondInputWrap>
             <S.ErrorMessageWrap show={!pwValid && pw.length > 0}>
               <div>영문, 숫자, 특수기호 조합 8자리 이상의 비밀번호를 입력하세요.</div>
             </S.ErrorMessageWrap>
-          <S.InputWrap invalid={confirmPwMsg !== ''}>
+          <S.SecondInputWrap invalid={confirmPwMsg !== ''}>
             <S.Input
               type="password"
               placeholder="비밀번호 확인"
               value={confirmPw}
               onChange={handleConfirmPw}
             />
-          </S.InputWrap>
+          </S.SecondInputWrap>
           <S.ErrorMessageWrap show={confirmPwMsg && <div>{confirmPwMsg}</div>}>
               <div>비밀번호가 일치하지 않습니다.</div>
             </S.ErrorMessageWrap>
             <L.BottomButton onClick={handleSignupClick}>
-              회원가입
+              다음
             </L.BottomButton>
             <S.NoAccount>
               <p>이미 계정이 있으신가요? </p>
@@ -173,18 +173,60 @@ const SignupStd = () => {
           </>
           ) : (
             <>
-            <L.TitleWrap>
-            <p>지능지수 선택</p>
-            </L.TitleWrap>
-            <D.ChoiceBox>
-                <D.OptionLink href=''>경도
-                </D.OptionLink>
-                <D.OptionLink href=''>중등도
-                </D.OptionLink>
-            </D.ChoiceBox>
-            <D.BottomButton>
-              확인
-            </D.BottomButton>
+            <S.ImageWrap>
+          <a href="/Select"><img src={Back} alt="" /></a>
+        </S.ImageWrap>
+      <S.TitleWrap>
+          <p>마음말</p>       
+      </S.TitleWrap>
+      <S.SecondInputWrap>
+            <S.Input
+                type="age"
+                placeholder="나이"
+              />
+          </S.SecondInputWrap>
+          <S.ErrorMessageWrap>
+              <div>.</div>
+            </S.ErrorMessageWrap>
+          <S.SecondInputWrap>
+          <S.Input
+            type="text"
+            placeholder="성별"
+          />
+          </S.SecondInputWrap>
+          <S.ErrorMessageWrap>
+              <div>.</div>
+            </S.ErrorMessageWrap>
+          
+          <S.SecondInputWrap>
+            <S.Input
+              type="number"
+              placeholder="지능지수"
+            />
+            </S.SecondInputWrap>
+            <S.ErrorMessageWrap>
+              <div>.</div>
+            </S.ErrorMessageWrap>
+          <S.SecondInputWrap>
+            <S.Input
+              type="password"
+              placeholder=""
+            />
+          </S.SecondInputWrap>
+          <S.ErrorMessageWrap>
+              <div>.</div>
+            </S.ErrorMessageWrap>
+            <L.BottomButton>
+              회원가입
+            </L.BottomButton>
+            <S.NoAccount>
+              <p>이미 계정이 있으신가요? </p>
+              <p style={{ color: '#2B2180' }}>
+                <S.UnderlinedText>
+                  <a href="/"> 로그인</a>
+                </S.UnderlinedText>
+              </p>
+            </S.NoAccount>
           </>
           )}
       </L.Page>

@@ -4,21 +4,18 @@ import styled from 'styled-components';
 const StyledFooter = styled.div`
     background-color: #45464b;
     margin-bottom: 0;
+    position: fixed; // 푸터를 화면 하단에 고정
+    bottom: 0; // 하단 위치
+    width: 100%; // 전체 너비
+    left: 0; // 왼쪽에서 시작
 `;
 
 const FooterContent = styled.div`
     display: flex;
     flex-direction: column;
     padding: 2rem 2rem;
-
-    &.below {
-        align-items: center;
-        justify-content: center;
-        display: flex;
-        flex-direction: row;
-        margin-top: 0.2rem;
-        font-style: italic;
-    }
+    align-items: center; // 항목들을 가운데 정렬
+    justify-content: center; // 가운데 정렬
 `;
 
 const FooterText = styled.p`
@@ -48,9 +45,7 @@ export default function Footer() {
     return (
         <StyledFooter>
             <FooterContent>
-                <FooterContent className="below">
-                    <FooterText>&copy; 마음말</FooterText>
-                </FooterContent>
+                <FooterText>&copy; 마음말</FooterText>
             </FooterContent>
         </StyledFooter>
     );

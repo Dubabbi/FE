@@ -102,7 +102,7 @@ const SignupTchr = () => {
           <a href="/Select"><img src={Back} alt="" /></a>
         </S.ImageWrap>
       <S.TitleWrap>
-          <p>마음말</p>       
+          <p>회원가입</p>       
       </S.TitleWrap>
       <S.InputWrap>
             <S.Input
