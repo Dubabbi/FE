@@ -27,8 +27,12 @@ export const Title = styled.div`
     font-size: 2.5rem;
     display: flex;
     align-items: center;
-    margin-left: 25px;
+    margin-left: 20px;
     color: white;
+    img{
+        max-width: 40px;
+        margin-right: 6px;
+    }
 `
 
 export const Avatar = styled.div`
