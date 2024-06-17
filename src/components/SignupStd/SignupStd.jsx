@@ -2,13 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import * as S from '../SignupTchr/SignupTchrStyle';
 import * as L from '../Login/LoginStyle';
-import * as D from './SignupStdStyle';
 import Back from '/src/assets/image/back.svg'
 import Logo from '/src/assets/image/logo.svg'
 
 const SignupStd = () => {
   const [email, setEmail] = useState('');
   const [emailValid, setEmailValid] = useState(false);
+  const [id, setId] = useState('');
+  const [idValid, setIdValid] = useState(false);
   const [pw, setPw] = useState('');
   const [pwValid, setPwValid] = useState(false);
   const [name, setName] = useState('');
@@ -18,15 +19,13 @@ const SignupStd = () => {
   const [showWelcomeMessage, setShowWelcomeMessage] = useState(false); 
   const [confirmPw, setConfirmPw] = useState(''); 
   const [confirmPwMsg, setConfirmPwMsg] = useState(''); 
+  const [iq, setIq] = useState('');
+  const [gender, setGender] = useState('');
+  const [birthdate, setBirthdate] = useState('');
+  const [showSelectionScreen, setShowSelectionScreen] = useState(false);
   const handleConfirmPw = (e) => { 
     setConfirmPw(e.target.value); 
   }; 
-
-
-  // 기존 상태 유지
-  const [showSelectionScreen, setShowSelectionScreen] = useState(false);
-
-  // 회원가입 버튼 클릭 핸들러
   const handleSignupClick = () => {
     setShowSelectionScreen(true);
   };
@@ -45,11 +44,22 @@ const SignupStd = () => {
 
   const handleName = (n) => {
     setName(n.target.value);
-    const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|].{1,8}$/i;
+    const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|].{1,6}$/i;
     if (regex.test(n.target.value)) {
       setNameValid(true);
     } else {
       setNameValid(false);
+    }
+  };
+
+  const handleId = (e) => {
+    setId(e.target.value);
+    const regex =
+    /^[A-Za-z][A-Za-z0-9]{5,19}$/i;
+    if (regex.test(e.target.value)) {
+      setIdValid(true);
+    } else {
+      setIdValid(false);
     }
   };
 
@@ -75,13 +85,14 @@ const SignupStd = () => {
     }
   };
 
+
   useEffect(() => {
-    if (nameValid && emailValid && pwValid && confirmPw === pw) {
+    if (idValid && emailValid && pwValid && confirmPw === pw) {
       setNotAllow(false);
       return;
     }
     setNotAllow(true);
-  }, [emailValid], [nameValid], [pwValid], [confirmPw]);
+  }, [emailValid], [idValid], [pwValid], [confirmPw]);
 
   useEffect(() => {
     if (signupComplete) {
@@ -91,12 +102,12 @@ const SignupStd = () => {
 
 
   useEffect(() => {
-    if (nameValid && emailValid && pwValid && confirmPw === pw) {
+    if (idValid && emailValid && pwValid && confirmPw === pw) {
       setNotAllow(false);
       return;
     }
     setNotAllow(true);
-  }, [nameValid, emailValid, pwValid, confirmPw, pw]);
+  }, [idValid, emailValid, pwValid, confirmPw, pw]);
 
   return (
     <L.AppContainer>
@@ -114,17 +125,17 @@ const SignupStd = () => {
       <S.TitleWrap>
           <p>회원가입</p>       
       </S.TitleWrap>
-      <S.SecondInputWrap>
+        <S.SecondInputWrap invalid={!idValid && id.length > 0}>
             <S.Input
-                type="name"
-                placeholder="이름"
-                value={name}
-                onChange={handleName}
-              />
+              type="text"
+              placeholder="아이디"
+              value={id}
+              onChange={handleId}
+            />
           </S.SecondInputWrap>
-          <S.ErrorMessageWrap>
-              <div>.</div>
-            </S.ErrorMessageWrap>
+          <S.ErrorMessageWrap show={!idValid && id.length > 0}>
+            <div>올바른 아이디 형식으로 입력해주세요.</div>
+          </S.ErrorMessageWrap>
           <S.SecondInputWrap invalid={!emailValid && email.length > 0}>
           <S.Input
             type="text"
@@ -146,7 +157,7 @@ const SignupStd = () => {
             />
             </S.SecondInputWrap>
             <S.ErrorMessageWrap show={!pwValid && pw.length > 0}>
-              <div>영문, 숫자, 특수기호 조합 8자리 이상의 비밀번호를 입력하세요.</div>
+              <div>영문, 숫자, 특수기호 조합 8자 이상으로 입력해주세요.</div>
             </S.ErrorMessageWrap>
           <S.SecondInputWrap invalid={confirmPwMsg !== ''}>
             <S.Input
@@ -177,47 +188,60 @@ const SignupStd = () => {
           <a href="/Select"><img src={Back} alt="" /></a>
         </S.ImageWrap>
       <S.TitleWrap>
-          <p>마음말</p>       
+          <p>회원가입</p>       
       </S.TitleWrap>
-      <S.SecondInputWrap>
+      <S.SecondInputWrap invalid={!nameValid && name.length > 0}>
             <S.Input
-                type="age"
-                placeholder="나이"
+                type="name"
+                placeholder="이름"
+                value={name}
+                onChange={handleName}
               />
           </S.SecondInputWrap>
-          <S.ErrorMessageWrap>
+          <S.ErrorMessageWrap show={!nameValid && name.length > 0}>
+              올바른 이름 형식으로 입력해 주세요.
+          </S.ErrorMessageWrap>
+
+          <S.SecondInputWrap>
+          <S.Input
+            type="date"
+            value={birthdate}
+            onChange={(e) => setBirthdate(e.target.value)}
+            style={{ width: '100%', fontSize: '16px' }}
+          />
+        </S.SecondInputWrap>
+        <S.ErrorMessageWrap>
               <div>.</div>
             </S.ErrorMessageWrap>
           <S.SecondInputWrap>
-          <S.Input
-            type="text"
-            placeholder="성별"
-          />
+          <S.Select
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+            >
+              {!gender && <option value="">성별</option>}
+              <option value="남자">남자</option>
+              <option value="여자">여자</option>
+            </S.Select>
           </S.SecondInputWrap>
           <S.ErrorMessageWrap>
               <div>.</div>
             </S.ErrorMessageWrap>
           
-          <S.SecondInputWrap>
-            <S.Input
-              type="number"
-              placeholder="지능지수"
-            />
-            </S.SecondInputWrap>
+            <S.SecondInputWrap>
+            <S.Select
+              value={iq}
+              onChange={(e) => setIq(e.target.value)}
+              onBlur={() => setIq(iq || "35~49(중증도)")}>
+              {!iq && <option value="">지능지수 선택</option>}
+              <option value="35~49(중증도)">35~49(중증도)</option>
+              <option value="50~70(경도)">50~70(경도)</option>
+            </S.Select>
+          </S.SecondInputWrap>
             <S.ErrorMessageWrap>
               <div>.</div>
             </S.ErrorMessageWrap>
-          <S.SecondInputWrap>
-            <S.Input
-              type="password"
-              placeholder=""
-            />
-          </S.SecondInputWrap>
-          <S.ErrorMessageWrap>
-              <div>.</div>
-            </S.ErrorMessageWrap>
             <L.BottomButton>
-              회원가입
+              확인
             </L.BottomButton>
             <S.NoAccount>
               <p>이미 계정이 있으신가요? </p>

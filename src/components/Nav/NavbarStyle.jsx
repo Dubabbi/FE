@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const TopWrapper = styled.div`
     position: fixed;
-    background-color: #45464b;
+    background-color: #ACAACC;
     width : 100%;
     display: flex;
     justify-content: space-between;

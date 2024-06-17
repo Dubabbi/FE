@@ -2,11 +2,10 @@ import React from "react";
 import styled from 'styled-components';
 
 const StyledFooter = styled.div`
-    background-color: #45464b;
+    background-color: #ACAACC;
     margin-bottom: 0;
-    position: fixed; // 푸터를 화면 하단에 고정
     bottom: 0; // 하단 위치
-    width: 100%; // 전체 너비
+    width: 100%;
     left: 0; // 왼쪽에서 시작
 `;
 

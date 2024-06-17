@@ -9,11 +9,11 @@ export const ChoiceBox = styled.div`
 `;
 
 export const OptionLink = styled.a`
-    display: flex; /* Flexbox를 사용 */
-    align-items: center; /* 수직 정렬 */
-    justify-content: center; /* 수평 정렬 */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
     background-color: rgba(255, 255, 255, 0.1);
-    text-align: center; /* 텍스트 중앙 정렬 */
+    text-align: center; 
     line-height: 1.7;
     width: 150px;
     height: 150px;
@@ -22,9 +22,9 @@ export const OptionLink = styled.a`
     text-decoration: none;
     color: #222222;
     font-size: 2rem;
-    transition: transform 0.3s ease-in-out;  // 부드러운 변환 효과
+    transition: transform 0.3s ease-in-out; 
     &:hover {
-      transform: scale(1.04);  // 5%만큼 크기 증가
+      transform: scale(1.04);
     }
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 `;
@@ -41,7 +41,7 @@ export const BottomButton = styled.button`
   font-size: 1.8rem;
   cursor: pointer;
 
-  @media (max-width: 500px) { // 작은 모바일
+  @media (max-width: 500px) {
     padding: 1.2rem;
   } 
   &:hover {

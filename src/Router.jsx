@@ -34,7 +34,6 @@ function AppWrapper() {
         <Route path="/signupstd" element={<SignupStdPage />} />
         <Route path="/signuptchr" element={<SignupTchrPage />} />
       </Routes>
-      {showComponents && <Footer />}
     </>
   );
 }

@@ -8,6 +8,8 @@ import Logo from '/src/assets/image/logo.svg'
 const SignupTchr = () => {
   const [email, setEmail] = useState('');
   const [emailValid, setEmailValid] = useState(false);
+  const [id, setId] = useState('');
+  const [idValid, setIdValid] = useState(false);
   const [pw, setPw] = useState('');
   const [pwValid, setPwValid] = useState(false);
   const [name, setName] = useState('');
@@ -17,11 +19,16 @@ const SignupTchr = () => {
   const [showWelcomeMessage, setShowWelcomeMessage] = useState(false); 
   const [confirmPw, setConfirmPw] = useState(''); 
   const [confirmPwMsg, setConfirmPwMsg] = useState(''); 
+  const [organization, setOrganization] = useState('');
+  const [gender, setGender] = useState('');
+  const [birthdate, setBirthdate] = useState('');
+  const [showSelectionScreen, setShowSelectionScreen] = useState(false);
   const handleConfirmPw = (e) => { 
     setConfirmPw(e.target.value); 
   }; 
-
-
+  const handleSignupClick = () => {
+    setShowSelectionScreen(true);
+  };
   useEffect(() => { 
     if (confirmPw.length >= 1) { 
       if (confirmPw === pw) {
@@ -42,6 +49,17 @@ const SignupTchr = () => {
       setNameValid(true);
     } else {
       setNameValid(false);
+    }
+  };
+
+  const handleId = (e) => {
+    setId(e.target.value);
+    const regex =
+    /^[A-Za-z][A-Za-z0-9]{5,19}$/i;
+    if (regex.test(e.target.value)) {
+      setIdValid(true);
+    } else {
+      setIdValid(false);
     }
   };
 
@@ -68,12 +86,12 @@ const SignupTchr = () => {
   };
 
   useEffect(() => {
-    if (nameValid && emailValid && pwValid && confirmPw === pw) {
+    if (idValid && emailValid && pwValid && confirmPw === pw) {
       setNotAllow(false);
       return;
     }
     setNotAllow(true);
-  }, [emailValid], [nameValid], [pwValid], [confirmPw]);
+  }, [emailValid], [idValid], [pwValid], [confirmPw]);
 
   useEffect(() => {
     if (signupComplete) {
@@ -83,13 +101,13 @@ const SignupTchr = () => {
 
 
   useEffect(() => {
-    if (nameValid && emailValid && pwValid && confirmPw === pw) {
+    if (idValid && emailValid && pwValid && confirmPw === pw) {
       setNotAllow(false);
       return;
     }
     setNotAllow(true);
-  }, [nameValid, emailValid, pwValid, confirmPw, pw]);
-
+  }, [idValid, emailValid, pwValid, confirmPw, pw]);
+  
   return (
     <L.AppContainer>
       <L.Logo>
@@ -98,59 +116,61 @@ const SignupTchr = () => {
       </L.Logo>
       <L.LoginWrapper>
       <L.Page>
+      {!showSelectionScreen ? (
+            <>
         <S.ImageWrap>
           <a href="/Select"><img src={Back} alt="" /></a>
         </S.ImageWrap>
       <S.TitleWrap>
           <p>회원가입</p>       
       </S.TitleWrap>
-      <S.InputWrap>
+        <S.SecondInputWrap invalid={!idValid && id.length > 0}>
             <S.Input
-                type="name"
-                placeholder="이름"
-                value={name}
-                onChange={handleName}
-              />
-          </S.InputWrap>
-          <S.ErrorMessageWrap>
-              <div>.</div>
-            </S.ErrorMessageWrap>
-          <S.InputWrap invalid={!emailValid && email.length > 0}>
+              type="text"
+              placeholder="아이디"
+              value={id}
+              onChange={handleId}
+            />
+          </S.SecondInputWrap>
+          <S.ErrorMessageWrap show={!idValid && id.length > 0}>
+            <div>올바른 아이디 형식으로 입력해주세요.</div>
+          </S.ErrorMessageWrap>
+          <S.SecondInputWrap invalid={!emailValid && email.length > 0}>
           <S.Input
             type="text"
             placeholder="이메일"
             value={email}
             onChange={handleEmail}
           />
-          </S.InputWrap>
+          </S.SecondInputWrap>
           <S.ErrorMessageWrap show={!emailValid && email.length > 0}>
             올바른 이메일 형식으로 입력해주세요.
           </S.ErrorMessageWrap>
           
-          <S.InputWrap invalid={!pwValid && pw.length > 0}>
+          <S.SecondInputWrap invalid={!pwValid && pw.length > 0}>
             <S.Input
               type="password"
               placeholder="비밀번호"
               value={pw}
               onChange={handlePw}
             />
-            </S.InputWrap>
+            </S.SecondInputWrap>
             <S.ErrorMessageWrap show={!pwValid && pw.length > 0}>
-              <div>영문, 숫자, 특수기호 조합 8자리 이상의 비밀번호를 입력하세요.</div>
+              <div>영문, 숫자, 특수기호 조합 8자 이상으로 입력해주세요.</div>
             </S.ErrorMessageWrap>
-          <S.InputWrap invalid={confirmPwMsg !== ''}>
+          <S.SecondInputWrap invalid={confirmPwMsg !== ''}>
             <S.Input
               type="password"
               placeholder="비밀번호 확인"
               value={confirmPw}
               onChange={handleConfirmPw}
             />
-          </S.InputWrap>
+          </S.SecondInputWrap>
           <S.ErrorMessageWrap show={confirmPwMsg && <div>{confirmPwMsg}</div>}>
               <div>비밀번호가 일치하지 않습니다.</div>
             </S.ErrorMessageWrap>
-            <L.BottomButton>
-              회원가입
+            <L.BottomButton onClick={handleSignupClick}>
+              다음
             </L.BottomButton>
             <S.NoAccount>
               <p>이미 계정이 있으신가요? </p>
@@ -160,6 +180,77 @@ const SignupTchr = () => {
                 </S.UnderlinedText>
               </p>
             </S.NoAccount>
+          </>
+          ) : (
+            <>
+            <S.ImageWrap>
+          <a href="/Select"><img src={Back} alt="" /></a>
+        </S.ImageWrap>
+      <S.TitleWrap>
+          <p>회원가입</p>       
+      </S.TitleWrap>
+      <S.SecondInputWrap invalid={!nameValid && name.length > 0}>
+            <S.Input
+                type="name"
+                placeholder="이름"
+                value={name}
+                onChange={handleName}
+              />
+          </S.SecondInputWrap>
+          <S.ErrorMessageWrap show={!nameValid && name.length > 0}>
+              올바른 이름 형식으로 입력해 주세요.
+          </S.ErrorMessageWrap>
+
+          <S.SecondInputWrap>
+          <S.Input
+            type="date"
+            value={birthdate}
+            onChange={(e) => setBirthdate(e.target.value)}
+            style={{ width: '100%', fontSize: '16px' }}
+          />
+        </S.SecondInputWrap>
+        <S.ErrorMessageWrap>
+              <div>.</div>
+            </S.ErrorMessageWrap>
+          <S.SecondInputWrap>
+          <S.Select
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+            >
+              {!gender && <option value="">성별</option>}
+              <option value="남자">남자</option>
+              <option value="여자">여자</option>
+            </S.Select>
+          </S.SecondInputWrap>
+          <S.ErrorMessageWrap>
+              <div>.</div>
+            </S.ErrorMessageWrap>
+          
+            <S.SecondInputWrap>
+            <S.Input
+              type="search"
+              placeholder="소속기관 검색"
+              value={organization} 
+              onChange={(e) => setOrganization(e.target.value)} 
+              style={{ width: '100%'}} 
+            />
+          </S.SecondInputWrap>
+            <S.ErrorMessageWrap>
+              <div>.</div>
+            </S.ErrorMessageWrap>
+            <L.BottomButton>
+              확인
+            </L.BottomButton>
+            <S.NoAccount>
+              <p>이미 계정이 있으신가요? </p>
+              <p style={{ color: '#2B2180' }}>
+                <S.UnderlinedText>
+                  <a href="/"> 로그인</a>
+                </S.UnderlinedText>
+              </p>
+            </S.NoAccount>
+          </>
+          )}
       </L.Page>
       </L.LoginWrapper>
     </L.AppContainer>
