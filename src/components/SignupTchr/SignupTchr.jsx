@@ -4,6 +4,7 @@ import * as S from './SignupTchrStyle';
 import * as L from '../Login/LoginStyle';
 import Back from '/src/assets/image/back.svg'
 import Logo from '/src/assets/image/logo.svg'
+import SearchBar from './../SearchBar/SearchBar';
 
 const SignupTchr = () => {
   const [email, setEmail] = useState('');
@@ -23,6 +24,7 @@ const SignupTchr = () => {
   const [gender, setGender] = useState('');
   const [birthdate, setBirthdate] = useState('');
   const [showSelectionScreen, setShowSelectionScreen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const handleConfirmPw = (e) => { 
     setConfirmPw(e.target.value); 
   }; 
@@ -225,8 +227,10 @@ const SignupTchr = () => {
           <S.ErrorMessageWrap>
               <div>.</div>
             </S.ErrorMessageWrap>
-          
-            <S.SecondInputWrap>
+
+            
+            <SearchBar setSearchTerm={setSearchTerm}/>
+            {/*
             <S.Input
               type="search"
               placeholder="소속기관 검색"
@@ -234,7 +238,7 @@ const SignupTchr = () => {
               onChange={(e) => setOrganization(e.target.value)} 
               style={{ width: '100%'}} 
             />
-          </S.SecondInputWrap>
+            */}
             <S.ErrorMessageWrap>
               <div>.</div>
             </S.ErrorMessageWrap>
