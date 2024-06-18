@@ -24,19 +24,19 @@ export const Page = styled.div`
   background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
   
-  @media (max-width: 1024px) { // 태블릿
+  @media (max-width: 1024px) {
     padding: 0 2rem; 
     height: auto; 
     margin-top: 3%; 
     min-height: 550px;
   }
 
-  @media (max-width: 768px) { // 중간 크기 모바일
-    padding: 0 1.5rem; // 좀 더 적은 패딩
-    margin-top: 7%; // 상단 여백 더 크게
+  @media (max-width: 768px) {
+    padding: 0 1.5rem; 
+    margin-top: 7%;
   }
 
-  @media (max-width: 480px) { // 작은 모바일
+  @media (max-width: 480px) {
     padding: 5 5rem; 
     margin-top: 10%; 
     font-size: 0.8rem; 
@@ -53,6 +53,9 @@ export const TitleWrap = styled.div`
   color: #262626;
   letter-spacing: 0px;
   line-height: 1.5;
+  @media (max-width: 1300px) { 
+    font-size: 2.2rem;
+  }
 `;
 
 export const InputTitle = styled.div`
@@ -76,8 +79,10 @@ export const InputWrap = styled.div`
     border: 2px solid ${({ invalid }) => invalid ? 'red' : '#ACAACC'};
   }
 
-  @media (max-width: 500px) { // 작은 모바일
+  @media (max-width: 1024px) {
     padding: 1.2rem;
+    margin-left: 15%;
+    max-width: 70%;
   }
 `;
 
@@ -88,15 +93,16 @@ export const SecondInputWrap = styled.div`
   margin-top: 1%;
   margin-left: 20%;
   max-width: 60%;
-  background-color: #EFF0F2;
-  border: 2px solid #e2e0e0;
+  border: 2px solid #c2c0c0;
 
   &:focus-within {
     border: 2px solid #ACAACC;
   }
 
-  @media (max-width: 500px) { // 작은 모바일
+  @media (max-width: 1024px) {
     padding: 1.2rem;
+    margin-left: 15%;
+    max-width: 70%;
   }
 `;
 
@@ -107,11 +113,11 @@ export const Input = styled.input`
   height: 2.5rem;
   font-size: 1.5rem;
   font-weight: 400;
+  color: #777777;
 
   &::placeholder {
-    color: #aaaaaa;
+    color: #777777;
   }
-
 `;
 
 export const LostPwMessage = styled.div`
@@ -129,13 +135,14 @@ export const Select = styled.select`
   width: 100%;
   outline: none;
   border: none;
-  height: 14%;
+  height: 2.5rem;
   font-size: 1.5rem;
   font-weight: 400;
   background-color: #EFF0F2;
+  color: #777777;
 
   option {
-    cursor: pointer; // 옵션 호버 시 커서 변경
+    cursor: pointer; 
     width: 100%;
     outline: none;
     border: none;
@@ -143,27 +150,6 @@ export const Select = styled.select`
     font-size: 1.5rem;
     font-weight: 400;
     background-color: #EFF0F2;
-`;
-
-export const BottomButton = styled.button`
-  margin-left: 10%;
-  width: 80%;
-  padding: 1.5rem;
-  height: 9%;
-  border: none;
-  font-weight: bold;
-  border-radius: 10px;
-  background-color: #4B518F;
-  color: white;
-  font-size: 1.8rem;
-  cursor: pointer;
-
-  @media (max-width: 500px) { // 작은 모바일
-    padding: 1.2rem;
-  } 
-  &:hover {
-    background-color: #5D639A;
-}
 `;
 
 export const ErrorMessageWrap = styled.div`
@@ -175,6 +161,11 @@ export const ErrorMessageWrap = styled.div`
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 
+  @media (max-width: 1024px) {
+  margin-left: 18%;
+  margin-top: 0.5%;
+  max-width: 70%;
+  } 
   ${({ show }) => show && `
     opacity: 1; 
   `}
@@ -183,11 +174,11 @@ export const ErrorMessageWrap = styled.div`
 
 export const ImageWrap = styled.div`
     display: flex;
-    justify-content: flex-end; /* 우측 정렬 */
+    justify-content: flex-end;
     justify-content: space-between;
     img {
         margin-right: 7%;
-        max-width: 30%; /* 이미지의 최대 너비 제한 */
+        max-width: 30%; 
     }
     a{
       width: 20%;

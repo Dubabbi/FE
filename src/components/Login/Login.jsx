@@ -16,12 +16,12 @@ const Login = () => {
           <p>로그인</p>       
       </L.TitleWrap>
       <L.InputTitle>
-        이메일
+        아이디
       </L.InputTitle>
           <L.InputWrap>
             <L.Input
               type="text"
-              placeholder="example@email.com"
+              placeholder="id"
             />
           </L.InputWrap>
           <L.InputTitle>
@@ -37,7 +37,7 @@ const Login = () => {
               로그인
             </L.BottomButton>
             <L.NoAccount>
-              <a href="/">아이디 찾기</a>
+              <a href="/login/findid">아이디 찾기</a>
               <p>|</p>
               <a href="/">비밀번호 찾기</a>
               <p>|</p>

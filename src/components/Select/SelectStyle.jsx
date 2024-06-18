@@ -9,10 +9,8 @@ export const SelectWrapper = styled.div`
     margin: 5%;
     @media (max-width: 1024px) {
         max-width: 90%;
-        padding: 0 2%;
-        margin: 5%;
     }
-`
+`;
 
 export const ChoiceBox = styled.div`
     display: flex;
@@ -21,15 +19,6 @@ export const ChoiceBox = styled.div`
     margin-top: 10%;
 `;
 
-
-export const TitleWrap = styled.div`
-  font-size: 28px;
-  font-weight: bold;
-  text-align: center;
-  color: #262626;
-  letter-spacing: 0px;
-  line-height: 1.5;
-`;
 
 export const OptionLink = styled.a`
     display: block;
