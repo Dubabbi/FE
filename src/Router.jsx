@@ -8,6 +8,8 @@ import MainStdPage from './pages/MainStd';
 import MainTchrPage from './pages/MainTchr';
 import SignupStdPage from './pages/SignupStd';
 import SignupTchrPage from './pages/SignupTchr';
+import LessonTchrPage from './pages/LessonTchr';
+import LessonStdPage from './pages/LessonStd';
 
 export default function Router() {
   return (
@@ -33,6 +35,8 @@ function AppWrapper() {
         <Route path="/select" element={<SelectPage />} />
         <Route path="/signupstd" element={<SignupStdPage />} />
         <Route path="/signuptchr" element={<SignupTchrPage />} />
+        <Route path="/lessontchr" element={<LessonTchrPage />} />
+        <Route path="/lessonstd" element={<LessonStdPage />} />
       </Routes>
     </>
   );

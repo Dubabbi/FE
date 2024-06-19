@@ -45,7 +45,6 @@ export const StyledForm = styled(Form)`
         font-size: 1.5rem;
         font-weight: 400;
         color: #777777;
-        border-radius: 25px;
         padding-left: 0px;
     }
 `;
