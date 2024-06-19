@@ -1,4 +1,5 @@
 //Select.jsx
+import React from 'react';
 import * as S from './SelectStyle';
 import * as L from '../Login/LoginStyle';
 import Std from '/src/assets/image/std.svg'
