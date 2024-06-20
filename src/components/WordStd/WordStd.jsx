@@ -34,11 +34,11 @@ export default function WordTchr() {
                 <W.SecondTitle>최근 학습한 낱말 카드</W.SecondTitle>
                 <W.WordList>
                 <W.ChoiceBox>
-                    <W.Word><img src={word} alt = "단어"/></W.Word>
-                    <W.Word><img src={word} alt = "단어"/></W.Word>
-                    <W.Word><img src={word} alt = "단어"/></W.Word>
-                    <W.Word><img src={word} alt = "단어"/></W.Word>
-                    <W.Word><img src={word} alt = "단어"/></W.Word>
+                    <W.Word><a href="/WordDetailStd"><img src={word} alt = "단어"/></a></W.Word>
+                    <W.Word><a href="/WordDetailStd"><img src={word} alt = "단어"/></a></W.Word>
+                    <W.Word><a href="/WordDetailStd"><img src={word} alt = "단어"/></a></W.Word>
+                    <W.Word><a href="/WordDetailStd"><img src={word} alt = "단어"/></a></W.Word>
+                    <W.Word><a href="/WordDetailStd"><img src={word} alt = "단어"/></a></W.Word>
                 </W.ChoiceBox>
                 </W.WordList>
                 </W.Section>

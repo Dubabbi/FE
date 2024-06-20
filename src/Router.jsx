@@ -11,8 +11,11 @@ import SignupStdPage from './pages/SignupStd';
 import SignupTchrPage from './pages/SignupTchr';
 import LessonTchrPage from './pages/LessonTchr';
 import LessonStdPage from './pages/LessonStd';
+import LessonDetailTchrPage from './pages/LessonDetailTchr';
 import WordTchrPage from './pages/WordTchr';
 import WordStdPage from './pages/WordStd';
+import WordDetailTchrPage from './pages/WordDetailTchr';
+import WordDetailStdPage from './pages/WordDetailStd'; 
 
 export default function Router() {
   return (
@@ -42,6 +45,9 @@ function AppWrapper() {
         <Route path="/lessonstd" element={<LessonStdPage />} />
         <Route path="/wordtchr" element={<WordTchrPage />} />
         <Route path="/wordstd" element={<WordStdPage />} />
+        <Route path="/lessondetailtchr" element={<LessonDetailTchrPage />} />
+        <Route path="/worddetailstd" element={<WordDetailStdPage />} />
+        <Route path="/worddetailtchr" element={<WordDetailTchrPage />} />
       </Routes>
       {showFloatingButton && <FloatingButton />}
     </>
