@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Nav/Navbar';
+import FloatingButton from './components/FloatingButton/FloatingButton';
 import Footer from './components/Footer/Footer';
 import SelectPage from './pages/Select';
 import LoginPage from './pages/Login';
@@ -25,7 +26,7 @@ function AppWrapper() {
   const location = useLocation();
   const hideNavBarRoutes = ['/Select', '/SignupStd', '/SignupTchr', '/']; // 숨기고 싶은 경로
   const showNavBar = !hideNavBarRoutes.includes(location.pathname);
-  const showComponents = !hideNavBarRoutes.includes(location.pathname);
+  const showFloatingButton = !hideNavBarRoutes.includes(location.pathname);
 
   return (
     <>
@@ -42,6 +43,7 @@ function AppWrapper() {
         <Route path="/wordtchr" element={<WordTchrPage />} />
         <Route path="/wordstd" element={<WordStdPage />} />
       </Routes>
+      {showFloatingButton && <FloatingButton />}
     </>
   );
 }

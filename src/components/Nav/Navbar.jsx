@@ -15,7 +15,7 @@ return(
               </N.Title></Link>
             </N.Header>
           <N.LinkWrapper>
-          <Link to=""><N.Avatar><Avvvatars style="shape" size={40}/></N.Avatar></Link> {/* 마이페이지로*/}
+          <Link to="#"><N.Avatar><Avvvatars style="shape" size={40}/></N.Avatar></Link> {/* 마이페이지로*/}
           </N.LinkWrapper>
         </N.TopWrapper>
     </>

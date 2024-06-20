@@ -102,9 +102,9 @@ export const TableColumn = styled.td`
   padding: 1.7% 1.7%;
   font-family: inter;
   font-size: 1.3rem;
-  border-right: 1px solid #ccc;  // 오른쪽에 선 추가
+  border-right: 1px solid #ccc;
   &:last-child {
-    border-right: none;  // 마지막 요소에는 선을 추가하지 않음
+    border-right: none;
   }
 `;
 
@@ -115,8 +115,7 @@ export const Table = styled.table`
 `;
 
 export const TableRow = styled.tr`
-  border-bottom: 1px solid #ccc;  // 행 간에 선 추가
-  // 홀수 및 짝수 행에 배경색 적용
+  border-bottom: 1px solid #ccc;
   &:nth-child(odd) {
     background-color: #F8F9FA;  // 홀수 행
     &:hover {
