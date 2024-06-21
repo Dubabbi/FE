@@ -1,8 +1,8 @@
 //LessonDetailTchr.jsx
 import React from 'react';
 import * as L from '../LessonTchr/LessonStyle';
-import Back from '/src/assets/image/back.svg';
 import * as D from '../WordDetailTchr/WordDetailStyle';
+import Back from '/src/assets/image/back.svg';
 
 const LessonDetailTchr = () => {
 

@@ -45,7 +45,7 @@ const LessonTchr = () => {
       <L.Section>
         <h1>수강 중인 강의</h1>
         <L.Line>
-        <L.Add><a href="#">✚ 강의 추가</a></L.Add>
+        <L.Add><a href="/CreateLesson">✚ 강의 추가</a></L.Add>
         <L.StyledForm onSubmit={handleSubmit}>
         <L.StyledButton type="submit" variant="none"><FaSearch size={15} /></L.StyledButton>
           <Form.Control
@@ -61,9 +61,9 @@ const LessonTchr = () => {
             <CommonTableRow key={lesson.id}>
             <CommonTableColumn>{lesson.id}</CommonTableColumn>
             <CommonTableColumn>
-            <Link to={'./LessonDetailTchr'}>
+            <a href='./LessonDetailTchr'>
               {lesson.title}
-              </Link>
+              </a>
               </CommonTableColumn>
             <CommonTableColumn>{lesson.template}</CommonTableColumn>
             <CommonTableColumn>{lesson.date}</CommonTableColumn>

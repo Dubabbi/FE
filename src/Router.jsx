@@ -16,6 +16,7 @@ import WordTchrPage from './pages/WordTchr';
 import WordStdPage from './pages/WordStd';
 import WordDetailTchrPage from './pages/WordDetailTchr';
 import WordDetailStdPage from './pages/WordDetailStd'; 
+import CreateLessonPage from './pages/CreateLesson'; 
 
 export default function Router() {
   return (
@@ -48,6 +49,7 @@ function AppWrapper() {
         <Route path="/lessondetailtchr" element={<LessonDetailTchrPage />} />
         <Route path="/worddetailstd" element={<WordDetailStdPage />} />
         <Route path="/worddetailtchr" element={<WordDetailTchrPage />} />
+        <Route path="/createlesson" element={<CreateLessonPage/>} />
       </Routes>
       {showFloatingButton && <FloatingButton />}
     </>

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Form from 'react-bootstrap/Form';
 
 export const WordImage = styled.div`
     width: 100%;
@@ -139,4 +140,49 @@ export const ImageWrap = styled.div`
         width: 20%;
         margin-top: 4%;
     }
+`;
+
+export const Title = styled(Form)`
+    margin-left: 35%;
+    width: 30%;;
+    height: 37px; 
+    font-size: 16px; 
+    border-radius: 7px;
+    border: 1px solid #ACAACC;
+    display: flex;
+    align-items: center;
+    position: relative;
+    
+    .form-control {
+        margin-left: 10px;
+        height: 35px; 
+        font-size: 1.5rem; 
+        border-radius: 5px;
+        padding-right: 80px; 
+        padding-left: 10px;
+    }
+`;
+
+export const CreateButton = styled.button`
+  width: 8%;
+  padding: 0.5rem;
+  height: 3rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #ACAACC;
+  color: white;
+  font-size: 1.2rem;
+  font-family: arial;
+  cursor: pointer;
+
+  @media (max-width: 1024px) {
+    padding: 1rem;
+    margin-top: 1.5%;
+    height: 4.8rem;
+    margin-left: 15%;
+    width: 70%;
+  } 
+  &:hover {
+    background-color: #8C84B0;
+}
 `;
