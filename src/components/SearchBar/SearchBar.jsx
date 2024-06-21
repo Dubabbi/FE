@@ -16,10 +16,10 @@ function SearchBar({ setSearchTerm }) {
         <>
             <S.Search_Container>
                 <S.StyledForm onSubmit={handleSubmit}>
-                    <Form.Control type="text"
+                    <Form.Control style={{height: '2rem'}} type="text"
                         placeholder="학교 검색"size="lg" className="form-control" value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}/>
-                        <S.StyledButton type="submit" variant="none"><FaSearch size={20} /></S.StyledButton>
+                        <S.StyledButton type="submit" variant="none"><FaSearch size={19} /></S.StyledButton>
                 </S.StyledForm>
             </S.Search_Container>
         </>

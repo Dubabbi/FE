@@ -47,7 +47,7 @@ export const Page = styled.div`
 export const TitleWrap = styled.div`
   font-size: 2.6rem;
   font-weight: bold;
-  margin-top: 4%;
+  margin-top: 0%;
   margin-bottom: 4%;
   text-align: center;
   color: #262626;
@@ -58,17 +58,10 @@ export const TitleWrap = styled.div`
   }
 `;
 
-export const InputTitle = styled.div`
-  margin-left: 21%;
-  max-width: 60%;
-  margin-bottom: 1%;
-  font-size: 1.5rem;
-`
-
 export const InputWrap = styled.div`
   display: flex;
   border-radius: 10px;
-  padding: 1.3rem;
+  padding: 1.2rem;
   margin-top: 1%;
   margin-left: 20%;
   max-width: 60%;
@@ -89,8 +82,8 @@ export const InputWrap = styled.div`
 export const SecondInputWrap = styled.div`
   display: flex;
   border-radius: 10px;
-  padding: 1.3rem;
-  margin-top: 1%;
+  padding: 1.2rem;
+  margin-top: 1.1%;
   margin-left: 20%;
   max-width: 60%;
   border: 2px solid #c2c0c0;
@@ -106,17 +99,25 @@ export const SecondInputWrap = styled.div`
   }
 `;
 
+export const FromWrap = styled.div`
+  padding: 1.2rem;
+  margin-top: 1.1%;
+  margin-left: 20%;
+  width: 60%;
+`;
+
 export const Input = styled.input`
   width: 100%;
   outline: none;
   border: none;
-  height: 2.5rem;
+  height: 2.2rem;
   font-size: 1.5rem;
   font-weight: 400;
   color: #777777;
 
   &::placeholder {
     color: #777777;
+    font-size: 1.3rem;
   }
 `;
 
@@ -135,8 +136,8 @@ export const Select = styled.select`
   width: 100%;
   outline: none;
   border: none;
-  height: 2.5rem;
-  font-size: 1.5rem;
+  height: 2.2rem;
+  font-size: 1.3rem;
   font-weight: 400;
   background-color: #EFF0F2;
   color: #777777;
@@ -151,6 +152,7 @@ export const Select = styled.select`
     font-weight: 400;
     background-color: #EFF0F2;
 `;
+
 
 export const ErrorMessageWrap = styled.div`
   margin-left: 22%;

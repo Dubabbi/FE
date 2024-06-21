@@ -5,6 +5,8 @@ import CommonTable from '../LessonTchr/CommonTable';
 import CommonTableColumn from '../LessonTchr/CommonTableColumn';
 import CommonTableRow from '../LessonTchr/CommonTableRow';
 import * as L from '../LessonTchr/LessonStyle';
+import Back from '/src/assets/image/back.svg';
+import * as D from '../WordDetailTchr/WordDetailStyle';
 
 const LessonStd = () => {
   const [lessons, setLessons] = useState([
@@ -34,6 +36,10 @@ const LessonStd = () => {
   };
 
   return (
+    <>
+      <D.ImageWrap>
+        <a href="/MainStd"><img src={Back} alt="" /></a>
+      </D.ImageWrap>
     <L.LessonWrapper>
       <L.Section>
         <h1>수강 중인 강의</h1>
@@ -61,6 +67,7 @@ const LessonStd = () => {
         </CommonTable>
       </L.Section>
     </L.LessonWrapper>
+    </>
   );
 };
 

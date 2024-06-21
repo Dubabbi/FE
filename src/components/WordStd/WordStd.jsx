@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Form from 'react-bootstrap/Form';
 import * as W from '../WordTchr/WordStyle';
+import * as D from '../WordDetailTchr/WordDetailStyle';
 import word from '../../assets/image/word.svg'
+import Back from '/src/assets/image/back.svg';
 
 export default function WordTchr() {
     const [searchValue, setSearchValue] = useState('');
@@ -14,6 +16,10 @@ export default function WordTchr() {
     };
     
     return (
+        <>
+        <D.ImageWrap>
+          <a href="/MainStd"><img src={Back} alt="" /></a>
+        </D.ImageWrap>
         <W.LessonWrapper>
             <W.Section>
             <W.Section>
@@ -43,5 +49,6 @@ export default function WordTchr() {
                 </W.WordList>
                 </W.Section>
         </W.LessonWrapper>
+        </>
     );
 }

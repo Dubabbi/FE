@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import * as W from './WordStyle';
 import word from '../../assets/image/word.svg'
 import add from '../../assets/image/add.svg'
+import Back from '/src/assets/image/back.svg';
+import * as D from '../WordDetailTchr/WordDetailStyle';
 
 export default function WordTchr() {
     const [searchValue, setSearchValue] = useState('');
@@ -15,6 +17,10 @@ export default function WordTchr() {
     };
     
     return (
+        <>
+        <D.ImageWrap>
+          <a href="/MainTchr"><img src={Back} alt="" /></a>
+        </D.ImageWrap>
         <W.LessonWrapper>
             <W.Section>
             <W.Section>
@@ -45,5 +51,6 @@ export default function WordTchr() {
                 </W.WordList>
                 </W.Section>
         </W.LessonWrapper>
+        </>
     );
 }

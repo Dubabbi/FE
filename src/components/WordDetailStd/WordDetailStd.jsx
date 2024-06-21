@@ -12,7 +12,7 @@ const WordDetailStd = () => {
   return (
     <>
         <D.ImageWrap>
-          <a href="/Select"><img src={Back} alt="" /></a>
+          <a href="/WordStd"><img src={Back} alt="" /></a>
         </D.ImageWrap>
       <W.LessonWrapper>
         <D.Section>

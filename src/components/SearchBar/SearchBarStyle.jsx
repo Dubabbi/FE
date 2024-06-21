@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 export const Search_Container=styled.div`
     display: flex;
     justify-content: center;
+    width: 60%;
+    margin-left: 20%;
 `
 
 export const StyledButton = styled(Button)`
@@ -33,16 +35,17 @@ export const StyledForm = styled(Form)`
     display: flex;
     border-radius: 10px;
     padding: 1.3rem;
-    margin-top: 1%;
     margin-left: 0%;
-    width: 60%;
+    width: 100%;
     border: 2px solid #c2c0c0;
     align-items: center;
     position: relative;
-    
+    &:focus-within {
+        border: 2px solid ${({ invalid }) => invalid ? 'red' : '#ACAACC'};
+    }
     .form-control {
         height: 2.5rem;
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         font-weight: 400;
         color: #777777;
         padding-left: 0px;
