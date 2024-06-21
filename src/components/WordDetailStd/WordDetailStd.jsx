@@ -29,7 +29,7 @@ const WordDetailStd = () => {
           </D.WordList>
         </D.Section>
         <D.BottomButton>
-            학습 종료
+          <a href="/MainStd">학습 종료</a>
         </D.BottomButton>
       </W.LessonWrapper>
       </>

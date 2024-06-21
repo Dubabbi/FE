@@ -7,7 +7,7 @@ export const Input = styled(Form)`
     height: 37px; 
     font-size: 16px; 
     border-radius: 7px;
-    border: 1px solid #ACAACC;
+    border: 1px solid #bbbbbb;
     display: flex;
     align-items: center;
     position: relative;

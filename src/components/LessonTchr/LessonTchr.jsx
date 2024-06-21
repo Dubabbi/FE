@@ -43,7 +43,7 @@ const LessonTchr = () => {
       </D.ImageWrap>
     <L.LessonWrapper>
       <L.Section>
-        <h1>수강 중인 강의</h1>
+        <h1>나의 강의</h1>
         <L.Line>
         <L.Add><a href="/CreateLesson">✚ 강의 추가</a></L.Add>
         <L.StyledForm onSubmit={handleSubmit}>
