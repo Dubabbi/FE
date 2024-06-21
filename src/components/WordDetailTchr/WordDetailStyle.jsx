@@ -125,15 +125,15 @@ export const BottomButton = styled.button`
 
 export const ImageWrap = styled.div`
     display: flex;
-    justify-content: space-between;  // 'justify-content: flex-end;'는 중복되므로 삭제
+    justify-content: space-between;
     position: fixed;
-    left: 2%;  // 오른쪽 가장자리에 고정
+    left: 2%;
     top: 1%;
-    width: 100%;  // 전체 너비를 사용하거나 필요한 너비로 조정
-    padding: 20px;  // 패딩을 추가하여 내부 요소들과 경계 간격 유지
+    width: 100%;
+    padding: 20px;
 
     img {
-        max-width: 30%;  // 이미지의 최대 너비 지정
+        max-width: 30%;
     }
     a {
         width: 20%;

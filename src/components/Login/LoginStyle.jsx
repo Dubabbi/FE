@@ -61,7 +61,7 @@ export const Page = styled.div`
   width: 38%;
   height: 85vh;
   flex-direction: column;
-  border-radius: 5rem;
+  border-radius: 2rem;
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
 

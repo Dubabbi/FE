@@ -224,7 +224,7 @@ const SignupTchr = () => {
             type="date"
             value={birthdate}
             onChange={(e) => setBirthdate(e.target.value)}
-            style={{ width: '100%'}}
+            style={{ width: '100%', fontSize: '16px' }}
           />
         </S.SecondInputWrap>
         <S.ErrorMessageWrap>

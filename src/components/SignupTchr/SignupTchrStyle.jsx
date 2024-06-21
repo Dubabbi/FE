@@ -99,13 +99,6 @@ export const SecondInputWrap = styled.div`
   }
 `;
 
-export const FromWrap = styled.div`
-  padding: 1.2rem;
-  margin-top: 1.1%;
-  margin-left: 20%;
-  width: 60%;
-`;
-
 export const Input = styled.input`
   width: 100%;
   outline: none;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Form from 'react-bootstrap/Form';
+import { Link, useNavigate } from 'react-router-dom';
 import CommonTable from './CommonTable';
 import CommonTableColumn from './CommonTableColumn';
 import CommonTableRow from './CommonTableRow';
@@ -59,7 +60,11 @@ const LessonTchr = () => {
         {lessons.map(lesson => (
             <CommonTableRow key={lesson.id}>
             <CommonTableColumn>{lesson.id}</CommonTableColumn>
-            <CommonTableColumn>{lesson.title}</CommonTableColumn>
+            <CommonTableColumn>
+            <Link to={'./LessonDetailTchr'}>
+              {lesson.title}
+              </Link>
+              </CommonTableColumn>
             <CommonTableColumn>{lesson.template}</CommonTableColumn>
             <CommonTableColumn>{lesson.date}</CommonTableColumn>
             <CommonTableColumn>{lesson.level}</CommonTableColumn>

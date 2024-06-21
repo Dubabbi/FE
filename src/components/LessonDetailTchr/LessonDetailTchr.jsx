@@ -1,15 +1,22 @@
 //LessonDetailTchr.jsx
 import React from 'react';
 import * as L from '../LessonTchr/LessonStyle';
+import Back from '/src/assets/image/back.svg';
+import * as D from '../WordDetailTchr/WordDetailStyle';
 
 const LessonDetailTchr = () => {
 
   return (
-    <L.LessonWrapper>
-      <L.Section>
-        <h1>강의 상세</h1>
-      </L.Section>
-    </L.LessonWrapper>
+    <>
+      <D.ImageWrap>
+        <a href="/MainTchr"><img src={Back} alt="Back 버튼" /></a>
+      </D.ImageWrap>
+      <L.LessonWrapper>
+        <L.Section>
+          <h1>강의 상세</h1>
+        </L.Section>
+      </L.LessonWrapper>
+    </>
   );
 };
 
