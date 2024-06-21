@@ -58,27 +58,6 @@ export const TitleWrap = styled.div`
   }
 `;
 
-export const InputWrap = styled.div`
-  display: flex;
-  border-radius: 10px;
-  padding: 1.2rem;
-  margin-top: 1%;
-  margin-left: 20%;
-  max-width: 60%;
-  background-color: #EFF0F2;
-  border: 2px solid #e2e0e0;
-
-  &:focus-within {
-    border: 2px solid ${({ invalid }) => invalid ? 'red' : '#ACAACC'};
-  }
-
-  @media (max-width: 1024px) {
-    padding: 1.2rem;
-    margin-left: 15%;
-    max-width: 70%;
-  }
-`;
-
 export const SecondInputWrap = styled.div`
   display: flex;
   border-radius: 10px;
@@ -86,11 +65,7 @@ export const SecondInputWrap = styled.div`
   margin-top: 1.1%;
   margin-left: 20%;
   max-width: 60%;
-  border: 2px solid #c2c0c0;
-
-  &:focus-within {
-    border: 2px solid #ACAACC;
-  }
+  background-color: #E1E4E7;
 
   @media (max-width: 1024px) {
     padding: 1.2rem;
@@ -132,7 +107,7 @@ export const Select = styled.select`
   height: 2.2rem;
   font-size: 1.3rem;
   font-weight: 400;
-  background-color: #EFF0F2;
+  background-color: #E1E4E7;
   color: #777777;
 
   option {
@@ -140,10 +115,10 @@ export const Select = styled.select`
     width: 100%;
     outline: none;
     border: none;
-    height: 14%;
+    height: 2.2rem;
     font-size: 1.5rem;
+    background-color: #E1E4E7;
     font-weight: 400;
-    background-color: #EFF0F2;
 `;
 
 
