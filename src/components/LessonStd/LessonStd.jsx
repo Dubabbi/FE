@@ -5,7 +5,7 @@ import CommonTable from '../LessonTchr/CommonTable';
 import CommonTableColumn from '../LessonTchr/CommonTableColumn';
 import CommonTableRow from '../LessonTchr/CommonTableRow';
 import * as L from '../LessonTchr/LessonStyle';
-import Back from '/src/assets/image/back.svg';
+import Back from '/src/assets/icon/back.svg'
 import * as D from '../WordDetailTchr/WordDetailStyle';
 
 const LessonStd = () => {

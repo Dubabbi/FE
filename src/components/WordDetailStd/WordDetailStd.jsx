@@ -3,9 +3,9 @@ import React from 'react';
 import * as W from '../WordTchr/WordStyle';
 import * as D from '../WordDetailTchr/WordDetailStyle';
 import word from '../../assets/image/word.svg';
-import arrowback from '../../assets/image/arrowback.svg';
-import arrownext from '../../assets/image/arrownext.svg';
-import Back from '/src/assets/image/back.svg';
+import arrowback from '../../assets/icon/arrowback.svg';
+import arrownext from '../../assets/icon/arrownext.svg';
+import Back from '/src/assets/icon/back.svg'
 
 const WordDetailStd = () => {
 
@@ -28,7 +28,7 @@ const WordDetailStd = () => {
             </D.WordBoard>
           </D.WordList>
         </D.Section>
-        <D.BottomButton>
+        <D.BottomButton style={{marginBottom: '4%'}}>
           <a href="/MainStd">학습 종료</a>
         </D.BottomButton>
       </W.LessonWrapper>

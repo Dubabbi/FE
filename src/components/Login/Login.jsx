@@ -37,9 +37,9 @@ const Login = () => {
               로그인
             </L.BottomButton>
             <L.NoAccount>
-              <a href="/login/findid">아이디 찾기</a>
+              <a href="/forgotid">아이디 찾기</a>
               <p>|</p>
-              <a href="/">비밀번호 찾기</a>
+              <a href="/resetpw">비밀번호 찾기</a>
               <p>|</p>
               <a href="/Select">회원가입</a>
             </L.NoAccount>

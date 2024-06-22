@@ -4,7 +4,7 @@ import * as L from '../LessonTchr/LessonStyle';
 import * as D from '../WordDetailTchr/WordDetailStyle';
 import * as S from './LessonDetailStyle';
 import Level from '/src/assets/image/level/level1.svg';
-import Back from '/src/assets/image/back.svg';
+import Back from '/src/assets/icon/back.svg'
 import Word from '/src/assets/image/word.svg';
 import Edit from '/src/assets/icon/edit.svg';
 import Delete from '/src/assets/icon/delete.svg';

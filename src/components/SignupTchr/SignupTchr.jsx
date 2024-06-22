@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './SignupTchrStyle';
 import * as L from '../Login/LoginStyle';
-import Back from '/src/assets/image/back.svg'
+import Back from '/src/assets/icon/back.svg'
 import Logo from '/src/assets/image/logo.svg'
 import SearchBar from './../SearchBar/SearchBar';
 

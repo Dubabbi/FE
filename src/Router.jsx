@@ -17,6 +17,8 @@ import WordStdPage from './pages/WordStd';
 import WordDetailTchrPage from './pages/WordDetailTchr';
 import WordDetailStdPage from './pages/WordDetailStd'; 
 import CreateLessonPage from './pages/CreateLesson'; 
+import ResetPw from './components/Login/ResetPw';
+import ForgotId from './components/Login/ForgotId';
 
 export default function Router() {
   return (
@@ -28,7 +30,7 @@ export default function Router() {
 
 function AppWrapper() {
   const location = useLocation();
-  const hideNavBarRoutes = ['/Select', '/SignupStd', '/SignupTchr', '/']; // 숨기고 싶은 경로
+  const hideNavBarRoutes = ['/Select', '/SignupStd', '/SignupTchr', '/', '/resetpw', '/forgotid']; // 숨기고 싶은 경로
   const showNavBar = !hideNavBarRoutes.includes(location.pathname);
   const showFloatingButton = !hideNavBarRoutes.includes(location.pathname);
   const showFooter = !hideNavBarRoutes.includes(location.pathname);
@@ -51,6 +53,8 @@ function AppWrapper() {
         <Route path="/worddetailstd" element={<WordDetailStdPage />} />
         <Route path="/worddetailtchr" element={<WordDetailTchrPage />} />
         <Route path="/createlesson" element={<CreateLessonPage/>} />
+        <Route path="/resetpw" element={<ResetPw />}/>
+        <Route path="/forgotid" element={<ForgotId />}/>
       </Routes>
       {showFloatingButton && <FloatingButton />}
       {showFooter && <Footer />}

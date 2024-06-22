@@ -1,6 +1,6 @@
 //FloatingButton.jsx
 import React from 'react';
-import Pen from '../../assets/image/pen.svg';
+import Pen from '../../assets/icon/pen.svg';
 
 export default function FloatingButton() {
     return (

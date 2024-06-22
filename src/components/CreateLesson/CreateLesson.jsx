@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import * as C from './CreateLessonStyle';
 import * as D from '../WordDetailTchr/WordDetailStyle';
 import * as L from '../LessonTchr/LessonStyle';
-import Back from '/src/assets/image/back.svg';
+import Back from '/src/assets/icon/back.svg'
 import Form from 'react-bootstrap/Form';
 import Template1 from '/src/assets/image/template/template1.svg';
 import Template2 from '/src/assets/image/template/template2.svg';
@@ -61,7 +61,7 @@ const CreateLesson = () => {
           <img src={Template5} />
         </C.TemplateList>
         </C.LessonBox>
-        <C.SubmitButton>제출</C.SubmitButton>
+        <C.SubmitButton style={{marginTop: '2%', marginBottom: '3%'}}>제출</C.SubmitButton>
     </>
   );
 };

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as W from '../WordTchr/WordStyle';
 import * as D from './WordDetailStyle';
 import * as C from '../CreateLesson/CreateLessonStyle';
-import Back from '/src/assets/image/back.svg';
+import Back from '/src/assets/icon/back.svg'
 import Form from 'react-bootstrap/Form';
 
 const WordDetailTchr = () => {

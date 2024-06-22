@@ -6,7 +6,7 @@ import CommonTable from './CommonTable';
 import CommonTableColumn from './CommonTableColumn';
 import CommonTableRow from './CommonTableRow';
 import * as L from './LessonStyle';
-import Back from '/src/assets/image/back.svg';
+import Back from '/src/assets/icon/back.svg'
 import * as D from '../WordDetailTchr/WordDetailStyle';
 
 const LessonTchr = () => {

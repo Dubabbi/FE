@@ -4,8 +4,8 @@ import { FaSearch } from 'react-icons/fa';
 import Form from 'react-bootstrap/Form';
 import * as W from './WordStyle';
 import word from '../../assets/image/word.svg'
-import add from '../../assets/image/add.svg'
-import Back from '/src/assets/image/back.svg';
+import add from '../../assets/icon/add.svg'
+import Back from '/src/assets/icon/back.svg'
 import * as D from '../WordDetailTchr/WordDetailStyle';
 
 export default function WordTchr() {
