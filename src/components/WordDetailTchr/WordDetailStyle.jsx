@@ -11,6 +11,12 @@ export const WordImage = styled.div`
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
+export const Select = styled.div`
+  @media (max-width: 1024px) {
+    margin-left: 13%;
+  } 
+`;
+
 export const Section = styled.section`
   text-align: center; 
   padding: 50px 0;
@@ -234,6 +240,22 @@ export const AboutWord = styled.textarea`
 
 `;
 
+export const ImageBox = styled.image`
+    margin-left: 23%;
+    max-width: 180px;
+    margin-bottom: 2%;
+    margin-top: 1%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    resize: none;
+    outline: none;
+    img{
+        border-radius: 7px;
+        border: 4px solid #ACAACC;
+    }
+`;
+
 export const FileName = styled.div`
   margin-right: 0px;
   margin-top: 1.5%;
@@ -251,6 +273,7 @@ export const FileButton = styled.button`
   margin-left: 22.5%;
   border: none;
   margin-top: 1.5%;
+  margin-bottom: 7%;
   border-radius: 5px;
   background-color: #ACAACC;
   color: white;
@@ -293,3 +316,4 @@ export const Line = styled.div`
     } 
     
 `
+
