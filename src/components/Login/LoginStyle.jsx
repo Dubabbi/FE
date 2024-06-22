@@ -61,7 +61,7 @@ export const Page = styled.div`
   width: 38%;
   height: 85vh;
   flex-direction: column;
-  border-radius: 5rem;
+  border-radius: 2rem;
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
 
@@ -111,7 +111,7 @@ export const InputTitle = styled.div`
   margin-left: 21%;
   max-width: 60%;
   margin-bottom: 1%;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 
   @media (max-width: 1024px) {
     margin-bottom: 1%;
@@ -127,11 +127,8 @@ export const InputWrap = styled.div`
   margin-bottom: 4%;
   margin-left: 20%;
   max-width: 60%;
-  border: 2px solid #c2c0c0;
+  background-color: #E1E4E7;
 
-  &:focus-within {
-    border: 2px solid #ACAACC;
-  }
 
   @media (max-width: 1024px) {
     padding: 1.2rem;
@@ -155,6 +152,47 @@ export const Input = styled.input`
   }
   
 `;
+
+
+export const ResetInputWrap = styled.div`
+  display: flex;
+  border-radius: 10px;
+  padding: 1.3rem;
+  margin-top: 1%;
+  border: 2px solid #c2c0c0;
+
+  &:focus-within {
+    border: 2px solid #ACAACC;
+  }
+
+  @media (max-width: 1024px) {
+  }
+`;
+
+export const ResetInput = styled.input`
+  width: 100%;
+  outline: none;
+  border: none;
+  height: 4rem;
+  font-size: 3rem;
+  font-weight: 400;
+  color: #777777;
+  text-align: center;
+  &::placeholder {
+    color: #777777;
+  }
+`;
+
+export const ResetBox = styled.div`
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  margin-top: 10%;
+  margin-bottom: 7%;
+  gap: 3%;
+  width: 60%;
+  margin-left: 20%;
+`
 
 export const BottomButton = styled.button`
   margin-left: 20%;

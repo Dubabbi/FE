@@ -2,19 +2,19 @@ import React from "react";
 import styled from 'styled-components';
 
 const StyledFooter = styled.div`
-    background-color: #ACAACC;
+    background-color: #666666;
     margin-bottom: 0;
-    bottom: 0; // 하단 위치
+    bottom: 0;
     width: 100%;
-    left: 0; // 왼쪽에서 시작
+    left: 0;
 `;
 
 const FooterContent = styled.div`
     display: flex;
     flex-direction: column;
     padding: 2rem 2rem;
-    align-items: center; // 항목들을 가운데 정렬
-    justify-content: center; // 가운데 정렬
+    align-items: center; 
+    justify-content: center; 
 `;
 
 const FooterText = styled.p`
