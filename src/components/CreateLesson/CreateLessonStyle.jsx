@@ -60,8 +60,7 @@ export const SubmitButton = styled.button`
   margin-top: 1.5%;
   height: 3.8rem;
   border: none;
-  font-weight: bold;
-  border-radius: 7px;
+  border-radius: 6px;
   background-color: #ACAACC;
   color: white;
   font-size: 1.5rem;

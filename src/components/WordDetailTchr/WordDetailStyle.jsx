@@ -109,7 +109,7 @@ export const ArrowButton = styled.div`
 
 export const BottomButton = styled.button`
   margin-left: 43%;
-  width: 14%; //86
+  width: 14%;
   padding: 0.7rem;
   height: 4rem;
   border: none;
@@ -142,32 +142,115 @@ export const ImageWrap = styled.div`
     }
 `;
 
+export const SecondTitle = styled(Form)`
+    margin-left: 23%;
+    width: 56%;
+    height: 37px; 
+    font-size: 1.8rem; 
+    margin-bottom: 1%;
+    display: flex;
+    align-items: center;
+    position: relative;
+`   
+
 export const Title = styled(Form)`
-    margin-left: 35%;
-    width: 30%;;
+    margin-left: 22%;
+    width: 56%;
+    height: 37px; 
+    font-size: 17px; 
+    border-radius: 7px;
+    border: 1px solid #ACAACC;
+    margin-bottom: 2%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 15px;
+    
+    .form-control {
+        height: 35px; 
+        font-size: 1.5rem; 
+        min-width: 100%;
+        border-radius: 5px;
+        padding-right: 10px; 
+        padding-left: 10px;
+    }
+`;
+
+export const WordName = styled(Form)`
+    margin-left: 23%;
+    min-width: 275px;
+    width: 39%;
     height: 37px; 
     font-size: 16px; 
     border-radius: 7px;
     border: 1px solid #ACAACC;
+    margin-bottom: 2%;
     display: flex;
     align-items: center;
     position: relative;
     
     .form-control {
-        margin-left: 10px;
+        margin-left: 8px;
+        min-width: 100%;
         height: 35px; 
         font-size: 1.5rem; 
         border-radius: 5px;
-        padding-right: 80px; 
+        padding-right: 10px; 
         padding-left: 10px;
     }
 `;
 
-export const CreateButton = styled.button`
-  width: 8%;
+export const AboutWord = styled.textarea`
+    margin-left: 23%;
+    min-width: 277px;
+    width: 39%;
+    height: 20vh; 
+    font-size: 16px; 
+    border-radius: 7px;
+    border: 1px solid #ACAACC;
+    margin-bottom: 2%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    resize: none;
+    outline: none;
+    padding-right: 1p8x; 
+    padding-left: 18px;    
+    padding-top: 10px; 
+    padding-bottom: 10px;
+    
+    .form-control {
+        height: 35px; 
+        font-size: 1.5rem; 
+        border-radius: 5px;
+        whiteSpace: pre-wrap
+    }
+        
+    &::placeholder { 
+        color: #777777;
+        font-family: arial;
+        font-size: 1.5rem; 
+    }
+
+`;
+
+export const FileName = styled.div`
+  margin-right: 0px;
+  margin-top: 1.5%;
+  color: white;
+  font-size: 1.2rem;
+  font-family: arial;
+  cursor: pointer;
+}
+`;
+
+export const FileButton = styled.button`
+  width: 100px;
   padding: 0.5rem;
   height: 3rem;
+  margin-left: 22.5%;
   border: none;
+  margin-top: 1.5%;
   border-radius: 5px;
   background-color: #ACAACC;
   color: white;
@@ -176,13 +259,37 @@ export const CreateButton = styled.button`
   cursor: pointer;
 
   @media (max-width: 1024px) {
-    padding: 1rem;
-    margin-top: 1.5%;
-    height: 4.8rem;
-    margin-left: 15%;
-    width: 70%;
+    width: 100px; 
   } 
   &:hover {
     background-color: #8C84B0;
 }
 `;
+
+export const Box = styled.div`
+    justify-content: center;
+    position: relative;
+    width: 30%;
+    margin-left: 17%;
+`
+
+export const SecondBox = styled.div`
+    justify-content: center;
+    position: relative;
+    width: 70%;
+    @media (max-width: 1024px) {
+        margin-left: 7%;
+    } 
+`
+
+export const Line = styled.div`
+    margin-bottom: 2%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    @media (max-width: 1024px) {
+        display: flex;
+        flex-direction: column;
+    } 
+    
+`
