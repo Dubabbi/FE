@@ -5,7 +5,7 @@ import * as C from '../CreateLesson/CreateLessonStyle';
 import Back from '/src/assets/icon/back.svg'
 import Form from 'react-bootstrap/Form';
 
-const WordDetailTchr = () => {
+const WordCreateTchr = () => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
@@ -154,9 +154,10 @@ const WordDetailTchr = () => {
       </D.Line>
       </React.Fragment>
       ))}
+      <hr style={{ width: '60%', margin: '80px', marginLeft: '20%' }} />
       <C.SubmitButton style={{ marginBottom: '6%' }}>제출</C.SubmitButton>
     </>
   );
 };
 
-export default WordDetailTchr;
+export default WordCreateTchr;

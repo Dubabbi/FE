@@ -14,8 +14,8 @@ import LessonStdPage from './pages/LessonStd';
 import LessonDetailTchrPage from './pages/LessonDetailTchr';
 import WordTchrPage from './pages/WordTchr';
 import WordStdPage from './pages/WordStd';
-import WordDetailTchrPage from './pages/WordDetailTchr';
-import WordDetailStdPage from './pages/WordDetailStd'; 
+import WordCreateTchrPage from './pages/WordCreateTchr';
+import WordLearnStdPage from './pages/WordLearnStd'; 
 import CreateLessonPage from './pages/CreateLesson'; 
 import ResetPw from './components/Login/ResetPw';
 import ForgotId from './components/Login/ForgotId';
@@ -50,8 +50,8 @@ function AppWrapper() {
         <Route path="/wordtchr" element={<WordTchrPage />} />
         <Route path="/wordstd" element={<WordStdPage />} />
         <Route path="/lessondetailtchr" element={<LessonDetailTchrPage />} />
-        <Route path="/worddetailstd" element={<WordDetailStdPage />} />
-        <Route path="/worddetailtchr" element={<WordDetailTchrPage />} />
+        <Route path="/wordlearnstd" element={<WordLearnStdPage />} />
+        <Route path="/wordcreatetchr" element={<WordCreateTchrPage />} />
         <Route path="/createlesson" element={<CreateLessonPage/>} />
         <Route path="/resetpw" element={<ResetPw />}/>
         <Route path="/forgotid" element={<ForgotId />}/>
