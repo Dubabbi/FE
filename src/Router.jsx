@@ -31,6 +31,7 @@ function AppWrapper() {
   const hideNavBarRoutes = ['/Select', '/SignupStd', '/SignupTchr', '/']; // 숨기고 싶은 경로
   const showNavBar = !hideNavBarRoutes.includes(location.pathname);
   const showFloatingButton = !hideNavBarRoutes.includes(location.pathname);
+  const showFooter = !hideNavBarRoutes.includes(location.pathname);
 
   return (
     <>
@@ -52,6 +53,7 @@ function AppWrapper() {
         <Route path="/createlesson" element={<CreateLessonPage/>} />
       </Routes>
       {showFloatingButton && <FloatingButton />}
+      {showFooter && <Footer />}
     </>
   );
 }
