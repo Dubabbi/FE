@@ -14,7 +14,7 @@ const LessonDetailTchr = () => {
   return (
     <>
       <D.ImageWrap>
-        <a href="/MainTchr"><img src={Back} alt="Back 버튼" /></a>
+        <a href="/LessonTchr"><img src={Back} alt="Back 버튼" /></a>
       </D.ImageWrap>
       <L.LessonWrapper>
         <S.Section>

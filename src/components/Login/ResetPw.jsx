@@ -81,8 +81,8 @@ const ResetPw = () => {
           <p>비밀번호 재설정</p>       
       </L.TitleWrap>
       <h1 style={{textAlign: 'center', fontFamily:'arial', fontSize: '13px', marginBottom: '4%', lineHeight: '1.5' }}>비밀번호를 잊으셨나요?<br />
-        변경할 비밀번호를 입력해 주세요.<br />
-        메일로 비밀번호 변경 링크/임시비밀번호가 전송됩니다.</h1>
+        마음말 서비스에서 사용하는 이메일을 입력해주세요.<br />
+        메일로 비밀번호 변경 링크가 전송됩니다.</h1>
           <L.InputTitle>
           <p>이메일</p>       
           </L.InputTitle>
