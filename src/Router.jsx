@@ -19,6 +19,11 @@ import WordLearnStdPage from './pages/WordLearnStd';
 import CreateLessonPage from './pages/CreateLesson'; 
 import ResetPw from './components/Login/ResetPw';
 import ForgotId from './components/Login/ForgotId';
+import Template1Tchr from './components/CreateLesson/Template1Tchr';
+import Template2Tchr from './components/CreateLesson/Template2Tchr'; 
+import Template3Tchr from './components/CreateLesson/Template3Tchr'; 
+import Template4Tchr from './components/CreateLesson/Template4Tchr'; 
+import Template5Tchr from './components/CreateLesson/Template5Tchr'; 
 
 export default function Router() {
   return (
@@ -62,6 +67,11 @@ function AppWrapper() {
         <Route path="/createlesson" element={<CreateLessonPage/>} />
         <Route path="/resetpw" element={<ResetPw />}/>
         <Route path="/forgotid" element={<ForgotId />}/>
+        <Route path="/template1tchr" element={<Template1Tchr />}/>
+        <Route path="/template2tchr" element={<Template2Tchr />}/>
+        <Route path="/template3tchr" element={<Template3Tchr />}/>
+        <Route path="/template4tchr" element={<Template4Tchr />}/>
+        <Route path="/template5tchr" element={<Template5Tchr />}/>
       </Routes>
       {showFloatingButton && <FloatingButton />}
       {showFooter && <Footer />}
