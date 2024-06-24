@@ -30,7 +30,7 @@ const Login = () => {
           <L.InputWrap>
             <L.Input
               type="password"
-              placeholder="Password"
+              placeholder="password"
             />
           </L.InputWrap>
             <L.BottomButton>

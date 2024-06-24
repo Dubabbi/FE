@@ -1,4 +1,4 @@
-//WordDetailStd.jsx
+//WordLearnStd.jsx
 import React from 'react';
 import * as W from '../WordTchr/WordStyle';
 import * as D from '../WordDetailTchr/WordDetailStyle';
@@ -7,7 +7,7 @@ import arrowback from '../../assets/icon/arrowback.svg';
 import arrownext from '../../assets/icon/arrownext.svg';
 import Back from '/src/assets/icon/back.svg'
 
-const WordDetailStd = () => {
+const WordLearnStd = () => {
 
   return (
     <>
@@ -36,4 +36,4 @@ const WordDetailStd = () => {
   );
 };
 
-export default WordDetailStd;
+export default WordLearnStd;
