@@ -41,7 +41,7 @@ export default function WordTchr() {
                 <W.SecondTitle>나의 낱말 카드</W.SecondTitle>
                 <W.WordList>
                 <W.ChoiceBox>
-                    <W.AddWord><div><a href="/WordDetailTchr"><img src={add} alt = "단어"/></a></div></W.AddWord>
+                    <W.AddWord><div><a href="/WordCreateTchr"><img src={add} alt = "단어"/></a></div></W.AddWord>
                     <W.Word><img src={word} alt = "단어"/></W.Word>
                     <W.Word><img src={word} alt = "단어"/></W.Word>
                     <W.Word><img src={word} alt = "단어"/></W.Word>
