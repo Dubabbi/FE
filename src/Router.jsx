@@ -43,7 +43,10 @@ function AppWrapper() {
     "/resetpw",
     "/forgotid",
   ]; // 숨기고 싶은 경로
+
   const currentPath = location.pathname.toLowerCase();
+  console.log('Current Path:', currentPath);  // 디버깅용
+
   const showNavBar = !hideNavBarRoutes.includes(currentPath);
   const showFloatingButton = !hideNavBarRoutes.includes(currentPath);
   const showFooter = !hideNavBarRoutes.includes(currentPath);
