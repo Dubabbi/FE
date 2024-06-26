@@ -61,7 +61,7 @@ const LessonTchr = () => {
             <CommonTableRow key={lesson.id}>
             <CommonTableColumn>{lesson.id}</CommonTableColumn>
             <CommonTableColumn>
-            <a href='./LessonDetailTchr'>
+            <a href='/LessonDetailTchr'>
               {lesson.title}
               </a>
               </CommonTableColumn>

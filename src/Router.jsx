@@ -36,16 +36,17 @@ export default function Router() {
 function AppWrapper() {
   const location = useLocation();
   const hideNavBarRoutes = [
-    "/Select",
-    "/SignupStd",
-    "/SignupTchr",
+    "/select",
+    "/signupstd",
+    "/signuptchr",
     "/",
     "/resetpw",
     "/forgotid",
   ]; // 숨기고 싶은 경로
-  const showNavBar = !hideNavBarRoutes.includes(location.pathname);
-  const showFloatingButton = !hideNavBarRoutes.includes(location.pathname);
-  const showFooter = !hideNavBarRoutes.includes(location.pathname);
+  const currentPath = location.pathname.toLowerCase();
+  const showNavBar = !hideNavBarRoutes.includes(currentPath);
+  const showFloatingButton = !hideNavBarRoutes.includes(currentPath);
+  const showFooter = !hideNavBarRoutes.includes(currentPath);
 
   return (
     <>
