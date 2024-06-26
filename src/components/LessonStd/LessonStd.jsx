@@ -58,7 +58,11 @@ const LessonStd = () => {
         {lessons.map(lesson => (
             <CommonTableRow key={lesson.id}>
             <CommonTableColumn>{lesson.id}</CommonTableColumn>
-            <CommonTableColumn>{lesson.title}</CommonTableColumn>
+            <CommonTableColumn>
+              <a href='/LessonDetailTchr'>
+              {lesson.title}
+              </a>
+              </CommonTableColumn>
             <CommonTableColumn>{lesson.template}</CommonTableColumn>
             <CommonTableColumn>{lesson.date}</CommonTableColumn>
             <CommonTableColumn>{lesson.level}</CommonTableColumn>
