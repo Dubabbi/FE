@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 export const Input = styled(Form)`
     margin-left: 5%;
     width: 40%;
+    min-width: 200px;
     height: 37px; 
     font-size: 16px; 
     border-radius: 7px;
@@ -63,7 +64,7 @@ export const SubmitButton = styled.button`
   border-radius: 6px;
   background-color: #ACAACC;
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.1vw;
   cursor: pointer;
 
   @media (max-width: 1024px) {
@@ -71,7 +72,9 @@ export const SubmitButton = styled.button`
     margin-top: 1.5%;
     height: 4rem;
     margin-left: 15%;
-    width: 70%;
+    width: 30%;
+    margin-left: 35%;
+    font-size: 2.6vw;
   } 
   &:hover {
     background-color: #8C84B0;

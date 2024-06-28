@@ -13,10 +13,23 @@ export const LessonWrapper = styled.div`
 export const Section = styled.section`
   padding: 50px 0;
   h1{
-    font-size: 2.4rem;
+    font-size: 1.7vw;
     color: #2F327D;
     text-align: center;
+    margin-bottom: 2rem;
   }
+  p{
+    font-size: 1.1vw;
+    text-align: center;
+  }
+  @media (max-width: 768px) {
+    h1{
+    font-size: 2.5vw;
+    }
+    p{
+      font-size: 2vw;
+    }
+  } 
 `
 
 export const Line = styled.div`

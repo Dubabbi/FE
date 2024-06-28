@@ -6,7 +6,7 @@ import * as W from './WordStyle';
 import word from '../../assets/image/word.svg'
 import add from '../../assets/icon/add.svg'
 import Back from '/src/assets/icon/back.svg'
-import * as D from '../WordDetailTchr/WordDetailStyle';
+import * as D from '../WordCreateTchr/WordDetailStyle';
 
 export default function WordTchr() {
     const [searchValue, setSearchValue] = useState('');

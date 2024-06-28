@@ -7,7 +7,7 @@ import CommonTableColumn from './CommonTableColumn';
 import CommonTableRow from './CommonTableRow';
 import * as L from './LessonStyle';
 import Back from '/src/assets/icon/back.svg'
-import * as D from '../WordDetailTchr/WordDetailStyle';
+import * as D from '../WordCreateTchr/WordDetailStyle';
 
 const LessonTchr = () => {
   const [lessons, setLessons] = useState([
