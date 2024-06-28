@@ -186,8 +186,8 @@ export const AddWord = styled.div`
         border: 5px solid #FEEAFA;
 
         img {
-            width: 50px;
-            height: 50px;
+            width: 40%;
+
         }
     }
 `;

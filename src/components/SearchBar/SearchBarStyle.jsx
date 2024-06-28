@@ -6,11 +6,7 @@ export const StyledButton = styled(Button)`
     position: absolute;
     top: 50%;
     right: 10px; 
-    right: 10px; 
     transform: translateY(-50%);
-
-    height: 35px; 
-    width: 35px; 
     height: 35px; 
     width: 35px; 
     font-size: 16px; 
@@ -19,7 +15,6 @@ export const StyledButton = styled(Button)`
     display: flex;
     justify-content: center;
     align-items: center;
-    
     &:hover {
         background: #CDCBE4;
         background: #CDCBE4;
