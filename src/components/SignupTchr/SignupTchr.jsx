@@ -1,9 +1,8 @@
-// SignupTchr.jsx
 import React, { useEffect, useState } from 'react';
 import * as S from './SignupTchrStyle';
 import * as L from '../Login/LoginStyle';
-import Back from '/src/assets/icon/back.svg'
-import Logo from '/src/assets/image/logo.svg'
+import Back from '/src/assets/icon/back.svg';
+import Logo from '/src/assets/image/logo.svg';
 import SearchBar from './../SearchBar/SearchBar';
 
 const SignupTchr = () => {
@@ -25,12 +24,15 @@ const SignupTchr = () => {
   const [birthdate, setBirthdate] = useState('');
   const [showSelectionScreen, setShowSelectionScreen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+
   const handleConfirmPw = (e) => { 
     setConfirmPw(e.target.value); 
   }; 
+
   const handleSignupClick = () => {
     setShowSelectionScreen(true);
   };
+
   useEffect(() => { 
     if (confirmPw.length >= 1) { 
       if (confirmPw === pw) {
@@ -42,7 +44,6 @@ const SignupTchr = () => {
       setConfirmPwMsg(''); 
     }
   }, [confirmPw, pw]);
-
 
   const handleName = (n) => {
     setName(n.target.value);
@@ -93,7 +94,7 @@ const SignupTchr = () => {
       return;
     }
     setNotAllow(true);
-  }, [emailValid], [idValid], [pwValid], [confirmPw]);
+  }, [emailValid, idValid, pwValid, confirmPw]);
 
   useEffect(() => {
     if (signupComplete) {
@@ -101,32 +102,23 @@ const SignupTchr = () => {
     }
   }, [signupComplete]);
 
-
-  useEffect(() => {
-    if (idValid && emailValid && pwValid && confirmPw === pw) {
-      setNotAllow(false);
-      return;
-    }
-    setNotAllow(true);
-  }, [idValid, emailValid, pwValid, confirmPw, pw]);
-  
   return (
     <L.AppContainer>
       <L.Logo>
         <p>마음말</p>
-        <img src={Logo} alt = "마음말 로고"/>
+        <img src={Logo} alt="마음말 로고" />
       </L.Logo>
       <L.LoginWrapper>
-      <L.Page>
-      {!showSelectionScreen ? (
+        <L.Page>
+          {!showSelectionScreen ? (
             <>
-        <S.ImageWrap>
-          <a href="/Select"><img src={Back} alt="" /></a>
-        </S.ImageWrap>
-      <S.TitleWrap>
-          <p>회원가입</p>       
-      </S.TitleWrap>
-      <L.InputTitle>
+              <S.ImageWrap>
+                <a href="/Select"><img src={Back} alt="" /></a>
+              </S.ImageWrap>
+              <S.TitleWrap>
+                <p>회원가입</p>
+              </S.TitleWrap>
+              <L.InputTitle>
         아이디
       </L.InputTitle>
         <S.SecondInputWrap invalid={!idValid && id.length > 0}>
@@ -182,92 +174,83 @@ const SignupTchr = () => {
           <S.ErrorMessageWrap show={confirmPwMsg && <div>{confirmPwMsg}</div>}>
               <div>비밀번호가 일치하지 않습니다.</div>
             </S.ErrorMessageWrap>
-            <L.BottomButton onClick={handleSignupClick}>
-              다음
-            </L.BottomButton>
-            <S.NoAccount>
-              <p>이미 계정이 있으신가요? </p>
-              <p style={{ color: '#2B2180' }}>
-                <S.UnderlinedText>
-                  <a href="/"> 로그인</a>
-                </S.UnderlinedText>
-              </p>
-            </S.NoAccount>
-          </>
+              <L.BottomButton onClick={handleSignupClick}>
+                다음
+              </L.BottomButton>
+              <S.NoAccount>
+                <p>이미 계정이 있으신가요? </p>
+                <p style={{ color: '#2B2180' }}>
+                  <S.UnderlinedText>
+                    <a href="/"> 로그인</a>
+                  </S.UnderlinedText>
+                </p>
+              </S.NoAccount>
+            </>
           ) : (
             <>
-            <S.ImageWrap>
-          <a href="/Select"><img src={Back} alt="" /></a>
-        </S.ImageWrap>
-      <S.TitleWrap>
-          <p>회원가입</p>       
-      </S.TitleWrap>
-      <L.InputTitle>
-          이름
-      </L.InputTitle>
-      <S.SecondInputWrap invalid={!nameValid && name.length > 0}>
-            <S.Input
+              <S.ImageWrap>
+                <a href="/Select"><img src={Back} alt="" /></a>
+              </S.ImageWrap>
+              <S.TitleWrap>
+                <p>회원가입</p>
+              </S.TitleWrap>
+              <L.InputTitle>이름</L.InputTitle>
+              <S.SecondInputWrap $invalid={!nameValid && name.length > 0}>
+              <S.Input
                 type="name"
                 placeholder="이름"
                 value={name}
                 onChange={handleName}
               />
-          </S.SecondInputWrap>
-          <S.ErrorMessageWrap show={!nameValid && name.length > 0}>
-              올바른 이름 형식으로 입력해 주세요.
-          </S.ErrorMessageWrap>
-          <L.InputTitle>
-            생년월일
-          </L.InputTitle>
-          <S.SecondInputWrap>
-          <S.Input
-            type="date"
-            value={birthdate}
-            onChange={(e) => setBirthdate(e.target.value)}
-            style={{ width: '100%', fontSize: '16px' }}
-          />
-        </S.SecondInputWrap>
-        <S.ErrorMessageWrap>
-              <div>.</div>
-            </S.ErrorMessageWrap>
-        <L.InputTitle>
-          성별
-        </L.InputTitle>
-          <S.SecondInputWrap>
-          <S.Select
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-            >
-              {!gender && <option value="">성별</option>}
-              <option value="남자">남자</option>
-              <option value="여자">여자</option>
-            </S.Select>
-          </S.SecondInputWrap>
-          <S.ErrorMessageWrap>
-              <div>.</div>
-            </S.ErrorMessageWrap>
-
-            <L.InputTitle>
-                소속 기관
-            </L.InputTitle>
-            <SearchBar setSearchTerm={setSearchTerm}/>
-            <S.ErrorMessageWrap>
-              <div>.</div>
-            </S.ErrorMessageWrap>
-            <L.BottomButton>
-              확인
-            </L.BottomButton>
-            <S.NoAccount>
-              <p>이미 계정이 있으신가요? </p>
-              <p style={{ color: '#2B2180' }}>
-                <S.UnderlinedText>
-                  <a href="/"> 로그인</a>
-                </S.UnderlinedText>
-              </p>
-            </S.NoAccount>
-          </>
+              </S.SecondInputWrap>
+              <S.ErrorMessageWrap show={!nameValid && name.length > 0}>
+                  올바른 이름 형식으로 입력해 주세요.
+              </S.ErrorMessageWrap>
+              <L.InputTitle>생년월일</L.InputTitle>
+              <S.SecondInputWrap>
+                <S.Input
+                  type="date"
+                  value={birthdate}
+                  onChange={(e) => setBirthdate(e.target.value)}
+                  style={{ width: '100%', fontSize: '16px' }}
+                />
+              </S.SecondInputWrap>
+              <S.ErrorMessageWrap>
+                <div>.</div>
+              </S.ErrorMessageWrap>
+              <L.InputTitle>성별</L.InputTitle>
+              <S.SecondInputWrap>
+                <S.Select
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                >
+                  {!gender && <option value="">성별</option>}
+                  <option value="남자">남자</option>
+                  <option value="여자">여자</option>
+                </S.Select>
+              </S.SecondInputWrap>
+              <S.ErrorMessageWrap>
+                <div>.</div>
+              </S.ErrorMessageWrap>
+              <L.InputTitle>소속 기관</L.InputTitle>
+              <SearchBar setSearchTerm={setSearchTerm} />
+              <S.ErrorMessageWrap>
+                <div>.</div>
+              </S.ErrorMessageWrap>
+              <L.BottomButton>
+                확인
+              </L.BottomButton>
+              <S.NoAccount>
+                <p>이미 계정이 있으신가요? </p>
+                <p style={{ color: '#2B2180' }}>
+                  <S.UnderlinedText>
+                    <a href="/"> 로그인</a>
+                  </S.UnderlinedText>
+                </p>
+              </S.NoAccount>
+            </>
           )}
-      </L.Page>
+        </L.Page>
       </L.LoginWrapper>
     </L.AppContainer>
   );

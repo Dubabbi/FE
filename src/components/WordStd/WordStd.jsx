@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Form from 'react-bootstrap/Form';
 import * as W from '../WordTchr/WordStyle';
-import * as D from '../WordDetailTchr/WordDetailStyle';
+import * as D from '../WordCreateTchr/WordDetailStyle';
 import word from '../../assets/image/word.svg'
 import Back from '/src/assets/icon/back.svg'
 

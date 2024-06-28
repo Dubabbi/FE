@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
+  background-color: #f5f5f5;
 `;
 
 export const MainContainer = styled.div`
@@ -11,7 +12,6 @@ export const MainContainer = styled.div`
   margin-top: 60px; // 내비게이션바 높이에 따라 조절
   width: 100%;
   height: 90vh;
-  background-color: #f5f5f5;
   justify-content: space-evenly;
   align-items: center;
 `;

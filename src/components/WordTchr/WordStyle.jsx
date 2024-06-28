@@ -17,8 +17,13 @@ export const Section = styled.section`
   align-items: center;
   margin-bottom: 2%;
   h1{
-    font-size: 2.4rem;
+    font-size: 1.6vw;
     color: #2F327D;
+  }
+  @media (max-width: 768px) {
+    h1{
+        font-size: 3vw;
+    }
   }
 `
 
@@ -39,17 +44,23 @@ export const Title = styled.h2`
     display: flex;
     margin-top: 10px;
     margin-left: 2px;
-    font-size: 1.7rem;
+    font-size: 1.2vw;
     @media (max-width: 768px) {
         margin-bottom: 5%;
+        font-size: 2.5vw;
     }
+  }
 `
 export const SecondTitle = styled.h2`
     display: flex;
     margin-top: 10%;
     margin-left: 2px;
     margin-bottom: 2%;
-    font-size: 1.7rem;
+    font-size: 1.2vw;
+    @media (max-width: 768px) {
+        margin-bottom: 5%;
+        font-size: 2.5vw;
+    }
 `
 export const WordList = styled.div`
     width: 100%;
@@ -175,8 +186,8 @@ export const AddWord = styled.div`
         border: 5px solid #FEEAFA;
 
         img {
-            width: 50px;
-            height: 50px;
+            width: 40%;
+
         }
     }
 `;

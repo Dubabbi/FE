@@ -6,6 +6,7 @@ import Back from '/src/assets/icon/back.svg'
 import Form from 'react-bootstrap/Form';
 
 const WordCreateTchr = () => {
+  const [titleValue, setTitleValue] = useState(''); // 강의 제목 상태
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
@@ -81,20 +82,19 @@ const WordCreateTchr = () => {
       </D.ImageWrap>
       <W.LessonWrapper>
         <W.Section style={{ marginTop: '4%' }}>
-          <h1>낱말 카드 학습 </h1>
+          <h1>낱말 카드 제작</h1>
         </W.Section>
       </W.LessonWrapper>
       <D.Line style={{width: '60%', marginLeft: '12%'}}>
       <div style={{width: '70%'}}>
-        <D.SecondTitle>세트 이름</D.SecondTitle>
-        <D.Title style={{minWidth: '200px'}} onSubmit={handleSubmit}>
+        <D.SecondTitle style={{marginLeft: '25%'}}>세트 이름</D.SecondTitle>
+        <D.Title style={{minWidth: '200px', marginLeft: '25%'}} onSubmit={handleSubmit}>
           <Form.Control
-            type="text"
-            placeholder="제목을 입력하세요."
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-          />
+              type="text"
+              placeholder="제목을 입력하세요."
+              value={titleValue}
+              onChange={(e) => setTitleValue(e.target.value)}
+            />
         </D.Title>
       </div>
       <D.Select style={{width: '20%'}}>
@@ -114,7 +114,7 @@ const WordCreateTchr = () => {
       {wordCards.map((card, index) => (
         <React.Fragment key={index}>
       <hr style={{ width: '60%', margin: '80px', marginLeft: '20%' }} />
-      <D.Line>
+      <D.Line style={{width: '60%', marginLeft: '12%'}}>
         <D.Box>
           <D.SecondTitle>이미지 업로드</D.SecondTitle>
               <input

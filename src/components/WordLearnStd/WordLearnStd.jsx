@@ -1,7 +1,7 @@
 //WordLearnStd.jsx
 import React from 'react';
 import * as W from '../WordTchr/WordStyle';
-import * as D from '../WordDetailTchr/WordDetailStyle';
+import * as D from '../WordCreateTchr/WordDetailStyle';
 import word from '../../assets/image/word.svg';
 import arrowback from '../../assets/icon/arrowback.svg';
 import arrownext from '../../assets/icon/arrownext.svg';

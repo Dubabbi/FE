@@ -23,8 +23,13 @@ export const Section = styled.section`
   align-items: center;
   margin-bottom: 0%;
   h1{
-    font-size: 2.4rem;
+    font-size: 1.6vw;
     color: #2F327D;
+  }
+  @media (max-width: 768px) {
+    h1{
+        font-size: 3vw;
+    }
   }
 `
 
@@ -146,17 +151,23 @@ export const ImageWrap = styled.div`
         width: 20%;
         margin-top: 4%;
     }
+    @media (max-width: 768px) {
+        top: 5%;
+    } 
 `;
 
 export const SecondTitle = styled(Form)`
     margin-left: 23%;
     width: 56%;
     height: 37px; 
-    font-size: 1.8rem; 
+    font-size: 1.2vw; 
     margin-bottom: 1%;
     display: flex;
     align-items: center;
     position: relative;
+    @media (max-width: 768px) {
+        font-size: 2.4vw;
+    }
 `   
 
 export const Title = styled(Form)`

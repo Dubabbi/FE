@@ -1,7 +1,7 @@
 //LessonDetailTchr.jsx
 import React from 'react';
 import * as L from '../LessonTchr/LessonStyle';
-import * as D from '../WordDetailTchr/WordDetailStyle';
+import * as D from '../WordCreateTchr/WordDetailStyle';
 import * as S from './LessonDetailStyle';
 import Level from '/src/assets/image/level/level1.svg';
 import Back from '/src/assets/icon/back.svg'
