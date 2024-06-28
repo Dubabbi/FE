@@ -265,3 +265,13 @@ export const ModalButton = styled.button`
     background-color: #8C84B0;
   }
 `;
+
+export const StoryWrap = styled.div`
+  width: 90%;
+  display: flex;
+  position: relative;
+  border-radius: 5px;
+  border: 1px solid #DCDCDC;
+  margin-left: 5%;
+  padding-bottom: 2%;
+`
