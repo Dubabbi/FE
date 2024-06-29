@@ -150,6 +150,7 @@ export const Content = styled.div`
 export const ContentInput = styled.input`
   padding: 40px 30px 30px;
   font-size: 1vw;
+  resize: none;
   width: 100%; 
   background-color: rgba(217, 217, 217, 0.14);
   border: 2px solid #969696; 
@@ -268,10 +269,10 @@ export const ModalButton = styled.button`
 
 export const StoryWrap = styled.div`
   width: 90%;
+  padding: 3%;
   display: flex;
   position: relative;
   border-radius: 5px;
   border: 1px solid #DCDCDC;
   margin-left: 5%;
-  padding-bottom: 2%;
 `

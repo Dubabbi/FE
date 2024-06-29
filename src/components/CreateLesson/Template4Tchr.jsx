@@ -1,5 +1,6 @@
 // Template2Tchr.jsx
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import * as C from './CreateLessonStyle';
 import * as L from '../LessonTchr/LessonStyle';
 import * as D from '../WordCreateTchr/WordDetailStyle';
@@ -8,6 +9,72 @@ import add from '../../assets/icon/add.svg';
 import createimg from '/src/assets/image/template/createimg.svg';
 import send from '/src/assets/icon/send.svg';
 import Form from 'react-bootstrap/Form';
+
+// 전체 카드 컨테이너 스타일
+const CardContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin-left: 5%;
+  padding: 20px;
+`;
+
+// 개별 카드 스타일
+const Card = styled.div`
+  width: 30%;
+  background: #FFFFFF;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+// 이미지 박스
+const ImageBox = styled.div`
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center; // 가로 중앙 정렬
+  align-items: center; // 세로 중앙 정렬
+  div {
+    width: 80%;
+    height: 170px;
+    border: 2px solid #F6F6F6;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center; // 내부 div에서도 가로 중앙 정렬
+    align-items: center; // 내부 div에서도 세로 중앙 정렬
+  }
+  img {
+    cursor: pointer;
+    width: 30%; // 이미지 크기 조정
+    max-height: 100%; // div 높이를 초과하지 않도록 설정
+  }
+`;
+
+// 입력 필드
+const InputField = styled.input`
+  width: 90%;
+  padding: 10px;
+  resize: none;
+  margin: 10px;
+  font-size: 1vw;
+  border: none;
+  border-radius: 5px;
+  background: #F6F6F6;
+  color: #777777;
+  text-align: center;
+  height: 100px;
+  outline: none; 
+  &:focus {
+    border: 2px solid #777777; 
+  }
+
+  &::placeholder {
+    color: #777777;
+  }
+`;
 
 const Template4Tchr = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -51,24 +118,38 @@ const Template4Tchr = () => {
         <h1>이야기 순서 배열하기</h1>
       </L.Section>
       <D.Select style={{width: '20%', marginLeft: '7px', marginBottom: '5px'}}>
+      <C.Line>
         <D.SecondTitle style={{minWidth: '80px'}}>조각 개수</D.SecondTitle>
         <Form.Select
           name="numberOfStories"
           value={formData.numberOfStories}
           onChange={handleSelectChange}
-          style={{paddingLeft: '10px', paddingRight: '10px', fontSize: '1.5rem', borderRadius: '7px',  border: '1px solid #ACAACC', width: '200px', height: '36px',  marginLeft: '22%' }}
+          style={{paddingLeft: '10px', paddingRight: '130px', fontSize: '1.5rem', borderRadius: '7px',  
+          border: '1px solid #ACAACC', width: '200px', height: '36px',  marginLeft: '22%', marginBottom: '10px' }}
         >
       {Array.from({ length: 4 }, (_, i) => i + 1).map((number) => (
         <option key={number} value={number}>{number}개</option>
       ))}
         </Form.Select>
+      </C.Line>
       </D.Select>
       <C.StoryWrap>
-        <C.Line>
-          <C.Box><div><img onClick={toggleModal} src={add} alt = "단어"/></div></C.Box>
-          <C.Box><div><img onClick={toggleModal} src={add} alt = "단어"/></div></C.Box>
-          <C.Box><div><img onClick={toggleModal} src={add} alt = "단어"/></div></C.Box>
-        </C.Line>
+      <CardContainer>
+      {Array.from({ length: 3 }).map((_, index) => (
+        <Card key={index}>
+          <ImageBox>
+          <div><img src={add} onClick={toggleModal} /></div>
+          </ImageBox>
+          <InputField
+            type="text"
+            placeholder="이야기 입력"
+            as="textarea"
+            value={inputValue}
+            onChange={handleInputChange}
+          />
+        </Card>
+      ))}
+    </CardContainer>
         {modalOpen && (
         <C.ModalOverlay>
           <C.ModalContent>
@@ -91,6 +172,7 @@ const Template4Tchr = () => {
       )}
       </C.StoryWrap>
       </L.LessonWrapper>
+
       <C.SubmitButton>제출</C.SubmitButton>
     </>
   );

@@ -44,19 +44,19 @@ const levels = [
         console.log('Title:', titleValue);
         switch (selectedTemplate) {
           case 0:
-            navigate('/TemplateTchr1');
+            navigate('/Template1Tchr');
             break;
           case 1:
-            navigate('/TemplateTchr2');
+            navigate('/Template2Tchr');
             break;
           case 2:
-            navigate('/TemplateTchr3');
+            navigate('/Template3Tchr');
             break;
           case 3:
-            navigate('/TemplateTchr4');
+            navigate('/Template4Tchr');
             break;
           case 4:
-            navigate('/TemplateTchr5');
+            navigate('/Template5Tchr');
             break;
           default:
             alert('템플릿을 선택해주세요!');
