@@ -7,7 +7,7 @@ export default function SelfStudy() {
   return (
     <>
       <D.ImageWrap>
-        <a href="/MainStd">
+        <a href="/mainstd">
           <img src={Back} alt="" />
         </a>
       </D.ImageWrap>
@@ -16,10 +16,10 @@ export default function SelfStudy() {
         <S.LevelContainer>
           <S.SecondTitle>학습할 레벨을 선택해 주세요.</S.SecondTitle>
           <S.rowContainer>
-            <a href="/selfCategory">
+            <a href="/selfcategory">
               <S.level>Level 1</S.level>
             </a>
-            <a href="/selfStudyL2">
+            <a href="/selfstudyL2">
               <S.level style={{ backgroundColor: "#C3AED6" }}>Level 2</S.level>
             </a>
           </S.rowContainer>

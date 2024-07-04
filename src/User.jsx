@@ -25,6 +25,9 @@ import Template3Tchr from "./components/CreateLesson/Template3Tchr";
 import Template4Tchr from "./components/CreateLesson/Template4Tchr";
 import Template5Tchr from "./components/CreateLesson/Template5Tchr";
 import SelfStudy from "./pages/SelfStudy";
+import SelfCategory from "./components/SelfStudy/SelfCategory";
+import Level1 from "./components/SelfStudy/Level1";
+import Level1Result from "./components/SelfStudy/Level1Result";
 
 export default function User() {
   return (
@@ -47,6 +50,9 @@ export default function User() {
         <Route path="/template4tchr" element={<Template4Tchr />} />
         <Route path="/template5tchr" element={<Template5Tchr />} />
         <Route path="/selfstudy" element={<SelfStudy />} />
+        <Route path="/selfcategory" element={<SelfCategory />} />
+        <Route path="/level1" element={<Level1 />} />
+        <Route path="/level1result" element={<Level1Result />} />
       </Routes>
       <FloatingButton />
       <Footer />

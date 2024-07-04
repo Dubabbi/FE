@@ -66,3 +66,40 @@ export const SecondTitle = styled.h2`
   font-size: 1.8rem;
   margin-bottom: 20px;
 `;
+
+export const CategoryContainer = styled.div`
+  width: 800px;
+  padding: 45px;
+  border-radius: 40px;
+  flex-direction: column;
+  display: flex;
+  // align-items: center;
+  text-align: center;
+  // justify-content: space-between;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  // overflow-x: auto;
+  margin-top: 60px;
+  @media (max-width: 980px) {
+    width: 80%;
+    min-width: 380px;
+  }
+`;
+
+export const Category = styled.div`
+  font-size: 1.7rem;
+  // margin: 10px;
+  margin-bottom: 15px;
+  a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  p {
+    margin-top: 15px;
+  }
+`;
+
+export const overContainer = styled.div`
+  display: flex;
+  overflow-x: auto;
+`;
