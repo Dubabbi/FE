@@ -28,6 +28,8 @@ import SelfStudy from "./pages/SelfStudy";
 import SelfCategory from "./components/SelfStudy/SelfCategory";
 import Level1 from "./components/SelfStudy/Level1";
 import Level1Result from "./components/SelfStudy/Level1Result";
+import Level2 from "./components/SelfStudy/Level2";
+import Level2Result from "./components/SelfStudy/Level2Result";
 
 export default function User() {
   return (
@@ -53,6 +55,8 @@ export default function User() {
         <Route path="/selfcategory" element={<SelfCategory />} />
         <Route path="/level1" element={<Level1 />} />
         <Route path="/level1result" element={<Level1Result />} />
+        <Route path="/level2" element={<Level2 />} />
+        <Route path="/level2result" element={<Level2Result />} />
       </Routes>
       <FloatingButton />
       <Footer />

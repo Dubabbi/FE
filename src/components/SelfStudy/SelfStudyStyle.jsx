@@ -73,11 +73,8 @@ export const CategoryContainer = styled.div`
   border-radius: 40px;
   flex-direction: column;
   display: flex;
-  // align-items: center;
   text-align: center;
-  // justify-content: space-between;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  // overflow-x: auto;
   margin-top: 60px;
   @media (max-width: 980px) {
     width: 80%;
@@ -87,7 +84,6 @@ export const CategoryContainer = styled.div`
 
 export const Category = styled.div`
   font-size: 1.7rem;
-  // margin: 10px;
   margin-bottom: 15px;
   a {
     display: flex;

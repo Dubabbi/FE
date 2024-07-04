@@ -19,7 +19,7 @@ export default function SelfStudy() {
             <a href="/selfcategory">
               <S.level>Level 1</S.level>
             </a>
-            <a href="/selfstudyL2">
+            <a href="/level2">
               <S.level style={{ backgroundColor: "#C3AED6" }}>Level 2</S.level>
             </a>
           </S.rowContainer>
