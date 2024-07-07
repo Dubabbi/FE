@@ -10,7 +10,6 @@ import createimg from '/src/assets/image/template/createimg.svg';
 import send from '/src/assets/icon/send.svg';
 import Form from 'react-bootstrap/Form';
 
-// 전체 카드 컨테이너 스타일
 const CardContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -19,7 +18,6 @@ const CardContainer = styled.div`
   padding: 20px;
 `;
 
-// 개별 카드 스타일
 const Card = styled.div`
   width: 30%;
   background: #FFFFFF;
@@ -30,7 +28,6 @@ const Card = styled.div`
   align-items: center;
 `;
 
-// 이미지 박스
 const ImageBox = styled.div`
   width: 100%;
   height: 200px;
@@ -53,7 +50,6 @@ const ImageBox = styled.div`
   }
 `;
 
-// 입력 필드
 const InputField = styled.input`
   width: 90%;
   padding: 10px;
