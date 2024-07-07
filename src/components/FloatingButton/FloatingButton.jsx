@@ -9,7 +9,7 @@ export default function FloatingButton() {
                 src={Pen} 
                 width="60vw" 
                 height="60vw" 
-                style={{position: 'fixed', right: 25, bottom: 25,}}/>
+                style={{position: 'fixed', right: 25, bottom: 25, cursor: 'pointer'}}/>
         </a>
     );
 }
