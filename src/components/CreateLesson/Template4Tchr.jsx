@@ -10,16 +10,14 @@ import createimg from '/src/assets/image/template/createimg.svg';
 import send from '/src/assets/icon/send.svg';
 import Form from 'react-bootstrap/Form';
 
-// 전체 카드 컨테이너 스타일
 const CardContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 90%;
   margin-left: 5%;
-  padding: 20px;
+  gap: 2%;
 `;
 
-// 개별 카드 스타일
 const Card = styled.div`
   width: 30%;
   background: #FFFFFF;
@@ -30,30 +28,28 @@ const Card = styled.div`
   align-items: center;
 `;
 
-// 이미지 박스
 const ImageBox = styled.div`
   width: 100%;
   height: 200px;
   display: flex;
-  justify-content: center; // 가로 중앙 정렬
-  align-items: center; // 세로 중앙 정렬
+  justify-content: center;
+  align-items: center;
   div {
     width: 80%;
     height: 170px;
     border: 2px solid #F6F6F6;
     border-radius: 1rem;
     display: flex;
-    justify-content: center; // 내부 div에서도 가로 중앙 정렬
-    align-items: center; // 내부 div에서도 세로 중앙 정렬
+    justify-content: center;
+    align-items: center;
   }
   img {
     cursor: pointer;
-    width: 30%; // 이미지 크기 조정
-    max-height: 100%; // div 높이를 초과하지 않도록 설정
+    width: 30%;
+    max-height: 100%;
   }
 `;
 
-// 입력 필드
 const InputField = styled.input`
   width: 90%;
   padding: 10px;
@@ -75,6 +71,7 @@ const InputField = styled.input`
     color: #777777;
   }
 `;
+
 
 const Template4Tchr = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -127,18 +124,18 @@ const Template4Tchr = () => {
           style={{paddingLeft: '10px', paddingRight: '130px', fontSize: '1.5rem', borderRadius: '7px',  
           border: '1px solid #ACAACC', width: '200px', height: '36px',  marginLeft: '22%', marginBottom: '10px' }}
         >
-      {Array.from({ length: 4 }, (_, i) => i + 1).map((number) => (
-        <option key={number} value={number}>{number}개</option>
-      ))}
+          {Array.from({ length: 4 }, (_, i) => i + 1).map((number) => (
+            <option key={number} value={number}>{number}개</option>
+          ))}
         </Form.Select>
       </C.Line>
       </D.Select>
       <C.StoryWrap>
       <CardContainer>
-      {Array.from({ length: 3 }).map((_, index) => (
+      {Array.from({ length: parseInt(formData.numberOfStories) }).map((_, index) => (
         <Card key={index}>
           <ImageBox>
-          <div><img src={add} onClick={toggleModal} /></div>
+            <div><img src={add} onClick={toggleModal} alt="Add icon"/></div>
           </ImageBox>
           <InputField
             type="text"
@@ -149,27 +146,27 @@ const Template4Tchr = () => {
           />
         </Card>
       ))}
-    </CardContainer>
+      </CardContainer>
         {modalOpen && (
         <C.ModalOverlay>
           <C.ModalContent>
             <h1>이미지 생성</h1>
             <C.ModalImg>
-              <div><img src={createimg} /></div>
+              <div><img src={createimg} alt="Create icon"/></div>
             </C.ModalImg>
             <C.InputWrap>
-            <C.InputField
-              type="text"
-              placeholder="텍스트 입력"
-              value={inputValue}
-              onChange={handleInputChange}
-            />
-            <C.Send><img src={send} /></C.Send>
+              <C.InputField
+                type="text"
+                placeholder="텍스트 입력"
+                value={inputValue}
+                onChange={handleInputChange}
+              />
+              <C.Send><img src={send} alt="Send icon"/></C.Send>
             </C.InputWrap>
             <C.ModalButton onClick={handleSubmit}>제출</C.ModalButton>
           </C.ModalContent>
         </C.ModalOverlay>
-      )}
+        )}
       </C.StoryWrap>
       </L.LessonWrapper>
 
