@@ -87,7 +87,7 @@ const CreateLesson = () => {
                             key={index}
                             src={level}
                             onClick={() => handleLevelSelect(index)}
-                            style={{ outline: selectedLevel === index ? '3px solid #ACAACC' : 'none', borderRadius: '5px' }}
+                            style={{ outline: selectedLevel === index ? '3px solid #ACAACC' : 'none', borderRadius: '5px', cursor: 'pointer' }}
                         />
                     ))}
                 </C.TemplateList>
@@ -98,7 +98,7 @@ const CreateLesson = () => {
                             key={index}
                             src={template}
                             onClick={() => handleTemplateSelect(index)}
-                            style={{ outline: selectedTemplate === index ? '3px solid #ACAACC' : 'none', borderRadius: '15px' }}
+                            style={{ outline: selectedTemplate === index ? '3px solid #ACAACC' : 'none', borderRadius: '15px', cursor: 'pointer' }}
                         />
                     ))}
                 </C.TemplateList>
