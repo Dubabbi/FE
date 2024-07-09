@@ -18,6 +18,11 @@ import Template2Tchr from "./components/CreateLesson/Template2Tchr";
 import Template3Tchr from "./components/CreateLesson/Template3Tchr";
 import Template4Tchr from "./components/CreateLesson/Template4Tchr";
 import Template5Tchr from "./components/CreateLesson/Template5Tchr";
+import Template1Std from "./components/StudyLesson/Template1Std";
+import Template2Std from "./components/StudyLesson/Template2Std";
+import Template3Std from "./components/StudyLesson/Template3Std";
+import Template4Std from "./components/StudyLesson/Template4Std";
+import Template5Std from "./components/StudyLesson/Template5Std";
 import SelfStudy from "./pages/SelfStudy";
 import SelfCategory from "./components/SelfStudy/SelfCategory";
 import Level1 from "./components/SelfStudy/Level1";
@@ -45,6 +50,11 @@ export default function User() {
         <Route path="/template3tchr" element={<Template3Tchr />} />
         <Route path="/template4tchr" element={<Template4Tchr />} />
         <Route path="/template5tchr" element={<Template5Tchr />} />
+        <Route path="/template1std" element={<Template1Std />} />
+        <Route path="/template2std" element={<Template2Std />} />
+        <Route path="/template3std" element={<Template3Std />} />
+        <Route path="/template4std" element={<Template4Std />} />
+        <Route path="/template5std" element={<Template5Std />} />
         <Route path="/selfstudy" element={<SelfStudy />} />
         <Route path="/selfcategory" element={<SelfCategory />} />
         <Route path="/level1" element={<Level1 />} />

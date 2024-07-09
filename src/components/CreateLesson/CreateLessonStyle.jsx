@@ -162,7 +162,6 @@ export const ContentInput = styled.input`
   }
 `;
 
-// 배경 흐리게
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -176,7 +175,6 @@ export const ModalOverlay = styled.div`
   z-index: 10;
 `;
 
-// 모달창 스타일
 export const ModalContent = styled.div`
   min-width: 450px;
   height: 50vh;
@@ -276,3 +274,97 @@ export const StoryWrap = styled.div`
   border: 1px solid #DCDCDC;
   margin-left: 5%;
 `
+
+export const CardContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 90%;
+  margin-left: 5%;
+  gap: 2%;
+`;
+
+export const SelectCard = styled.div`
+  width: 30%;
+  background: #FFFFFF;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const SelectBox = styled.div`
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  div {
+    width: 80%;
+    height: 170px;
+    border: 2px solid #F6F6F6;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  img {
+    cursor: pointer;
+    width: 30%;
+    max-height: 100%;
+  }
+`;
+
+export const StoryField = styled.input`
+  width: 90%;
+  padding: 10px;
+  resize: none;
+  margin: 10px;
+  font-size: 1vw;
+  border: none;
+  border-radius: 5px;
+  background: #F6F6F6;
+  color: #777777;
+  text-align: center;
+  height: 100px;
+  outline: none; 
+  &:focus {
+    border: 2px solid #777777; 
+  }
+
+  &::placeholder {
+    color: #777777;
+  }
+`;
+
+export const Story = styled.div`
+  width: 90%;
+  padding: 10px;
+  resize: none;
+  margin: 10px;
+  font-size: 0.8vw;
+  border: none;
+  border-radius: 5px;
+  background: #F6F6F6;
+  color: #333333;
+  text-align: center;
+  height: 100px;
+  outline: none; 
+`;
+
+export const ImageList = styled.div`
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 100%;
+    height: 170px;
+    border: 2px solid #F6F6F6;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;

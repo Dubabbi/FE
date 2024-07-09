@@ -1,6 +1,5 @@
 // Template2Tchr.jsx
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import * as C from './CreateLessonStyle';
 import * as L from '../LessonTchr/LessonStyle';
 import * as D from '../WordCreateTchr/WordDetailStyle';
@@ -9,69 +8,6 @@ import add from '../../assets/icon/add.svg';
 import createimg from '/src/assets/image/template/createimg.svg';
 import send from '/src/assets/icon/send.svg';
 import Form from 'react-bootstrap/Form';
-
-const CardContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  width: 90%;
-  margin-left: 5%;
-  gap: 2%;
-`;
-
-const Card = styled.div`
-  width: 30%;
-  background: #FFFFFF;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ImageBox = styled.div`
-  width: 100%;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  div {
-    width: 80%;
-    height: 170px;
-    border: 2px solid #F6F6F6;
-    border-radius: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  img {
-    cursor: pointer;
-    width: 30%;
-    max-height: 100%;
-  }
-`;
-
-const InputField = styled.input`
-  width: 90%;
-  padding: 10px;
-  resize: none;
-  margin: 10px;
-  font-size: 1vw;
-  border: none;
-  border-radius: 5px;
-  background: #F6F6F6;
-  color: #777777;
-  text-align: center;
-  height: 100px;
-  outline: none; 
-  &:focus {
-    border: 2px solid #777777; 
-  }
-
-  &::placeholder {
-    color: #777777;
-  }
-`;
-
 
 const Template4Tchr = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -131,22 +67,22 @@ const Template4Tchr = () => {
       </C.Line>
       </D.Select>
       <C.StoryWrap>
-      <CardContainer>
+      <C.CardContainer>
       {Array.from({ length: parseInt(formData.numberOfStories) }).map((_, index) => (
-        <Card key={index}>
-          <ImageBox>
+        <C.SelectCard key={index}>
+          <C.SelectBox>
             <div><img src={add} onClick={toggleModal} alt="Add icon"/></div>
-          </ImageBox>
-          <InputField
+          </C.SelectBox>
+          <C.StoryField
             type="text"
             placeholder="이야기 입력"
             as="textarea"
             value={inputValue}
             onChange={handleInputChange}
           />
-        </Card>
+        </C.SelectCard>
       ))}
-      </CardContainer>
+      </C.CardContainer>
         {modalOpen && (
         <C.ModalOverlay>
           <C.ModalContent>
