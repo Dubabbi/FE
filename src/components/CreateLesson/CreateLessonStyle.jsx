@@ -121,24 +121,24 @@ export const SubmitButton = styled.button`
 
 export const Card = styled.div`
   background-color: rgba(217, 217, 217, 0.14);
-  width: 56%;
+  width: 62%;
   max-width: 1024px;
   border-radius: 8px;
-  margin: 20px auto;
+  margin: 0px auto;
   position: relative;
 `;
 
 export const TopTab = styled.div`
   background-color: #969696;
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 8px 20px;
+  font-size: 1.2vw;
   font-weight: bold;
   border-radius: 8px;
   width: fit-content;
   color: #ffffff;
   position: absolute;
   bottom: 100%; 
-  left: 8%; 
+  left: 0px; 
   transform: translate(-50%, 50%); 
 `;
 
@@ -151,7 +151,8 @@ export const ContentInput = styled.input`
   padding: 40px 30px 30px;
   font-size: 1vw;
   resize: none;
-  width: 100%; 
+  width: 80%; 
+  margin-left: 10%;
   background-color: rgba(217, 217, 217, 0.14);
   border: 2px solid #969696; 
   border-radius: 8px; 
@@ -301,6 +302,10 @@ export const SelectCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+  ${({ selected }) => selected && `
+    box-shadow: inset 0 0 0 3px blue;
+  `}
 `;
 
 export const SelectBox = styled.div`
@@ -339,9 +344,8 @@ export const StoryField = styled.input`
   height: 100px;
   outline: none; 
   &:focus {
-    border: 2px solid #777777; 
+    box-shadow: inset 0 0 0 2px #777777;
   }
-
   &::placeholder {
     color: #777777;
   }
@@ -386,4 +390,126 @@ export const CloseButton = styled.div`
   right: 10%;
   width: 34px;
   height: 34px;
+`;
+
+export const InLineButton = styled.div`
+  display: flex;
+  gap: 2%;
+  width: 74%;
+  margin-left: 13%;
+  justify-content: space-between;
+`;
+
+export const FeedbackButton = styled.button`
+  padding: 10px 65px;
+  color: white;
+  background-color: #ACAACC;
+  border: none;
+  margin-top: 5%;
+  width: 100%;
+  margin-bottom: 2%;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #8C84B0;
+  }
+`;
+
+export const FeedbackLine = styled.div`
+    margin: 2%;
+    width: 80%;
+    margin-left: 10%;
+    display: flex;
+    gap: 0.1%;
+    flex-direction: row;
+    justify-content: space-between;
+    @media (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+`
+
+export const ImageListBox = styled.div`
+    flex: 0 0 auto;
+    text-align: center;
+    min-width: 200px; 
+    border-radius: 1.3rem;
+    border: 1px solid #ACAACC;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    img{
+        width: 40%;
+        cursor: pointer;
+    }
+    @media (max-width: 768px) {
+        width: 150px;
+        height: 150px;
+    }
+`
+
+export const FirstBox = styled.div`
+    flex: 0 0 auto;
+    text-align: center;
+    border-radius: 1.3rem;
+    box-shadow: inset 0 0 0 4px #7C79FF;
+    background-color: rgba(217, 217, 217, 0.14);
+    width: 130px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5vw;
+    margin: 0 auto;
+    @media (max-width: 768px) {
+        width: 150px;
+        height: 150px;
+    }
+`
+
+export const SecondBox = styled.div`
+    flex: 0 0 auto;
+    text-align: center;
+    min-width: 560px; 
+    border-radius: 1.3rem;
+    box-shadow: inset 0 0 0 4px #969696;
+    background-color: rgba(217, 217, 217, 0.14);
+    font-size: 1.2vw;
+    font-family: arial;
+    width: 560px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    @media (max-width: 768px) {
+        width: 150px;
+        height: 150px;
+    }
+`
+
+export const FeedbackContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  margin-top: 5%;
+  width: 80%;
+  margin-left: 10%;
+`;
+
+export const HalfLine = styled.div`
+  flex-grow: 1;
+  height: 2px;
+  background-color: #ccc;
+`;
+
+export const FeedbackText = styled.div`
+  margin: 0 20px;
+  white-space: nowrap;
+  font-size: 1.2vw;
 `;

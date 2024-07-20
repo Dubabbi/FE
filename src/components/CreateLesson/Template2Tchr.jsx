@@ -89,12 +89,12 @@ const Template2Tchr = () => {
       <L.LessonWrapper>
         <C.Card>
           <C.TopTab>해설 작성</C.TopTab>
-          <C.ContentInput
+        </C.Card>
+        <C.ContentInput
             as="textarea"
             type="text"
             placeholder="내용을 입력하세요."
           />
-        </C.Card>
         <C.SubmitButton>제출</C.SubmitButton>
       </L.LessonWrapper>
     </>

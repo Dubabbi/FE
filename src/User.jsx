@@ -30,6 +30,7 @@ import Level1Result from "./components/SelfStudy/Level1Result";
 import Level2 from "./components/SelfStudy/Level2";
 import Level2Result from "./components/SelfStudy/Level2Result";
 import ImageModal from "./components/ImageModal/ImageModal";
+import Feedback2 from "./components/StudyLesson/Feedback2";
 
 export default function User() {
   return (
@@ -63,6 +64,7 @@ export default function User() {
         <Route path="/level2" element={<Level2 />} />
         <Route path="/level2result" element={<Level2Result />} />
         <Route path="/imagemodal" element={<ImageModal />} />
+        <Route path="/feedback2" element={<Feedback2 />} />
       </Routes>
       <FloatingButton />
       <Footer />
