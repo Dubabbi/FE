@@ -157,7 +157,7 @@ export const ImageWrap = styled.div`
 `;
 
 export const SecondTitle = styled(Form)`
-    margin-left: 23%;
+    margin-left: 30%;
     width: 56%;
     height: 37px; 
     font-size: 1.2vw; 
@@ -169,6 +169,20 @@ export const SecondTitle = styled(Form)`
         font-size: 2.4vw;
     }
 `   
+
+export const WordTitle = styled(Form)`
+    margin-left: 23%;
+    width: 56%;
+    height: 37px; 
+    font-size: 1.2vw; 
+    margin-bottom: 1%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    @media (max-width: 768px) {
+        font-size: 2.4vw;
+    }
+`
 
 export const Title = styled(Form)`
     margin-left: 22%;
@@ -320,6 +334,21 @@ export const Line = styled.div`
     margin-bottom: 2%;
     display: flex;
     justify-content: space-around;
+    flex-direction: row;
+    @media (max-width: 1024px) {
+        display: flex;
+        flex-direction: column;
+    } 
+    
+`
+
+export const TitleLine = styled.div`
+    margin-bottom: 2%;
+    display: flex;
+    max-width: 73%;
+    justify-content: flex-start;
+    margin-left: 16%;
+    gap: 0;
     flex-direction: row;
     @media (max-width: 1024px) {
         display: flex;

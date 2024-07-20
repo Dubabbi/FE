@@ -191,3 +191,29 @@ export const AddWord = styled.div`
         }
     }
 `;
+
+export const AddImage = styled.div`
+    flex: 0 0 auto;
+    text-align: center;
+    padding: 5px;
+    margin-top: 20%;
+    margin-left: 12%;
+    min-width: 170px;
+
+    div {
+        width: 200px; 
+        height: 200px;
+        display: flex; 
+        flex-direction: column; 
+        justify-content: center; 
+        align-items: center;
+        margin: 0 auto; 
+        border-radius: 10px; 
+        border: 5px solid #FEEAFA;
+
+        img {
+            width: 40%;
+
+        }
+    }
+`;
