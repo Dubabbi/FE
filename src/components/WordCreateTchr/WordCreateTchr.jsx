@@ -5,10 +5,8 @@ import * as C from '../CreateLesson/CreateLessonStyle';
 import Back from '/src/assets/icon/back.svg';
 import Form from 'react-bootstrap/Form';
 import add from '../../assets/icon/add.svg';
-import createimg from '/src/assets/image/template/createimg.svg';
-import send from '/src/assets/icon/send.svg';
-import close from '/src/assets/icon/close.svg';
 import axios from 'axios';
+import ModalComponent from '../ImageModal/ImageModal';
 
 const WordCreateTchr = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -231,39 +229,17 @@ const WordCreateTchr = () => {
           </D.Line>
         </React.Fragment>
       ))}
-      {modalOpen && (
-        <C.ModalOverlay>
-          <C.ModalContent>
-            <C.CloseButton>
-              <img src={close} alt="닫기" onClick={toggleModal} />
-            </C.CloseButton>
-            <h1>이미지 생성</h1>
-            <C.ModalImg>
-              <div>
-                {generatedImageUrl ? (
-                  <img src={generatedImageUrl} alt="생성 이미지" />
-                ) : (
-                  <img src={createimg} alt="생성 이미지" />
-                )}
-              </div>
-            </C.ModalImg>
-            <C.InputWrap>
-              <C.InputField
-                type="text"
-                placeholder="텍스트 입력"
-                value={inputModalValue}
-                onChange={handleInputModalChange}
-                onKeyPress={handleKeyPress}
-              />
-              <C.Send onClick={handleModalSubmit}><img src={send} alt="보내기 아이콘" /></C.Send>
-            </C.InputWrap>
-            <C.ButtonWrapper>
-              <C.ModalButton onClick={handleRegenerateImage}>다시 생성</C.ModalButton>
-              <C.ModalButton onClick={handleAddImage} disabled={!generatedImageUrl}>생성 완료</C.ModalButton>
-            </C.ButtonWrapper>
-          </C.ModalContent>
-        </C.ModalOverlay>
-      )}
+      <ModalComponent
+        isOpen={modalOpen}
+        toggleModal={() => toggleModal(null)}
+        inputModalValue={inputModalValue}
+        handleInputModalChange={handleInputModalChange}
+        handleKeyPress={handleKeyPress}
+        handleModalSubmit={handleModalSubmit}
+        handleRegenerateImage={handleRegenerateImage}
+        handleAddImage={handleAddImage}
+        generatedImageUrl={generatedImageUrl}
+      />
       <hr style={{ width: '60%', margin: '80px', marginLeft: '20%' }} />
       <C.SubmitButton style={{ marginBottom: '6%' }} onClick={handleSubmit}>제출</C.SubmitButton>
     </>

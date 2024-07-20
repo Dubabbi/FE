@@ -1,32 +1,74 @@
-// Template2Tchr.jsx
 import React, { useState } from 'react';
 import * as C from './CreateLessonStyle';
 import * as L from '../LessonTchr/LessonStyle';
 import * as D from '../WordCreateTchr/WordDetailStyle';
 import Back from '/src/assets/icon/back.svg';
 import add from '../../assets/icon/add.svg';
-import createimg from '/src/assets/image/template/createimg.svg';
-import send from '/src/assets/icon/send.svg';
 import Form from 'react-bootstrap/Form';
+import ModalComponent from '../ImageModal/ImageModal';
 
 const Template4Tchr = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalCardIndex, setModalCardIndex] = useState(null);
   const [inputValue, setInputValue] = useState('');
+  const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
     numberOfStories: '1',
   });
-  const toggleModal = () => {
+  const [storyCards, setStoryCards] = useState([{
+    story: '',
+    imagePreviewUrl: null
+  }]);
+
+  const toggleModal = (index) => {
     setModalOpen(!modalOpen);
+    setModalCardIndex(index);
   };
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
-  const handleSubmit = () => {
-    console.log("Input Submitted:", inputValue);
-    toggleModal(); // 제출 후 모달 닫기
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleModalSubmit();
+    }
+  };
+
+  const handleModalSubmit = async () => {
+    try {
+      const response = await axios.post('http://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080/api/ai/generateImage', {
+        prompt: inputValue,
+      });
+      setGeneratedImageUrl(response.data.imageUrl);
+    } catch (error) {
+      console.error('Error generating image:', error);
+      alert('이미지 생성에 실패했습니다.');
+    }
+  };
+
+  const handleAddImage = () => {
+    if (generatedImageUrl && modalCardIndex !== null) {
+      const newStoryCards = [...storyCards];
+      newStoryCards[modalCardIndex].imagePreviewUrl = generatedImageUrl;
+      setStoryCards(newStoryCards);
+      setGeneratedImageUrl(null);
+      toggleModal(null);
+    }
+  };
+
+  const handleRegenerateImage = async () => {
+    try {
+      const response = await axios.post('http://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080/api/ai/generateImage', {
+        prompt: inputValue,
+      });
+      setGeneratedImageUrl(response.data.imageUrl);
+    } catch (error) {
+      console.error('Error regenerating image:', error);
+      alert('이미지 다시 생성에 실패했습니다.');
+    }
   };
 
   const handleSelectChange = (e) => {
@@ -36,76 +78,89 @@ const Template4Tchr = () => {
       [name]: value
     });
 
-    if (name === 'numberOfWords') {
-      adjustWordCards(parseInt(value, 10));
+    if (name === 'numberOfStories') {
+      adjustStoryCards(parseInt(value, 10));
     }
+  };
+
+  const adjustStoryCards = (number) => {
+    const currentLength = storyCards.length;
+    const newStoryCards = storyCards.slice(0, number);
+    while (newStoryCards.length < number) {
+      newStoryCards.push({ story: '', imagePreviewUrl: null });
+    }
+    setStoryCards(newStoryCards);
+  };
+
+  const handleStoryCardChange = (index, value) => {
+    const newStoryCards = [...storyCards];
+    newStoryCards[index].story = value;
+    setStoryCards(newStoryCards);
   };
 
   return (
     <>
-    <D.ImageWrap>
-      <a href="/MainTchr"><img src={Back} alt="" /></a>
-    </D.ImageWrap>
-    <L.LessonWrapper>
-      <L.Section>
-        <h1>이야기 순서 배열하기</h1>
-      </L.Section>
-      <D.Select style={{width: '20%', marginLeft: '7px', marginBottom: '5px'}}>
-      <C.Line>
-        <D.SecondTitle style={{minWidth: '80px'}}>조각 개수</D.SecondTitle>
-        <Form.Select
-          name="numberOfStories"
-          value={formData.numberOfStories}
-          onChange={handleSelectChange}
-          style={{paddingLeft: '10px', paddingRight: '130px', fontSize: '1.5rem', borderRadius: '7px',  
-          border: '1px solid #ACAACC', width: '200px', height: '36px',  marginLeft: '22%', marginBottom: '10px' }}
-        >
-          {Array.from({ length: 4 }, (_, i) => i + 1).map((number) => (
-            <option key={number} value={number}>{number}개</option>
-          ))}
-        </Form.Select>
-      </C.Line>
-      </D.Select>
-      <C.StoryWrap>
-      <C.CardContainer>
-      {Array.from({ length: parseInt(formData.numberOfStories) }).map((_, index) => (
-        <C.SelectCard key={index}>
-          <C.SelectBox>
-            <div><img src={add} onClick={toggleModal} alt="Add icon"/></div>
-          </C.SelectBox>
-          <C.StoryField
-            type="text"
-            placeholder="이야기 입력"
-            as="textarea"
-            value={inputValue}
-            onChange={handleInputChange}
-          />
-        </C.SelectCard>
-      ))}
-      </C.CardContainer>
-        {modalOpen && (
-        <C.ModalOverlay>
-          <C.ModalContent>
-            <h1>이미지 생성</h1>
-            <C.ModalImg>
-              <div><img src={createimg} alt="Create icon"/></div>
-            </C.ModalImg>
-            <C.InputWrap>
-              <C.InputField
-                type="text"
-                placeholder="텍스트 입력"
-                value={inputValue}
-                onChange={handleInputChange}
-              />
-              <C.Send><img src={send} alt="Send icon"/></C.Send>
-            </C.InputWrap>
-            <C.ModalButton onClick={handleSubmit}>제출</C.ModalButton>
-          </C.ModalContent>
-        </C.ModalOverlay>
-        )}
-      </C.StoryWrap>
+      <D.ImageWrap>
+        <a href="/MainTchr"><img src={Back} alt="" /></a>
+      </D.ImageWrap>
+      <L.LessonWrapper>
+        <L.Section>
+          <h1>이야기 순서 배열하기</h1>
+        </L.Section>
+        <D.Select style={{ width: '20%', marginLeft: '7px', marginBottom: '5px' }}>
+          <C.Line>
+            <D.SecondTitle style={{ minWidth: '80px' }}>조각 개수</D.SecondTitle>
+            <Form.Select
+              name="numberOfStories"
+              value={formData.numberOfStories}
+              onChange={handleSelectChange}
+              style={{ paddingLeft: '10px', paddingRight: '130px', fontSize: '1.5rem', borderRadius: '7px', border: '1px solid #ACAACC', width: '200px', height: '36px', marginLeft: '22%', marginBottom: '10px' }}
+            >
+              {Array.from({ length: 4 }, (_, i) => i + 1).map((number) => (
+                <option key={number} value={number}>{number}개</option>
+              ))}
+            </Form.Select>
+          </C.Line>
+        </D.Select>
+        <C.StoryWrap>
+          <C.CardContainer>
+            {storyCards.map((card, index) => (
+              <C.SelectCard key={index}>
+                <C.SelectBox>
+                  <div>
+                    <img src={add} onClick={() => toggleModal(index)} alt="Add icon" />
+                  </div>
+                  {card.imagePreviewUrl && (
+                    <img
+                      src={card.imagePreviewUrl}
+                      alt="Preview"
+                      style={{ borderRadius: '7px', border: '4px solid #ACAACC', width: '100%', height: 'auto', marginLeft: '20%' }}
+                    />
+                  )}
+                </C.SelectBox>
+                <C.StoryField
+                  type="text"
+                  placeholder="이야기 입력"
+                  as="textarea"
+                  value={card.story}
+                  onChange={(e) => handleStoryCardChange(index, e.target.value)}
+                />
+              </C.SelectCard>
+            ))}
+          </C.CardContainer>
+        </C.StoryWrap>
       </L.LessonWrapper>
-
+      <ModalComponent
+        isOpen={modalOpen}
+        toggleModal={() => toggleModal(null)}
+        inputModalValue={inputValue}
+        handleInputModalChange={handleInputChange}
+        handleKeyPress={handleKeyPress}
+        handleModalSubmit={handleModalSubmit}
+        handleRegenerateImage={handleRegenerateImage}
+        handleAddImage={handleAddImage}
+        generatedImageUrl={generatedImageUrl}
+      />
       <C.SubmitButton>제출</C.SubmitButton>
     </>
   );
