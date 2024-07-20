@@ -176,6 +176,7 @@ export const ModalOverlay = styled.div`
 `;
 
 export const ModalContent = styled.div`
+  position: relative;
   min-width: 450px;
   height: 50vh;
   background: white;
@@ -191,7 +192,6 @@ export const ModalContent = styled.div`
     font-size: 1.2vw;
   }
 `;
-
 export const ImageBox = styled.div`
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -253,16 +253,26 @@ export const ModalImg = styled.div`
 `
 
 export const ModalButton = styled.button`
-  padding: 10px 20px;
+  padding: 8px 20px;
   color: white;
   background-color: #ACAACC;
   border: none;
   margin-top: 5%;
+  margin-bottom: 2%;
   border-radius: 5px;
   cursor: pointer;
   &:hover {
     background-color: #8C84B0;
   }
+  &:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+  }
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 10px;
 `;
 
 export const StoryWrap = styled.div`
@@ -367,4 +377,13 @@ export const ImageList = styled.div`
     justify-content: center;
     align-items: center;
   }
+`;
+
+export const CloseButton = styled.div`
+  position: absolute;
+  cursor: pointer;
+  top: 8%;
+  right: 10%;
+  width: 34px;
+  height: 34px;
 `;
