@@ -2,7 +2,7 @@ import React from 'react';
 import * as C from '../CreateLesson/CreateLessonStyle';
 import createimg from '/src/assets/image/template/createimg.svg';
 import send from '/src/assets/icon/send.svg';
-import close from '/src/assets/icon/close.svg';
+import close from '/src/assets/icon/closebtn.svg';
 
 const ModalComponent = ({
   isOpen,
