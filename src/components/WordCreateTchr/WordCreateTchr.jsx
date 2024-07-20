@@ -12,6 +12,7 @@ import axios from 'axios';
 
 const WordCreateTchr = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalCardIndex, setModalCardIndex] = useState(null);
   const [inputModalValue, setInputModalValue] = useState('');
   const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
   const [titleValue, setTitleValue] = useState('');
@@ -28,12 +29,20 @@ const WordCreateTchr = () => {
 
   const fileInputRefs = useRef([]);
 
-  const toggleModal = () => {
+  const toggleModal = (index) => {
     setModalOpen(!modalOpen);
+    setModalCardIndex(index);
   };
 
   const handleInputModalChange = (e) => {
     setInputModalValue(e.target.value);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleModalSubmit();
+    }
   };
 
   const handleModalSubmit = async () => {
@@ -48,13 +57,13 @@ const WordCreateTchr = () => {
     }
   };
 
-  const handleAddImage = (index) => {
-    if (generatedImageUrl) {
+  const handleAddImage = () => {
+    if (generatedImageUrl && modalCardIndex !== null) {
       const newWordCards = [...wordCards];
-      newWordCards[index].imagePreviewUrl = generatedImageUrl;
+      newWordCards[modalCardIndex].imagePreviewUrl = generatedImageUrl;
       setWordCards(newWordCards);
       setGeneratedImageUrl(null);
-      toggleModal();
+      toggleModal(null);
     }
   };
 
@@ -186,43 +195,11 @@ const WordCreateTchr = () => {
               <D.SecondTitle>이미지 추가</D.SecondTitle>
               <W.AddImage>
                 <div>
-                  <button onClick={toggleModal} style={{ background: 'none', border: 'none' }}>
+                  <button onClick={() => toggleModal(index)} style={{ background: 'none', border: 'none' }}>
                     <img src={add} alt="단어" />
                   </button>
                 </div>
               </W.AddImage>
-              {modalOpen && (
-                <C.ModalOverlay>
-                  <C.ModalContent>
-                  <C.CloseButton>
-                    <img src={close} alt="닫기" onClick={toggleModal} />
-                  </C.CloseButton>
-                    <h1>이미지 생성</h1>
-                    <C.ModalImg>
-                      <div>
-                        {generatedImageUrl ? (
-                          <img src={generatedImageUrl} alt="생성 이미지" />
-                        ) : (
-                          <img src={createimg} alt="생성 이미지" />
-                        )}
-                      </div>
-                    </C.ModalImg>
-                    <C.InputWrap>
-                      <C.InputField
-                        type="text"
-                        placeholder="텍스트 입력"
-                        value={inputModalValue}
-                        onChange={handleInputModalChange}
-                      />
-                      <C.Send onClick={handleModalSubmit}><img src={send} alt="보내기 아이콘" /></C.Send>
-                    </C.InputWrap>
-                    <C.ButtonWrapper>
-                      <C.ModalButton onClick={handleRegenerateImage}>다시 생성</C.ModalButton>
-                      <C.ModalButton onClick={() => handleAddImage(index)}>생성 완료</C.ModalButton>
-                    </C.ButtonWrapper>
-                  </C.ModalContent>
-                </C.ModalOverlay>
-              )}
               {card.imagePreviewUrl && (
                 <img
                   src={card.imagePreviewUrl}
@@ -254,6 +231,39 @@ const WordCreateTchr = () => {
           </D.Line>
         </React.Fragment>
       ))}
+      {modalOpen && (
+        <C.ModalOverlay>
+          <C.ModalContent>
+            <C.CloseButton>
+              <img src={close} alt="닫기" onClick={toggleModal} />
+            </C.CloseButton>
+            <h1>이미지 생성</h1>
+            <C.ModalImg>
+              <div>
+                {generatedImageUrl ? (
+                  <img src={generatedImageUrl} alt="생성 이미지" />
+                ) : (
+                  <img src={createimg} alt="생성 이미지" />
+                )}
+              </div>
+            </C.ModalImg>
+            <C.InputWrap>
+              <C.InputField
+                type="text"
+                placeholder="텍스트 입력"
+                value={inputModalValue}
+                onChange={handleInputModalChange}
+                onKeyPress={handleKeyPress}
+              />
+              <C.Send onClick={handleModalSubmit}><img src={send} alt="보내기 아이콘" /></C.Send>
+            </C.InputWrap>
+            <C.ButtonWrapper>
+              <C.ModalButton onClick={handleRegenerateImage}>다시 생성</C.ModalButton>
+              <C.ModalButton onClick={handleAddImage} disabled={!generatedImageUrl}>생성 완료</C.ModalButton>
+            </C.ButtonWrapper>
+          </C.ModalContent>
+        </C.ModalOverlay>
+      )}
       <hr style={{ width: '60%', margin: '80px', marginLeft: '20%' }} />
       <C.SubmitButton style={{ marginBottom: '6%' }} onClick={handleSubmit}>제출</C.SubmitButton>
     </>
