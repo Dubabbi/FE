@@ -32,6 +32,8 @@ import Level2Result from "./components/SelfStudy/Level2Result";
 import ImageModal from "./components/ImageModal/ImageModal";
 import Feedback2 from "./components/StudyLesson/Feedback2";
 import Reward from "./components/Reward/Reward";
+import MypageStdPage from "./components/MypageStd/MypageStd";
+import MypageTchrPage from "./components/MypageTchr/MypageTchr";
 
 export default function User() {
   return (
@@ -67,6 +69,8 @@ export default function User() {
         <Route path="/imagemodal" element={<ImageModal />} />
         <Route path="/feedback2" element={<Feedback2 />} />
         <Route path="/reward" element={<Reward />} />
+        <Route path="/mypagestd" element={<MypageStdPage />} />
+        <Route path="/mypagetchr" element={<MypageTchrPage />} />
       </Routes>
       <FloatingButton />
       <Footer />
