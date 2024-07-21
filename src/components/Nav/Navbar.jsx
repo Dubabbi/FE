@@ -86,7 +86,7 @@ const ProfileName = styled.div`
 
 const ProfileImageContainer = styled.div`
   position: absolute;
-  right: -30px; /* Adjust this value to position the image */
+  right: -30px;
   top: 50%;
   transform: translateY(-50%);
   width: 50px;

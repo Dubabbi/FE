@@ -45,7 +45,7 @@ const WordCreateTchr = () => {
 
   const handleModalSubmit = async () => {
     try {
-      const response = await axios.post('http://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080/api/ai/generateImage', {
+      const response = await axios.post('/api/ai/generateImage', {
         prompt: inputModalValue,
       });
       setGeneratedImageUrl(response.data.imageUrl);
@@ -67,7 +67,7 @@ const WordCreateTchr = () => {
 
   const handleRegenerateImage = async () => {
     try {
-      const response = await axios.post('http://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080/api/ai/generateImage', {
+      const response = await axios.post('/api/ai/generateImage', {
         prompt: inputModalValue,
       });
       setGeneratedImageUrl(response.data.imageUrl);
@@ -90,7 +90,7 @@ const WordCreateTchr = () => {
     };
 
     try {
-      const response = await axios.post('http://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080/api/word/wordSet', data, {
+      const response = await axios.post('/api/word/wordSet', data, {
         headers: {
           'Content-Type': 'application/json',
         },

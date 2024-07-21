@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Nav/Navbar";
 import FloatingButton from "./components/FloatingButton/FloatingButton";
 import Footer from "./components/Footer/Footer";
@@ -31,6 +31,11 @@ import Level2 from "./components/SelfStudy/Level2";
 import Level2Result from "./components/SelfStudy/Level2Result";
 import ImageModal from "./components/ImageModal/ImageModal";
 import Feedback2 from "./components/StudyLesson/Feedback2";
+import Reward from "./components/Reward/Reward";
+import MypageStdPage from "./components/MypageStd/MypageStd";
+import MypageTchrPage from "./components/MypageTchr/MypageTchr";
+import WordListTchrPage from "./components/WordTchr/WordListTchr";
+
 
 export default function User() {
   return (
@@ -65,6 +70,10 @@ export default function User() {
         <Route path="/level2result" element={<Level2Result />} />
         <Route path="/imagemodal" element={<ImageModal />} />
         <Route path="/feedback2" element={<Feedback2 />} />
+        <Route path="/reward" element={<Reward />} />
+        <Route path="/mypagestd" element={<MypageStdPage />} />
+        <Route path="/mypagetchr" element={<MypageTchrPage />} />
+        <Route path="/wordlisttchr" element={<WordListTchrPage />} />
       </Routes>
       <FloatingButton />
       <Footer />
