@@ -143,7 +143,7 @@ export const Word = styled.div`
     flex: 0 0 auto;
     text-align: center;
     padding: 5px;
-    margin: 0 10px;
+    margin: 0 5px;
     min-width: 130px; 
 
     img {
@@ -163,6 +163,11 @@ export const Word = styled.div`
         justify-content: center;
         align-items: center;
         margin: 0 auto;
+    }
+    
+    h2{
+     margin-top: 7px;
+     font-size: 1vw;
     }
 `;
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Form from 'react-bootstrap/Form';
-import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import CommonTable from './WordTable';
 import CommonTableColumn from './WordTableColumn';
 import CommonTableRow from './WordTableRow';
@@ -10,51 +10,60 @@ import Back from '/src/assets/icon/back.svg';
 import * as D from '../WordCreateTchr/WordDetailStyle';
 
 const WordListTchr = () => {
-  const [words, setWords] = useState([]); // 상태 변수를 복수형으로 변경
+  const [wordSets, setWordSets] = useState([]);
   const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
-    fetch('http://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080/api/word/wordSet/all', {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer <Your Access Token Here>' // 실제 토큰으로 교체 필요
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/word/wordSet/all', {
+          headers: {
+            'Authorization': 'Bearer xfe38sefpESfd39er'
+          }
+        });
+        if (response.data.isSuccess && response.data.data) {
+          setWordSets(response.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching data: ', error.response ? error.response : error);
       }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data && data.data) {
-        setWords(data.data.map(item => ({
-          id: item.wordSetId,
-          title: item.title,
-          category: item.category,
-          description: item.description
-        })));
-      }
-    })
-    .catch(error => console.error('Error fetching data: ', error));
+    };
+    fetchData();
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Search:', searchValue);
     setSearchValue('');
   };
 
-  const items = words.map((word) => (
-    <CommonTableRow key={word.id}>
-      <CommonTableColumn>{word.id}</CommonTableColumn>
-      <CommonTableColumn>
-        <Link to={`/word/${word.id}`}>{word.title}</Link> // 경로 수정
-      </CommonTableColumn>
-      <CommonTableColumn>{word.category}</CommonTableColumn> // 카테고리 정보 표시
-      <CommonTableColumn>{word.description}</CommonTableColumn> // 설명 표시
-    </CommonTableRow>
-  ));
+  const [error, setError] = useState('');
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('/api/word/wordSet/all', {
+        headers: {
+          'Authorization': 'Bearer xfe38sefpESfd39er'
+        }
+      });
+      if (response.data.isSuccess) {
+        setWordSets(response.data.data);
+        setError(''); 
+      } else {
+        setError(response.data.message || 'Data fetch failed.'); 
+      }
+    } catch (error) {
+      setError('Network or server error.');  
+    }
+  };
+  fetchData();
+}, []);
 
   return (
     <>
+    {error && <div style={{ color: 'red' }}>{error}</div>}
       <D.ImageWrap>
-        <a href="/MainTchr"><img src={Back} alt="" /></a>
+        <a href="/MainTchr"><img src={Back} alt="Back" /></a>
       </D.ImageWrap>
       <L.LessonWrapper>
         <L.Section>
@@ -71,7 +80,16 @@ const WordListTchr = () => {
               />
             </L.StyledForm>
           </L.Line>
-          <CommonTable headersName={['No', '제목', '카테고리', '설명']}>{items}</CommonTable>
+          <CommonTable headersName={['ID', 'Title', 'Category', 'Description']}>
+            {wordSets.map(set => (
+              <CommonTableRow key={set.wordSetId}>
+                <CommonTableColumn>{set.wordSetId}</CommonTableColumn>
+                <CommonTableColumn>{set.title}</CommonTableColumn>
+                <CommonTableColumn>{set.category}</CommonTableColumn>
+                <CommonTableColumn>{set.description}</CommonTableColumn>
+              </CommonTableRow>
+            ))}
+          </CommonTable>
         </L.Section>
       </L.LessonWrapper>
     </>
