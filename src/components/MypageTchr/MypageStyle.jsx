@@ -126,7 +126,6 @@ export const MoreIcon = styled.img`
   cursor: pointer;
 `;
 
-
 export const Box = styled.div`
   width: 100%;
   padding: 20px;
@@ -136,4 +135,185 @@ export const Box = styled.div`
   box-shadow: 0px 2.55px 2.55px rgba(0, 0, 0, 0.1);
   text-align: left;
   position: relative;
+`;
+
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); // 반투명 배경
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+`;
+
+export const ModalContent = styled.div`
+  position: relative;
+  width: 450px;
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+`;
+
+export const CloseButton = styled.div`
+  position: absolute;
+  cursor: pointer;
+  top: 15px;
+  right: 15px;
+  width: 34px;
+  height: 34px;
+`;
+
+export const SubModalText = styled.p`
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 1rem;
+`;
+
+export const UploadBox = styled.div`
+  width: 100%;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 1rem;
+`;
+
+
+
+export const UploadIcon = styled.img`
+  width: 50px;
+  height: 50px;
+  margin-bottom: 1rem;
+`;
+
+export const UploadText = styled.p`
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1rem;
+`;
+
+export const UploadDivider = styled.p`
+  font-size: 1rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+`;
+
+export const UploadButton = styled.button`
+  border: 1.5px solid #ACAACC;
+  color: #9D9AC9;
+  font-weight: bold;
+  padding: 7px 15px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+`;
+
+export const FormatText = styled.p`
+  font-size: 0.7vw;
+  color: #777;
+  margin-bottom: 0px;
+  text-align: left;
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+`;
+
+export const CancelButton = styled.button`
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-right: 1rem;
+`;
+
+export const ModalButton = styled.button`
+  background-color: #A19CE9;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+`;
+
+export const FeedbackContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  margin-top: 5%;
+  width: 60%;
+  margin-left: 20%;
+`;
+
+export const HalfLine = styled.div`
+  flex-grow: 1;
+  height: 1px;
+  background-color: #ccc;
+`;
+
+export const FeedbackText = styled.div`
+  white-space: nowrap;
+  font-size: 1.2rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  color: #aaa;
+  margin-bottom: 0rem;
+`;
+
+export const UploadedFileDetails = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #E7E7E7;
+  width: 100%;
+  padding: 3%;
+  gap: 2%;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+`;
+
+export const FileName = styled.p`
+  font-size: 1rem;
+  color: #555;
+  margin: 0;
+`;
+
+export const FileSize = styled.p`
+  font-size: 0.9rem;
+  color: #777;
+  margin: 0;
+`;
+
+export const RemoveFileButton = styled.button`
+  background-color: #dbdbdb;
+  color: #777;
+  align-items: center;
+  padding: 3px 6px;
+  border-radius: 100%;
+  box-shadow: inset 0 0 0 2px #858585;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
 `;
