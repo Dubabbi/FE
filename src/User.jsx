@@ -34,6 +34,8 @@ import Feedback2 from "./components/StudyLesson/Feedback2";
 import Reward from "./components/Reward/Reward";
 import MypageStdPage from "./components/MypageStd/MypageStd";
 import MypageTchrPage from "./components/MypageTchr/MypageTchr";
+import WordListTchrPage from "./components/WordTchr/WordListTchr";
+
 
 export default function User() {
   return (
@@ -71,6 +73,7 @@ export default function User() {
         <Route path="/reward" element={<Reward />} />
         <Route path="/mypagestd" element={<MypageStdPage />} />
         <Route path="/mypagetchr" element={<MypageTchrPage />} />
+        <Route path="/wordlisttchr" element={<WordListTchrPage />} />
       </Routes>
       <FloatingButton />
       <Footer />
