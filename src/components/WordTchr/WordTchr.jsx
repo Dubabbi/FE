@@ -15,7 +15,7 @@ export default function WordTchr() {
     useEffect(() => {
         const fetchWordSets = async () => {
             try {
-                const response = await axios.get('https://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080/word/wordSet/all');
+                const response = await axios.get('/api/word/wordSet/all');
                 if (response.data && response.data.isSuccess) {
                     setWordSets(response.data.data);
                 }

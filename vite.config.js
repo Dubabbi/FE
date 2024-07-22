@@ -20,14 +20,14 @@ export default defineConfig({
     },
     proxy: {
       '/api': {
-        target: 'http://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080',
+        target: 'https://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080',
         changeOrigin: true,
         secure: false,
         rewrite: path => path.replace(/^\/api/, ''),
         ws: true,
       },
       '/socket.io': {
-        target: 'http://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080',
+        target: 'https://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080',
         ws: true,
       }
     }

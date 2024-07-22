@@ -18,7 +18,7 @@ const WordListTchr = () => {
     axios.get('/api/word/wordSet/all')
       .then(response => {
         if (response.data.isSuccess) {
-          setWords(response.data.data); // Assuming response.data.data is the array of word sets
+          setWords(response.data.data);
           console.log('Data fetched successfully.');
         } else {
           throw new Error('Failed to fetch data');
