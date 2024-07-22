@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import * as W from '../WordTchr/WordStyle';
 import * as D from './WordDetailStyle';
 import * as C from '../CreateLesson/CreateLessonStyle';
@@ -16,27 +16,55 @@ const WordCreateTchr = () => {
   const [titleValue, setTitleValue] = useState('');
   const [formData, setFormData] = useState({
     title: '',
-    numberOfWords: '1',
+    numberOfWords: 1, // ensure this matches the initial length of wordCards
   });
   const [wordCards, setWordCards] = useState([{
-    wordName: '',
-    wordDescription: '',
-    file: null,
-    imagePreviewUrl: null
+    wordId: 1,
+    meaning: '',
+    prompt: '',
+    description: '',
+    imagePreviewUrl: ''
   }]);
 
-  const fileInputRefs = useRef([]);
+  const adjustWordCards = (number) => {
+    const updatedCards = wordCards.slice(0, number);
+    while (updatedCards.length < number) {
+      const lastId = updatedCards.length > 0 ? updatedCards[updatedCards.length - 1].wordId + 1 : 1;
+      updatedCards.push({
+        wordId: lastId,
+        meaning: '',
+        prompt: '',
+        description: '',
+        imagePreviewUrl: ''
+      });
+    }
+    setWordCards(updatedCards);
+  };
 
-  const toggleModal = (index) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: name === 'numberOfWords' ? parseInt(value, 10) : value
+    }));
+
+    if (name === 'numberOfWords') {
+      adjustWordCards(parseInt(value, 10));
+    } else if (name === 'title') {
+      setTitleValue(value); 
+    }
+  };
+
+  const toggleModal = (wordId) => {
     setModalOpen(!modalOpen);
-    setModalCardIndex(index);
+    setModalCardIndex(wordId);
   };
 
   const handleInputModalChange = (e) => {
     setInputModalValue(e.target.value);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       handleModalSubmit();
@@ -45,10 +73,15 @@ const WordCreateTchr = () => {
 
   const handleModalSubmit = async () => {
     try {
-      const response = await axios.post('/api/ai/generateImage', {
-        prompt: inputModalValue,
-      });
-      setGeneratedImageUrl(response.data.imageUrl);
+      const response = await axios.post('/api/ai/generateImage', { prompt: inputModalValue });
+      const updatedCards = [...wordCards];
+      const index = updatedCards.findIndex(card => card.wordId === modalCardIndex);
+      if (index !== -1) {
+        updatedCards[index].imagePreviewUrl = response.data.imageUrl;
+        setWordCards(updatedCards);
+      }
+      setGeneratedImageUrl(null);
+      toggleModal(null);
     } catch (error) {
       console.error('Error generating image:', error);
       alert('이미지 생성에 실패했습니다.');
@@ -57,43 +90,41 @@ const WordCreateTchr = () => {
 
   const handleAddImage = () => {
     if (generatedImageUrl && modalCardIndex !== null) {
-      const newWordCards = [...wordCards];
-      newWordCards[modalCardIndex].imagePreviewUrl = generatedImageUrl;
-      setWordCards(newWordCards);
+      const updatedCards = [...wordCards];
+      const index = updatedCards.findIndex(card => card.wordId === modalCardIndex);
+      if (index !== -1) {
+        updatedCards[index].imagePreviewUrl = generatedImageUrl;
+        setWordCards(updatedCards);
+      }
       setGeneratedImageUrl(null);
       toggleModal(null);
     }
   };
 
-  const handleRegenerateImage = async () => {
-    try {
-      const response = await axios.post('/api/ai/generateImage', {
-        prompt: inputModalValue,
-      });
-      setGeneratedImageUrl(response.data.imageUrl);
-    } catch (error) {
-      console.error('Error regenerating image:', error);
-      alert('이미지 다시 생성에 실패했습니다.');
+  const handleWordCardChange = (wordId, name, e) => {
+    const value = e.target.value;
+    const updatedCards = [...wordCards];
+    const index = updatedCards.findIndex(card => card.wordId === wordId);
+    if (index !== -1) {
+      updatedCards[index][name] = value;
+      setWordCards(updatedCards);
     }
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
+    e.preventDefault(); 
     const data = {
       title: titleValue,
       words: wordCards.map(card => ({
-        wordName: card.wordName,
-        wordDescription: card.wordDescription,
-        file: card.file,
+        wordName: card.meaning,
+        wordDescription: card.description,
+        imagePreviewUrl: card.imagePreviewUrl
       })),
     };
 
     try {
       const response = await axios.post('/api/word/wordSet', data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' }
       });
       console.log('Response:', response.data);
       alert('낱말 카드 세트가 성공적으로 생성되었습니다.');
@@ -103,56 +134,20 @@ const WordCreateTchr = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-
-    if (name === 'numberOfWords') {
-      adjustWordCards(parseInt(value, 10));
+  const handleRegenerateImage = async () => {
+    try {
+      const response = await axios.post('/api/ai/generateImage', { prompt: inputModalValue });
+      setGeneratedImageUrl(response.data.imageUrl);
+    } catch (error) {
+      console.error('Error regenerating image:', error);
+      alert('이미지 다시 생성에 실패했습니다.');
     }
-  };
-
-  const adjustWordCards = (number) => {
-    const currentLength = wordCards.length;
-    const newWordCards = wordCards.slice(0, number);
-    while (newWordCards.length < number) {
-      newWordCards.push({ wordName: '', wordDescription: '', file: null, imagePreviewUrl: null });
-    }
-    setWordCards(newWordCards);
-    fileInputRefs.current = fileInputRefs.current.slice(0, number);
-  };
-
-  const handleWordCardChange = (index, name, value) => {
-    const newWordCards = [...wordCards];
-    newWordCards[index] = { ...newWordCards[index], [name]: value };
-    setWordCards(newWordCards);
-  };
-
-  const handleFileChange = (index, event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const newWordCards = [...wordCards];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        newWordCards[index].imagePreviewUrl = reader.result;
-        newWordCards[index].file = file.name;
-        setWordCards(newWordCards);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleFileUploadClick = (index) => {
-    fileInputRefs.current[index].click();
   };
 
   return (
     <>
       <D.ImageWrap>
-        <a href="/WordTchr"><img src={Back} alt="" /></a>
+        <a href="/WordTchr"><img src={Back} alt="뒤로 가기" /></a>
       </D.ImageWrap>
       <W.LessonWrapper>
         <W.Section style={{ marginTop: '4%' }}>
@@ -161,13 +156,14 @@ const WordCreateTchr = () => {
       </W.LessonWrapper>
       <D.TitleLine>
         <div style={{ width: '50%' }}>
-          <D.WordTitle style={{}}>세트 이름</D.WordTitle>
-          <D.Title style={{ minWidth: '200px' }} onSubmit={handleSubmit}>
+          <D.WordTitle>세트 이름</D.WordTitle>
+          <D.Title style={{ minWidth: '200px' }}>
             <Form.Control
               type="text"
-              placeholder="제목을 입력하세요."
+              placeholder="세트 이름을 입력하세요"
+              name="title"
               value={titleValue}
-              onChange={(e) => setTitleValue(e.target.value)}
+              onChange={handleInputChange}
             />
           </D.Title>
         </div>
@@ -186,22 +182,22 @@ const WordCreateTchr = () => {
         </D.Select>
       </D.TitleLine>
       {wordCards.map((card, index) => (
-        <React.Fragment key={index}>
+        <React.Fragment key={card.wordId}>
           <hr style={{ width: '60%', margin: '80px', marginLeft: '20%' }} />
-          <D.Line >
+          <D.Line>
             <D.Box>
               <D.SecondTitle>이미지 추가</D.SecondTitle>
               <W.AddImage>
                 <div>
-                  <button onClick={() => toggleModal(index)} style={{ background: 'none', border: 'none' }}>
-                    <img src={add} alt="단어" />
+                  <button onClick={() => toggleModal(card.wordId)} style={{ background: 'none', border: 'none' }}>
+                    <img src={add} alt="단어 추가" />
                   </button>
                 </div>
               </W.AddImage>
               {card.imagePreviewUrl && (
                 <img
                   src={card.imagePreviewUrl}
-                  alt="Preview"
+                  alt="미리보기"
                   style={{ borderRadius: '7px', border: '4px solid #ACAACC', width: '100%', height: 'auto', marginLeft: '20%' }}
                 />
               )}
@@ -213,8 +209,8 @@ const WordCreateTchr = () => {
                   type="text"
                   placeholder="단어 이름"
                   name="wordName"
-                  value={card.wordName}
-                  onChange={(e) => handleWordCardChange(index, 'wordName', e.target.value)}
+                  value={card.meaning}
+                  onChange={(e) => handleWordCardChange(card.wordId, 'meaning', e)}
                 />
               </D.WordName>
               <D.WordTitle>단어 설명</D.WordTitle>
@@ -222,8 +218,8 @@ const WordCreateTchr = () => {
                 as="textarea"
                 placeholder="단어 설명"
                 name="wordDescription"
-                value={card.wordDescription}
-                onChange={(e) => handleWordCardChange(index, 'wordDescription', e.target.value)}
+                value={card.description}
+                onChange={(e) => handleWordCardChange(card.wordId, 'description', e)} 
               />
             </D.SecondBox>
           </D.Line>
@@ -234,14 +230,14 @@ const WordCreateTchr = () => {
         toggleModal={() => toggleModal(null)}
         inputModalValue={inputModalValue}
         handleInputModalChange={handleInputModalChange}
-        handleKeyPress={handleKeyPress}
+        handleKeyDown={handleKeyDown}
         handleModalSubmit={handleModalSubmit}
         handleRegenerateImage={handleRegenerateImage}
         handleAddImage={handleAddImage}
         generatedImageUrl={generatedImageUrl}
       />
       <hr style={{ width: '60%', margin: '80px', marginLeft: '20%' }} />
-      <C.SubmitButton style={{ marginBottom: '6%' }} onClick={handleSubmit}>제출</C.SubmitButton>
+      <C.SubmitButton style={{ marginBottom: '15%', marginTop: '5%' }} onClick={handleSubmit}>제출</C.SubmitButton>
     </>
   );
 };
