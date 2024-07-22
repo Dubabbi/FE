@@ -10,25 +10,24 @@ import Back from '/src/assets/icon/back.svg';
 import * as D from '../WordCreateTchr/WordDetailStyle';
 
 const WordListTchr = () => {
-  const [wordSets, setWordSets] = useState([]);
+  const [words, setWords] = useState([]);
   const [searchValue, setSearchValue] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('/api/word/wordSet/all', {
-          headers: {
-            'Authorization': 'Bearer xfe38sefpESfd39er'
-          }
-        });
-        if (response.data.isSuccess && response.data.data) {
-          setWordSets(response.data.data);
+    axios.get('/api/word/wordSet/all')
+      .then(response => {
+        if (response.data.isSuccess) {
+          setWords(response.data.data); // Assuming response.data.data is the array of word sets
+          console.log('Data fetched successfully.');
+        } else {
+          throw new Error('Failed to fetch data');
         }
-      } catch (error) {
-        console.error('Error fetching data: ', error.response ? error.response : error);
-      }
-    };
-    fetchData();
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        setError('Failed to load word sets.');
+      });
   }, []);
 
   const handleSubmit = (e) => {
@@ -36,32 +35,8 @@ const WordListTchr = () => {
     setSearchValue('');
   };
 
-  const [error, setError] = useState('');
-
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('/api/word/wordSet/all', {
-        headers: {
-          'Authorization': 'Bearer xfe38sefpESfd39er'
-        }
-      });
-      if (response.data.isSuccess) {
-        setWordSets(response.data.data);
-        setError(''); 
-      } else {
-        setError(response.data.message || 'Data fetch failed.'); 
-      }
-    } catch (error) {
-      setError('Network or server error.');  
-    }
-  };
-  fetchData();
-}, []);
-
   return (
     <>
-    {error && <div style={{ color: 'red' }}>{error}</div>}
       <D.ImageWrap>
         <a href="/MainTchr"><img src={Back} alt="Back" /></a>
       </D.ImageWrap>
@@ -80,13 +55,14 @@ useEffect(() => {
               />
             </L.StyledForm>
           </L.Line>
+          {error && <div style={{ color: 'red' }}>{error}</div>}
           <CommonTable headersName={['ID', 'Title', 'Category', 'Description']}>
-            {wordSets.map(set => (
-              <CommonTableRow key={set.wordSetId}>
-                <CommonTableColumn>{set.wordSetId}</CommonTableColumn>
-                <CommonTableColumn>{set.title}</CommonTableColumn>
-                <CommonTableColumn>{set.category}</CommonTableColumn>
-                <CommonTableColumn>{set.description}</CommonTableColumn>
+            {words.map((word) => (
+              <CommonTableRow key={word.wordSetId}>
+                <CommonTableColumn>{word.wordSetId}</CommonTableColumn>
+                <CommonTableColumn>{word.title}</CommonTableColumn>
+                <CommonTableColumn>{word.category}</CommonTableColumn>
+                <CommonTableColumn>{word.description}</CommonTableColumn>
               </CommonTableRow>
             ))}
           </CommonTable>
