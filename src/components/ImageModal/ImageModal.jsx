@@ -9,13 +9,14 @@ const ModalComponent = ({
   toggleModal,
   inputModalValue,
   handleInputModalChange,
-  handleKeyPress,
+  handleKeyDown,
   handleModalSubmit,
   handleRegenerateImage,
   handleAddImage,
   generatedImageUrl
 }) => {
   if (!isOpen) return null;
+
 
   return (
     <C.ModalOverlay>
@@ -39,7 +40,7 @@ const ModalComponent = ({
             placeholder="텍스트 입력"
             value={inputModalValue}
             onChange={handleInputModalChange}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyDown}
           />
           <C.Send onClick={handleModalSubmit}><img src={send} alt="보내기 아이콘" /></C.Send>
         </C.InputWrap>

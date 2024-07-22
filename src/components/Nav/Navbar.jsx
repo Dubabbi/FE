@@ -15,14 +15,14 @@ export default function Nav() {
           </Title>
         </Link>
       </Header>
-      <LinkWrapper>
+      <LinkWrapper><a href='/mypagetchr'>
         <ProfileCard>
           <ProfileName>부앙단 선생님</ProfileName>
           <ProfileImageContainer>
             <ProfileImage src={My} alt="프로필 이미지" />
             <CrownIcon>👑</CrownIcon>
           </ProfileImageContainer>
-        </ProfileCard>
+        </ProfileCard></a>
       </LinkWrapper>
     </TopWrapper>
   );
