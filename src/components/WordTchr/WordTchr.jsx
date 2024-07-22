@@ -13,23 +13,18 @@ export default function WordTchr() {
     const [wordSets, setWordSets] = useState([]);
 
     useEffect(() => {
+        const fetchWordSets = async () => {
+            try {
+                const response = await axios.get('http://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080/word/wordSet/all');
+                if (response.data && response.data.isSuccess) {
+                    setWordSets(response.data.data);
+                }
+            } catch (error) {
+                console.error('Error fetching word sets:', error);
+            }
+        };
         fetchWordSets();
     }, []);
-
-    async function fetchWordSets() {
-        try {
-            const response = await axios.get('/api/word/wordSet/all', {
-                headers: {
-                    'Authorization': `Bearer xfe38sefpESfd39er`
-                }
-            });
-            if (response.data.isSuccess) {
-                setWordSets(response.data.data);
-            }
-        } catch (error) {
-            console.error('Error fetching word sets:', error);
-        }
-    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -37,6 +32,7 @@ export default function WordTchr() {
         setSearchValue('');
     };
 
+    
     
     return (
         <>
