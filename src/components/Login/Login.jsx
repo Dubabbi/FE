@@ -30,7 +30,7 @@ const Login = () => {
         }
       );
 
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.token) {
         // 로그인 성공 시
         localStorage.setItem('key', response.data.token);
         alert('로그인에 성공했습니다.');
