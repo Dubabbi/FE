@@ -16,7 +16,7 @@ const WordCreateTchr = () => {
   const [titleValue, setTitleValue] = useState('');
   const [formData, setFormData] = useState({
     title: '',
-    numberOfWords: 1, // ensure this matches the initial length of wordCards
+    numberOfWords: 1,
   });
   const [wordCards, setWordCards] = useState([{
     wordId: 1,
@@ -83,8 +83,18 @@ const WordCreateTchr = () => {
       setGeneratedImageUrl(null);
       toggleModal(null);
     } catch (error) {
-      console.error('Error generating image:', error);
+      console.error('Error generating image:', error.response ? error.response.data : error.message);
       alert('이미지 생성에 실패했습니다.');
+    }
+  };
+
+  const handleRegenerateImage = async () => {
+    try {
+      const response = await axios.post('/api/ai/generateImage', { prompt: inputModalValue });
+      setGeneratedImageUrl(response.data.imageUrl);
+    } catch (error) {
+      console.error('Error regenerating image:', error.response ? error.response.data : error.message);
+      alert('이미지 다시 생성에 실패했습니다.');
     }
   };
 
@@ -129,18 +139,8 @@ const WordCreateTchr = () => {
       console.log('Response:', response.data);
       alert('낱말 카드 세트가 성공적으로 생성되었습니다.');
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error:', error.response ? error.response.data : error.message);
       alert('낱말 카드 세트 생성에 실패했습니다.');
-    }
-  };
-
-  const handleRegenerateImage = async () => {
-    try {
-      const response = await axios.post('/api/ai/generateImage', { prompt: inputModalValue });
-      setGeneratedImageUrl(response.data.imageUrl);
-    } catch (error) {
-      console.error('Error regenerating image:', error);
-      alert('이미지 다시 생성에 실패했습니다.');
     }
   };
 

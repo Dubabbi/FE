@@ -1,5 +1,6 @@
 // Feedback2.jsx
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as C from '../CreateLesson/CreateLessonStyle';
 import * as L from '../LessonTchr/LessonStyle';
 import * as D from '../WordCreateTchr/WordDetailStyle';
@@ -7,7 +8,7 @@ import Back from '/src/assets/icon/back.svg';
 import Reward from '../Reward/Reward';
 import styled from 'styled-components';
 
-const ModalOverlay = styled.div`
+export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -21,14 +22,9 @@ const ModalOverlay = styled.div`
 `;
 
 const Feedback2 = () => {
-  const [showReward, setShowReward] = useState(false);
-
-  const handleShowReward = () => {
-    setShowReward(true);
-  };
-
-  const handleCloseReward = () => {
-    setShowReward(false);
+  const navigate = useNavigate();
+  const handleStop = () => {
+    navigate('/MainStd');
   };
 
   return (
@@ -55,16 +51,11 @@ const Feedback2 = () => {
           <C.ImageListBox><div></div></C.ImageListBox>
         </C.FeedbackLine>
         <C.InLineButton>
-          <C.FeedbackButton onClick={handleShowReward}>그만 할래요</C.FeedbackButton>
+          <C.FeedbackButton onClick={handleStop}>그만 할래요</C.FeedbackButton>
           <C.FeedbackButton>다음 학습</C.FeedbackButton>
         </C.InLineButton>
         <h1 style={{width: '100%', marginLeft: '60%', fontSize: '1vw', color: '#777'}}>➡ 추천 학습: 낱말 카드 학습</h1>
       </L.LessonWrapper>
-      {showReward && (
-        <ModalOverlay>
-          <Reward onClose={handleCloseReward} />
-        </ModalOverlay>
-      )}
     </>
   );
 };

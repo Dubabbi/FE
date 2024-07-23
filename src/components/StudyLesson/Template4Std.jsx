@@ -7,6 +7,8 @@ import Back from '/src/assets/icon/back.svg';
 import up1 from '/src/assets/image/up1.svg';
 import up2 from '/src/assets/image/up2.svg';
 import up3 from '/src/assets/image/up3.svg';
+import { ModalOverlay } from './Feedback2';
+import Reward from '../Reward/Reward';
 
 const Template4Std = () => {
   const navigate = useNavigate();
@@ -16,8 +18,19 @@ const Template4Std = () => {
     setSelectedCard(index);
   };
 
-  const handleSubmit = () => {
+  const [showReward, setShowReward] = useState(false);
+
+  const handleShowReward = () => {
+    setShowReward(true);
+  };
+
+  const handleCloseReward = () => {
+    setShowReward(false);
     navigate('/Feedback2');
+  };
+
+  const handleSubmit = () => {
+    handleShowReward();
   };
 
   return (
@@ -50,6 +63,11 @@ const Template4Std = () => {
         </C.StoryWrap>
       </L.LessonWrapper>
       <C.SubmitButton onClick={handleSubmit}>제출</C.SubmitButton>
+      {showReward && (
+        <ModalOverlay>
+          <Reward onClose={handleCloseReward} />
+        </ModalOverlay>
+      )}
     </>
   );
 };
