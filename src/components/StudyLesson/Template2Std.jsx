@@ -1,16 +1,28 @@
 // Template2Std.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as C from '../CreateLesson/CreateLessonStyle';
 import * as L from '../LessonTchr/LessonStyle';
 import * as D from '../WordCreateTchr/WordDetailStyle';
 import Back from '/src/assets/icon/back.svg';
+import { ModalOverlay } from './Feedback2';
+import Reward from '../Reward/Reward';
 
 const Template2Std = () => {
   const navigate = useNavigate();
+  const [showReward, setShowReward] = useState(false);
+
+  const handleShowReward = () => {
+    setShowReward(true);
+  };
+
+  const handleCloseReward = () => {
+    setShowReward(false);
+    navigate('/Feedback2');
+  };
 
   const handleSubmit = () => {
-    navigate('/Feedback2');
+    handleShowReward();
   };
 
   return (
@@ -30,6 +42,11 @@ const Template2Std = () => {
         </C.Line>
       </L.LessonWrapper>
       <C.SubmitButton onClick={handleSubmit}>제출</C.SubmitButton>
+      {showReward && (
+        <ModalOverlay>
+          <Reward onClose={handleCloseReward} />
+        </ModalOverlay>
+      )}
     </>
   );
 };

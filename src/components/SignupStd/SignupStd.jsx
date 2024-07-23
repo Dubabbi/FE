@@ -26,22 +26,27 @@ const SignupStd = () => {
   const handleConfirmPw = (e) => { 
     setConfirmPw(e.target.value); 
   }; 
-  const handleSignupClick = () => {
-    setShowSelectionScreen(true);
-  };
-  useEffect(() => { 
-    if (confirmPw.length >= 1) { 
-      if (confirmPw === pw) {
-        setConfirmPwMsg('');
+  const handleSignupClick = async () => {
+    try {
+      const response = await axios.post('/api/auth/signup', {
+        id: id,
+        email: email,
+        password: pw,
+        password2: confirmPw
+      });
+  
+      if (response.status === 201) {
+        setSignupComplete(true);
+        setShowSelectionScreen(true); // 페이지 전환
       } else {
-        setConfirmPwMsg('비밀번호가 일치하지 않습니다.');
+        // Handle other responses accordingly
       }
-    } else {
-      setConfirmPwMsg(''); 
+    } catch (error) {
+      console.error('Error while signing up:', error);
+      // Handle error cases (perhaps show an error message)
     }
-  }, [confirmPw, pw]);
-
-
+  };
+  
   const handleName = (n) => {
     setName(n.target.value);
     const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|].{1,6}$/i;
@@ -108,6 +113,8 @@ const SignupStd = () => {
     }
     setNotAllow(true);
   }, [idValid, emailValid, pwValid, confirmPw, pw]);
+
+
 
   return (
     <L.AppContainer>
