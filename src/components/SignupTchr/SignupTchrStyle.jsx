@@ -136,8 +136,8 @@ export const ErrorMessageWrap = styled.div`
   margin-top: 0.5%;
   max-width: 70%;
   } 
-  ${({ show }) => show && `
-    opacity: 1; 
+  ${({ $show }) => $show && `
+    opacity: 1;
   `}
 `;
 
