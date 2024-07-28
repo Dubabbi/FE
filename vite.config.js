@@ -14,9 +14,9 @@ export default defineConfig({
     cors: {
       origin: '*', 
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
-      allowedHeaders: ['Bearer', 'xfe38sefpESfd39er'], 
-      credentials: true, // 쿠키를 포함한 요청 허용
-      maxAge: 3600 // 사전 요청(Preflight)의 결과를 1시간 동안 캐시
+      allowedHeaders: ['Authorization', 'Content-Type', 'Accept', 'Origin', 'User-Agent', 'DNT', 'Cache-Control', 'X-Mx-ReqToken', 'Keep-Alive', 'X-Requested-With', 'If-Modified-Since', 'Bearer', 'xfe38sefpESfd39er'], // 필요한 모든 헤더를 추가
+      credentials: true,
+      maxAge: 3600
     },
     proxy: {
       '/api': {

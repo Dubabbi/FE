@@ -6,6 +6,7 @@ import SignupStdPage from './pages/SignupStd';
 import SignupTchrPage from './pages/SignupTchr';
 import ResetPw from './components/Login/ResetPw';
 import ForgotId from './components/Login/ForgotId';
+import ShowMsg from './components/SignupStd/ShowMsg';
 import User from './User';
 
 export default function Router() {
@@ -17,6 +18,7 @@ export default function Router() {
         <Route path="/select" element={<SelectPage />} />
         <Route path="/signupstd" element={<SignupStdPage />} />
         <Route path="/signuptchr" element={<SignupTchrPage />} />
+        <Route path="/showmsg" element={<ShowMsg />} />
         <Route path="/resetpw" element={<ResetPw />}/>
         <Route path="/forgotid" element={<ForgotId />}/>
         <Route path="/*" element={<User />} />
