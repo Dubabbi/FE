@@ -25,6 +25,7 @@ const SignupStd = () => {
   const [birthdate, setBirthdate] = useState('');
   const [step, setStep] = useState(1);
   const navigate = useNavigate(); 
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
   
   const handleConfirmPw = (e) => { 
     setConfirmPw(e.target.value); 
@@ -103,13 +104,12 @@ const SignupStd = () => {
 
   const handleSignupClick = async () => {
     try {
-        const response = await axios.post('/api/auth/signup', {
+        const response = await axios.post(`${apiBaseUrl}/auth/signup`, {
             email, 
             password: pw, 
         });
         if (response.status === 201) { 
-            setSignupComplete(true);
-            setShowWelcomeMessage(true);
+            navigate('/showmsg');
         } else {
             console.log('Signup failed with status:', response.status);
         }
@@ -271,11 +271,9 @@ const SignupStd = () => {
                   <S.ErrorMessageWrap>
                     <div>.</div>
                   </S.ErrorMessageWrap>
-                  <a href='/showmsg'>
                   <L.BottomButton onClick={handleSignupClick}>
                     회원가입
                   </L.BottomButton>
-                  </a>
                   <S.NoAccount>
                     <p>이미 계정이 있으신가요? </p>
                     <p style={{ color: '#2B2180' }}>
