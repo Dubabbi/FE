@@ -70,10 +70,9 @@ const WordCreateTchr = () => {
       handleModalSubmit();
     }
   };
-
   const handleModalSubmit = async () => {
     try {
-      const response = await axios.post('/api/ai/generateImage', { prompt: inputModalValue });
+      const response = await axios.post('/api/ai/Image', { prompt: inputModalValue });
       const updatedCards = [...wordCards];
       const index = updatedCards.findIndex(card => card.wordId === modalCardIndex);
       if (index !== -1) {
@@ -87,10 +86,10 @@ const WordCreateTchr = () => {
       alert('이미지 생성에 실패했습니다.');
     }
   };
-
+  
   const handleRegenerateImage = async () => {
     try {
-      const response = await axios.post('/api/ai/generateImage', { prompt: inputModalValue });
+      const response = await axios.post('/api/ai/Image', { prompt: inputModalValue });
       setGeneratedImageUrl(response.data.imageUrl);
     } catch (error) {
       console.error('Error regenerating image:', error.response ? error.response.data : error.message);
