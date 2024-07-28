@@ -5,6 +5,7 @@ import * as L from './LoginStyle';
 import Logo from '/src/assets/image/logo.svg';
 
 const Login = () => {
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Login = () => {
   const onClickConfirmButton = async () => {
     try {
       const response = await axios.post(
-        '/api/auth/signin',
+        `${apiBaseUrl}/auth/signin`,
         {
           email: email,
           password: pw,
