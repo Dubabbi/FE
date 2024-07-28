@@ -100,6 +100,19 @@ const handlePw = (e) => {
     setNotAllow(true);
   }, [nameValid, emailValid, pwValid, confirmPw, pw]);
 
+  useEffect(() => { 
+    if (confirmPw.length >= 1) { 
+      if (confirmPw === pw) {
+        setConfirmPwMsg('비밀번호가 일치합니다.');
+      } else {
+        setConfirmPwMsg('비밀번호가 일치하지 않습니다.');
+      }
+    } else {
+      setConfirmPwMsg(''); 
+    }
+  }, [confirmPw, pw]);
+
+
 
   const handleNextClick = () => {
     if (emailValid && pwValid && nameValid && confirmPw === pw) {
@@ -114,22 +127,20 @@ const handlePw = (e) => {
 };
 
 const handleSignupClick = async () => {
-    if (step === 2 && callValid && birthdate && gender && iq) {
         try {
             const response = await axios.post('/api/auth/signup', {
-                email, password: pw
+                email, 
+                password: pw, 
             });
             if (response.status === 201) {
                 console.log('Signup successful');
-                navigate('/');  // 성공 시 홈 페이지로 리디렉션
+                navigate('/');
             }
         } catch (error) {
             console.error('Error while signing up:', error);
         }
-    } else {
-        alert("모든 필드를 올바르게 입력하세요.");
-    }
 };
+
 
   return (
     <L.AppContainer>
@@ -161,7 +172,6 @@ const handleSignupClick = async () => {
           <S.ErrorMessageWrap $show={!nameValid && name.length > 0}>
               올바른 이름 형식으로 입력해 주세요.
           </S.ErrorMessageWrap>
-
           <L.InputTitle>
             이메일
           </L.InputTitle>

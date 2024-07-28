@@ -19,7 +19,6 @@ const Login = () => {
 
   const onClickConfirmButton = async () => {
     try {
-      console.log('로그인 시도:', { email, password: pw }); // 요청 데이터 확인
       const response = await axios.post(
         '/api/auth/signin',
         {
@@ -31,37 +30,28 @@ const Login = () => {
         }
       );
 
-      console.log('서버 응답:', response); // 응답 데이터 확인
-
       if (response.status === 200 && response.data.token) {
         // 로그인 성공 시
         localStorage.setItem('key', response.data.token);
         alert('로그인에 성공했습니다.');
-
+        console.log('토큰:', response.data.token);
+        localStorage.setItem('key', response.data.token);   
         navigate('/maintchr');
       } else {
-        // 로그인 실패 시
         alert('로그인에 실패했습니다.');
       }
     } catch (error) {
-      if (error.response) {
-        // 서버 응답이 있는 경우
-        console.error('에러 응답 데이터:', error.response.data);
-        if (error.response.status === 400) {
-          // 가입되지 않은 사용자
-          alert('등록되지 않은 회원입니다.');
-        } else if (error.response.status === 401) {
-          // 인증 실패
-          alert('인증에 실패하였습니다. 이메일과 비밀번호를 확인하세요.');
-        } else {
-          // 기타 서버 오류
-          alert('로그인에 실패했습니다. 서버 오류가 발생했습니다.');
-        }
+      if (error.response && error.response.status === 400) {
+        // 가입되지 않은 사용자
+        alert('등록되지 않은 회원입니다.');
+      } else if (error.response && error.response.status === 401) {
+        // 인증 실패
+        alert('인증에 실패하였습니다. 이메일과 비밀번호를 확인하세요.');
       } else {
-        // 서버 응답이 없는 경우
-        alert('로그인에 실패했습니다. 서버에 연결할 수 없습니다.');
-        console.error('에러 메시지:', error.message);
+        // 기타 오류
+        alert('로그인에 실패했습니다.');
       }
+      console.error('에러:', error.response ? error.response.data.error : error.message);
     }
   };
 
