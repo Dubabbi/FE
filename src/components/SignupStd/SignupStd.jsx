@@ -25,6 +25,7 @@ const SignupStd = () => {
   const [birthdate, setBirthdate] = useState('');
   const [step, setStep] = useState(1);
   const navigate = useNavigate(); 
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
   
   const handleConfirmPw = (e) => { 
     setConfirmPw(e.target.value); 
@@ -103,7 +104,7 @@ const SignupStd = () => {
 
   const handleSignupClick = async () => {
     try {
-        const response = await axios.post('/api/auth/signup', {
+        const response = await axios.post(`${apiBaseUrl}/auth/signup`, {
             email, 
             password: pw, 
         });
