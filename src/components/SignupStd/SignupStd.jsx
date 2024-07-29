@@ -109,7 +109,7 @@ const SignupStd = () => {
         });
         if (response.status === 201) { 
             setSignupComplete(true);
-            setShowWelcomeMessage(true);
+            navigate('/showmsg');
         } else {
             console.log('Signup failed with status:', response.status);
         }
@@ -271,11 +271,9 @@ const SignupStd = () => {
                   <S.ErrorMessageWrap>
                     <div>.</div>
                   </S.ErrorMessageWrap>
-                  <a href='/showmsg'>
                   <L.BottomButton onClick={handleSignupClick}>
                     회원가입
                   </L.BottomButton>
-                  </a>
                   <S.NoAccount>
                     <p>이미 계정이 있으신가요? </p>
                     <p style={{ color: '#2B2180' }}>

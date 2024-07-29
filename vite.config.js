@@ -14,25 +14,22 @@ export default defineConfig({
     cors: {
       origin: '*', 
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
-      allowedHeaders: ['Authorization', 'Content-Type', 'Accept', 'Origin', 'User-Agent', 'DNT', 'Cache-Control', 'X-Mx-ReqToken', 'Keep-Alive', 'X-Requested-With', 'If-Modified-Since', 'Bearer', 'xfe38sefpESfd39er'], // 필요한 모든 헤더를 추가
-      credentials: true,
-      maxAge: 3600
+      allowedHeaders: ['Authorization', 'Content-Type'], 
+      credentials: true, 
+      maxAge: 3600 
     },
     proxy: {
       '/api': {
-        target: 'https://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080',
+        target: 'https://maeummal.com',
         changeOrigin: true,
         secure: false,
         rewrite: path => path.replace(/^\/api/, ''),
         ws: true,
       },
       '/socket.io': {
-        target: 'https://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080',
+        target: 'https://maeummal.com',
         ws: true,
       }
     }
   },
-  define: {
-    'process.env': process.env
-  }
 });

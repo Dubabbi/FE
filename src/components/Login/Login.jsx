@@ -5,7 +5,6 @@ import * as L from './LoginStyle';
 import Logo from '/src/assets/image/logo.svg';
 
 const Login = () => {
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
   const navigate = useNavigate();
@@ -19,9 +18,46 @@ const Login = () => {
   };
 
   const onClickConfirmButton = async () => {
+    const data = {
+      email: email,
+      password: pw,
+    };
+
+    try {
+      const response = await axios.post('/api/auth/signin', data, {
+        withCredentials: true,
+      });
+
+      if (response.status === 200 && response.data.token) {
+        // 로그인 성공 시
+        localStorage.setItem('key', response.data.token);
+        alert('로그인에 성공했습니다.');
+        console.log('토큰:', response.data.token);
+        navigate('/maintchr');
+      } else {
+        alert('로그인에 실패했습니다.');
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        // 가입되지 않은 사용자
+        alert('등록되지 않은 회원입니다.');
+      } else if (error.response && error.response.status === 401) {
+        // 인증 실패
+        alert('인증에 실패하였습니다. 이메일과 비밀번호를 확인하세요.');
+      } else {y
+        // 기타 오류
+        alert('로그인에 실패했습니다.');
+      }
+      console.error('에러:', error.response ? error.response.data.error : error.message);
+    }
+  };
+
+
+  /*
+  const onClickConfirmButton = async () => {
     try {
       const response = await axios.post(
-        `${apiBaseUrl}/auth/signin`,
+        '/api/auth/signin',
         {
           email: email,
           password: pw,
@@ -54,7 +90,7 @@ const Login = () => {
       }
       console.error('에러:', error.response ? error.response.data.error : error.message);
     }
-  };
+  };*/
 
   return (
     <L.AppContainer>
