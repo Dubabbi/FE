@@ -109,6 +109,7 @@ const SignupStd = () => {
             password: pw, 
         });
         if (response.status === 201) { 
+            setSignupComplete(true);
             navigate('/showmsg');
         } else {
             console.log('Signup failed with status:', response.status);
