@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import axios from 'axios';
 import * as L from './LoginStyle';
@@ -34,7 +34,6 @@ const Login = () => {
       );
 
       if (response.status === 200 && response.data.token) {
-        // 로그인 성공 시
         localStorage.setItem('key', response.data.token);
         alert('로그인에 성공했습니다.');
         console.log('토큰:', response.data.token);
@@ -45,13 +44,10 @@ const Login = () => {
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        // 가입되지 않은 사용자
         alert('등록되지 않은 회원입니다.');
       } else if (error.response && error.response.status === 401) {
-        // 인증 실패
         alert('인증에 실패하였습니다. 이메일과 비밀번호를 확인하세요.');
       } else {
-        // 기타 오류
         alert('로그인에 실패했습니다.');
       }
       console.error('에러:', error.response ? error.response.data.error : error.message);
@@ -97,11 +93,11 @@ const Login = () => {
             로그인
           </L.BottomButton>
           <L.NoAccount>
-            <a href="/forgotid">아이디 찾기</a>
+           <Link to="/forgotid">아이디 찾기</Link>
             <p>|</p>
-            <a href="/resetpw">비밀번호 찾기</a>
+            <Link to="/resetpw">비밀번호 찾기</Link>
             <p>|</p>
-            <a href="/Select">회원가입</a>
+            <Link to="/Select">회원가입</Link>
           </L.NoAccount>
         </L.Page>
       </L.LoginWrapper>
