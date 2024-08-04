@@ -17,6 +17,7 @@ const WordListTchr = () => {
   useEffect(() => {
     axios.get('/api/word/wordSet/all')
       .then(response => {
+        console.log(response);
         if (response.data.isSuccess) {
           setWords(response.data.data);
           console.log('Data fetched successfully.');
