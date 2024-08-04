@@ -103,7 +103,7 @@ const handlePw = (e) => {
   useEffect(() => { 
     if (confirmPw.length >= 1) { 
       if (confirmPw === pw) {
-        setConfirmPwMsg('비밀번호가 일치합니다.');
+        setConfirmPwMsg('');
       } else {
         setConfirmPwMsg('비밀번호가 일치하지 않습니다.');
       }

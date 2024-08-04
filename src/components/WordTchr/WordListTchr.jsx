@@ -26,7 +26,7 @@ const WordListTchr = () => {
       })
       .catch(error => {
         console.error('Error fetching data:', error);
-        setError('Failed to load word sets.');
+        setError(`Failed to load word sets: ${error.message}`);
       });
   }, []);
 
