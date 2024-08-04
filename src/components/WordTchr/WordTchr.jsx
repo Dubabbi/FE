@@ -27,7 +27,7 @@ export default function WordTchr() {
         }
     };
 
-    const handleSearch = async (e) => {
+    const handleSearch = async () => {
         e.preventDefault();
         try {
             const response = await axios.get(`/api/word/title?title=${encodeURIComponent(searchValue)}`, {
@@ -36,7 +36,7 @@ export default function WordTchr() {
                 }
             });
             if (response.data.isSuccess) {
-                setWordSets(response.data.data); // 검색 결과로 상태 업데이트
+                setWordSets(response.data.data);
                 console.log('Search results:', response.data.data);
             } else {
                 console.error('Search failed:', response.data.message);
