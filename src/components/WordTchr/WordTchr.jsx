@@ -31,8 +31,7 @@ export default function WordTchr() {
         console.log('Search:', searchValue);
         setSearchValue('');
     };
-
-    
+        
     
     return (
         <>

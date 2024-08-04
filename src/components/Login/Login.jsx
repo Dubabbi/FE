@@ -26,6 +26,9 @@ const Login = () => {
           password: pw,
         },
         {
+          headers: {
+            'Content-Type': 'application/json',
+          },
           withCredentials: true,
         }
       );
@@ -54,6 +57,8 @@ const Login = () => {
       console.error('에러:', error.response ? error.response.data.error : error.message);
     }
   };
+
+
 
   return (
     <L.AppContainer>
