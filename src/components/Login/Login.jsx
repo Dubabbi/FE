@@ -32,6 +32,7 @@ const Login = () => {
           withCredentials: true,
         }
       );
+      console.log(response);
       const token = response.data.data.token;
       if (response.status === 200 && token) {
         // 로그인 성공 시
