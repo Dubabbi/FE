@@ -94,11 +94,11 @@ const Login = () => {
           </L.InputWrap>
           <L.BottomButton onClick={onClickConfirmButton}>로그인</L.BottomButton>
           <L.NoAccount>
-           <Link to="/forgotid">아이디 찾기</Link>
+           <a href="/forgotid">아이디 찾기</a>
             <p>|</p>
-            <Link to="/resetpw">비밀번호 찾기</Link>
+            <a href="/resetpw">비밀번호 찾기</a>
             <p>|</p>
-            <Link to="/Select">회원가입</Link>
+            <a href="/Select">회원가입</a>
           </L.NoAccount>
         </L.Page>
       </L.LoginWrapper>
