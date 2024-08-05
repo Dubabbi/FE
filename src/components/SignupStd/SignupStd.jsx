@@ -127,7 +127,7 @@ const SignupStd = () => {
 
   const handleSignupClick = async () => {
     try {
-      const response = await axios.post("/api/auth/signup", {
+      const response = await axios.post("https://maeummal.com/auth/signup", {
         email: email,
         password: pw,
       });
