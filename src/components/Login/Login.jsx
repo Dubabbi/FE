@@ -20,7 +20,7 @@ const Login = () => {
   const onClickConfirmButton = async () => {
     try {
       const response = await axios.post(
-        "https://maeummal.com/api/auth/signin",
+        "/api/auth/signin",
         {
           email: email,
           password: pw,
