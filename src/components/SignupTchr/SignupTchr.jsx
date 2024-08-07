@@ -5,135 +5,105 @@ import * as L from "../Login/LoginStyle";
 import Back from "/src/assets/icon/back.svg";
 import Logo from "/src/assets/image/logo.svg";
 import SearchBar from "./../SearchBar/SearchBar";
+import axios from 'axios';
 
 const SignupTchr = () => {
-  const [email, setEmail] = useState("");
-  const [emailValid, setEmailValid] = useState(false);
-  const [id, setId] = useState("");
-  const [idValid, setIdValid] = useState(false);
-  const [pw, setPw] = useState("");
-  const [pwValid, setPwValid] = useState(false);
-  const [name, setName] = useState("");
-  const [nameValid, setNameValid] = useState(false);
-  const [notAllow, setNotAllow] = useState(true);
-  const [signupComplete, setSignupComplete] = useState(false);
-  const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
-  const [confirmPw, setConfirmPw] = useState("");
-  const [confirmPwMsg, setConfirmPwMsg] = useState("");
-  const [organization, setOrganization] = useState("");
-  const [call, setCall] = useState("");
-  const [callValid, setCallValid] = useState(false);
-  const [gender, setGender] = useState("");
-  const [birthdate, setBirthdate] = useState("");
-  const [showSelectionScreen, setShowSelectionScreen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
-  const handleConfirmPw = (e) => {
-    setConfirmPw(e.target.value);
+
+  const [formData, setFormData] = useState({
+    email: '',
+    emailValid: false,
+    call: '',
+    callValid: false,
+    pw: '',
+    pwValid: false,
+    name: '',
+    nameValid: false,
+    confirmPw: '',
+    confirmPwMsg: '',
+    iq: '',
+    gender: '',
+    birthdate: '',
+    organization: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+      [`${name}Valid`]: validateField(name, value, prev.pw)
+    }));
   };
 
-  const handleName = (n) => {
-    setName(n.target.value);
-    const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|].{1,6}$/i;
-    if (regex.test(n.target.value)) {
-      setNameValid(true);
-    } else {
-      setNameValid(false);
-    }
+  const setSearchTerm = (organization) => {
+    setFormData(prev => ({
+      ...prev,
+      organization
+    }));
   };
+  
 
-  const handleCall = (e) => {
-    setCall(e.target.value);
-    const regex = /^01[016789]-?\d{3,4}-?\d{4}$/;
-    if (regex.test(e.target.value)) {
-      setCallValid(true);
-    } else {
-      setCallValid(false);
+  function validateField(name, value, password) {
+    switch(name) {
+      case 'email':
+        return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(value);
+      case 'call':
+        return /^01[016789]-?\d{3,4}-?\d{4}$/.test(value);
+      case 'pw':
+        return /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/.test(value);
+      case 'name':
+        return /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9].{1,6}$/.test(value);
+      case 'confirmPw':
+        return value === password ? "" : (value.length >= 1 && password.length >= 1) ? "비밀번호가 일치하지 않습니다." : "";
+      default:
+        return true;
     }
-  };
-
-  const handleEmail = (e) => {
-    const emailValue = e.target.value;
-    setEmail(emailValue);
-    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-    if (regex.test(e.target.value)) {
-      setEmailValid(true);
-    } else {
-      setEmailValid(false);
-    }
-  };
-
-  const handlePw = (e) => {
-    const pwValue = e.target.value;
-    setPw(pwValue);
-    const regex =
-      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
-    if (regex.test(e.target.value)) {
-      setPwValid(true);
-    } else {
-      setPwValid(false);
-    }
-  };
-
-  useEffect(
-    () => {
-      if (nameValid && emailValid && pwValid && confirmPw === pw) {
-        setNotAllow(false);
-        return;
-      }
-      setNotAllow(true);
-    },
-    [emailValid],
-    [nameValid],
-    [pwValid],
-    [confirmPw]
-  );
-
-  useEffect(() => {
-    if (signupComplete) {
-      setShowWelcomeMessage(true);
-    }
-  }, [signupComplete]);
-
-  useEffect(() => {
-    if (nameValid && emailValid && pwValid && confirmPw === pw) {
-      setNotAllow(false);
-      return;
-    }
-    setNotAllow(true);
-  }, [nameValid, emailValid, pwValid, confirmPw, pw]);
+  }
 
   const handleNextClick = () => {
-    if (emailValid && pwValid && nameValid && confirmPw === pw) {
+    if (formData.emailValid && formData.pwValid && formData.nameValid && !formData.confirmPwMsg) {
       setStep(2);
     } else {
       alert("모든 필드를 올바르게 입력하세요.");
-      console.log("Email Valid:", emailValid);
-      console.log("Password Valid:", pwValid);
-      console.log("Name Valid:", nameValid);
-      console.log("Passwords Match:", confirmPw === pw);
     }
   };
 
-  const handleSignupClick = async () => {
-    if (step === 2 && callValid && birthdate && gender && organization) {
-      try {
-        const response = await axios.post("/api/auth/signup", {
-          email: email,
-          password: pw,
-        });
-        console.log(response);
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      emailValid: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(prev.email),
+      callValid: /^01[016789]-?\d{3,4}-?\d{4}$/.test(prev.call),
+      pwValid: /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/.test(prev.pw),
+      nameValid: /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9].{1,6}$/.test(prev.name),
+      confirmPwMsg: prev.confirmPw === prev.pw ? "" : (prev.confirmPw.length >= 1 && prev.pw.length >= 1) ? "비밀번호가 일치하지 않습니다." : ""
+    }));
+  }, [formData.email, formData.call, formData.pw, formData.name, formData.confirmPw]);
 
-        if (response.status === 200) {
-          console.log("Signup successful");
-          navigate("/"); // 성공 시 홈 페이지로 리디렉션
-        }
-      } catch (error) {
-        console.error("Error while signing up:", error);
+  const handleSignupClick = async () => {
+    const genderMapping = {
+      "남자": "MALE",
+      "여자": "FEMALE"
+    };
+
+    try {
+      const response = await axios.post("https://maeummal.com/auth/signup/teacher", {
+        name: formData.name,
+        email: formData.email,
+        password: formData.pw,
+        phoneNumber: formData.call,
+        birthDay: formData.birthdate,
+        gender: genderMapping[formData.gender],
+        organization: formData.organization
+      });
+      if (response.status === 200) {
+        navigate("/");
+        console.log("Signup successful");
+        alert("회원가입에 성공했습니다.");
       }
-    } else {
-      alert("모든 필드를 올바르게 입력하세요.");
+    } catch (error) {
+      console.error("Error while signing up:", error);
     }
   };
 
@@ -156,53 +126,56 @@ const SignupTchr = () => {
                 <p>회원가입</p>
               </S.TitleWrap>
               <L.InputTitle>이름</L.InputTitle>
-              <S.SecondInputWrap $invalid={!nameValid && name.length > 0}>
+              <S.SecondInputWrap $invalid={!formData.nameValid && formData.name.length > 0}>
                 <S.Input
                   type="name"
+                  name="name"
                   placeholder="이름"
-                  value={name}
-                  onChange={handleName}
+                  value={formData.name}
+                  onChange={handleChange}
                 />
               </S.SecondInputWrap>
-              <S.ErrorMessageWrap $show={!nameValid && name.length > 0}>
+              <S.ErrorMessageWrap $show={!formData.nameValid && formData.name.length > 0}>
                 올바른 이름 형식으로 입력해 주세요.
               </S.ErrorMessageWrap>
-
               <L.InputTitle>이메일</L.InputTitle>
-              <S.SecondInputWrap $invalid={!emailValid && email.length > 0}>
+              <S.SecondInputWrap $invalid={!formData.emailValid && formData.email.length > 0}>
                 <S.Input
                   type="email"
+                  name="email"
                   placeholder="이메일 주소"
-                  value={email}
-                  onChange={handleEmail}
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </S.SecondInputWrap>
-              <S.ErrorMessageWrap $show={!emailValid && email.length > 0}>
+              <S.ErrorMessageWrap $show={!formData.emailValid && formData.email.length > 0}>
                 올바른 이메일 형식으로 입력해주세요.
               </S.ErrorMessageWrap>
               <L.InputTitle>비밀번호</L.InputTitle>
-              <S.SecondInputWrap $invalid={!pwValid && pw.length > 0}>
+              <S.SecondInputWrap $invalid={!formData.pwValid && formData.pw.length > 0}>
                 <S.Input
                   type="password"
+                  name="pw"
                   placeholder="숫자, 특수기호 포함 8자 이상 20자 이하"
-                  value={pw}
-                  onChange={handlePw}
+                  value={formData.pw}
+                  onChange={handleChange}
                 />
               </S.SecondInputWrap>
-              <S.ErrorMessageWrap $show={!pwValid && pw.length > 0}>
+              <S.ErrorMessageWrap $show={!formData.pwValid && formData.pw.length > 0}>
                 <div>영문, 숫자, 특수기호 조합 8자 이상으로 입력해주세요.</div>
               </S.ErrorMessageWrap>
               <L.InputTitle>비밀번호 확인</L.InputTitle>
-              <S.SecondInputWrap $invalid={confirmPwMsg !== ""}>
+              <S.SecondInputWrap $invalid={formData.confirmPwMsg !== ""}>
                 <S.Input
                   type="password"
+                  name="confirmPw"
                   placeholder="비밀번호 확인"
-                  value={confirmPw}
-                  onChange={handleConfirmPw}
+                  value={formData.confirmPw}
+                  onChange={handleChange}
                 />
               </S.SecondInputWrap>
               <S.ErrorMessageWrap
-                $show={confirmPwMsg && <div>{confirmPwMsg}</div>}
+                $show={formData.confirmPwMsg && <div>{formData.confirmPwMsg}</div>}
               >
                 <div>비밀번호가 일치하지 않습니다.</div>
               </S.ErrorMessageWrap>
@@ -228,23 +201,25 @@ const SignupTchr = () => {
                 <p>회원가입</p>
               </S.TitleWrap>
               <L.InputTitle>휴대폰 번호</L.InputTitle>
-              <S.SecondInputWrap $invalid={!callValid && call.length > 0}>
+              <S.SecondInputWrap $invalid={!formData.callValid && formData.call.length > 0}>
                 <S.Input
                   type="text"
+                  name="call"
                   placeholder="010-1234-5678"
-                  value={call}
-                  onChange={handleCall}
+                  value={formData.call}
+                  onChange={handleChange}
                 />
               </S.SecondInputWrap>
-              <S.ErrorMessageWrap $show={!callValid && call.length > 0}>
+              <S.ErrorMessageWrap $show={!formData.callValid && formData.call.length > 0}>
                 <div>올바른 휴대폰 번호 형식으로 입력해주세요.</div>
               </S.ErrorMessageWrap>
               <L.InputTitle>생년월일</L.InputTitle>
               <S.SecondInputWrap>
                 <S.Input
                   type="date"
-                  value={birthdate}
-                  onChange={(e) => setBirthdate(e.target.value)}
+                  name="birthdate"
+                  value={formData.birthdate}
+                  onChange={handleChange}
                   style={{ width: "100%", fontSize: "16px" }}
                 />
               </S.SecondInputWrap>
@@ -254,10 +229,11 @@ const SignupTchr = () => {
               <L.InputTitle>성별</L.InputTitle>
               <S.SecondInputWrap>
                 <S.Select
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
                 >
-                  {!gender && <option value="">성별</option>}
+                  {!formData.gender && <option value="">성별</option>}
                   <option value="남자">남자</option>
                   <option value="여자">여자</option>
                 </S.Select>
@@ -266,7 +242,7 @@ const SignupTchr = () => {
                 <div>.</div>
               </S.ErrorMessageWrap>
               <L.InputTitle>소속 기관</L.InputTitle>
-              <SearchBar setSearchTerm={setSearchTerm} />
+              <SearchBar setSearchTerm={(school) => setFormData(prev => ({ ...prev, organization: school }))} />
               <S.ErrorMessageWrap>
                 <div>.</div>
               </S.ErrorMessageWrap>
