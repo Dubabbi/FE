@@ -73,9 +73,8 @@ const WordCreateTchr = () => {
 
   const handleModalSubmit = async () => {
     try {
-      const response = await axios.post('/api/ai/image', 
+      const response = await axios.post('https://maeummal.com/ai/image', 
         { prompt: inputModalValue }, 
-        { headers: { 'Authorization': `Bearer your_access_token_here` } }
       );
 
       if (response.status === 200 && response.data.imageUrl) {
@@ -98,7 +97,7 @@ const WordCreateTchr = () => {
 
 const handleRegenerateImage = async () => {
     try {
-      const response = await axios.post('/api/ai/image', 
+      const response = await axios.post('https://maeummal.com/ai/image', 
         { prompt: inputModalValue }, 
         { headers: { 'Content-Type': 'application/json' } }
       );
@@ -148,7 +147,7 @@ const handleRegenerateImage = async () => {
     };
 
     try {
-      const response = await axios.post('/api/word/wordSet', data, {
+      const response = await axios.post('https://maeummal.com/word/wordSet', data, {
         headers: { 'Content-Type': 'application/json' }
       });
       console.log('Response:', response.data);

@@ -15,7 +15,7 @@ const WordLearnStd = () => {
   useEffect(() => {
     const fetchWords = async () => {
         try {
-            const response = await axios.get('/api/word/title?title=동물', {
+            const response = await axios.get('https://maeummal.com/word/title?title=동물', {
                 headers: { Authorization: `Bearer xfe38sefpESfd39er` }
             });
             if (response.data.isSuccess && response.data.data.length > 0) {
