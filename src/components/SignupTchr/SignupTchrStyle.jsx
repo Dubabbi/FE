@@ -176,3 +176,23 @@ export const UnderlinedText = styled.span`
   text-decoration: underline;
 `;
 
+
+export const SchoolDropdown = styled.div`
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 1000;
+  width: 100%;
+`;
+
+export const SchoolItem = styled.div`
+  padding: 8px 12px;
+  cursor: pointer;
+
+  &:hover {
+    background: #f5f5f5;
+  }
+`;
