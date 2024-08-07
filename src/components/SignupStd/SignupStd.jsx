@@ -66,7 +66,7 @@ const SignupStd = () => {
       callValid: /^01[016789]-?\d{3,4}-?\d{4}$/.test(prev.call),
       pwValid: /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/.test(prev.pw),
       nameValid: /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9].{1,6}$/.test(prev.name),
-      confirmPwMsg: prev.confirmPw === prev.pw ? "" : "비밀번호가 일치하지 않습니다."
+      confirmPwMsg: prev.confirmPw === prev.pw ? "" : (prev.confirmPw.length >= 1 && prev.pw.length >= 1) ? "비밀번호가 일치하지 않습니다." : ""
     }));
   }, [formData.email, formData.call, formData.pw, formData.name, formData.confirmPw]);
 
@@ -77,7 +77,7 @@ const SignupStd = () => {
     };
 
     const iqMapping = {
-      "35~49(중증도)": "MODERATE",
+      "35~49(중증도)": "SEVERE",
       "50~70(경도)": "MILD"
     };
 
@@ -93,6 +93,8 @@ const SignupStd = () => {
       });
       if (response.status === 200) {
         navigate("/");
+        console.log("Signup successful");
+        alert("회원가입에 성공했습니다.");
       }
     } catch (error) {
       console.error("Error while signing up:", error);
