@@ -18,7 +18,7 @@ export default function WordStd() {
 
     const fetchWordSets = async () => {
         try {
-            const response = await axios.get('/api/word/wordSet/all');
+            const response = await axios.get('https://maeummal.com/word/wordSet/all');
             if (response.data.isSuccess) {
                 setWordSets(response.data.data);
             }
@@ -30,7 +30,7 @@ export default function WordStd() {
     const handleSearch = async () => {
         e.preventDefault();
         try {
-            const response = await axios.get(`/api/word/title?title=${encodeURIComponent(searchValue)}`, {
+            const response = await axios.get(`https://maeummal.com/word/title?title=${encodeURIComponent(searchValue)}`, {
                 headers: {
                     'Authorization': 'Bearer xfe38sefpESfd39er' 
                 }

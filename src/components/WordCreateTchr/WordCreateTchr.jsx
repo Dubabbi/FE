@@ -70,32 +70,47 @@ const WordCreateTchr = () => {
       handleModalSubmit();
     }
   };
+
   const handleModalSubmit = async () => {
     try {
-      const response = await axios.post('/api/ai/Image', { prompt: inputModalValue });
-      const updatedCards = [...wordCards];
-      const index = updatedCards.findIndex(card => card.wordId === modalCardIndex);
-      if (index !== -1) {
-        updatedCards[index].imagePreviewUrl = response.data.imageUrl;
-        setWordCards(updatedCards);
+      const response = await axios.post('https://maeummal.com/ai/image', 
+        { prompt: inputModalValue }, 
+      );
+
+      if (response.status === 200 && response.data.imageUrl) {
+        const updatedCards = [...wordCards];
+        const index = updatedCards.findIndex(card => card.wordId === modalCardIndex);
+        if (index !== -1) {
+          updatedCards[index].imagePreviewUrl = response.data.imageUrl;
+          setWordCards(updatedCards);
+        }
+        setGeneratedImageUrl(null);
+        toggleModal(null);
+      } else {
+        throw new Error('Failed to fetch image URL from the server');
       }
-      setGeneratedImageUrl(null);
-      toggleModal(null);
     } catch (error) {
       console.error('Error generating image:', error.response ? error.response.data : error.message);
       alert('이미지 생성에 실패했습니다.');
     }
-  };
-  
-  const handleRegenerateImage = async () => {
+};
+
+const handleRegenerateImage = async () => {
     try {
-      const response = await axios.post('/api/ai/Image', { prompt: inputModalValue });
-      setGeneratedImageUrl(response.data.imageUrl);
+      const response = await axios.post('https://maeummal.com/ai/image', 
+        { prompt: inputModalValue }, 
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      if (response.status === 200 && response.data.imageUrl) {
+        setGeneratedImageUrl(response.data.imageUrl);
+      } else {
+        throw new Error('Failed to regenerate image URL');
+      }
     } catch (error) {
       console.error('Error regenerating image:', error.response ? error.response.data : error.message);
       alert('이미지 다시 생성에 실패했습니다.');
     }
-  };
+};
 
   const handleAddImage = () => {
     if (generatedImageUrl && modalCardIndex !== null) {
@@ -132,7 +147,7 @@ const WordCreateTchr = () => {
     };
 
     try {
-      const response = await axios.post('/api/word/wordSet', data, {
+      const response = await axios.post('https://maeummal.com/word/wordSet', data, {
         headers: { 'Content-Type': 'application/json' }
       });
       console.log('Response:', response.data);
