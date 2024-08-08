@@ -7,22 +7,35 @@ import More from '/src/assets/icon/more.svg';
 import UploadPhoto from './UploadPhoto';
 
 const MypageTchr = () => {
-  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+    const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+    const [profileImage, setProfileImage] = useState(My);
 
-  const toggleUploadModal = () => {
-    setIsUploadModalOpen(!isUploadModalOpen);
-  };
+    const toggleUploadModal = () => {
+      setIsUploadModalOpen(!isUploadModalOpen);
+    };
 
-  const handleAddImage = () => {
-    toggleUploadModal();
-  };
+    const handleAddImage = (file) => {
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setProfileImage(reader.result); // 프로필 URL
+        };
+        reader.readAsDataURL(file);
+      }
+      toggleUploadModal();
+    };
+    const [isExtended, setIsExtended] = useState(false);
 
+const handleToggleExtended = () => {
+  setIsExtended(!isExtended);
+};
   return (
     <M.MypageWrapper>
       <M.Section>
+      <M.ContentContainer isExtended={isExtended}>
         <M.Content>
           <M.InLine>
-            <M.Profile src={My} />
+            <M.Profile src={profileImage} />
             <M.Upload src={Upload} alt="Upload Photo" onClick={toggleUploadModal} />
           </M.InLine>
           <M.InfoBox>
@@ -52,10 +65,52 @@ const MypageTchr = () => {
             </M.InfoItem>
             <M.InfoItem style={{ maxHeight: '50px' }}>
               <M.Label>매칭된 학생 목록</M.Label>
-              <M.MoreIcon src={More} />
+              <M.MoreIcon src={More} onClick={handleToggleExtended} />
             </M.InfoItem>
           </M.InfoBox>
         </M.Content>
+        {isExtended && 
+        <M.Second>
+          <M.SecondLabel>매칭된 학생 목록</M.SecondLabel>
+          <M.Item>
+            <M.InLine>
+            <M.Profile src={My} />
+            <M.InfoTitle>김망곰</M.InfoTitle>
+            <M.Blank/>
+          </M.InLine>
+          <hr />
+          <M.InLine>
+            <M.Profile src={My} />
+            <M.InfoTitle>김망곰</M.InfoTitle>
+            <M.Blank/>
+          </M.InLine>
+          <hr />
+          <M.InLine>
+            <M.Profile src={My} />
+            <M.InfoTitle>김망곰</M.InfoTitle>
+            <M.Blank/>
+          </M.InLine>
+          <hr />
+          <M.InLine>
+            <M.Profile src={My} />
+            <M.InfoTitle>김망곰</M.InfoTitle>
+            <M.Blank/>
+          </M.InLine>
+          <hr />
+          <M.InLine>
+            <M.Profile src={My} />
+            <M.InfoTitle>김망곰</M.InfoTitle>
+            <M.Blank/>
+          </M.InLine>
+          <hr />
+          <M.InLine>
+            <M.Profile src={My} />
+            <M.InfoTitle>김망곰</M.InfoTitle>
+            <M.Blank/>
+          </M.InLine>
+          </M.Item>
+        </M.Second>}
+        </M.ContentContainer>
       </M.Section>
       <UploadPhoto 
         isOpen={isUploadModalOpen}

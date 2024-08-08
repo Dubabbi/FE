@@ -34,7 +34,7 @@ const MainStd = () => {
           <M.rowContainer width="92%">
             <M.SectionTitle>수강 중인 강의</M.SectionTitle>
             <M.arrowContainer>
-              <img src={arrowIcon} />
+            <a href="/lessontchr"><img src={arrowIcon} /></a>
             </M.arrowContainer>
           </M.rowContainer>
           <M.rowContainer width="98%">

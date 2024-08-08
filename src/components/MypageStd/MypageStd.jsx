@@ -4,25 +4,32 @@ import My from '/src/assets/image/profile.svg';
 import Upload from '/src/assets/icon/uploadphoto.svg';
 import Settings from '/src/assets/icon/settings.svg'; 
 import More from '/src/assets/icon/more.svg'; 
-import UploadPhoto from '../MypageTchr/UploadPhoto'; // Adjust the path as necessary
+import UploadPhoto from '../MypageTchr/UploadPhoto';
 
 const MypageStd = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [profileImage, setProfileImage] = useState(My);
 
   const toggleUploadModal = () => {
     setIsUploadModalOpen(!isUploadModalOpen);
   };
 
-  const handleAddImage = () => {
+  const handleAddImage = (file) => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result); // 프로필 URL
+      };
+      reader.readAsDataURL(file);
+    }
     toggleUploadModal();
   };
-
   return (
     <M.MypageWrapper>
       <M.Section>
         <M.Content>
           <M.InLine>
-            <M.Profile src={My} />
+          <M.Profile src={profileImage} />
             <M.Upload src={Upload} alt="Upload Photo" onClick={toggleUploadModal} />
           </M.InLine>
           <M.InfoBox>

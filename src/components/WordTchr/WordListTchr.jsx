@@ -15,7 +15,7 @@ const WordListTchr = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get('/api/word/wordSet/all')
+    axios.get('https://maeummal.com/word/wordSet/all')
       .then(response => {
         console.log(response);
         if (response.data.isSuccess) {

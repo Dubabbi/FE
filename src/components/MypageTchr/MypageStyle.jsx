@@ -1,23 +1,27 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
 export const MypageWrapper = styled.div`
   background-color: #FEEAFA;
 `;
 
 export const Section = styled.div`
-  max-width: 1000px;
+  max-width: ${({ isExtended }) => isExtended ? '100%' : '1100px'};
   background-color: #FEEAFA;
   align-items: center;
   justify-content: center;
+  gap: 0px;
   margin: 0 auto;
+  display: flex;
   padding-top: 11%;
   padding-bottom: 7%;
+  transition: max-width 0.3s ease-out;
 `;
 
 export const Content = styled.div`
   display: flex;
-  margin-left: 22%;
-  max-width: 56%;
+  margin-left: ${({ isExtended }) => isExtended ? '0' : '0'}; 
+  max-width: ${({ isExtended }) => isExtended ? '40%' : '50%'};
+  min-width: ${({ isExtended }) => isExtended ? '300px' : 'auto'};
   box-shadow: 0px 5.1px 7.64px rgba(0, 0, 0, 0.15);
   height: auto;
   border-radius: 6px;
@@ -27,7 +31,86 @@ export const Content = styled.div`
   justify-content: center;
   background-color: #ffffff;
   text-align: center;
+  padding: ${({ isExtended }) => isExtended ? '15px' : '30px'}; // 패딩 조절
+  transition: all 0.3s ease-out;
+  flex: 1; 
+`;
+
+
+export const Second = styled.div`
+  display: flex;
+  margin-left: 0;
+  max-width: 30%;
+  min-width: 300px;
+  box-shadow: 0px 5.1px 7.64px rgba(0, 0, 0, 0.15);
+  height: auto;
+  max-height: 500px;
+  border-radius: 6px;
+  border: 1px solid #EBEBEE;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #ffffff;
+  text-align: center;
   padding: 30px;
+  transition: all 0.3s ease-out;
+  flex: 1;
+
+  hr{
+    width: 90%; 
+    border: none; 
+    height: 1px;
+    background-color: #ccc; 
+    margin: 10px 0;
+  
+  }
+`;
+
+export const Item = styled.div`
+  display: flex;
+  margin-left: 0;
+  min-width: 100%; 
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #ffffff;
+  text-align: center;
+  flex: 1;
+  overflow-x: auto;
+      &::-webkit-scrollbar {
+        width: 9px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+`;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center; 
+  gap: 0; 
+ overflow: visible;
+
+  ${({ isExtended }) => isExtended && css`
+    ${Content}:first-child {
+      transform: translateX(-5%); 
+    }
+    ${Second}:last-child {
+      transform: translateX(5%); 
+    }
+  `}
 `;
 
 export const InLine = styled.div`
@@ -43,6 +126,7 @@ export const Profile = styled.img`
   height: 65px;
   border-radius: 50%;
   border: 4px solid #FED7D7;
+  object-fit: cover;
 `;
 
 export const Upload = styled.img`
@@ -100,6 +184,20 @@ export const Label = styled.div`
   margin-bottom: 11%;
 `;
 
+export const SecondLabel = styled.div`
+  font-size: 1.2rem;
+  background-color: #FED7D7;
+  font-weight: bold;
+  border-radius: 10px;
+  color: #333;
+  margin-top: 5%;
+  margin-bottom: 3%;
+  width: 100px;
+  height: auto;
+  padding: 4px;
+`;
+
+
 export const Value = styled.div`
   font-size: 1.2rem;
   color: #555;
@@ -124,6 +222,11 @@ export const MoreIcon = styled.img`
   width: 35px;
   height: 20px;
   cursor: pointer;
+`;
+
+export const Blank = styled.div`
+  width: 35px;
+  height: 20px;
 `;
 
 export const Box = styled.div`
@@ -317,3 +420,4 @@ export const RemoveFileButton = styled.button`
   font-weight: bold;
   cursor: pointer;
 `;
+
