@@ -17,7 +17,6 @@ const ModalComponent = ({
 }) => {
   if (!isOpen) return null;
 
-
   return (
     <C.ModalOverlay>
       <C.ModalContent>

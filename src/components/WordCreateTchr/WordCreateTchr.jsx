@@ -90,8 +90,7 @@ const WordCreateTchr = () => {
         throw new Error('Failed to fetch image URL from the server');
       }
     } catch (error) {
-      console.error('Error generating image:', error.response ? error.response.data : error.message);
-      alert('이미지 생성에 실패했습니다.');
+      console.error("Error while signing up:", error);
     }
 };
 

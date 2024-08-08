@@ -62,7 +62,7 @@ export default function MainTchr() {
           <M.rowContainer width="92%">
             <M.SectionTitle>나의 강의</M.SectionTitle>
             <M.arrowContainer>
-              <img src={arrowIcon} />
+              <a href="/lessontchr"><img src={arrowIcon} /></a>
             </M.arrowContainer>
           </M.rowContainer>
           <M.rowContainer width="98%">
