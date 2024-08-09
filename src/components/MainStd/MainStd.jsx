@@ -50,7 +50,7 @@ const MainStd = () => {
         <M.rowContainer width="85%">
           {/* 나의 낱말 카드 */}
           <M.LessonContainer width="30%">
-            <M.SectionTitle>나의 낱말 카드</M.SectionTitle>
+            <M.SectionTitle>저장된 낱말 카드</M.SectionTitle>
             <M.ImgContainer>
               <M.CardImg1 src={wordCardImg} alt="" />
               <M.CardImg1 src={wordCardImg} alt="" />

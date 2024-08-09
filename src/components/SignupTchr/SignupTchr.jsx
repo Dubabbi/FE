@@ -4,7 +4,6 @@ import * as S from "./SignupTchrStyle";
 import * as L from "../Login/LoginStyle";
 import Back from "/src/assets/icon/back.svg";
 import Logo from "/src/assets/image/logo.svg";
-import SearchBar from "./../SearchBar/SearchBar";
 import axios from 'axios';
 
 const SignupTchr = () => {
@@ -37,12 +36,6 @@ const SignupTchr = () => {
     }));
   };
 
-  const setSearchTerm = (organization) => {
-    setFormData(prev => ({
-      ...prev,
-      organization
-    }));
-  };
   
 
   function validateField(name, value, password) {
@@ -242,7 +235,15 @@ const SignupTchr = () => {
                 <div>.</div>
               </S.ErrorMessageWrap>
               <L.InputTitle>소속 기관</L.InputTitle>
-              <SearchBar setSearchTerm={(school) => setFormData(prev => ({ ...prev, organization: school }))} />
+                <S.SecondInputWrap $invalid={!formData.organizationValid && formData.organization.length > 0}>
+                    <S.Input
+                      type="text"
+                      name="organization"
+                      placeholder="소속 기관명 입력"
+                      value={formData.organization}
+                      onChange={handleChange}
+                    />
+                    </S.SecondInputWrap>
               <S.ErrorMessageWrap>
                 <div>.</div>
               </S.ErrorMessageWrap>
