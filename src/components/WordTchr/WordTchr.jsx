@@ -73,7 +73,7 @@ export default function WordTchr() {
                         <W.ChoiceBox>
                             <W.AddWord><div><a href="/WordCreateTchr"><img src={addIcon} alt="Add new word set"/></a></div></W.AddWord>
                             {wordSets.map((wordSet) => (
-                                <Link to={`/WordDetailTchr/${wordSet.wordSetId}`} key={wordSet.wordSetId}>
+                                <Link to={`/WordTchr/${wordSet.wordSetId}`} key={wordSet.wordSetId}>
                                 <W.Word key={wordSet.wordSetId} onClick={() => handleWordClick(wordSet.wordSetId)}>
                                     <img src={wordSet.wordList[0].image} alt={wordSet.title} />
                                     <h2>{wordSet.title}</h2>
