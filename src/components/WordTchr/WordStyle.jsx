@@ -169,6 +169,12 @@ export const Word = styled.div`
      margin-top: 7px;
      font-size: 1vw;
     }
+
+    @media (max-width: 768px) {
+        h2{
+        font-size: 2.5vw;
+        }
+    }
 `;
 
 

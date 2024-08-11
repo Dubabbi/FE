@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import * as M from "../MainTchr/MainTchrStyle";
 import arrowIcon from "/src/assets/icon/arrowright.svg";
 import tem1Icon from "/src/assets/icon/template/template1icon.svg";
@@ -79,11 +80,13 @@ export default function MainTchr() {
           {/* 나의 낱말 카드 */}
           <M.LessonContainer width="30%">
             <M.SectionTitle>나의 낱말 카드</M.SectionTitle>
+            <Link to={`/WordTchr`}>
             <M.ImgContainer>
               <M.CardImg1 src={wordCardImg} alt="" />
               <M.CardImg1 src={wordCardImg} alt="" />
               <M.CardImg2 src={wordCardImg} alt="" />
             </M.ImgContainer>
+            </Link>
           </M.LessonContainer>
           {/* 매칭된 학생 */}
           <M.LessonContainer width="65%">

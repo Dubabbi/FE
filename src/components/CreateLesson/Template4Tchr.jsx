@@ -6,6 +6,7 @@ import Back from '/src/assets/icon/back.svg';
 import add from '../../assets/icon/add.svg';
 import Form from 'react-bootstrap/Form';
 import ModalComponent from '../ImageModal/ImageModal';
+import axios from 'axios';
 
 const Template4Tchr = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -38,9 +39,10 @@ const Template4Tchr = () => {
   };
 
   const handleModalSubmit = async () => {
+    const promptValue = typeof inputValue === 'string' ? inputValue : String(inputValue);
     try {
-      const response = await axios.post('http://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080/api/ai/generateImage', {
-        prompt: inputValue,
+      const response = await axios.post('https://maeummal.com/ai/image', {
+        prompt: promptValue,
       });
       setGeneratedImageUrl(response.data.imageUrl);
     } catch (error) {
@@ -60,11 +62,14 @@ const Template4Tchr = () => {
   };
 
   const handleRegenerateImage = async () => {
+    const promptValue = typeof inputValue === 'string' ? inputValue : String(inputValue);
     try {
-      const response = await axios.post('http://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080/api/ai/generateImage', {
-        prompt: inputValue,
+      const response = await axios.post('https://maeummal.com/ai/image', {
+        prompt: promptValue,
       });
+      if (response.status === 200) {
       setGeneratedImageUrl(response.data.imageUrl);
+      }
     } catch (error) {
       console.error('Error regenerating image:', error);
       alert('이미지 다시 생성에 실패했습니다.');
@@ -160,6 +165,7 @@ const Template4Tchr = () => {
         handleRegenerateImage={handleRegenerateImage}
         handleAddImage={handleAddImage}
         generatedImageUrl={generatedImageUrl}
+        placeholder="Enter prompt"
       />
       <C.SubmitButton>제출</C.SubmitButton>
     </>

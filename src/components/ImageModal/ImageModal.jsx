@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import * as C from '../CreateLesson/CreateLessonStyle';
 import createimg from '/src/assets/image/template/createimg.svg';
 import send from '/src/assets/icon/send.svg';
@@ -9,12 +9,28 @@ const ModalComponent = ({
   toggleModal,
   inputModalValue,
   handleInputModalChange,
-  handleKeyDown,
   handleModalSubmit,
   handleRegenerateImage,
   handleAddImage,
   generatedImageUrl
 }) => {
+  const [lastInputValue, setLastInputValue] = useState('');
+
+  const handleInputChange = (e) => {
+    handleInputModalChange(e); 
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); 
+      handleModalSubmit();
+    }
+  };
+
+  useEffect(() => {
+    setLastInputValue(inputModalValue); 
+  }, [inputModalValue]);
+
   if (!isOpen) return null;
 
   return (
@@ -25,26 +41,26 @@ const ModalComponent = ({
         </C.CloseButton>
         <h1>이미지 생성</h1>
         <C.ModalImg>
-          <div>
-            {generatedImageUrl ? (
+        {generatedImageUrl ? (
               <img src={generatedImageUrl} alt="생성 이미지" />
             ) : (
-              <img src={createimg} alt="생성 이미지" />
+              <div>
+              <img src={createimg} alt="대체 이미지" />
+              </div>
             )}
-          </div>
         </C.ModalImg>
         <C.InputWrap>
           <C.InputField
             type="text"
-            placeholder="텍스트 입력"
+            placeholder="이미지 설명을 입력하세요."
             value={inputModalValue}
-            onChange={handleInputModalChange}
-            onKeyDown={handleKeyDown}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown} 
           />
           <C.Send onClick={handleModalSubmit}><img src={send} alt="보내기 아이콘" /></C.Send>
         </C.InputWrap>
         <C.ButtonWrapper>
-          <C.ModalButton onClick={handleRegenerateImage}>다시 생성</C.ModalButton>
+          <C.ModalButton onClick={handleRegenerateImage} disabled={inputModalValue === lastInputValue}>다시 생성</C.ModalButton>
           <C.ModalButton onClick={handleAddImage} disabled={!generatedImageUrl}>생성 완료</C.ModalButton>
         </C.ButtonWrapper>
       </C.ModalContent>

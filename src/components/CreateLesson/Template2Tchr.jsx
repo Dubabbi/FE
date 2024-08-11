@@ -6,6 +6,7 @@ import * as D from '../WordCreateTchr/WordDetailStyle';
 import Back from '/src/assets/icon/back.svg';
 import add from '../../assets/icon/add.svg';
 import ModalComponent from '../ImageModal/ImageModal';
+import axios from 'axios';
 
 const Template2Tchr = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -29,7 +30,7 @@ const Template2Tchr = () => {
 
   const handleModalSubmit = async () => {
     try {
-      const response = await axios.post('http://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080/api/ai/generateImage', {
+      const response = await axios.post('https://maeummal.com/ai/image', {
         prompt: inputValue,
       });
       setGeneratedImageUrl(response.data.imageUrl);
@@ -41,7 +42,7 @@ const Template2Tchr = () => {
 
   const handleRegenerateImage = async () => {
     try {
-      const response = await axios.post('http://ec2-3-34-149-148.ap-northeast-2.compute.amazonaws.com:8080/api/ai/generateImage', {
+      const response = await axios.post('https://maeummal.com/ai/image', {
         prompt: inputValue,
       });
       setGeneratedImageUrl(response.data.imageUrl);

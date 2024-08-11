@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Nav/Navbar";
 import FloatingButton from "./components/FloatingButton/FloatingButton";
 import Footer from "./components/Footer/Footer";
@@ -35,6 +35,7 @@ import Reward from "./components/Reward/Reward";
 import MypageStdPage from "./components/MypageStd/MypageStd";
 import MypageTchrPage from "./components/MypageTchr/MypageTchr";
 import WordListTchrPage from "./components/WordTchr/WordListTchr";
+import WordDetailTchr from "./components/WordTchr/WordDetailTchr";
 
 
 export default function User() {
@@ -74,6 +75,7 @@ export default function User() {
         <Route path="/mypagestd" element={<MypageStdPage />} />
         <Route path="/mypagetchr" element={<MypageTchrPage />} />
         <Route path="/wordlisttchr" element={<WordListTchrPage />} />
+        <Route path="/wordtchr/:setId" element={<WordDetailTchr />} />
       </Routes>
       <FloatingButton />
       <Footer />

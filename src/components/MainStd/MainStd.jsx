@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import * as M from "../MainTchr/MainTchrStyle";
 import * as MS from "./MainStdStyle";
 import { TemplateList, TemplateCard } from "../MainTchr/MainTchr";
@@ -34,7 +35,7 @@ const MainStd = () => {
           <M.rowContainer width="92%">
             <M.SectionTitle>수강 중인 강의</M.SectionTitle>
             <M.arrowContainer>
-            <a href="/lessontchr"><img src={arrowIcon} /></a>
+            <a href="/lessonstd"><img src={arrowIcon} /></a>
             </M.arrowContainer>
           </M.rowContainer>
           <M.rowContainer width="98%">
@@ -51,11 +52,13 @@ const MainStd = () => {
           {/* 나의 낱말 카드 */}
           <M.LessonContainer width="30%">
             <M.SectionTitle>저장된 낱말 카드</M.SectionTitle>
+            <Link to={`/WordStd`}>
             <M.ImgContainer>
               <M.CardImg1 src={wordCardImg} alt="" />
               <M.CardImg1 src={wordCardImg} alt="" />
               <M.CardImg2 src={wordCardImg} alt="" />
             </M.ImgContainer>
+            </Link>
           </M.LessonContainer>
           {/*  오늘의 챌린지 */}
           <M.LessonContainer width="30%">
