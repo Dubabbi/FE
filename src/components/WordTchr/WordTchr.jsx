@@ -6,11 +6,13 @@ import * as W from './WordStyle';
 import addIcon from '../../assets/icon/add.svg';
 import Back from '/src/assets/icon/back.svg';
 import * as D from '../WordCreateTchr/WordDetailStyle';
+import { useNavigate, Link } from 'react-router-dom';
 
 
 export default function WordTchr() {
     const [searchValue, setSearchValue] = useState("");
     const [wordSets, setWordSets] = useState([]);
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         fetchWordSets();
@@ -27,25 +29,22 @@ export default function WordTchr() {
         }
     };
 
-    const handleSearch = async () => {
-        e.preventDefault();
+    const handleSearch = async (e) => {
+        e.preventDefault();  
         try {
-            const response = await axios.get(`https://maeummal.com/word/title?title=${encodeURIComponent(searchValue)}`, {
-                headers: {
-                    "Content-Type": "application/json",
-                  },
-                  withCredentials: true,
-            });
+            const response = await axios.get(`https://maeummal.com/word/title?title=${encodeURIComponent(searchValue)}`);
             if (response.data.isSuccess) {
                 setWordSets(response.data.data);
-                console.log('Search results:', response.data.data);
-            } else {
-                console.error('Search failed:', response.data.message);
             }
         } catch (error) {
             console.error('Error during search:', error);
         }
     };
+
+    const handleWordClick = (wordSetId) => {
+        navigate(`/Wordtchr/${wordSetId}`); 
+    };
+
 
     return (
         <>
@@ -74,10 +73,12 @@ export default function WordTchr() {
                         <W.ChoiceBox>
                             <W.AddWord><div><a href="/WordCreateTchr"><img src={addIcon} alt="Add new word set"/></a></div></W.AddWord>
                             {wordSets.map((wordSet) => (
-                                <W.Word id={wordSet.id}> 
+                                <Link to={`/WordDetailTchr/${wordSet.wordSetId}`} key={wordSet.wordSetId}>
+                                <W.Word key={wordSet.wordSetId} onClick={() => handleWordClick(wordSet.wordSetId)}>
                                     <img src={wordSet.wordList[0].image} alt={wordSet.title} />
                                     <h2>{wordSet.title}</h2>
                                 </W.Word>
+                                </Link>
                             ))}
                         </W.ChoiceBox>
                     </W.WordList>

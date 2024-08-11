@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import add from '../../assets/icon/add.svg';
 import axios from 'axios';
 import ModalComponent from '../ImageModal/ImageModal';
+import { useNavigate } from 'react-router-dom';
 
 const WordCreateTchr = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -14,6 +15,7 @@ const WordCreateTchr = () => {
   const [inputModalValue, setInputModalValue] = useState('');
   const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
   const [titleValue, setTitleValue] = useState('');
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
     numberOfWords: 1,
@@ -73,24 +75,21 @@ const WordCreateTchr = () => {
 
   const handleModalSubmit = async () => {
     try {
-      const response = await axios.post('https://maeummal.com/ai/image', 
-        { prompt: inputModalValue }, 
-      );
-
+      const response = await axios.post('https://maeummal.com/ai/image', { prompt: inputModalValue });
       if (response.status === 200 && response.data.imageUrl) {
         const updatedCards = [...wordCards];
         const index = updatedCards.findIndex(card => card.wordId === modalCardIndex);
         if (index !== -1) {
           updatedCards[index].imagePreviewUrl = response.data.imageUrl;
           setWordCards(updatedCards);
+          toggleModal(null);
         }
-        setGeneratedImageUrl(null);
-        toggleModal(null);
       } else {
         throw new Error('Failed to fetch image URL from the server');
       }
     } catch (error) {
-      console.error("Error while signing up:", error);
+      console.error("Error while fetching image:", error);
+      alert('이미지 생성에 실패했습니다.: ' + error.message);
     }
 };
 

@@ -16,7 +16,6 @@ const WordLearnStd = () => {
     const fetchWords = async () => {
         try {
             const response = await axios.get('https://maeummal.com/word/title?title=동물', {
-                headers: { Authorization: `Bearer xfe38sefpESfd39er` }
             });
             if (response.data.isSuccess && response.data.data.length > 0) {
                 setWordSet(response.data.data[0].wordEntities || []);
