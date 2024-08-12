@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
 import * as M from "../MainTchr/MainTchrStyle";
 import * as MS from "./MainStdStyle";
 import { TemplateList, TemplateCard } from "../MainTchr/MainTchr";
@@ -33,14 +32,17 @@ const MainStd = () => {
         {/* 나의 강의 */}
         <M.LessonContainer width="85%" height="45%">
           <M.rowContainer width="92%">
-            <M.SectionTitle>수강 중인 강의</M.SectionTitle>
+            <M.SectionTitle>강의 수강하러 가기</M.SectionTitle>
             <M.arrowContainer>
-            <a href="/lessonstd"><img src={arrowIcon} /></a>
+              <a href="/lessonstd">
+                <img src={arrowIcon} />
+              </a>
             </M.arrowContainer>
           </M.rowContainer>
           <M.rowContainer width="98%">
-            {TemplateList.map((item) => (
+            {TemplateList.map((item, index) => (
               <TemplateCard
+                key={index}
                 title={item.title}
                 description={item.description}
                 imgSrc={item.src}
@@ -48,49 +50,55 @@ const MainStd = () => {
             ))}
           </M.rowContainer>
         </M.LessonContainer>
-        <M.rowContainer width="85%">
+        <M.overContainer>
           {/* 나의 낱말 카드 */}
-          <M.LessonContainer width="30%">
-            <M.SectionTitle>저장된 낱말 카드</M.SectionTitle>
-            <Link to={`/WordStd`}>
+          <M.CardContainer href="/wordstd">
+            <M.SectionTitle>낱말 카드 학습하기</M.SectionTitle>
             <M.ImgContainer>
               <M.CardImg1 src={wordCardImg} alt="" />
               <M.CardImg1 src={wordCardImg} alt="" />
               <M.CardImg2 src={wordCardImg} alt="" />
             </M.ImgContainer>
-            </Link>
-          </M.LessonContainer>
+          </M.CardContainer>
           {/*  오늘의 챌린지 */}
-          <M.LessonContainer width="30%">
+          <M.CardContainer style={{ minWidth: "320px" }}>
             <M.SectionTitle>오늘의 챌린지</M.SectionTitle>
             <M.rowContainer>
               <MS.challengeContainer>
                 <MS.challenging>진행 중</MS.challenging>
-                {challengeList.map((item) => {
+                {challengeList.map((item, index) => {
                   if (item.state == "ing")
-                    return <MS.challengeText>{item.text}</MS.challengeText>;
+                    return (
+                      <MS.challengeText key={index}>
+                        {item.text}
+                      </MS.challengeText>
+                    );
                 })}
                 <MS.challengeFinish>완료</MS.challengeFinish>
-                {challengeList.map((item) => {
+                {challengeList.map((item, index) => {
                   if (item.state == "finish")
-                    return <MS.challengeText>{item.text}</MS.challengeText>;
+                    return (
+                      <MS.challengeText key={index}>
+                        {item.text}
+                      </MS.challengeText>
+                    );
                 })}
               </MS.challengeContainer>
               <ChallengePercent percent={33} />
             </M.rowContainer>
-          </M.LessonContainer>
+          </M.CardContainer>
           {/* 획득한 배지 */}
-          <M.LessonContainer width="30%">
+          <M.CardContainer>
             <M.SectionTitle>
               <MS.BadgeIcon src={badgeIcon} />
               획득한 배지
             </M.SectionTitle>
-            <M.rowContainer width="70%">
+            <M.rowContainer width="200px">
               <MS.Badge src={badgeImg} />
               <MS.badgeCount>11개</MS.badgeCount>
             </M.rowContainer>
-          </M.LessonContainer>
-        </M.rowContainer>
+          </M.CardContainer>
+        </M.overContainer>
       </M.MainContainer>
     </M.AppContainer>
   );

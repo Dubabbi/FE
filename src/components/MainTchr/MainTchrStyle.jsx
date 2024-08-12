@@ -3,15 +3,16 @@ import styled from "styled-components";
 export const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #f5f5f5;
+  height: 100%;
+  align-items: center;
 `;
 
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 60px; // 내비게이션바 높이에 따라 조절
+  margin-top: 90px; // 내비게이션바 높이에 따라 조절
   width: 100%;
-  height: 90vh;
+  // height: 90vh;
   justify-content: space-evenly;
   align-items: center;
 `;
@@ -27,6 +28,7 @@ export const LessonContainer = styled.div`
   border-radius: 70px;
   padding: 25px;
   box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
 `;
 
 export const rowContainer = styled.div`
@@ -36,6 +38,54 @@ export const rowContainer = styled.div`
   align-items: center;
   width: ${(props) => props.width};
   margin-top: 10px;
+  overflow-x: auto;
+`;
+
+export const overContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 85%;
+  @media (max-width: 980px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+`;
+
+export const CardContainer = styled.a`
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 70px;
+  padding: 25px;
+  box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  @media (max-width: 980px) {
+    width: 50%;
+    min-width: 320px;
+  }
+`;
+
+export const StdListContainer = styled.div`
+  width: ${(props) => props.width};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 70px;
+  padding: 25px;
+  box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  @media (max-width: 980px) {
+    width: 90%;
+  }
 `;
 
 export const SectionTitle = styled.div`
@@ -61,13 +111,13 @@ export const arrowContainer = styled.div`
 `;
 
 export const TemplateCard = styled.div`
-  flex: 1;
+  display: flex;
+  min-width: 210px;
   height: 170px;
   border: 2px solid #bbb;
   border-radius: 30px;
   margin: 10px;
   padding: 20px;
-  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: start;
@@ -99,8 +149,7 @@ export const MatchingStdContainer = styled.div`
   align-items: center;
   font-family: "DM Sans", sans-serif;
   font-size: 1.8rem;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px 10px;
   img {
     height: 80px; // 로고 이미지의 높이를 조절
     border-radius: 100px;
