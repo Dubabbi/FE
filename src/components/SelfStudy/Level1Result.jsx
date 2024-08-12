@@ -7,7 +7,8 @@ import picture from "/src/assets/image/word.svg";
 import { useLocation } from "react-router-dom";
 
 export default function Level1Result() {
-  const [first, second, third] = useLocation().state;
+  const resultData = useLocation().state;
+  // const [first, second, third] = useLocation().state;
 
   return (
     <>
@@ -18,12 +19,14 @@ export default function Level1Result() {
       </D.ImageWrap>
       <S.AppContainer>
         <h1>자율학습 L1</h1>
-        {/* 임시로 넣은 이미지 */}
-        <L.imgContainer src={picture} />
+        <L.imgContainer src={resultData.img} />
         <L.SentenceContainer style={{ height: "70px" }}>
-          <L.SecondTitle
-            style={{ width: "100%" }}
-          >{`${first}이/가 ${second} ${third}`}</L.SecondTitle>
+          <L.SecondTitle style={{ width: "100%" }}>
+            {
+              //`${first}이/가 ${second} ${third}`
+              resultData.sentence
+            }
+          </L.SecondTitle>
         </L.SentenceContainer>
         <S.rowContainer width="30%">
           <a href="/mainstd">

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
 import * as M from "../MainTchr/MainTchrStyle";
 import arrowIcon from "/src/assets/icon/arrowright.svg";
 import tem1Icon from "/src/assets/icon/template/template1icon.svg";
@@ -21,28 +20,28 @@ export const TemplateCard = ({ title, description, imgSrc }) => (
 
 export const TemplateList = [
   {
-    title: "낱말 카드 학습하기",
-    description: "새로운 낱말 카드를 학습합니다.",
+    title: "강의 제목",
+    description: "어휘 카드 매칭",
     src: tem1Icon,
   },
   {
-    title: "이미지 순서 배열하기",
-    description: "이미지를 순서대로 배열합니다.",
+    title: "강의 제목",
+    description: "이미지 순서 배열하기",
     src: tem2Icon,
   },
   {
-    title: "카테고리 분류하기",
-    description: "이미지 카테고리 분류 학습.",
+    title: "강의 제목",
+    description: "카테고리 분류하기",
     src: tem3Icon,
   },
   {
-    title: "이야기 순서 배열하기",
-    description: "이야기의 순서를 배열합니다.",
+    title: "강의 제목",
+    description: "이야기 순서 배열하기",
     src: tem4Icon,
   },
   {
-    title: "감정 표현",
-    description: "감정 표현을 학습합니다.",
+    title: "강의 제목",
+    description: "감정 표현",
     src: tem5Icon,
   },
 ];
@@ -56,58 +55,61 @@ export default function MainTchr() {
   ]);
 
   return (
-    <M.AppContainer>
-      <M.MainContainer>
-        {/* 나의 강의 */}
-        <M.LessonContainer width="85%" height="46%">
-          <M.rowContainer width="92%">
-            <M.SectionTitle>나의 강의</M.SectionTitle>
-            <M.arrowContainer>
-              <a href="/lessontchr"><img src={arrowIcon} /></a>
-            </M.arrowContainer>
-          </M.rowContainer>
-          <M.rowContainer width="98%">
-            {TemplateList.map((item) => (
-              <TemplateCard
-                title={item.title}
-                description={item.description}
-                imgSrc={item.src}
-              />
-            ))}
-          </M.rowContainer>
-        </M.LessonContainer>
-        <M.rowContainer width="85%">
-          {/* 나의 낱말 카드 */}
-          <M.LessonContainer width="30%">
-            <M.SectionTitle>나의 낱말 카드</M.SectionTitle>
-            <Link to={`/WordTchr`}>
-            <M.ImgContainer>
-              <M.CardImg1 src={wordCardImg} alt="" />
-              <M.CardImg1 src={wordCardImg} alt="" />
-              <M.CardImg2 src={wordCardImg} alt="" />
-            </M.ImgContainer>
-            </Link>
-          </M.LessonContainer>
-          {/* 매칭된 학생 */}
-          <M.LessonContainer width="65%">
-            <M.SectionTitle>
-              매칭된 학생
-              <M.addStd src={addStd} />
-            </M.SectionTitle>
-            <M.rowContainer width="90%">
-              {StdList.map((item) => (
-                <M.MatchingStdContainer>
-                  <img src={item.src} alt="" />
-                  {item.stdName}
-                </M.MatchingStdContainer>
-              ))}
+    <>
+      <M.AppContainer>
+        <M.MainContainer>
+          {/* 나의 강의 */}
+          <M.LessonContainer width="85%">
+            <M.rowContainer width="92%">
+              <M.SectionTitle>나의 강의</M.SectionTitle>
               <M.arrowContainer>
-                <img src={arrowIcon} />
+                <a href="/lessontchr">
+                  <img src={arrowIcon} />
+                </a>
               </M.arrowContainer>
             </M.rowContainer>
+            <M.rowContainer width="96%">
+              {TemplateList.map((item, index) => (
+                <TemplateCard
+                  key={index}
+                  title={item.title}
+                  description={item.description}
+                  imgSrc={item.src}
+                />
+              ))}
+            </M.rowContainer>
           </M.LessonContainer>
-        </M.rowContainer>
-      </M.MainContainer>
-    </M.AppContainer>
+          <M.overContainer>
+            {/* 나의 낱말 카드 */}
+            <M.CardContainer href="/wordlisttchr">
+              <M.SectionTitle>나의 낱말 카드</M.SectionTitle>
+              <M.ImgContainer>
+                <M.CardImg1 src={wordCardImg} alt="" />
+                <M.CardImg1 src={wordCardImg} alt="" />
+                <M.CardImg2 src={wordCardImg} alt="" />
+              </M.ImgContainer>
+            </M.CardContainer>
+            {/* 매칭된 학생 */}
+            <M.StdListContainer width="65%">
+              <M.SectionTitle>
+                매칭된 학생
+                <M.addStd src={addStd} />
+              </M.SectionTitle>
+              <M.rowContainer width="90%">
+                {StdList.map((item) => (
+                  <M.MatchingStdContainer key={item.stdName}>
+                    <img src={item.src} alt="" />
+                    {item.stdName}
+                  </M.MatchingStdContainer>
+                ))}
+                <M.arrowContainer>
+                  <img src={arrowIcon} />
+                </M.arrowContainer>
+              </M.rowContainer>
+            </M.StdListContainer>
+          </M.overContainer>
+        </M.MainContainer>
+      </M.AppContainer>
+    </>
   );
 }
