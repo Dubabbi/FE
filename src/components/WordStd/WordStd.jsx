@@ -6,11 +6,12 @@ import * as W from '../WordTchr/WordStyle';
 import addIcon from '../../assets/icon/add.svg';
 import Back from '/src/assets/icon/back.svg';
 import * as D from '../WordCreateTchr/WordDetailStyle';
-
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function WordStd() {
     const [searchValue, setSearchValue] = useState("");
     const [wordSets, setWordSets] = useState([]);
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         fetchWordSets();
@@ -31,9 +32,6 @@ export default function WordStd() {
         e.preventDefault();
         try {
             const response = await axios.get(`https://maeummal.com/word/title?title=${encodeURIComponent(searchValue)}`, {
-                headers: {
-                    'Authorization': 'Bearer xfe38sefpESfd39er' 
-                }
             });
             if (response.data.isSuccess) {
                 setWordSets(response.data.data);
@@ -44,6 +42,9 @@ export default function WordStd() {
         } catch (error) {
             console.error('Error during search:', error);
         }
+    };
+    const handleWordClick = (wordSetId) => {
+        navigate(`/Wordstd/${wordSetId}`); 
     };
         return (
             <>
@@ -70,12 +71,13 @@ export default function WordStd() {
                         <W.SecondTitle>저장된 낱말 카드</W.SecondTitle>
                         <W.WordList>
                             <W.ChoiceBox>
-                                <W.AddWord><div><a href="/WordCreateTchr"><img src={addIcon} alt="Add new word set"/></a></div></W.AddWord>
                                 {wordSets.map((wordSet) => (
+                                    <Link to={`/WordStd/${wordSet.wordSetId}`} key={wordSet.wordSetId}>
                                     <W.Word id={wordSet.id}> 
                                         <img src={wordSet.wordList[0].image} alt={wordSet.title} />
                                         <h2>{wordSet.title}</h2>
                                     </W.Word>
+                                    </Link>
                                 ))}
                             </W.ChoiceBox>
                         </W.WordList>

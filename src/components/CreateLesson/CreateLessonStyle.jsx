@@ -288,10 +288,12 @@ export const StoryWrap = styled.div`
 
 export const CardContainer = styled.div`
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;  
   justify-content: space-around;
-  width: 90%;
-  margin-left: 5%;
-  gap: 2%;
+  overflow-x: auto; 
+  width: 100%;       
+  padding: 20px 0;   
 `;
 
 export const SelectCard = styled.div`
@@ -302,10 +304,7 @@ export const SelectCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: pointer;
-  ${({ selected }) => selected && `
-    box-shadow: inset 0 0 0 3px blue;
-  `}
+    
 `;
 
 export const SelectBox = styled.div`

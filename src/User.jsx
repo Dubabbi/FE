@@ -50,7 +50,7 @@ export default function User() {
         <Route path="/wordtchr" element={<WordTchrPage />} />
         <Route path="/wordstd" element={<WordStdPage />} />
         <Route path="/lessondetailtchr" element={<LessonDetailTchrPage />} />
-        <Route path="/wordlearnstd" element={<WordLearnStdPage />} />
+        <Route path="/wordstd/:setId" element={<WordLearnStdPage />} />
         <Route path="/wordcreatetchr" element={<WordCreateTchrPage />} />
         <Route path="/createlesson" element={<CreateLessonPage />} />
         <Route path="/template1tchr" element={<Template1Tchr />} />
