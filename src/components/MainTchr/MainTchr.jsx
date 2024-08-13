@@ -81,7 +81,7 @@ export default function MainTchr() {
           </M.LessonContainer>
           <M.overContainer>
             {/* 나의 낱말 카드 */}
-            <M.CardContainer href="/wordlisttchr">
+            <M.CardContainer href="/wordtchr">
               <M.SectionTitle>나의 낱말 카드</M.SectionTitle>
               <M.ImgContainer>
                 <M.CardImg1 src={wordCardImg} alt="" />
