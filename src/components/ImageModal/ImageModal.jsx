@@ -10,59 +10,58 @@ const ModalComponent = ({
   inputModalValue,
   handleInputModalChange,
   handleModalSubmit,
-  handleRegenerateImage,
-  handleAddImage,
   generatedImageUrl
 }) => {
-  const [lastInputValue, setLastInputValue] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
-    handleInputModalChange(e); 
+    handleInputModalChange(e);
   };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); 
-      handleModalSubmit();
+      e.preventDefault();
+      initiateImageCreation();
     }
   };
 
+  const initiateImageCreation = () => {
+    setLoading(true); 
+    handleModalSubmit();  
+  };
+
   useEffect(() => {
-    setLastInputValue(inputModalValue); 
-  }, [inputModalValue]);
+    if (isOpen && generatedImageUrl) {
+      setLoading(false); 
+    }
+  }, [isOpen, generatedImageUrl]);
 
   if (!isOpen) return null;
 
   return (
     <C.ModalOverlay>
       <C.ModalContent>
-        <C.CloseButton>
-          <img src={close} alt="닫기" onClick={toggleModal} />
-        </C.CloseButton>
+        <C.CloseButton onClick={toggleModal}><img src={close} alt="Close" /></C.CloseButton>
         <h1>이미지 생성</h1>
         <C.ModalImg>
-        {generatedImageUrl ? (
-              <img src={generatedImageUrl} alt="생성 이미지" />
-            ) : (
-              <div>
-              <img src={createimg} alt="대체 이미지" />
-              </div>
-            )}
+          {loading ? (
+            <div><img src={createimg} alt="Loading" /></div>
+          ) : (
+            generatedImageUrl ? <img src={generatedImageUrl} alt="Generated" /> : <div><img src={createimg} alt="Placeholder" /></div>
+          )}
         </C.ModalImg>
         <C.InputWrap>
           <C.InputField
             type="text"
-            placeholder="이미지 설명을 입력하세요."
+            placeholder="Enter prompt here"
             value={inputModalValue}
             onChange={handleInputChange}
-            onKeyDown={handleKeyDown} 
+            onKeyDown={handleKeyDown}
           />
-          <C.Send onClick={handleModalSubmit}><img src={send} alt="보내기 아이콘" /></C.Send>
+          <C.Send onClick={initiateImageCreation}>
+            <img src={send} alt="Send" />
+          </C.Send>
         </C.InputWrap>
-        <C.ButtonWrapper>
-          <C.ModalButton onClick={handleRegenerateImage} disabled={inputModalValue === lastInputValue}>다시 생성</C.ModalButton>
-          <C.ModalButton onClick={handleAddImage} disabled={!generatedImageUrl}>생성 완료</C.ModalButton>
-        </C.ButtonWrapper>
       </C.ModalContent>
     </C.ModalOverlay>
   );
