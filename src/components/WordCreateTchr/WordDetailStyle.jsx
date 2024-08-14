@@ -47,6 +47,18 @@ export const CardTitle = styled.div`
     }
 `
 
+export const NextLesson = styled.div`
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 4.5%;
+    font-family: arial;
+    width: 70%;
+    padding: 2%;
+    border-radius: 7px;
+    height: auto;
+    font-size: 1.2vw;
+`
+
 export const Word = styled.div`
     flex: 0 0 auto;
     text-align: center;
@@ -97,6 +109,21 @@ export const WordList = styled.div`
     align-items: center;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 `;
+
+export const WordSecondList = styled.div`
+    width: 50%;
+    margin-left: 25%;
+    height: 40vh;
+    padding: 3%;
+    border-radius: 40px;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+
+
 
 export const ArrowButton = styled.div`
     flex: 0 0 auto;

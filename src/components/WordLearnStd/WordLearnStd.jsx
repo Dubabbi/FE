@@ -59,7 +59,7 @@ const WordLearnStd = () => {
           </D.WordList>
         </D.Section>
         <D.BottomButton style={{marginBottom: '4%'}}>
-          <a href="/MainStd">학습 종료</a>
+          <a href="/WordStd">학습 종료</a>
         </D.BottomButton>
       </W.LessonWrapper>
       </>
