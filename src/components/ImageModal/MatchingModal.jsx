@@ -26,13 +26,13 @@ const ModalComponent = ({
   };
 
   const initiateImageCreation = () => {
-    setLoading(true);
-    handleModalSubmit();
+    setLoading(true); 
+    handleModalSubmit();  
   };
 
   useEffect(() => {
     if (isOpen && generatedImageUrl) {
-      setLoading(false);
+      setLoading(false); 
     }
   }, [isOpen, generatedImageUrl]);
 
@@ -41,9 +41,7 @@ const ModalComponent = ({
   return (
     <C.ModalOverlay>
       <C.ModalContent>
-        <C.CloseButton onClick={() => toggleModal(null)}>
-          <img src={close} alt="Close" />
-        </C.CloseButton>
+        <C.CloseButton onClick={toggleModal}><img src={close} alt="Close" /></C.CloseButton>
         <h1>이미지 생성</h1>
         <C.ModalImg>
           {loading ? (
@@ -70,4 +68,3 @@ const ModalComponent = ({
 };
 
 export default ModalComponent;
-
