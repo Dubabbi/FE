@@ -1,5 +1,5 @@
 // Template1Std.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import * as C from "../CreateLesson/CreateLessonStyle";
 import * as S from "../SelfStudy/SelfStudyStyle";
@@ -45,6 +45,7 @@ export const ImgContainer = styled.div`
     height: 110px;
     border-radius: 6px;
     margin: 15px;
+    border: ${(props) => (props.clickstate ? "3px solid #4B518F" : "none")};
   }
 `;
 
@@ -59,12 +60,55 @@ export const Text = styled.div`
   margin: 15px;
   font-size: 2rem;
   background-color: #d9d9d9b3;
+  border: ${(props) => (props.clickstate ? "3px solid #4B518F" : "none")};
 `;
 
 const Template1Std = () => {
   const [category, setCatergory] = useState(["동물", "식물", "음식"]);
-  const randomCategory = [...category];
-  randomCategory.sort(() => Math.random() - 0.5);
+  const [line, setLine] = useState([]);
+  const [addLine, setAddLine] = useState(["", ""]);
+  const randomCategory = [...category].sort(() => Math.random() - 0.5);
+  const [dataList, setdataList] = useState([
+    {
+      img: [word, word, word],
+      clicked: [0, 0, 0],
+      used: [0, 0, 0],
+    },
+    {
+      category: [...randomCategory],
+      clicked: [0, 0, 0],
+      used: [0, 0, 0],
+    },
+  ]);
+  const boxClick = (event, index) => {
+    const newDataList = [...dataList];
+    const newAddLine = [...addLine];
+    const type = event.target.id === "card" ? 0 : 1;
+    if (!dataList[type].used[index]) {
+      newDataList[type].clicked = [0, 0, 0];
+      newDataList[type].clicked[index] = 1;
+      if (index === 0) newAddLine[type] = "18%";
+      else if (index === 1) newAddLine[type] = "50%";
+      else newAddLine[type] = "82%";
+    }
+    setdataList(newDataList);
+    setAddLine(newAddLine);
+  };
+  useEffect(() => {
+    if (addLine[0] != "" && addLine[1] != "") {
+      setLine([...line, addLine]);
+      addLine.map((el, index) => {
+        const newDataList = [...dataList];
+        newDataList[index].clicked = [0, 0, 0];
+        if (el === "18%") newDataList[index].used[0] = 1;
+        else if (el === "50%") newDataList[index].used[1] = 1;
+        else newDataList[index].used[2] = 1;
+        setdataList(newDataList);
+      });
+      setAddLine(["", ""]);
+    }
+  }, [addLine]);
+
   return (
     <>
       <D.ImageWrap>
@@ -80,23 +124,35 @@ const Template1Std = () => {
           의 차이를 알아봅시다!
         </h1>
         <Row>
-          <Container>
-            <ImgContainer>
-              <Circle />
-              <img src={word} />
-            </ImgContainer>
-            <ImgContainer>
-              <Circle />
-              <img src={word} />
-            </ImgContainer>
-            <ImgContainer>
-              <Circle />
-              <img src={word} />
-            </ImgContainer>
+          <Container style={{ width: "18%", minWidth: "144px" }}>
+            {dataList[0].img.map((el, index) => (
+              <ImgContainer key={index} clickstate={dataList[0].clicked[index]}>
+                <Circle />
+                <img id="card" src={el} onClick={(e) => boxClick(e, index)} />
+              </ImgContainer>
+            ))}
           </Container>
-          <Container>
-            {randomCategory.map((el) => (
-              <Text key={el}>
+          <svg height="100%" width="62%">
+            {line.map((el, index) => (
+              <line
+                key={index}
+                x1="0"
+                y1={el[0]}
+                x2="100%"
+                y2={el[1]}
+                stroke="gray"
+                strokeWidth="2"
+              />
+            ))}
+          </svg>
+          <Container style={{ width: "18%" }}>
+            {dataList[1].category.map((el, index) => (
+              <Text
+                key={index}
+                id="category"
+                clickstate={dataList[1].clicked[index]}
+                onClick={(e) => boxClick(e, index)}
+              >
                 <Circle style={{ left: "-30px" }} />
                 {el}
               </Text>

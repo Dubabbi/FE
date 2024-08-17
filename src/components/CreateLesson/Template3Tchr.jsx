@@ -11,7 +11,7 @@ import send from "/src/assets/icon/send.svg";
 import Form from "react-bootstrap/Form";
 
 // 전체 카드 컨테이너 스타일
-const CardContainer = styled.div`
+export const CardContainer = styled.div`
   display: flex;
   width: 100%;
   padding: 20px 0;
@@ -47,8 +47,7 @@ const ImageBox = styled.div`
 const InputField = styled.input`
   width: 170px;
   resize: none;
-  margin-top: 10px;
-  font-size: 1.2vw;
+  font-size: 1.3rem;
   font-weight: 600;
   border: 2px solid #acaacc;
   border-radius: 5px;
@@ -66,29 +65,43 @@ const InputField = styled.input`
   }
 `;
 
+export const ExampleBox = styled.div`
+  min-width: 80px;
+  height: 26px;
+  position: absolute;
+  background-color: #fed7d7;
+  border-radius: 13px;
+  top: -13px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+`;
+
 const Template3Tchr = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [inputValue, setInputValue] = useState([""]);
-  const [inputValue2, setInputValue2] = useState([""]);
+  const [inputComment, setInputComment] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     numberOfStories: "1",
   });
 
+  const [values, setValues] = useState({
+    abj: [""],
+    noun: [""],
+    hint: [""],
+    option: [""],
+  });
+
+  const handleChange = (e, index) => {
+    const { name, value } = e.target;
+    const newValues = { ...values };
+    newValues[name][index] = value;
+    setValues(newValues);
+  };
+
   const toggleModal = () => {
     setModalOpen(!modalOpen);
-  };
-
-  const handleInputChange = (e, index) => {
-    const newInputValue = [...inputValue];
-    newInputValue[index] = e.target.value;
-    setInputValue(newInputValue);
-  };
-
-  const handleInputChange2 = (e, index) => {
-    const newInputValue = [...inputValue2];
-    newInputValue[index] = e.target.value;
-    setInputValue2(newInputValue);
   };
 
   const handleSubmit = () => {
@@ -116,11 +129,15 @@ const Template3Tchr = () => {
         </a>
       </D.ImageWrap>
       <L.LessonWrapper style={{ padding: "30px 0px 0px 0px" }}>
-        <L.Section>
+        <L.Section style={{ paddingBottom: "10px" }}>
           <h1>감정 표현</h1>
         </L.Section>
         <D.Select
-          style={{ width: "20%", marginLeft: "7px", marginBottom: "5px" }}
+          style={{
+            width: "20%",
+            marginLeft: "7px",
+            marginBottom: "5px",
+          }}
         >
           <C.Line>
             <D.SecondTitle style={{ minWidth: "80px" }}>
@@ -159,18 +176,37 @@ const Template3Tchr = () => {
                     <img src={add} onClick={toggleModal} />
                   </ImageBox>
                   <InputField
+                    style={{ marginTop: "10px" }}
                     type="text"
+                    name="abj"
                     placeholder="관형구"
                     as="textarea"
-                    value={inputValue[index]}
-                    onChange={(e) => handleInputChange(e, index)}
+                    value={values.abj[index]}
+                    onChange={(e) => handleChange(e, index)}
                   />
                   <InputField
+                    style={{ marginTop: "10px" }}
                     type="text"
+                    name="noun"
                     placeholder="단어"
                     as="textarea"
-                    value={inputValue2[index]}
-                    onChange={(e) => handleInputChange2(e, index)}
+                    value={values.noun[index]}
+                    onChange={(e) => handleChange(e, index)}
+                  />
+                  <ExampleBox style={{ top: "324px" }}>힌트</ExampleBox>
+                  <InputField
+                    style={{
+                      marginTop: "20px",
+                      height: "100px",
+                      paddingTop: "15px",
+                      borderRadius: "10px",
+                    }}
+                    type="text"
+                    name="hint"
+                    placeholder="힌트를 입력해주세요."
+                    as="textarea"
+                    value={values.hint[index]}
+                    onChange={(e) => handleChange(e, index)}
                   />
                 </Card>
               )
@@ -189,8 +225,8 @@ const Template3Tchr = () => {
                   <C.InputField
                     type="text"
                     placeholder="텍스트 입력"
-                    value={inputValue}
-                    onChange={handleInputChange}
+                    // value={inputValue}
+                    // onChange={handleInputChange}
                   />
                   <C.Send>
                     <img src={send} />
@@ -201,7 +237,85 @@ const Template3Tchr = () => {
             </C.ModalOverlay>
           )}
         </C.StoryWrap>
-        <C.SubmitButton>제출</C.SubmitButton>
+        {/* 보기 */}
+        <C.StoryWrap
+          style={{
+            width: "70%",
+            borderRadius: "15px",
+            marginLeft: "15%",
+            marginTop: "40px",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "25px",
+          }}
+        >
+          <ExampleBox>보기</ExampleBox>
+          <CardContainer
+            style={{ padding: "0px", justifyContent: "space-evenly" }}
+          >
+            {Array.from({ length: 5 }).map((_, index) => (
+              <InputField
+                key={index}
+                style={{
+                  border: "2.5px solid #fed7d7",
+                  borderRadius: "10px",
+                  width: "100px",
+                  minWidth: "100px",
+                  fontSize: "1rem",
+                  height: "35px",
+                  lineHeight: "26px",
+                  margin: "0px 10px",
+                }}
+                type="text"
+                name="option"
+                placeholder="관형구"
+                as="textarea"
+                value={values.option[index]}
+                onChange={(e) => handleChange(e, index)}
+              />
+            ))}
+          </CardContainer>
+        </C.StoryWrap>
+        <C.StoryWrap
+          style={{
+            width: "70%",
+            borderRadius: "15px",
+            marginLeft: "15%",
+            marginTop: "30px",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "10px",
+          }}
+        >
+          <CardContainer
+            style={{
+              padding: "0px",
+              justifyContent: "space-around",
+              margin: "10px 0",
+            }}
+          >
+            <ExampleBox style={{ position: "static", marginTop: "5px" }}>
+              해설
+            </ExampleBox>
+            <InputField
+              style={{
+                borderRadius: "10px",
+                width: "70%",
+                minWidth: "200px",
+                fontSize: "1rem",
+                margin: "0px 10px",
+              }}
+              type="text"
+              placeholder="해설을 입력해주세요."
+              as="textarea"
+              value={inputComment}
+              onChange={(e) => setInputComment(e.target.value)}
+            />
+          </CardContainer>
+        </C.StoryWrap>
+        <C.SubmitButton style={{ marginBottom: "50px", marginTop: "30px" }}>
+          제출
+        </C.SubmitButton>
       </L.LessonWrapper>
     </>
   );
