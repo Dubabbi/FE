@@ -1,16 +1,18 @@
 // Template2Std.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as C from '../CreateLesson/CreateLessonStyle';
 import * as L from '../LessonTchr/LessonStyle';
 import * as D from '../WordCreateTchr/WordDetailStyle';
 import Back from '/src/assets/icon/back.svg';
 import { ModalOverlay } from './Feedback2';
+import axios from 'axios';
 import Reward from '../Reward/Reward';
 
 const Template2Std = () => {
   const navigate = useNavigate();
   const [showReward, setShowReward] = useState(false);
+  const [error, setError] = useState('');
 
   const handleShowReward = () => {
     setShowReward(true);
@@ -24,6 +26,24 @@ const Template2Std = () => {
   const handleSubmit = () => {
     handleShowReward();
   };
+
+  useEffect(() => {
+    axios.get('https://maeummal.com/template2/all')
+      .then(response => {
+        console.log(response);
+        if (response.data.isSuccess) {
+          setWords(response.data.data);
+          console.log('Data fetched successfully.');
+        } else {
+          throw new Error('Failed to fetch data');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        setError(`Failed to load word sets: ${error.message}`);
+      });
+  }, []);
+
 
   return (
     <>
