@@ -419,7 +419,7 @@ export const FeedbackLine = styled.div`
     width: 80%;
     margin-left: 10%;
     display: flex;
-    gap: 0.1%;
+    gap: 0;
     flex-direction: row;
     justify-content: space-between;
     @media (max-width: 768px) {
@@ -454,11 +454,8 @@ export const ImageListBox = styled.div`
 export const FirstBox = styled.div`
     flex: 0 0 auto;
     text-align: center;
-    border-radius: 1.3rem;
-    box-shadow: inset 0 0 0 4px #7C79FF;
-    background-color: rgba(217, 217, 217, 0.14);
-    width: 130px;
-    height: 100px;
+    width: auto;
+    height: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -468,19 +465,21 @@ export const FirstBox = styled.div`
         width: 150px;
         height: 150px;
     }
+    img{
+     height: 70px;
+    }
 `
 
 export const SecondBox = styled.div`
     flex: 0 0 auto;
     text-align: center;
-    min-width: 560px; 
     border-radius: 1.3rem;
     box-shadow: inset 0 0 0 4px #969696;
     background-color: rgba(217, 217, 217, 0.14);
     font-size: 1.2vw;
     font-family: arial;
-    width: 560px;
-    height: 100px;
+    width: 600px;
+    height: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
