@@ -8,6 +8,7 @@ import Arrow from '/src/assets/icon/mypagearrow.svg';
 import UploadPhoto from './UploadPhoto';
 import Addstd from '/src/assets/icon/addstd.svg';
 import Close from '/src/assets/icon/closebtn.svg';
+import StdModal from './MatchingModal';
 
 const MypageTchr = () => {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
@@ -15,7 +16,11 @@ const MypageTchr = () => {
     const [isExtended, setIsExtended] = useState(false);
     const [isSettingExtended, setIsSettingExtended] = useState(false);
     const [feedbackExtended, setIsFeedbackExtended] = useState(false);
+    const [isMatchingModalOpen, setIsMatchingModalOpen] = useState(false);
 
+    const toggleMatchingModal = () => {
+        setIsMatchingModalOpen(!isMatchingModalOpen);
+    };
     const toggleUploadModal = () => {
         setIsUploadModalOpen(!isUploadModalOpen);
     };
@@ -30,6 +35,7 @@ const MypageTchr = () => {
         }
         toggleUploadModal();
     };
+
 
     const handleToggleExtended = () => {
         setIsSettingExtended(false);
@@ -136,7 +142,7 @@ const MypageTchr = () => {
                         <M.InLineTitle>
                             <M.Start>
                                 <M.MatchingLabel>매칭 학생 목록</M.MatchingLabel>
-                                <img src={Addstd} />
+                                <img src={Addstd} onClick={toggleMatchingModal} alt="Add Student" />
                             </M.Start>
                             <M.Start>
                                 <img src={Close} onClick={closeAll} />
@@ -198,6 +204,10 @@ const MypageTchr = () => {
                 isOpen={isUploadModalOpen}
                 toggleModal={toggleUploadModal}
                 handleAddImage={handleAddImage}
+            />
+            <StdModal
+                isOpen={isMatchingModalOpen}
+                toggleModal={toggleMatchingModal} 
             />
         </M.MypageWrapper>
     );

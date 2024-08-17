@@ -30,7 +30,7 @@ import Level1Result from "./components/SelfStudy/Level1Result";
 import Level2 from "./components/SelfStudy/Level2";
 import Level2Result from "./components/SelfStudy/Level2Result";
 import ImageModal from "./components/ImageModal/ImageModal";
-import MatchingModal from "./components/ImageModal/MatchingModal";
+import MatchingModal from "./components/MypageTchr/MatchingModal";
 import Feedback2 from "./components/StudyLesson/Feedback2";
 import Reward from "./components/Reward/Reward";
 import MypageStdPage from "./components/MypageStd/MypageStd";
