@@ -6,21 +6,24 @@ import Back from '/src/assets/icon/back.svg';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import template1 from '/src/assets/image/template/template1.svg';
+import template2 from '/src/assets/image/template/template2.svg';
+import template3 from '/src/assets/image/template/template3.svg';
+import template4 from '/src/assets/image/template/template4.svg';
+import template5 from '/src/assets/image/template/template5.svg';
+
+import level1 from '/src/assets/image/level/level1.svg';
+import level2 from '/src/assets/image/level/level2.svg';
+import level3 from '/src/assets/image/level/level3.svg';
+import level4 from '/src/assets/image/level/level4.svg';
+import level5 from '/src/assets/image/level/level5.svg';
 
 const templates = [
-    '/src/assets/image/template/template1.svg',
-    '/src/assets/image/template/template2.svg',
-    '/src/assets/image/template/template3.svg',
-    '/src/assets/image/template/template4.svg',
-    '/src/assets/image/template/template5.svg'
+    template1, template2, template3, template4, template5
 ];
 
 const levels = [
-    '/src/assets/image/level/level1.svg',
-    '/src/assets/image/level/level2.svg',
-    '/src/assets/image/level/level3.svg',
-    '/src/assets/image/level/level4.svg',
-    '/src/assets/image/level/level5.svg'
+    level1, level2, level3, level4, level5
 ];
 
 const CreateLesson = () => {
