@@ -27,6 +27,19 @@ const WordCreateTchr = () => {
     description: '',
     imagePreviewUrl: ''
   }]);
+  const [category, setCategory] = useState('');
+  const [description, setDescription] = useState('');
+  const categoryOptions = {
+    FOOD: '음식',
+    ANIMAL: '동물',
+    SCHOOL: '학교',
+    WEATHER: '날씨'
+  };
+
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value); 
+  };
+
 
   const adjustWordCards = (number) => {
     const updatedCards = wordCards.slice(0, number);
@@ -45,17 +58,16 @@ const WordCreateTchr = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      [name]: name === 'numberOfWords' ? parseInt(value, 10) : value
-    }));
-
-    if (name === 'numberOfWords') {
+    if (name === 'title') {
+      setTitleValue(value);
+    } else if (name === 'description') {
+      setDescription(value);
+    } else if (name === 'numberOfWords') {
+      setFormData({ ...formData, [name]: parseInt(value, 10) });
       adjustWordCards(parseInt(value, 10));
-    } else if (name === 'title') {
-      setTitleValue(value); 
     }
   };
+
 
   const toggleModal = (wordId, event) => {
     if (event) {
@@ -109,7 +121,7 @@ const WordCreateTchr = () => {
         throw new Error('Failed to regenerate image URL');
       }
     } catch (error) {
-      console.error('Error regenerating image:', error.response ? error.response.data : error.message);
+      console.error('Error regenerating image:');
       alert('이미지 다시 생성에 실패했습니다.');
     }
 };
@@ -139,22 +151,32 @@ const WordCreateTchr = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
+
+    const wordSetDTO = {
       title: titleValue,
-      words: wordCards.map(card => ({
-        meaning: card.meaning,
-        description: card.description,
-        image: card.imagePreviewUrl,
-        prompt: inputModalValue
-      })),
+      description: description,
+      category: category
     };
-  
+
+    const wordDTOList = wordCards.map(card => ({
+      meaning: card.meaning,
+      image: card.imagePreviewUrl,
+      prompt: card.prompt || inputModalValue,
+      description: card.description
+    }));
+
+    const data = {
+      wordSetDTO,
+      wordDTOList
+    };
+
     try {
       const response = await axios.post('https://maeummal.com/word/wordSet', data, {
         headers: { 'Content-Type': 'application/json' }
       });
       console.log('Response:', response.data);
       alert('낱말 카드 세트가 성공적으로 생성되었습니다.');
+      navigate('/wordtchr')
     } catch (error) {
       console.error('Error:', error.response ? error.response.data : error.message);
       alert('낱말 카드 세트 생성에 실패했습니다.');
@@ -198,6 +220,34 @@ const WordCreateTchr = () => {
             </Form.Select>
           </D.Select>
         </D.TitleLine>
+        <D.TitleLine>
+        <div style={{ width: '50%' }}>
+          <D.WordTitle>설명</D.WordTitle>
+          <D.Title style={{ minWidth: '200px' }}>
+            <Form.Control
+              type="text"
+              placeholder="세트 설명을 입력하세요"
+              name="description"
+              value={formData.description}
+              onChange={e => setFormData({...formData, description: e.target.value})}
+            />
+          </D.Title>
+        </div>
+        <D.Select style={{ width: '20%' }}>
+          <D.WordTitle>카테고리</D.WordTitle>
+          <Form.Select
+            name="category"
+            value={category}
+            onChange={handleCategoryChange}
+            style={{ paddingLeft: '10px', paddingRight: '0px', fontSize: '1.5rem', borderRadius: '7px', border: '1px solid #ACAACC', width: '100%', height: '38px', marginLeft: '22%' }}
+          >
+            <option value="">카테고리 선택</option>
+            {Object.entries(categoryOptions).map(([key, value]) => (
+              <option key={key} value={key}>{value}</option>
+            ))}
+          </Form.Select>
+        </D.Select>
+      </D.TitleLine>
         {wordCards.map((card, index) => (
         <React.Fragment key={card.wordId}>
           <hr style={{ width: '60%', margin: '80px', marginLeft: '20%' }} />
@@ -209,7 +259,7 @@ const WordCreateTchr = () => {
                   <img
                     src={card.imagePreviewUrl}
                     alt="미리보기"
-                    style={{ borderRadius: '7px', border: '4px solid #ACAACC', width: '100%', height: 'auto', marginLeft: '20%' }}
+                    style={{ maxWidth: '200px' ,borderRadius: '7px', border: '4px solid #ACAACC', width: '100%', height: 'auto', marginLeft: '0px' }}
                   />
                 ) : (
                   <div>

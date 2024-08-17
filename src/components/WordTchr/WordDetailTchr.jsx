@@ -16,71 +16,91 @@ const WordDetailTchr = () => {
   const [modalCardIndex, setModalCardIndex] = useState(null);
   const [inputModalValue, setInputModalValue] = useState('');
   const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
-  const [titleValue, setTitleValue] = useState('');
-  const [wordCards, setWordCards] = useState([]);
+  const [category, setCategory] = useState('');
+  const [wordSet, setWordSet] = useState({
+    title: '',
+    category: '',
+    description: '',
+    wordCards: []
+  });
+
+  const categoryOptions = {
+    FOOD: '음식',
+    ANIMAL: '동물',
+    SCHOOL: '학교',
+    WEATHER: '날씨'
+  };
+  
+  const [formData, setFormData] = useState({
+    numberOfWords: 1 // 초기 낱말 개수를 설정
+  });
 
   useEffect(() => {
-    if (setId) {
-      fetchWordSetById(setId);
-    }
+    const fetchWordSet = async () => {
+      try {
+        const response = await axios.get(`https://maeummal.com/word/wordSet?wordSetId=${setId}`);
+        if (response.data.isSuccess) {
+          const { title, category, description, wordList, image} = response.data.data;
+          setWordSet({ title, category, description, wordCards: wordList, imagePreviewUrl: image });
+          setFormData({ ...formData, numberOfWords: wordList.length });
+        }
+      } catch (error) {
+        console.error("Error fetching word set:", error);
+        alert('Failed to load word set.');
+      }
+    };
+    fetchWordSet();
   }, [setId]);
 
-  const fetchWordSetById = async (id) => {
-    try {
-      const response = await axios.get(`https://maeummal.com/word/wordSet?wordSetId=${id}`);
-      if (response.data.isSuccess) {
-        setTitleValue(response.data.data.title);
-        setWordCards(response.data.data.wordList);
-      }
-    } catch (error) {
-      console.error("Error fetching word set:", error);
-      alert('Failed to load word set.');
-    }
-  };
-
   const handleInputChange = (e) => {
-    setTitleValue(e.target.value);
+    const { name, value } = e.target;
+    setWordSet({ ...wordSet, [name]: value });
+    if (name === "numberOfWords") {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleWordCardChange = (wordId, field, value) => {
-    const updatedCards = wordCards.map(card =>
+    const updatedCards = wordSet.wordCards.map(card =>
       card.wordId === wordId ? { ...card, [field]: value } : card
     );
-    setWordCards(updatedCards);
+    setWordSet({ ...wordSet, wordCards: updatedCards });
   };
 
-  const toggleModal = (wordId, imageUrl) => {
+  const toggleModal = (wordId, imagePreviewUrl) => {
     setModalCardIndex(wordId);
-    setInputModalValue(imageUrl || '');
-    setModalOpen(true);
+    setInputModalValue(imagePreviewUrl || '');
+    setModalOpen(!modalOpen);
   };
 
-  const handleModalSubmit = async () => {
-    if (!inputModalValue) {
-      alert('Please provide an image URL.');
-      return;
-    }
-    try {
-      const updatedCards = wordCards.map(card =>
-        card.wordId === modalCardIndex ? { ...card, imagePreviewUrl: inputModalValue } : card
-      );
-      setWordCards(updatedCards);
-      toggleModal(null);
-    } catch (error) {
-      console.error("Error updating image:", error);
-      alert('Image update failed.');
-    }
+  const handleModalSubmit = () => {
+    const updatedCards = wordSet.wordCards.map(card =>
+      card.wordId === modalCardIndex ? { ...card, imagePreviewUrl: inputModalValue } : card
+    );
+    setWordSet({ ...wordSet, wordCards: updatedCards });
+    toggleModal(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const { title, category, description, wordCards } = wordSet;
       const response = await axios.patch(`https://maeummal.com/word/wordSet/${setId}`, {
-        title: titleValue,
-        wordList: wordCards
+        title, category, description,
+        wordList: wordCards.map(card => ({
+          wordId: card.wordId,
+          meaning: card.meaning,
+          description: card.description,
+          image: card.imagePreviewUrl,
+          prompt: card.prompt
+        }))
       });
-      alert('Word set updated successfully.');
-      navigate('/WordTchr'); 
+      if (response.data.isSuccess) {
+        alert('Word set updated successfully.');
+        navigate('/WordTchr');
+      } else {
+        throw new Error(response.data.message);
+      }
     } catch (error) {
       console.error("Error updating word set:", error);
       alert('Failed to update word set.');
@@ -96,58 +116,92 @@ const WordDetailTchr = () => {
         <W.Section style={{ marginTop: '4%' }}>
           <h1>낱말 카드 수정</h1>
         </W.Section>
+        </W.LessonWrapper>
         <D.TitleLine>
           <div style={{ width: '50%' }}>
             <D.WordTitle>세트 이름</D.WordTitle>
-            <D.Title style={{ minWidth: '200px' }}>
+            <D.Title>
               <Form.Control
                 type="text"
-                placeholder="Enter set name"
-                value={titleValue}
+                name="title"
+                value={wordSet.title}
                 onChange={handleInputChange}
+                placeholder="Enter set name"
               />
             </D.Title>
           </div>
+          <D.Select style={{ width: '20%' }}>
+            <D.WordTitle>낱말 개수</D.WordTitle>
+            <Form.Select
+              name="numberOfWords"
+              value={formData.numberOfWords}
+              onChange={handleInputChange}
+              style={{ paddingLeft: '10px', paddingRight: '0px', fontSize: '1.5rem', borderRadius: '7px', border: '1px solid #ACAACC', width: '100%', height: '38px', marginLeft: '22%' }}
+            >
+              {Array.from({ length: 30 }, (_, i) => i + 1).map((number) => (
+                <option key={number} value={number}>{number}개</option>
+              ))}
+            </Form.Select>
+          </D.Select>
         </D.TitleLine>
-        {wordCards.map((card, index) => (
+        <D.TitleLine>
+          <div style={{ width: '50%' }}>
+            <D.WordTitle>설명</D.WordTitle>
+            <D.Title style={{ minWidth: '200px' }}>
+              <Form.Control
+                type="text"
+                name="description"
+                value={wordSet.description}
+                onChange={handleInputChange}
+                placeholder="Enter description"
+              />
+            </D.Title>
+          </div>
+        <D.Select style={{ width: '20%' }}>
+          <D.WordTitle>카테고리</D.WordTitle>
+          <Form.Select
+            name="category"
+            value={wordSet.category}
+            onChange={handleInputChange}
+            style={{ paddingLeft: '10px', paddingRight: '0px', fontSize: '1.5rem', borderRadius: '7px', border: '1px solid #ACAACC', width: '100%', height: '38px', marginLeft: '22%' }}
+          >
+            <option value="">카테고리 선택</option>
+            {Object.entries(categoryOptions).map(([key, value]) => (
+              <option key={key} value={key}>{value}</option>
+            ))}
+          </Form.Select>
+          </D.Select>
+          </D.TitleLine>
+        {wordSet.wordCards.map((card, index) => (
           <React.Fragment key={card.wordId}>
             <hr style={{ width: '60%', margin: '80px', marginLeft: '20%' }} />
             <D.Line>
               <D.Box>
                 <D.SecondTitle>이미지 수정</D.SecondTitle>
-              <W.AddImage onClick={() => toggleModal(card.wordId, card.imagePreviewUrl || placeholderImage)}>
-                <div>
-                <img
-                  src={card.imagePreviewUrl || placeholderImage}
-                  alt="Edit Image"
-                  style={{ cursor: 'pointer', width: '100%'}} 
-                />
-                </div>
-              </W.AddImage>
-              {card.imagePreviewUrl && (
-                <img
-                  src={card.imagePreviewUrl}
-                  alt="미리보기"
-                  style={{ borderRadius: '7px', border: '4px solid #ACAACC', width: '100%', height: 'auto', marginLeft: '20%' }}
-                />
-              )}
-               </D.Box>
-               <D.SecondBox>
-               <D.WordTitle>단어</D.WordTitle>
+                <W.AddImage onClick={() => toggleModal(card.wordId, card.imagePreviewUrl || placeholderImage)}>
+                  <img
+                    src={card.imagePreviewUrl || placeholderImage}
+                    alt="Edit Image"
+                    style={{ maxWidth: '200px' ,borderRadius: '7px', border: '4px solid #ACAACC', width: '100%', height: 'auto', marginLeft: '0px' }} 
+                  />
+                </W.AddImage>
+              </D.Box>
+              <D.SecondBox>
+                <D.WordTitle>단어</D.WordTitle>
                 <D.WordName>
                   <Form.Control
                     type="text"
-                    placeholder="Enter word"
+                    name="meaning"
                     value={card.meaning}
-                    onChange={e => handleWordCardChange(card.wordId, 'meaning', e.target.value)}
+                    onChange={(e) => handleWordCardChange(card.wordId, 'meaning', e.target.value)}
                   />
                 </D.WordName>
                 <D.WordTitle>단어 설명</D.WordTitle>
                 <D.AboutWord
                   as="textarea"
-                  placeholder="Enter description"
+                  name="description"
                   value={card.description}
-                  onChange={e => handleWordCardChange(card.wordId, 'description', e.target.value)}
+                  onChange={(e) => handleWordCardChange(card.wordId, 'description', e.target.value)}
                 />
               </D.SecondBox>
             </D.Line>
@@ -161,8 +215,7 @@ const WordDetailTchr = () => {
           handleModalSubmit={handleModalSubmit}
           generatedImageUrl={generatedImageUrl}
         />
-        <C.SubmitButton style={{ marginBottom: '15%', marginTop: '5%' }} onClick={handleSubmit}>수정</C.SubmitButton>
-      </W.LessonWrapper>
+        <C.SubmitButton onClick={handleSubmit}>수정</C.SubmitButton>
     </>
   );
 };
