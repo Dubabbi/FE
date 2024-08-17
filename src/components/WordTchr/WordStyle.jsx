@@ -211,7 +211,8 @@ export const AddImage = styled.div`
     margin-top: 20%;
     margin-left: 12%;
     min-width: 170px;
-
+    overflow-x: auto;
+    flex: 1;
     div {
         width: 200px; 
         height: 200px;
@@ -225,7 +226,43 @@ export const AddImage = styled.div`
 
         img {
             width: 40%;
-
         }
     }
+    
+    &::-webkit-scrollbar {
+        width: 9px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+`;
+
+
+export const Dropdown = styled.div`
+    position: absolute;
+    width: 22.5%;
+    min-width: 320px;
+    margin-left: 23.8%;
+    height: auto; 
+    font-size: 10px; 
+    border-radius: 7px;
+    z-index: 1;
+    border: 1px solid #ACAACC;
+    align-items: center;
+    text-align: left;
+    padding-left: 1%;
+    background-color: #fff;
+      @media (max-width: 768px) {
+        margin-left: 0px;
+  }
 `;
