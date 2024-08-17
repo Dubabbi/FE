@@ -13,6 +13,23 @@ export default function WordTchr() {
     const [searchValue, setSearchValue] = useState("");
     const [wordSets, setWordSets] = useState([]);
     const navigate = useNavigate(); 
+    
+    useEffect(() => {
+        axios.get('https://maeummal.com/word/wordSet/all')
+          .then(response => {
+            console.log(response);
+            if (response.data.isSuccess) {
+              setWordSets(response.data.data);
+              console.log('Data fetched successfully.');
+            } else {
+              throw new Error('Failed to fetch data');
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+            setError(`Failed to load word sets: ${error.message}`);
+          });
+      }, []);
 
     useEffect(() => {
         fetchWordSets();

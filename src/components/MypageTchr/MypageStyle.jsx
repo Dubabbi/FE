@@ -5,7 +5,7 @@ export const MypageWrapper = styled.div`
 `;
 
 export const Section = styled.div`
-  max-width: ${({ isExtended }) => isExtended ? '100%' : '1100px'};
+  max-width: ${({ $isExtended }) => $isExtended ? '100%' : '1100px'};
   background-color: #FEEAFA;
   align-items: center;
   justify-content: center;
@@ -19,9 +19,9 @@ export const Section = styled.div`
 
 export const Content = styled.div`
   display: flex;
-  margin-left: ${({ isExtended }) => isExtended ? '0' : '0'}; 
-  max-width: ${({ isExtended }) => isExtended ? '40%' : '50%'};
-  min-width: ${({ isExtended }) => isExtended ? '300px' : 'auto'};
+  margin-left: ${({ $isExtended }) => $isExtended ? '0' : '0'}; 
+  max-width: ${({ $isExtended }) => $isExtended ? '40%' : '50%'};
+  min-width: ${({ $isExtended }) => $isExtended ? '300px' : 'auto'};
   box-shadow: 0px 5.1px 7.64px rgba(0, 0, 0, 0.15);
   height: auto;
   border-radius: 6px;
@@ -31,7 +31,7 @@ export const Content = styled.div`
   justify-content: center;
   background-color: #ffffff;
   text-align: center;
-  padding: ${({ isExtended }) => isExtended ? '15px' : '30px'}; // 패딩 조절
+  padding: ${({ $isExtended }) => $isExtended ? '15px' : '30px'}; // 패딩 조절
   transition: all 0.3s ease-out;
   flex: 1; 
 `;
@@ -103,7 +103,7 @@ export const ContentContainer = styled.div`
   gap: 0; 
  overflow: visible;
 
-  ${({ isExtended }) => isExtended && css`
+  ${({ $isExtended }) => $isExtended && css`
     ${Content}:first-child {
       transform: translateX(-5%); 
     }
@@ -227,6 +227,10 @@ export const MoreIcon = styled.img`
 export const Blank = styled.div`
   width: 35px;
   height: 20px;
+  cursor: pointer;
+  img{
+    max-width: 100%;
+  }
 `;
 
 export const Box = styled.div`
@@ -246,7 +250,7 @@ export const ModalOverlay = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); // 반투명 배경
+  background-color: rgba(0, 0, 0, 0.5); 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -419,5 +423,59 @@ export const RemoveFileButton = styled.button`
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
+`;
+
+
+export const InLineTitle = styled.div`
+  display: inline-flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  margin-right: 30%;
+  gap: 45%;
+  align-items: center;
+  margin-bottom: 4%;
+  img{
+    max-width: 30px;
+    cursor: pointer;
+  }
+`;
+
+export const MatchingLabel = styled.div`
+  font-size: 1.2rem;
+  background-color: #FED7D7;
+  font-weight: bold;
+  border-radius: 10px;
+  color: #333;
+  width: 100px;
+  height: auto;
+  text-align: center;
+  align-items: center;
+  padding: 7px;
+`;
+
+export const StuProfile = styled.img`
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 3px solid #FED7D7;
+  object-fit: cover;
+`;
+
+export const StdLine = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  padding: 1.7%;
+  border: 1px solid #eee;
+  box-shadow: 0.5 1.3px 1.3px 0 rgba(0, 0, 0, 0.1);
+`;
+
+
+export const Start = styled.div`
+  display: flex;
+  gap: 5%;
+  justify-content: flex-start;
+  flex-direction: row;
 `;
 

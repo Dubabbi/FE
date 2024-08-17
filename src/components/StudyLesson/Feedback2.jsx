@@ -7,6 +7,8 @@ import * as D from '../WordCreateTchr/WordDetailStyle';
 import Back from '/src/assets/icon/back.svg';
 import Reward from '../Reward/Reward';
 import styled from 'styled-components';
+import Correct from '/src/assets/icon/correct.svg';
+import Inorrect from '/src/assets/icon/incorrect.svg';
 
 export const ModalOverlay = styled.div`
   position: fixed;
@@ -34,7 +36,7 @@ const Feedback2 = () => {
       </D.ImageWrap>
       <L.LessonWrapper style={{marginBottom: '5%'}}>
         <L.Section>
-          <h1>이미지 순서 배열하기</h1>
+          <h1>강의 제목</h1>
           <C.FeedbackContainer>
             <C.HalfLine />
             <C.FeedbackText>최종평가</C.FeedbackText>
@@ -42,7 +44,7 @@ const Feedback2 = () => {
           </C.FeedbackContainer>
         </L.Section>
         <C.FeedbackLine style={{marginBottom: '5%'}}>
-          <C.FirstBox>정답</C.FirstBox>
+          <C.FirstBox><img src={Correct} /></C.FirstBox>
           <C.SecondBox>아침에 일어나서 아침을 먹고 학교에 가는 과정입니다.</C.SecondBox>
         </C.FeedbackLine>
         <C.FeedbackLine>
