@@ -7,11 +7,14 @@ import add from '../../assets/icon/add.svg';
 import Form from 'react-bootstrap/Form';
 import ModalComponent from '../ImageModal/ImageModal';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 const Template4Tchr = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalCardIndex, setModalCardIndex] = useState(null);
   const [inputValue, setInputValue] = useState('');
+  const location = useLocation();
+  const data = location.state;
   const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
   const [storyCards, setStoryCards] = useState([
     { story: '', imagePreviewUrl: null },
@@ -40,9 +43,9 @@ const Template4Tchr = () => {
       const response = await axios.post('https://maeummal.com/ai/image', {
         prompt: inputValue,
       });
-      if (response.data.imageUrl) {
+      if (response.data) {
         const newStoryCards = [...storyCards];
-        newStoryCards[modalCardIndex].imagePreviewUrl = response.data.imageUrl;
+        newStoryCards[modalCardIndex].imagePreviewUrl = response.data;
         setStoryCards(newStoryCards);
         toggleModal(null);
       }
@@ -72,15 +75,19 @@ const Template4Tchr = () => {
             {storyCards.map((card, index) => (
               <C.SelectCard key={index}>
                 <C.SelectBox>
+                {!card.imagePreviewUrl && (
                   <div>
                     <img src={add} onClick={() => toggleModal(index)} alt="Add icon" />
-                  </div>
+                    </div>
+                )}
                   {card.imagePreviewUrl && (
+                    <div style={{border: 'none'}}>
                     <img
                       src={card.imagePreviewUrl}
                       alt="Preview"
-                      style={{ borderRadius: '7px', border: '4px solid #ACAACC', width: '100%', height: 'auto', marginLeft: '20%' }}
+                      style={{ borderRadius: '7px', border: '4px solid #ACAACC', width: 'auto', height: '100%', marginLeft: '0px' }}
                     />
+                    </div>
                   )}
                 </C.SelectBox>
                 <C.StoryField

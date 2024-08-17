@@ -46,14 +46,9 @@ const CreateLesson = () => {
                 difficulty: selectedLevel + 1,
                 created_at: new Date().toISOString(),
                 view: 0,
-                category: 'One' 
+                category: 'One'
             };
-            const response = await axios.post('https://maeummal.com/lessons', payload);
-            if (response.status === 200) {
-                navigate(`/Template${selectedTemplate + 1}Tchr`); 
-            } else {
-                throw new Error('강의 생성 실패');
-            }
+            navigate(`/Template${selectedTemplate + 1}Tchr`, { state: payload }); 
         } catch (error) {
             console.error('강의 생성 중 에러 발생:', error);
             alert('강의 생성에 실패했습니다: ' + error.message);

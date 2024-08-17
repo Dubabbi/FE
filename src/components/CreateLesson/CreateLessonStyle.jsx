@@ -39,28 +39,6 @@ export const Line = styled.div`
     }
 `
 
-export const Box = styled.div`
-    flex: 0 0 auto;
-    text-align: center;
-    min-width: 200px; 
-    border-radius: 1.3rem;
-    border: 5px solid #ACAACC;
-    width: 200px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    img{
-        width: 40%;
-        cursor: pointer;
-    }
-    @media (max-width: 768px) {
-        width: 150px;
-        height: 150px;
-    }
-`
-
 export const Title = styled(Form)`
     margin-left: 5%;
     width: 40%;;
@@ -511,3 +489,85 @@ export const FeedbackText = styled.div`
   white-space: nowrap;
   font-size: 1.2vw;
 `;
+
+export const HintWrapper = styled.div`
+    flex: 0 0 auto;
+    text-align: center;
+    min-width: 220px; 
+    border-radius: 1.3rem;
+    border: 2px solid rgba(244, 244, 244, 1);
+    width: 55%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    @media (max-width: 768px) {
+        width: 150px;
+        height: 150px;
+    }
+`
+
+export const HintBox = styled(Form)`
+    width: 75%;
+    height: 37px; 
+    font-size: 17px; 
+    border-radius: 7px;
+    border: 1.5px solid #ACAACC;
+    margin: 2%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 15px;
+    
+    .form-control {
+        height: 35px; 
+        font-size: 1.5rem; 
+        min-width: 100%;
+        border-radius: 5px;
+        padding-right: 10px; 
+        padding-left: 10px;
+    }
+`;
+
+
+export const Label = styled.div`
+  font-size: 1.2rem;
+  background-color: #FED7D7;
+  font-weight: bold;
+  border-radius: 10px;
+  color: #333;
+  width: 90px;
+  height: auto;
+  padding: 4px;
+`;
+
+export const HintGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+`;
+
+export const Box = styled.div`
+    flex: 0 0 auto;
+    text-align: center;
+    min-width: 200px; 
+    border-radius: 1.3rem;
+    border: 3px solid #eee;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    img{
+        width: 40%;
+        cursor: pointer;
+    }
+    @media (max-width: 768px) {
+        width: 150px;
+        height: 150px;
+    }
+`

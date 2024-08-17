@@ -4,7 +4,7 @@ import * as D from './WordDetailStyle';
 import * as C from '../CreateLesson/CreateLessonStyle';
 import Back from '/src/assets/icon/back.svg';
 import Form from 'react-bootstrap/Form';
-import add from '../../assets/icon/add.svg';
+import add from '/src/assets/icon/add.svg';
 import axios from 'axios';
 import ModalComponent from '../ImageModal/ImageModal';
 import { useNavigate } from 'react-router-dom';
