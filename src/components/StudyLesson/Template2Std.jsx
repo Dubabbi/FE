@@ -18,12 +18,12 @@ const Template2Std = () => {
   const [templateData, setTemplateData] = useState(null);
   const [selectedImages, setSelectedImages] = useState([]);
   const [userSequence, setUserSequence] = useState([]);
-  const [lives, setLives] = useState(2); // 생명이 2개
+  const [lives, setLives] = useState(2);
   const [showHint, setShowHint] = useState(false);
 
   useEffect(() => {
     const template2Id = 1;
-    const accessToken = `Bearer xfe38sefpESfd39er`;
+    const accessToken = `${localStorage.getItem("key")}`;
 
     axios.get(`https://maeummal.com/template2/get?template2Id=${template2Id}`, {
       headers: {
@@ -33,6 +33,7 @@ const Template2Std = () => {
     .then(response => {
       if (response.data.isSuccess) {
         setTemplateData(response.data.data);
+        setUserSequence(response.data.data.storyCardEntityList.map(card => card.storyCardId));
       } else {
         throw new Error('Failed to fetch data');
       }
@@ -43,43 +44,54 @@ const Template2Std = () => {
     });
   }, []);
 
-  const correctSequence = [1, 2]; // 정답 순서, 실제 데이터에 맞게 조정 필요
 
   const toggleSelectImage = (id) => {
-    const index = selectedImages.indexOf(id);
-    let newSelectedImages = [...selectedImages];
-    let newUserSequence = [...userSequence];
-
+    const cardInfo = templateData.storyCardEntityList.find(card => card.storyCardId === id);
+    const index = selectedImages.findIndex(item => item.id === id);
     if (index === -1) {
-      newSelectedImages.push(id);
-      newUserSequence.push(id); // 순서를 추적
+        const newImages = [...selectedImages, { id, answerNumber: cardInfo.answerNumber }];
+        setSelectedImages(newImages);
     } else {
-      newSelectedImages.splice(index, 1);
-      newUserSequence.splice(newUserSequence.indexOf(id), 1); // 순서에서 제거
+        const newImages = selectedImages.filter(item => item.id !== id);
+        setSelectedImages(newImages);
     }
+};
 
-    setSelectedImages(newSelectedImages);
-    setUserSequence(newUserSequence);
-  };
 
-  const handleSubmit = () => {
-    const isCorrect = JSON.stringify(userSequence) === JSON.stringify(correctSequence);
-    if (isCorrect) {
-      setShowReward(true);
-    } else {
+useEffect(() => {
+    console.log("Current Selected Images:", selectedImages);
+}, [selectedImages]);
+
+useEffect(() => {
+  console.log("User Answer Order on Submit:", selectedImages.map(item => item.answerNumber));
+}, [selectedImages]);
+
+const handleSubmit = () => {
+  const userAnswerOrder = selectedImages.map(item => item.answerNumber);
+  const correctOrder = templateData.storyCardEntityList.map(card => card.answerNumber);
+
+  const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
+
+  if (isCorrect) {
+      handleShowReward(true);
+  } else {
+      handleShowReward(false);
       if (lives > 0) {
         setLives(lives - 1);
         setShowHint(true);
-      } else {
+        if (lives === 1) {
+            navigate('/Feedback2');
+        }
+    } else {
         navigate('/Feedback2');
-      }
     }
+  }
+};
+  
+  const handleShowReward = (show) => {
+    setShowReward(show);
   };
-
-  const handleShowReward = () => {
-    setShowReward(true);
-  };
-
+  
   const handleCloseReward = () => {
     setShowReward(false);
     navigate('/Feedback2');
@@ -111,9 +123,9 @@ const Template2Std = () => {
       </L.LessonWrapper>
       {showHint && (
         <C.HintWrapper style = {{border: 'none'}}>
-            <C.HintToast>
-              <img src={Toast}/> {templateData ? templateData.hint : 'Loading...'}
-            </C.HintToast>
+              <C.HintToast style={{ minWidth: '200px' }}>
+              <img src={Toast}/>{templateData ? templateData.hint : 'Loading...'}
+              </C.HintToast>
         </C.HintWrapper>
       )}
       <C.SubmitButton onClick={handleSubmit}>제출</C.SubmitButton>
