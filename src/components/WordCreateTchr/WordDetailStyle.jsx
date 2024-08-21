@@ -183,6 +183,28 @@ export const ImageWrap = styled.div`
     } 
 `;
 
+export const HeartWrap = styled.div`
+    display: flex;
+
+    position: fixed;
+    right: 2%;
+    top: 7%;
+    width: 100%;
+    padding: 20px;
+    flex-direction: row-reverse;
+
+    img {
+        max-width: 30%;
+    }
+    a {
+        width: 20%;
+        margin-top: 4%;
+    }
+    @media (max-width: 768px) {
+        top: 5%;
+    } 
+`;
+
 export const SecondTitle = styled(Form)`
     margin-left: 30%;
     width: 56%;

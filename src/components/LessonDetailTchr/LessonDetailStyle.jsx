@@ -4,6 +4,7 @@ export const LessonBox = styled.div`
     width: 70%;
     margin-left: 15%;
     padding-top: 2%;
+    padding-bottom: 2%;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 `;
@@ -60,7 +61,7 @@ export const Title = styled.h1`
 export const Line = styled.div`
     justify-content: flex-start;
     display: flex;
-    margin-bottom: 5%;
+    margin-bottom: 2%;
     align-items: center;
     margin-left: 6%;
     gap: 5%;

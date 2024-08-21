@@ -9,6 +9,9 @@ import UploadPhoto from './UploadPhoto';
 import Addstd from '/src/assets/icon/addstd.svg';
 import Close from '/src/assets/icon/closebtn.svg';
 import StdModal from './MatchingModal';
+import Back from '/src/assets/icon/back.svg'
+import axios from 'axios';
+import tem1 from '/src/assets/icon/template/template1icon.svg';
 
 const MypageTchr = () => {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
@@ -16,6 +19,7 @@ const MypageTchr = () => {
     const [isExtended, setIsExtended] = useState(false);
     const [isSettingExtended, setIsSettingExtended] = useState(false);
     const [feedbackExtended, setIsFeedbackExtended] = useState(false);
+    const [stdinfoExtended, setIsStdinfoExtended] = useState(false);
     const [isMatchingModalOpen, setIsMatchingModalOpen] = useState(false);
 
     const toggleMatchingModal = () => {
@@ -41,9 +45,12 @@ const MypageTchr = () => {
         setIsSettingExtended(false);
         setIsFeedbackExtended(false);
         setIsExtended(!isExtended);
+        setIsStdinfoExtended(false);
         if (isSettingExtended) {
             setIsSettingExtended(false);
             setIsFeedbackExtended(false);
+            setIsExtended(false);
+            setIsStdinfoExtended(false);
         }
     };
 
@@ -51,9 +58,23 @@ const MypageTchr = () => {
         setIsExtended(false);
         setIsFeedbackExtended(false);
         setIsSettingExtended(!isSettingExtended);
+        setIsStdinfoExtended(false);
         if (isExtended) {
             setIsExtended(false);
             setIsFeedbackExtended(false);
+            setIsStdinfoExtended(false);
+        }
+    };
+
+    const handleStdinfo = () => {
+        setIsSettingExtended(false);
+        setIsExtended(false);
+        setIsStdinfoExtended(!stdinfoExtended);
+        setIsFeedbackExtended(false);
+        if (stdinfoExtended) {
+            setIsSettingExtended(false);
+            setIsFeedbackExtended(false);
+            setIsExtended(false);
         }
     };
 
@@ -61,9 +82,11 @@ const MypageTchr = () => {
         setIsSettingExtended(false);
         setIsExtended(false);
         setIsFeedbackExtended(!feedbackExtended);
+        setIsStdinfoExtended(false);
         if (feedbackExtended) {
             setIsSettingExtended(false);
             setIsExtended(false);
+            setIsStdinfoExtended(false);
         }
     };
 
@@ -71,12 +94,14 @@ const MypageTchr = () => {
         setIsExtended(false);
         setIsSettingExtended(false);
         setIsFeedbackExtended(false);
+        setIsStdinfoExtended(false);
     };
+
 
     return (
         <M.MypageWrapper>
             <M.Section>
-                <M.ContentContainer $isExtended={isExtended || isSettingExtended || feedbackExtended}>
+                <M.ContentContainer $isExtended={isExtended || isSettingExtended || stdinfoExtended || feedbackExtended}>
                     <M.Content>
                         <M.InLine>
                             <M.Profile src={profileImage} />
@@ -152,50 +177,92 @@ const MypageTchr = () => {
                             <M.StdLine>
                                 <M.StuProfile src={My} />
                                 <M.InfoTitle>김망곰</M.InfoTitle>
-                                <M.Blank><img src={Arrow} onClick={handleFeedback}/></M.Blank>
+                                <M.Blank><img src={Arrow} onClick={handleStdinfo}/></M.Blank>
                             </M.StdLine>
                             <hr />
                             <M.StdLine>
                                 <M.StuProfile src={My} />
                                 <M.InfoTitle>김망곰</M.InfoTitle>
-                                <M.Blank><img src={Arrow} onClick={handleFeedback} /></M.Blank>
+                                <M.Blank><img src={Arrow} onClick={handleStdinfo} /></M.Blank>
                             </M.StdLine>
                             <hr />
                             <M.StdLine>
                                 <M.StuProfile src={My} />
                                 <M.InfoTitle>김망곰</M.InfoTitle>
-                                <M.Blank><img src={Arrow} onClick={handleFeedback} /></M.Blank>
+                                <M.Blank><img src={Arrow} onClick={handleStdinfo} /></M.Blank>
                             </M.StdLine>
                             <hr />
                             <M.StdLine>
                                 <M.StuProfile src={My} />
                                 <M.InfoTitle>김망곰</M.InfoTitle>
-                                <M.Blank><img src={Arrow} onClick={handleFeedback} /></M.Blank>
+                                <M.Blank><img src={Arrow} onClick={handleStdinfo} /></M.Blank>
                             </M.StdLine>
                             <hr />
                             <M.StdLine>
                                 <M.StuProfile src={My} />
                                 <M.InfoTitle>김망곰</M.InfoTitle>
-                                <M.Blank><img src={Arrow} onClick={handleFeedback} /></M.Blank>
+                                <M.Blank><img src={Arrow} onClick={handleStdinfo} /></M.Blank>
                             </M.StdLine>
                             <hr />
                             <M.StdLine>
                                 <M.StuProfile src={My} />
                                 <M.InfoTitle>김망곰</M.InfoTitle>
-                                <M.Blank><img src={Arrow} onClick={handleFeedback} /></M.Blank>
+                                <M.Blank><img src={Arrow} onClick={handleStdinfo} /></M.Blank>
                             </M.StdLine>
                         </M.Item>
                     </M.Second>}
-                    {feedbackExtended && 
-                        <M.Second>
-                        <M.InLineTitle>
-                            <M.Start>
-                                <M.MatchingLabel>피드백</M.MatchingLabel>
-                                <img src={Close} onClick={closeAll} />
-                            </M.Start>
-                        </M.InLineTitle>
+                    {stdinfoExtended && 
+                        <M.Second style={{paddingTop: '1.7%'}}>
+                        <M.DetailTitle>
+                            <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
+                            <M.DetailLabel><M.StuProfile src={My} /><M.InfoTitle>김망곰 학생</M.InfoTitle></M.DetailLabel>
+                            <img src={Close} onClick={closeAll} />
+                        </M.DetailTitle>
                         <M.Item>
-
+                        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%'}}>
+                                <p style={{whiteSpace: 'nowrap', marginLeft: '-110px', fontSize: '1.2rem'}}>학생 정보</p><div style={{width: '100px'}}></div>
+                        </div>
+                        <div style={{display: 'flex', flexDirection:'row', justifyContent: 'space-between', width: '100%', gap: '2%'}}>
+                            <M.InfoFeed style={{ whiteSpace: 'nowrap'}}>지능지수: 50~70(경도)</M.InfoFeed>
+                            <M.InfoFeed style={{whiteSpace: 'nowrap'}}>010-1234-5678</M.InfoFeed>
+                        </div>
+                        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%'}}>
+                                <p style={{whiteSpace: 'nowrap', marginLeft: '-100px', fontSize: '1.2rem'}}>피드백 목록</p><div style={{width: '100px'}}></div>
+                        </div>
+                        <button onClick={handleFeedback}>피드백</button>
+                        </M.Item>
+                        </M.Second>}
+                        {feedbackExtended && 
+                        <M.Second style={{paddingTop: '1.7%'}}>
+                        <M.DetailTitle>
+                            <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
+                            <M.DetailLabel><M.StuProfile src={My} /><M.InfoTitle>김망곰 학생</M.InfoTitle></M.DetailLabel>
+                            <img src={Close} onClick={closeAll} />
+                        </M.DetailTitle>
+                        <M.Item>
+                            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%'}}>
+                                <p style={{whiteSpace: 'nowrap', marginRight: '100px', fontSize: '1.2rem'}}>피드백 목록</p><div style={{width: '100px'}}></div>
+                            </div>
+                        <M.InfoFeed>
+                            <M.FeedTitle><M.Start style={{alignItems: 'center', marginBottom: '2%', gap: '15%'}}><img style={{maxWidth: '20px'}} src={tem1}></img><p style={{whiteSpace: 'nowrap', fontSize: '1.1rem'}}>강의 제목</p></M.Start><p style={{marginBottom: '2%'}}>2024.07.29</p> </M.FeedTitle>
+                            <M.InfoGroup style={{fontFamily: 'sans-serif'}}>랜덤 이미지의 순서를 배열하는 데 큰 어려움이 없어 보임. 그러나 설명을 바탕으로 이미지를 배열하는 데는 약한 모습을 보임. 문장을 연습하는 학습이 필요함. </M.InfoGroup>
+                        </M.InfoFeed>
+                        <M.InfoFeed>
+                            <M.FeedTitle><M.Start style={{alignItems: 'center', marginBottom: '2%', gap: '15%'}}><img style={{maxWidth: '20px'}} src={tem1}></img><p style={{whiteSpace: 'nowrap', fontSize: '1.1rem'}}>강의 제목</p></M.Start><p style={{marginBottom: '2%'}}>2024.07.29</p> </M.FeedTitle>
+                            <M.InfoGroup style={{fontFamily: 'sans-serif'}}>랜덤 이미지의 순서를 배열하는 데 큰 어려움이 없어 보임. 그러나 설명을 바탕으로 이미지를 배열하는 데는 약한 모습을 보임. 문장을 연습하는 학습이 필요함. </M.InfoGroup>
+                        </M.InfoFeed>
+                        <M.InfoFeed>
+                            <M.FeedTitle><M.Start style={{alignItems: 'center', marginBottom: '2%', gap: '15%'}}><img style={{maxWidth: '20px'}} src={tem1}></img><p style={{whiteSpace: 'nowrap', fontSize: '1.1rem'}}>강의 제목</p></M.Start><p style={{marginBottom: '2%'}}>2024.07.29</p> </M.FeedTitle>
+                            <M.InfoGroup style={{fontFamily: 'sans-serif'}}>랜덤 이미지의 순서를 배열하는 데 큰 어려움이 없어 보임. 그러나 설명을 바탕으로 이미지를 배열하는 데는 약한 모습을 보임. 문장을 연습하는 학습이 필요함. </M.InfoGroup>
+                        </M.InfoFeed>
+                        <M.InfoFeed>
+                            <M.FeedTitle><M.Start style={{alignItems: 'center', marginBottom: '2%', gap: '15%'}}><img style={{maxWidth: '20px'}} src={tem1}></img><p style={{whiteSpace: 'nowrap', fontSize: '1.1rem'}}>강의 제목</p></M.Start><p style={{marginBottom: '2%'}}>2024.07.29</p> </M.FeedTitle>
+                            <M.InfoGroup style={{fontFamily: 'sans-serif'}}>랜덤 이미지의 순서를 배열하는 데 큰 어려움이 없어 보임. 그러나 설명을 바탕으로 이미지를 배열하는 데는 약한 모습을 보임. 문장을 연습하는 학습이 필요함. </M.InfoGroup>
+                        </M.InfoFeed>
+                        <M.InfoFeed>
+                            <M.FeedTitle><M.Start style={{alignItems: 'center', marginBottom: '2%', gap: '15%'}}><img style={{maxWidth: '20px'}} src={tem1}></img><p style={{whiteSpace: 'nowrap', fontSize: '1.1rem'}}>강의 제목</p></M.Start><p style={{marginBottom: '2%'}}>2024.07.29</p> </M.FeedTitle>
+                            <M.InfoGroup style={{fontFamily: 'sans-serif'}}>랜덤 이미지의 순서를 배열하는 데 큰 어려움이 없어 보임. 그러나 설명을 바탕으로 이미지를 배열하는 데는 약한 모습을 보임. 문장을 연습하는 학습이 필요함. </M.InfoGroup>
+                        </M.InfoFeed>
                         </M.Item>
                         </M.Second>}
                 </M.ContentContainer>

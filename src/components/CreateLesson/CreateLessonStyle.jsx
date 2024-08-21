@@ -571,3 +571,45 @@ export const Box = styled.div`
         height: 150px;
     }
 `
+
+export const TemplateBox = styled.div`
+    flex: 0 0 auto;
+    text-align: center;
+    min-width: 200px; 
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    img{
+        width: 100%;
+        cursor: pointer;
+        border-radius: 1.3rem;
+        border: 3px solid #eee;
+    }
+    @media (max-width: 768px) {
+        width: 150px;
+        height: 150px;
+    }
+`
+
+export const HintToast = styled.div` 
+    width: 75%;
+    minWidth: 200px;
+    height: 37px; 
+    font-size: 17px; 
+    flex-direction: row;
+    border-radius: 7px;
+    gap: 5%;
+    margin: 2%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 15px;
+    border: 1.3px solid #B40000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    img{
+      max-width: 28px;
+    }
+`;
