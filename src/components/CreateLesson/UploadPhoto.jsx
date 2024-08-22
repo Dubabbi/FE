@@ -44,7 +44,7 @@ const UploadPhoto = ({ isOpen, toggleModal, handleAddImage }) => {
         <C.CloseButton onClick={toggleModal}>
           <img src={close} alt="Close" />
         </C.CloseButton>
-        <h1>프로필 사진 업로드</h1>
+        <h1>이미지</h1>
         <C.SubModalText>사진 파일을 추가해 주세요. 최대 1개까지만 가능합니다.</C.SubModalText>
         <C.UploadBox onDrop={handleDrop} onDragOver={handleDragOver}>
 

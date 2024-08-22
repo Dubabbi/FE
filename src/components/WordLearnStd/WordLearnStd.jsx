@@ -20,11 +20,16 @@ const WordLearnStd = () => {
   });
 
   useEffect(() => {
+    const accessToken = localStorage.getItem("key");
     const fetchWordSet = async () => {
       try {
-        const response = await axios.get(`https://maeummal.com/word/wordSet?wordSetId=${setId}`);
+        const response = await axios.get(`https://maeummal.com/word/wordSet?wordSetId=${setId}`,{ 
+          headers: {
+              Authorization: `Bearer ${accessToken}`
+          }
+      });
         if (response.data.isSuccess) {
-          const { title, category, description, wordList, image} = response.data.data;
+          const { title, category, description, wordList, image} = response.data.data.wordCardList;
           setWordSet({ title, category, description, wordCards: wordList, imagePreviewUrl: image });
         }
       } catch (error) {
@@ -71,7 +76,7 @@ const WordLearnStd = () => {
           </D.WordList>
         </D.Section>
         <D.BottomButton style={{ marginBottom: '4%' }}>
-          <a href="/WordStd">학습 종료</a>
+          <a href="/WordNextStd">학습 종료</a>
         </D.BottomButton>
       </W.LessonWrapper>
     </>

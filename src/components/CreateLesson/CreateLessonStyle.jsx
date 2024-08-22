@@ -262,6 +262,7 @@ export const StoryWrap = styled.div`
   border-radius: 5px;
   border: 1px solid #DCDCDC;
   margin-left: 5%;
+  flex-direction: column;
 `
 
 export const CardContainer = styled.div`
@@ -271,7 +272,7 @@ export const CardContainer = styled.div`
   justify-content: space-around;
   overflow-x: auto; 
   width: 100%;       
-  padding: 20px 0;   
+  padding-top: 20px;   
 `;
 
 export const SelectCard = styled.div`
@@ -301,7 +302,6 @@ export const SelectBox = styled.div`
     align-items: center;
   }
   img {
-    cursor: pointer;
     width: 30%;
     max-height: 100%;
   }
@@ -613,3 +613,12 @@ export const HintToast = styled.div`
       max-width: 28px;
     }
 `;
+
+
+export const Upload = styled.img`
+    width: 150px;
+    height: auto;
+    text-align: center;
+    align-items: center;
+    cursor: pointer;`
+;

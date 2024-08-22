@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as M from './MypageStyle'
 import My from '/src/assets/image/profile.svg';
 import Upload from '/src/assets/icon/uploadphoto.svg';
@@ -21,7 +21,31 @@ const MypageTchr = () => {
     const [feedbackExtended, setIsFeedbackExtended] = useState(false);
     const [stdinfoExtended, setIsStdinfoExtended] = useState(false);
     const [isMatchingModalOpen, setIsMatchingModalOpen] = useState(false);
-
+    const [students, setStudents] = useState([]);
+    const [error, setError] = useState('');
+    useEffect(() => {
+        const fetchStudents = async () => {
+            try {
+                const accessToken = localStorage.getItem("key");
+                const response = await axios.get('https://maeummal.com/match/students', {  // API 경로 확인
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+                if (response.status === 200) {
+                    setStudents(response.data.students);  // 응답 데이터 구조에 맞게 수정
+                } else {
+                    throw new Error('Failed to fetch students');
+                }
+            } catch (error) {
+                console.error('Error fetching students:', error);
+                setError('Failed to fetch students');
+            }
+        };
+    
+        fetchStudents();
+    }, []);
+    
     const toggleMatchingModal = () => {
         setIsMatchingModalOpen(!isMatchingModalOpen);
     };

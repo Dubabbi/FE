@@ -61,7 +61,7 @@ const Template2Tchr = () => {
       }
     } catch (error) {
       console.error('Error generating image or creating Template2:', error);
-      alert('이미지 생성 또는 템플릿 생성에 실패했습니다.');
+      alert('이미지 생성에 실패했습니다.');
     }};
 
     const handleSubmit = async () => {
@@ -77,7 +77,6 @@ const Template2Tchr = () => {
         const response = await axios.post('https://maeummal.com/template2/create', payload, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("key")}`,
-            'Content-Type': 'application/json'
           }
         });
         console.log('Response:', response.data);
