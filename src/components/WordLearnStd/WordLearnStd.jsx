@@ -1,4 +1,3 @@
-//WordLearnStd.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -21,30 +20,53 @@ const WordLearnStd = () => {
 
   useEffect(() => {
     const fetchWordSet = async () => {
+      const url = `https://maeummal.com/word/wordSet?wordSetId=${setId}`;
+      console.log(`Attempting to fetch word set from URL: ${url}`); // URL 로깅
+
       try {
-        const response = await axios.get(`https://maeummal.com/word/wordSet?wordSetId=${setId}`);
-        if (response.data.isSuccess) {
-          const { title, category, description, wordList, image} = response.data.data;
-          setWordSet({ title, category, description, wordCards: wordList, imagePreviewUrl: image });
+        const response = await axios.get(url);
+        if (response.data.isSuccess && response.data.data) {
+          const { title, category, description, wordList, wordSetId } = response.data.data;
+          setWordSet({
+            title,
+            category,
+            description,
+            setId: wordSetId,
+            wordCards: wordList.map(word => ({
+              id: word.wordId,
+              meaning: word.meaning,
+              description: word.description,
+              image: word.image
+            }))
+          });
+        } else {
+          console.error('Failed to fetch word set:', response.data.message);
+          throw new Error(`Failed to fetch word set: ${response.data.message}`);
         }
       } catch (error) {
-        console.error("Error fetching word set:", error);
-        alert('Failed to load word set.');
+        console.error('Error fetching word set:', error);
+        alert(`Error fetching data: ${error.toString()}`);
       }
     };
+
     fetchWordSet();
   }, [setId]);
+  
 
   const handlePrev = () => {
     if (currentWordIndex > 0) {
       setCurrentWordIndex(currentWordIndex - 1);
+    } else {
+      console.log('Already at the first word.');
     }
   };
 
   const handleNext = () => {
     if (currentWordIndex < wordSet.wordCards.length - 1) {
       setCurrentWordIndex(currentWordIndex + 1);
+      console.log(`Moved to next word: Index ${currentWordIndex + 1}`);
     } else {
+      console.log('Reached the last word.');
       alert("마지막 이미지입니다.");
     }
   };
@@ -56,9 +78,7 @@ const WordLearnStd = () => {
       </D.ImageWrap>
       <W.LessonWrapper>
         <D.Section>
-        <D.Section>
-              <h1>낱말 카드 학습 </h1>
-          </D.Section>          
+          <h1>낱말 카드 학습 {wordSet.title}</h1>
           <D.CardTitle>{wordSet.title}</D.CardTitle>
           <D.WordList>
             <D.WordBoard>

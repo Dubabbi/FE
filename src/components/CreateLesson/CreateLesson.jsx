@@ -45,7 +45,7 @@ const CreateLesson = () => {
         try {
             const payload = {
                 title: titleValue,
-                content: `Template${selectedTemplate + 1}`,
+                content: `TEMPLATE${selectedTemplate + 1}`,
                 difficulty: selectedLevel + 1,
                 created_at: new Date().toISOString(),
                 view: 0,

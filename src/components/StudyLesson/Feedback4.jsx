@@ -21,7 +21,7 @@ export const ModalOverlay = styled.div`
   z-index: 1000; 
 `;
 
-const Feedback2 = () => {
+const Feedback4 = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const feedbackData = location.state?.feedbackData || {};
@@ -104,4 +104,4 @@ const Feedback2 = () => {
   );
 };
 
-export default Feedback2;
+export default Feedback4;

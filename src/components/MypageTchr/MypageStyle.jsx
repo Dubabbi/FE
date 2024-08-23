@@ -1,8 +1,8 @@
 import styled, {css} from 'styled-components';
 
 export const MypageWrapper = styled.div`
-  background-color: #FEEAFA;
-`;
+  background-color: #FEEAFA;`
+;
 
 export const Section = styled.div`
   max-width: ${({ $isExtended }) => $isExtended ? '100%' : '1100px'};
@@ -14,8 +14,8 @@ export const Section = styled.div`
   display: flex;
   padding-top: 11%;
   padding-bottom: 7%;
-  transition: max-width 0.3s ease-out;
-`;
+  transition: max-width 0.3s ease-out;`
+;
 
 export const Content = styled.div`
   display: flex;
@@ -33,8 +33,8 @@ export const Content = styled.div`
   text-align: center;
   padding: ${({ $isExtended }) => $isExtended ? '15px' : '30px'}; // 패딩 조절
   transition: all 0.3s ease-out;
-  flex: 1; 
-`;
+  flex: 1;` 
+;
 
 
 export const Second = styled.div`
@@ -63,8 +63,8 @@ export const Second = styled.div`
     background-color: #ccc; 
     margin: 10px 0;
   
-  }
-`;
+  }`
+;
 
 export const Item = styled.div`
   display: flex;
@@ -92,16 +92,16 @@ export const Item = styled.div`
 
     &::-webkit-scrollbar-thumb:hover {
         background: #555;
-    }
+    }`
 
-`;
+;
 
 export const ContentContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: center; 
   gap: 0; 
- overflow: visible;
+  overflow: visible;
 
   ${({ $isExtended }) => $isExtended && css`
     ${Content}:first-child {
@@ -118,29 +118,29 @@ export const InLine = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 90%;
-  padding: 0px;
-`;
+  padding: 0px;`
+;
 
 export const Profile = styled.img`
   width: 65px;
   height: 65px;
   border-radius: 50%;
   border: 4px solid #FED7D7;
-  object-fit: cover;
-`;
+  object-fit: cover;`
+;
 
 export const Upload = styled.img`
     width: 150px;
     height: 150px;
     text-align: center;
     align-items: center;
-    cursor: pointer;
-`;
+    cursor: pointer;`
+;
 
 export const InfoBox = styled.div`
   width: 100%;
-  padding: 10px;
-`;
+  padding: 10px;`
+;
 
 export const InfoItem = styled.div`
   display: flex;
@@ -150,16 +150,16 @@ export const InfoItem = styled.div`
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   padding: 15px;
-  margin-bottom: 10px;
-`;
+  margin-bottom: 10px;`
+;
 
 export const InfoGroup = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  width: 100%;
-`;
+  width: 100%;`
+;
 
 export const InfoTitle = styled.div`
   display: flex;
@@ -167,22 +167,22 @@ export const InfoTitle = styled.div`
   align-items: flex-start;
   font-weight: bold;
   font-size: 1.2rem;
-  color: #333;
-`;
+  color: #333;`
+;
 
 export const InfoContent = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-`;
+  align-items: flex-start;`
+;
 
 export const Label = styled.div`
   font-size: 1.2rem;
   font-weight: bold;
   color: #333;
   margin-top: 11%;
-  margin-bottom: 11%;
-`;
+  margin-bottom: 11%;`
+;
 
 export const SecondLabel = styled.div`
   font-size: 1.2rem;
@@ -194,35 +194,35 @@ export const SecondLabel = styled.div`
   margin-bottom: 3%;
   width: 100px;
   height: auto;
-  padding: 4px;
-`;
+  padding: 4px;`
+;
 
 
 export const Value = styled.div`
   font-size: 1.2rem;
   color: #555;
   margin-top: 5%;
-  margin-bottom: 5%;
-`;
+  margin-bottom: 5%;`
+;
 
 export const SubText = styled.div`
   font-size: 0.9rem;
   color: #777;
-  margin-top: 5px;
-`;
+  margin-top: 5px;`
+;
 
 export const SettingsIcon = styled.img`
   width: 20px;
   height: 20px;
   cursor: pointer;
-  margin-right: 8px;
-`;
+  margin-right: 8px;`
+;
 
 export const MoreIcon = styled.img`
   width: 35px;
   height: 20px;
-  cursor: pointer;
-`;
+  cursor: pointer;`
+;
 
 export const Blank = styled.div`
   width: 35px;
@@ -241,8 +241,8 @@ export const Box = styled.div`
   border-radius: 10px;
   box-shadow: 0px 2.55px 2.55px rgba(0, 0, 0, 0.1);
   text-align: left;
-  position: relative;
-`;
+  position: relative;`
+;
 
 export const ModalOverlay = styled.div`
   position: fixed;
@@ -254,8 +254,8 @@ export const ModalOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
-`;
+  z-index: 10;`
+;
 
 export const ModalContent = styled.div`
   position: relative;
@@ -279,14 +279,14 @@ export const CloseButton = styled.div`
   top: 15px;
   right: 15px;
   width: 34px;
-  height: 34px;
-`;
+  height: 34px;`
+;
 
 export const SubModalText = styled.p`
   font-size: 0.9rem;
   color: #555;
-  margin-bottom: 1rem;
-`;
+  margin-bottom: 1rem;`
+;
 
 export const UploadBox = styled.div`
   width: 100%;
@@ -294,28 +294,28 @@ export const UploadBox = styled.div`
   border-radius: 10px;
   padding: 20px;
   text-align: center;
-  margin-bottom: 1rem;
-`;
+  margin-bottom: 1rem;`
+;
 
 
 
 export const UploadIcon = styled.img`
   width: 50px;
   height: 50px;
-  margin-bottom: 1rem;
-`;
+  margin-bottom: 1rem;`
+;
 
 export const UploadText = styled.p`
   font-size: 1rem;
   color: #555;
-  margin-bottom: 1rem;
-`;
+  margin-bottom: 1rem;`
+;
 
 export const UploadDivider = styled.p`
   font-size: 1rem;
   color: #aaa;
-  margin-bottom: 1rem;
-`;
+  margin-bottom: 1rem;`
+;
 
 export const UploadButton = styled.button`
   border: 1.5px solid #ACAACC;
@@ -325,21 +325,21 @@ export const UploadButton = styled.button`
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
-  margin-bottom: 1rem;
-`;
+  margin-bottom: 1rem;`
+;
 
 export const FormatText = styled.p`
   font-size: 0.7vw;
   color: #777;
   margin-bottom: 0px;
-  text-align: left;
-`;
+  text-align: left;`
+;
 
 export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 100%;
-`;
+  width: 100%;`
+;
 
 export const CancelButton = styled.button`
   background-color: #f5f5f5;
@@ -349,8 +349,8 @@ export const CancelButton = styled.button`
   border: none;
   font-size: 1rem;
   cursor: pointer;
-  margin-right: 1rem;
-`;
+  margin-right: 1rem;`
+;
 
 export const ModalButton = styled.button`
   background-color: #A19CE9;
@@ -359,8 +359,8 @@ export const ModalButton = styled.button`
   border-radius: 5px;
   border: none;
   font-size: 1rem;
-  cursor: pointer;
-`;
+  cursor: pointer;`
+;
 
 export const FeedbackContainer = styled.div`
   display: flex;
@@ -369,14 +369,14 @@ export const FeedbackContainer = styled.div`
   margin: 10px 0;
   margin-top: 5%;
   width: 60%;
-  margin-left: 20%;
-`;
+  margin-left: 20%;`
+;
 
 export const HalfLine = styled.div`
   flex-grow: 1;
   height: 1px;
-  background-color: #ccc;
-`;
+  background-color: #ccc;`
+;
 
 export const FeedbackText = styled.div`
   white-space: nowrap;
@@ -384,8 +384,8 @@ export const FeedbackText = styled.div`
   margin-left: 5%;
   margin-right: 5%;
   color: #aaa;
-  margin-bottom: 0rem;
-`;
+  margin-bottom: 0rem;`
+;
 
 export const UploadedFileDetails = styled.div`
   display: flex;
@@ -398,20 +398,20 @@ export const UploadedFileDetails = styled.div`
   gap: 2%;
   border-radius: 5px;
   margin-bottom: 1rem;
-  margin-top: 1rem;
-`;
+  margin-top: 1rem;`
+;
 
 export const FileName = styled.p`
   font-size: 1rem;
   color: #555;
-  margin: 0;
-`;
+  margin: 0;`
+;
 
 export const FileSize = styled.p`
   font-size: 0.9rem;
   color: #777;
-  margin: 0;
-`;
+  margin: 0;`
+;
 
 export const RemoveFileButton = styled.button`
   background-color: #dbdbdb;
@@ -422,8 +422,8 @@ export const RemoveFileButton = styled.button`
   box-shadow: inset 0 0 0 2px #858585;
   font-size: 1rem;
   font-weight: bold;
-  cursor: pointer;
-`;
+  cursor: pointer;`
+;
 
 
 export const InLineTitle = styled.div`
@@ -437,8 +437,8 @@ export const InLineTitle = styled.div`
   img{
     max-width: 30px;
     cursor: pointer;
-  }
-`;
+  }`
+;
 
 export const MatchingLabel = styled.div`
   font-size: 1.2rem;
@@ -450,16 +450,16 @@ export const MatchingLabel = styled.div`
   height: auto;
   text-align: center;
   align-items: center;
-  padding: 7px;
-`;
+  padding: 7px;`
+;
 
 export const StuProfile = styled.img`
   width: 45px;
   height: 45px;
   border-radius: 50%;
   border: 3px solid #FED7D7;
-  object-fit: cover;
-`;
+  object-fit: cover;`
+;
 
 export const StdLine = styled.div`
   display: flex;
@@ -468,14 +468,83 @@ export const StdLine = styled.div`
   width: 90%;
   padding: 1.7%;
   border: 1px solid #eee;
-  box-shadow: 0.5 1.3px 1.3px 0 rgba(0, 0, 0, 0.1);
-`;
+  box-shadow: 0.5 1.3px 1.3px 0 rgba(0, 0, 0, 0.1);`
+;
 
 
 export const Start = styled.div`
   display: flex;
-  gap: 5%;
+  gap: 10%;
   justify-content: flex-start;
-  flex-direction: row;
-`;
+  flex-direction: row;`
+;
 
+
+export const DetailTitle = styled.div`
+  display: inline-flex;
+  justify-content: space-around;
+  margin-top: 0px;
+  marginRight: 25%;
+  max-width: 80%;
+  gap: 18%;
+  margin-right: 12%;
+  flex-direction: row; 
+  align-items: center;
+  margin-bottom: 5%;
+  img{
+    max-width: 30px;
+    cursor: pointer;
+  }`
+;
+
+
+export const DetailLabel = styled.div`
+  font-size: 2vw;
+  font-weight: bold;
+  gap: 7%;
+  width: 200px;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
+  white-space: nowrap;
+  padding: 7px;
+  margin-right: 3%;
+  img{
+      min-width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 3px solid #FED7D7;
+      object-fit: cover;
+  }`
+;
+
+export const Detail = styled.div`
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+  p{
+    text-align: left;
+  }`
+;
+
+export const InfoFeed = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 3%;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  margin-bottom: 3%;`
+;
+
+export const FeedTitle = styled.div`
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;

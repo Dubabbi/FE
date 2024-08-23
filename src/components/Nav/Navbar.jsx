@@ -1,11 +1,33 @@
-import React from 'react';
+import { React, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Logo from '/src/assets/image/logo.svg';
 import My from '/src/assets/image/profile.svg';
+import Modal from '../Nav/LoginModal';
 
 export default function Nav() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [profileName, setProfileName] = useState('Guest');
+  const [showModal, setShowModal] = useState(false); // 모달 상태 추가
+
+  useEffect(() => {
+    const token = localStorage.getItem('key');
+    console.log("토큰:", token);
+    if (token) {
+      setIsLoggedIn(true);
+      setProfileName('부앙단 선생님');
+    } else {
+      setIsLoggedIn(false);
+      setProfileName('Guest');
+      setShowModal(true);
+    }
+  }, []);
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
+    <>
     <TopWrapper>
       <Header>
         <Link to="/MainTchr">
@@ -25,6 +47,10 @@ export default function Nav() {
         </ProfileCard></a>
       </LinkWrapper>
     </TopWrapper>
+          {!isLoggedIn && showModal && (
+            <Modal showModal={showModal} closeModal={closeModal} />
+          )}
+          </>
   );
 }
 

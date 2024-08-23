@@ -262,6 +262,7 @@ export const StoryWrap = styled.div`
   border-radius: 5px;
   border: 1px solid #DCDCDC;
   margin-left: 5%;
+  flex-direction: column;
 `
 
 export const CardContainer = styled.div`
@@ -271,7 +272,7 @@ export const CardContainer = styled.div`
   justify-content: space-around;
   overflow-x: auto; 
   width: 100%;       
-  padding: 20px 0;   
+  padding-top: 20px;   
 `;
 
 export const SelectCard = styled.div`
@@ -301,7 +302,6 @@ export const SelectBox = styled.div`
     align-items: center;
   }
   img {
-    cursor: pointer;
     width: 30%;
     max-height: 100%;
   }
@@ -494,7 +494,7 @@ export const HintWrapper = styled.div`
     flex: 0 0 auto;
     text-align: center;
     min-width: 220px; 
-    border-radius: 1.3rem;
+    border-radius: 1.4rem;
     border: 2px solid rgba(244, 244, 244, 1);
     width: 55%;
     height: auto;
@@ -571,3 +571,82 @@ export const Box = styled.div`
         height: 150px;
     }
 `
+
+export const TemplateBox = styled.div`
+    flex: 0 0 auto;
+    text-align: center;
+    min-width: 200px; 
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    img{
+        width: 100%;
+        cursor: pointer;
+        border-radius: 1.3rem;
+        border: 3px solid #eee;
+    }
+    @media (max-width: 768px) {
+        width: 150px;
+        height: 150px;
+    }
+`
+
+export const HintToast = styled.div` 
+    width: 75%;
+    minWidth: 200px;
+    height: 37px; 
+    font-size: 17px; 
+    flex-direction: row;
+    border-radius: 7px;
+    gap: 5%;
+    margin: 2%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 15px;
+    border: 1.3px solid #B40000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    img{
+      max-width: 28px;
+    }
+`;
+
+
+export const Upload = styled.img`
+    width: 150px;
+    height: auto;
+    text-align: center;
+    align-items: center;
+    cursor: pointer;`
+;
+
+export const FeedImage = styled.div`
+    flex: 0 0 auto;
+    text-align: center;
+    min-width: 180px; 
+    width: 180px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    img{
+        width: 100%;
+        border-radius: 1.3rem;
+        border: 2px solid #ACAACC;
+    }
+    @media (max-width: 768px) {
+        width: 150px;
+        height: 150px;
+    }
+`
+export const FeedTitle = styled.h1`
+    display: flex;
+    font-size: 1.7rem;
+    max-width: 30%;
+    margin-left: 15%;
+    position: relative;
+`;
