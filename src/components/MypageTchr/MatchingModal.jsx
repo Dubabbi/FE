@@ -1,5 +1,4 @@
-import React, { useState, useRef } from 'react';
-import * as C from './MypageStyle';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import CloseIcon from '/src/assets/icon/closebtn.svg';
@@ -36,7 +35,7 @@ const CloseButton = styled.button`
   cursor: pointer;
   top: 7%;
   right: 5%;
-  img{
+  img {
     width: 25px;
     height: 25px;
   }
@@ -77,17 +76,29 @@ export default function MatchingModal({ isOpen, toggleModal }) {
   const [pinCode, setPinCode] = useState('');
 
   const handleMatch = async () => {
+    const accessToken = localStorage.getItem('key');
+    if (!accessToken) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
+  
     try {
-      const accessToken = localStorage.getItem('key');
-      const response = await axios.post('https://maeummal.com/api/match/match-student', null, {
-        params: { pinCode },
-        headers: { Authorization: `Bearer ${accessToken}` }
-      });
-      console.log('Response:', response.data);
-      alert('매칭 성공!');
+      const response = await axios.post(
+        'https://maeummal.com/api/match/match-student',
+        { pinCode },
+        { headers: { 'Authorization': `Bearer ${accessToken}` } }
+      );
+  
+      if (response.data.success) {
+        console.log('Response:', response.data);
+        alert('매칭 성공!');
+        toggleModal(); // 성공 시 모달 닫기
+      } else {
+        alert('매칭 실패: ' + (response.data.error && response.data.error.message ? response.data.error.message : "An unknown error occurred"));
+      }
     } catch (error) {
-      console.error('Error:', error.response ? error.response.data : error.message);
-      alert('매칭 실패');
+      console.error('Error:', error);
+      alert('매칭 실패: ' + (error.response && error.response.data && error.response.data.error && error.response.data.error.message ? error.response.data.error.message : "An unknown error occurred"));
     }
   };
   
@@ -100,7 +111,7 @@ export default function MatchingModal({ isOpen, toggleModal }) {
         </CloseButton>
         <Title>매칭할 학생 코드 입력</Title>
         <InputField 
-          value={pinCode} 
+          value={pinCode}
           onChange={e => setPinCode(e.target.value)}
           placeholder="코드 입력"
         />
@@ -112,3 +123,4 @@ export default function MatchingModal({ isOpen, toggleModal }) {
     </ModalOverlay>
   ) : null;
 }
+

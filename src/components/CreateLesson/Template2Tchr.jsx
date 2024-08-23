@@ -72,7 +72,7 @@ const Template2Tchr = () => {
         difficulty: data.difficulty,
         hint: hint,
         imageNum: storyCards.length,
-        type: data.difficulty,
+        type: data.content,
         storyCardEntityList: storyCards.map(card => ({ image: card.image, answerNumber: card.answerNumber }))
       };
       try {

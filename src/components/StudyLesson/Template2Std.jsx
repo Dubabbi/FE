@@ -22,7 +22,7 @@ const Template2Std = () => {
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
 
   useEffect(() => {
-    const template2Id = 4;
+    const template2Id = 3;
   
     const fetchTemplateData = async () => {
       try {
@@ -83,16 +83,16 @@ const Template2Std = () => {
       try {
         const accessToken = `${localStorage.getItem("key")}`;
         console.log("Submitting feedback request with data:", {
-          templateId: templateData.templateId, // 동적으로 템플릿 ID 사용
+          templateId: templateData.templateId,
           answerList: userAnswerOrder.map(String),
-          studentId: 12,
+          studentId: 25,
           templateType: "TEMPLATE2"
         });
   
         const response = await axios.post('https://maeummal.com/feedback/create', {
-          templateId: templateData.templateId, // 여기에 올바른 키 사용
+          templateId: templateData.templateId, 
           answerList: userAnswerOrder.map(String),
-          studentId: 12,
+          studentId: 25,
           templateType: "TEMPLATE2"
         }, {
           headers: {

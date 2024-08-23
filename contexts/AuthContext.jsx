@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [showModal, setShowModal] = useState(false); // 모달 상태 관리
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('key');
     const loggedIn = !!token;
     setIsLoggedIn(loggedIn);
     if (!loggedIn) {
@@ -22,13 +22,13 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (token) => {
-    localStorage.setItem('authToken', token);
+    localStorage.setItem('key', token);
     setIsLoggedIn(true);
     setShowModal(false);
   };
 
   const logout = () => {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('key', token);
     setIsLoggedIn(false);
     setShowModal(true);
   };
