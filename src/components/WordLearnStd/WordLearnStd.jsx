@@ -78,7 +78,7 @@ const WordLearnStd = () => {
       </D.ImageWrap>
       <W.LessonWrapper>
         <D.Section>
-          <h1>낱말 카드 학습 - {wordSet.title}</h1>
+          <h1>낱말 카드 학습 {wordSet.title}</h1>
           <D.CardTitle>{wordSet.title}</D.CardTitle>
           <D.WordList>
             <D.WordBoard>

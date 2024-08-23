@@ -16,6 +16,7 @@ import tem2 from '/src/assets/icon/template/template2icon.svg';
 import tem3 from '/src/assets/icon/template/template3icon.svg';
 import tem4 from '/src/assets/icon/template/template4icon.svg';
 import tem5 from '/src/assets/icon/template/template5icon.svg';
+import ChartComponent from './ChartComponent';
 
 const MypageTchr = () => {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
@@ -251,13 +252,13 @@ const MypageTchr = () => {
                     </M.Second>}
                     {stdinfoExtended && selectedStudentDetails && (
                     <M.Second style={{paddingTop: '1.7%'}}>
-                        <M.DetailTitle>
+                        <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
                             <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
                             <M.DetailLabel>
                                 <M.StuProfile src={selectedStudentDetails.profileImage || My} />
-                                <M.InfoTitle>{selectedStudentDetails.name}</M.InfoTitle>
+                                <M.InfoTitle >{selectedStudentDetails.name}</M.InfoTitle>
                             </M.DetailLabel>
-                            <img src={Close} onClick={closeAll} />
+                            <img style={{ marginRight: '-50px'}} src={Close} onClick={closeAll} />
                         </M.DetailTitle>
                         <M.Item>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginBottom: '2.5%' }}>
@@ -271,15 +272,15 @@ const MypageTchr = () => {
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginBottom: '2.5%' }}>
                                 <p style={{ whiteSpace: 'nowrap', marginLeft: '0px', fontSize: '1.2rem' }}>피드백 목록</p>
                                 <M.MoreIcon src={More} onClick={handleFeedback} />
-                            </div>
-
+                            </div>                                    
+                            <ChartComponent />
                         </M.Item>
                     </M.Second>
                 )}
                 {/* Feedback Expanded View */}
                 {feedbackExtended && selectedStudentDetails && (
                     <M.Second style={{ paddingTop: '1.7%' }}>
-                        <M.DetailTitle>
+                        <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
                             <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
                             <M.DetailLabel>
                                 <M.StuProfile src={selectedStudentDetails.profileImage || My} />
