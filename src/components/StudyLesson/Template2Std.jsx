@@ -9,42 +9,46 @@ import White from '/src/assets/icon/heartwhite.svg';
 import { ModalOverlay } from './Feedback2';
 import axios from 'axios';
 import Reward from '../Reward/Reward';
-import Toast from '/src/assets/icon/errortoast.svg'
+import Toast from '/src/assets/icon/errortoast.svg';
 
 const Template2Std = () => {
   const navigate = useNavigate();
   const [showReward, setShowReward] = useState(false);
-  const [error, setError] = useState('');
+  const [feedbackData, setFeedbackData] = useState(null);
   const [templateData, setTemplateData] = useState(null);
   const [selectedImages, setSelectedImages] = useState([]);
-  const [userSequence, setUserSequence] = useState([]);
   const [lives, setLives] = useState(2);
   const [showHint, setShowHint] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
 
   useEffect(() => {
-    const template2Id = 1;
-    const accessToken = `${localStorage.getItem("key")}`;
-
-    axios.get(`https://maeummal.com/template2/get?template2Id=${template2Id}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
+    const template2Id = 4;
+  
+    const fetchTemplateData = async () => {
+      try {
+        console.log("Fetching template data..."); // 요청 시작 로그
+        const response = await axios.get(`https://maeummal.com/template2/get?template2Id=${template2Id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("key")}`
+          }
+        });
+  
+        if (response.data.isSuccess) {
+          console.log("Template data fetched successfully:", response.data.data); // 요청 성공 로그
+          setTemplateData(response.data.data);
+          setSelectedImages([]);
+        } else {
+          throw new Error('Failed to fetch data');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false); // 로딩 상태 업데이트
       }
-    })
-    .then(response => {
-      if (response.data.isSuccess) {
-        setTemplateData(response.data.data);
-        setUserSequence(response.data.data.storyCardEntityList.map(card => card.storyCardId));
-      } else {
-        throw new Error('Failed to fetch data');
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-      setError(`Failed to load template data: ${error.message}`);
-    });
+    };
+  
+    fetchTemplateData();
   }, []);
-
-
   const toggleSelectImage = (id) => {
     const cardInfo = templateData.storyCardEntityList.find(card => card.storyCardId === id);
     const index = selectedImages.findIndex(item => item.id === id);
@@ -55,47 +59,102 @@ const Template2Std = () => {
         const newImages = selectedImages.filter(item => item.id !== id);
         setSelectedImages(newImages);
     }
-};
-
-
-useEffect(() => {
-    console.log("Current Selected Images:", selectedImages);
-}, [selectedImages]);
-
-useEffect(() => {
-  console.log("User Answer Order on Submit:", selectedImages.map(item => item.answerNumber));
-}, [selectedImages]);
-
-const handleSubmit = () => {
-  const userAnswerOrder = selectedImages.map(item => item.answerNumber);
-  const correctOrder = templateData.storyCardEntityList.map(card => card.answerNumber);
-
-  const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
-
-  if (isCorrect) {
-      handleShowReward(true);
-  } else {
-      handleShowReward(false);
+  };
+  
+  const handleSubmit = () => {
+    // 템플릿 데이터가 올바르게 로드되었는지 확인
+    if (!templateData || !templateData.templateId) { 
+      console.error('템플릿 데이터가 없습니다. 다시 시도해주세요.');
+      return; // 데이터가 없으면 함수 종료
+    }
+  
+    const userAnswerOrder = selectedImages.map(item => item.answerNumber);
+    const correctOrder = templateData.storyCardEntityList.map(card => card.answerNumber);
+  
+    // 사용자가 선택한 이미지 수가 템플릿에서 요구하는 이미지 수와 일치하지 않는 경우
+    if (userAnswerOrder.length !== templateData.storyCardEntityList.length) {
+      alert('모든 이미지를 선택해주세요.');
+      return; // 더 이상 진행하지 않음
+    }
+  
+    const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
+  
+    const submitFeedback = async () => {
+      try {
+        const accessToken = `${localStorage.getItem("key")}`;
+        console.log("Submitting feedback request with data:", {
+          templateId: templateData.templateId, // 동적으로 템플릿 ID 사용
+          answerList: userAnswerOrder.map(String),
+          studentId: 12,
+          templateType: "TEMPLATE2"
+        });
+  
+        const response = await axios.post('https://maeummal.com/feedback/create', {
+          templateId: templateData.templateId, // 여기에 올바른 키 사용
+          answerList: userAnswerOrder.map(String),
+          studentId: 12,
+          templateType: "TEMPLATE2"
+        }, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        });
+  
+        if (response.data && response.data.id) {
+          setFeedbackData(response.data);
+          handleShowReward(true);
+        } else {
+          console.error('Failed to submit feedback:', response.data.message || 'Unknown error');
+        }
+      } catch (error) {
+        if (error.response) {
+          console.error('Error response:', error.response.data || 'An unexpected error occurred');
+        } else if (error.request) {
+          console.error('No response received:', error.request);
+        } else {
+          console.error('Error during setup:', error.message);
+        }
+      }
+    };
+  
+    if (isCorrect) {
+      submitFeedback();
+    } else {
       if (lives > 0) {
         setLives(lives - 1);
         setShowHint(true);
+        setSelectedImages([]);
         if (lives === 1) {
-            navigate('/Feedback2');
+          submitFeedback();
         }
-    } else {
-        navigate('/Feedback2');
+      } else {
+        submitFeedback();
+      }
     }
-  }
-};
-  
+  };
+
   const handleShowReward = (show) => {
     setShowReward(show);
   };
-  
+
   const handleCloseReward = () => {
     setShowReward(false);
-    navigate('/Feedback2');
+
+    if (feedbackData) {
+      navigate('/Feedback2', {
+        state: {
+          feedbackData,
+          description: templateData.description // description을 전달
+        }
+      });
+    } else {
+      console.error('No feedback data available to pass to Feedback2');
+    }
   };
+
+  if (isLoading) {
+    return <p>Loading...</p>; // 로딩 중인 경우에 대한 처리
+  }
 
   return (
     <>
@@ -115,17 +174,28 @@ const handleSubmit = () => {
         <C.Line>
           {templateData && templateData.storyCardEntityList.map(card => (
             <C.TemplateBox key={card.storyCardId} onClick={() => toggleSelectImage(card.storyCardId)}
-              style={{ border: selectedImages.includes(card.storyCardId) ? '2px solid blue' : 'none' }}>
-              <img src={card.image} alt={`Story card ${card.storyCardId}`} />
+              >
+              <img style={{ border: selectedImages.some(item => item.id === card.storyCardId) ? '4px solid #ACAACC' : '4px solid #eee' }} src={card.image} alt={`Story card ${card.storyCardId}`} />
             </C.TemplateBox>
           ))}
+          {/*
+          <C.TemplateBox
+            key={card.storyCardId}
+            onClick={() => toggleSelectImage(card.storyCardId)}
+            style={{
+              border: selectedImages.some(item => item.id === card.storyCardId) ? '2px solid #ACAACC' : 'none' // 선택된 이미지에 대해 테두리 색상 변경
+            }}
+          >
+            <img src={card.image} alt={`Story card ${card.storyCardId}`} />
+          </C.TemplateBox>
+          */}
         </C.Line>
       </L.LessonWrapper>
       {showHint && (
-        <C.HintWrapper style = {{border: 'none'}}>
-              <C.HintToast style={{ minWidth: '200px' }}>
-              <img src={Toast}/>{templateData ? templateData.hint : 'Loading...'}
-              </C.HintToast>
+        <C.HintWrapper style = {{border: 'none', position: 'fixed', width: '60%', marginLeft: '20%', marginTop: '-4%'}}>
+          <C.HintToast style={{ minWidth: '200px', backgroundColor: '#fff' }}>
+            <img src={Toast}/>{templateData ? templateData.hint : 'Loading...'}
+          </C.HintToast>
         </C.HintWrapper>
       )}
       <C.SubmitButton onClick={handleSubmit}>제출</C.SubmitButton>

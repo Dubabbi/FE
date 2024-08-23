@@ -79,17 +79,18 @@ export default function MatchingModal({ isOpen, toggleModal }) {
   const handleMatch = async () => {
     try {
       const accessToken = localStorage.getItem('key');
-      const response = await axios.post('https://maeummal.com/match/match-student',  {pinCode} , {
+      const response = await axios.post('https://maeummal.com/api/match/match-student', null, {
+        params: { pinCode },
         headers: { Authorization: `Bearer ${accessToken}` }
       });
-      console.log('Response:', response.data.data);
+      console.log('Response:', response.data);
       alert('매칭 성공!');
-      toggleModal();
     } catch (error) {
-      console.error(error.response ? error.response.data : error.message);
+      console.error('Error:', error.response ? error.response.data : error.message);
       alert('매칭 실패');
     }
   };
+  
 
   return isOpen ? (
     <ModalOverlay>

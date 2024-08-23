@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import * as M from './MypageStyle'
+import * as M from './MypageStyle';
 import My from '/src/assets/image/profile.svg';
 import Upload from '/src/assets/icon/uploadphoto.svg';
 import Settings from '/src/assets/icon/settings.svg'; 
@@ -9,7 +9,7 @@ import UploadPhoto from './UploadPhoto';
 import Addstd from '/src/assets/icon/addstd.svg';
 import Close from '/src/assets/icon/closebtn.svg';
 import StdModal from './MatchingModal';
-import Back from '/src/assets/icon/back.svg'
+import Back from '/src/assets/icon/back.svg';
 import axios from 'axios';
 import tem1 from '/src/assets/icon/template/template1icon.svg';
 
@@ -23,17 +23,18 @@ const MypageTchr = () => {
     const [isMatchingModalOpen, setIsMatchingModalOpen] = useState(false);
     const [students, setStudents] = useState([]);
     const [error, setError] = useState('');
+    
     useEffect(() => {
         const fetchStudents = async () => {
             try {
                 const accessToken = localStorage.getItem("key");
-                const response = await axios.get('https://maeummal.com/match/students', {  // API 경로 확인
+                const response = await axios.get('https://maeummal.com/api/match/students', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
                 });
-                if (response.status === 200) {
-                    setStudents(response.data.students);  // 응답 데이터 구조에 맞게 수정
+                if (response.data.isSuccess) {
+                    setStudents(response.data.data);  
                 } else {
                     throw new Error('Failed to fetch students');
                 }
@@ -64,18 +65,11 @@ const MypageTchr = () => {
         toggleUploadModal();
     };
 
-
     const handleToggleExtended = () => {
         setIsSettingExtended(false);
         setIsFeedbackExtended(false);
         setIsExtended(!isExtended);
         setIsStdinfoExtended(false);
-        if (isSettingExtended) {
-            setIsSettingExtended(false);
-            setIsFeedbackExtended(false);
-            setIsExtended(false);
-            setIsStdinfoExtended(false);
-        }
     };
 
     const handleExtended = () => {
@@ -83,11 +77,6 @@ const MypageTchr = () => {
         setIsFeedbackExtended(false);
         setIsSettingExtended(!isSettingExtended);
         setIsStdinfoExtended(false);
-        if (isExtended) {
-            setIsExtended(false);
-            setIsFeedbackExtended(false);
-            setIsStdinfoExtended(false);
-        }
     };
 
     const handleStdinfo = () => {
@@ -95,11 +84,6 @@ const MypageTchr = () => {
         setIsExtended(false);
         setIsStdinfoExtended(!stdinfoExtended);
         setIsFeedbackExtended(false);
-        if (stdinfoExtended) {
-            setIsSettingExtended(false);
-            setIsFeedbackExtended(false);
-            setIsExtended(false);
-        }
     };
 
     const handleFeedback = () => {
@@ -107,11 +91,6 @@ const MypageTchr = () => {
         setIsExtended(false);
         setIsFeedbackExtended(!feedbackExtended);
         setIsStdinfoExtended(false);
-        if (feedbackExtended) {
-            setIsSettingExtended(false);
-            setIsExtended(false);
-            setIsStdinfoExtended(false);
-        }
     };
 
     const closeAll = () => {
@@ -120,7 +99,6 @@ const MypageTchr = () => {
         setIsFeedbackExtended(false);
         setIsStdinfoExtended(false);
     };
-
 
     return (
         <M.MypageWrapper>
@@ -198,41 +176,20 @@ const MypageTchr = () => {
                             </M.Start>
                         </M.InLineTitle>
                         <M.Item>
-                            <M.StdLine>
-                                <M.StuProfile src={My} />
-                                <M.InfoTitle>김망곰</M.InfoTitle>
-                                <M.Blank><img src={Arrow} onClick={handleStdinfo}/></M.Blank>
-                            </M.StdLine>
-                            <hr />
-                            <M.StdLine>
-                                <M.StuProfile src={My} />
-                                <M.InfoTitle>김망곰</M.InfoTitle>
-                                <M.Blank><img src={Arrow} onClick={handleStdinfo} /></M.Blank>
-                            </M.StdLine>
-                            <hr />
-                            <M.StdLine>
-                                <M.StuProfile src={My} />
-                                <M.InfoTitle>김망곰</M.InfoTitle>
-                                <M.Blank><img src={Arrow} onClick={handleStdinfo} /></M.Blank>
-                            </M.StdLine>
-                            <hr />
-                            <M.StdLine>
-                                <M.StuProfile src={My} />
-                                <M.InfoTitle>김망곰</M.InfoTitle>
-                                <M.Blank><img src={Arrow} onClick={handleStdinfo} /></M.Blank>
-                            </M.StdLine>
-                            <hr />
-                            <M.StdLine>
-                                <M.StuProfile src={My} />
-                                <M.InfoTitle>김망곰</M.InfoTitle>
-                                <M.Blank><img src={Arrow} onClick={handleStdinfo} /></M.Blank>
-                            </M.StdLine>
-                            <hr />
-                            <M.StdLine>
-                                <M.StuProfile src={My} />
-                                <M.InfoTitle>김망곰</M.InfoTitle>
-                                <M.Blank><img src={Arrow} onClick={handleStdinfo} /></M.Blank>
-                            </M.StdLine>
+                        {students.length > 0 ? (
+                                students.map(student => (
+                                    <div key={student.studentId}>
+                                        <M.StdLine>
+                                            <M.StuProfile src={student.profileImage || My} />
+                                            <M.InfoTitle>{student.name}</M.InfoTitle>
+                                            <M.Blank><img src={Arrow} onClick={handleStdinfo}/></M.Blank>
+                                        </M.StdLine>
+                                        <hr />
+                                    </div>
+                                ))
+                            ) : (
+                                <p>매칭된 학생이 없습니다.</p>
+                            )}
                         </M.Item>
                     </M.Second>}
                     {stdinfoExtended && 
@@ -271,22 +228,7 @@ const MypageTchr = () => {
                             <M.FeedTitle><M.Start style={{alignItems: 'center', marginBottom: '2%', gap: '15%'}}><img style={{maxWidth: '20px'}} src={tem1}></img><p style={{whiteSpace: 'nowrap', fontSize: '1.1rem'}}>강의 제목</p></M.Start><p style={{marginBottom: '2%'}}>2024.07.29</p> </M.FeedTitle>
                             <M.InfoGroup style={{fontFamily: 'sans-serif'}}>랜덤 이미지의 순서를 배열하는 데 큰 어려움이 없어 보임. 그러나 설명을 바탕으로 이미지를 배열하는 데는 약한 모습을 보임. 문장을 연습하는 학습이 필요함. </M.InfoGroup>
                         </M.InfoFeed>
-                        <M.InfoFeed>
-                            <M.FeedTitle><M.Start style={{alignItems: 'center', marginBottom: '2%', gap: '15%'}}><img style={{maxWidth: '20px'}} src={tem1}></img><p style={{whiteSpace: 'nowrap', fontSize: '1.1rem'}}>강의 제목</p></M.Start><p style={{marginBottom: '2%'}}>2024.07.29</p> </M.FeedTitle>
-                            <M.InfoGroup style={{fontFamily: 'sans-serif'}}>랜덤 이미지의 순서를 배열하는 데 큰 어려움이 없어 보임. 그러나 설명을 바탕으로 이미지를 배열하는 데는 약한 모습을 보임. 문장을 연습하는 학습이 필요함. </M.InfoGroup>
-                        </M.InfoFeed>
-                        <M.InfoFeed>
-                            <M.FeedTitle><M.Start style={{alignItems: 'center', marginBottom: '2%', gap: '15%'}}><img style={{maxWidth: '20px'}} src={tem1}></img><p style={{whiteSpace: 'nowrap', fontSize: '1.1rem'}}>강의 제목</p></M.Start><p style={{marginBottom: '2%'}}>2024.07.29</p> </M.FeedTitle>
-                            <M.InfoGroup style={{fontFamily: 'sans-serif'}}>랜덤 이미지의 순서를 배열하는 데 큰 어려움이 없어 보임. 그러나 설명을 바탕으로 이미지를 배열하는 데는 약한 모습을 보임. 문장을 연습하는 학습이 필요함. </M.InfoGroup>
-                        </M.InfoFeed>
-                        <M.InfoFeed>
-                            <M.FeedTitle><M.Start style={{alignItems: 'center', marginBottom: '2%', gap: '15%'}}><img style={{maxWidth: '20px'}} src={tem1}></img><p style={{whiteSpace: 'nowrap', fontSize: '1.1rem'}}>강의 제목</p></M.Start><p style={{marginBottom: '2%'}}>2024.07.29</p> </M.FeedTitle>
-                            <M.InfoGroup style={{fontFamily: 'sans-serif'}}>랜덤 이미지의 순서를 배열하는 데 큰 어려움이 없어 보임. 그러나 설명을 바탕으로 이미지를 배열하는 데는 약한 모습을 보임. 문장을 연습하는 학습이 필요함. </M.InfoGroup>
-                        </M.InfoFeed>
-                        <M.InfoFeed>
-                            <M.FeedTitle><M.Start style={{alignItems: 'center', marginBottom: '2%', gap: '15%'}}><img style={{maxWidth: '20px'}} src={tem1}></img><p style={{whiteSpace: 'nowrap', fontSize: '1.1rem'}}>강의 제목</p></M.Start><p style={{marginBottom: '2%'}}>2024.07.29</p> </M.FeedTitle>
-                            <M.InfoGroup style={{fontFamily: 'sans-serif'}}>랜덤 이미지의 순서를 배열하는 데 큰 어려움이 없어 보임. 그러나 설명을 바탕으로 이미지를 배열하는 데는 약한 모습을 보임. 문장을 연습하는 학습이 필요함. </M.InfoGroup>
-                        </M.InfoFeed>
+                        {/* 나머지 피드백 리스트는 생략 */}
                         </M.Item>
                         </M.Second>}
                 </M.ContentContainer>

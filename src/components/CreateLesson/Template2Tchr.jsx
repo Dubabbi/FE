@@ -12,13 +12,14 @@ import { useNavigate } from 'react-router-dom';
 
 const Template2Tchr = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const data = location.state;
+  const [difficulty, setDifficulty] = useState(data.difficulty);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalCardIndex, setModalCardIndex] = useState(null);
   const [inputValue, setInputValue] = useState('');
-  const location = useLocation();
   const [description, setDescription] = useState(''); 
   const [hint, setHint] = useState(''); 
-  const data = location.state;
   const [storyCards, setStoryCards] = useState([
     { image: '', answerNumber: 1 },
     { image: '', answerNumber: 2 },
@@ -68,6 +69,7 @@ const Template2Tchr = () => {
       const payload = {
         title: data.title,
         description: description,
+        difficulty: data.difficulty,
         hint: hint,
         imageNum: storyCards.length,
         type: data.difficulty,

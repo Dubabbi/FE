@@ -494,7 +494,7 @@ export const HintWrapper = styled.div`
     flex: 0 0 auto;
     text-align: center;
     min-width: 220px; 
-    border-radius: 1.3rem;
+    border-radius: 1.4rem;
     border: 2px solid rgba(244, 244, 244, 1);
     width: 55%;
     height: auto;
@@ -622,3 +622,31 @@ export const Upload = styled.img`
     align-items: center;
     cursor: pointer;`
 ;
+
+export const FeedImage = styled.div`
+    flex: 0 0 auto;
+    text-align: center;
+    min-width: 180px; 
+    width: 180px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    img{
+        width: 100%;
+        border-radius: 1.3rem;
+        border: 2px solid #ACAACC;
+    }
+    @media (max-width: 768px) {
+        width: 150px;
+        height: 150px;
+    }
+`
+export const FeedTitle = styled.h1`
+    display: flex;
+    font-size: 1.7rem;
+    max-width: 30%;
+    margin-left: 15%;
+    position: relative;
+`;

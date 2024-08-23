@@ -40,9 +40,14 @@ const WordDetailTchr = () => {
       try {
         const response = await axios.get(`https://maeummal.com/word/wordSet?wordSetId=${setId}`);
         if (response.data.isSuccess) {
-          const { title, category, description, wordList, image} = response.data.data;
-          setWordSet({ title, category, description, wordCards: wordList, imagePreviewUrl: image });
-          setFormData({ ...formData, numberOfWords: wordList.length });
+          const { title, category, description, wordList } = response.data.data;
+          setWordSet({
+            title,
+            category,
+            description,
+            wordCards: wordList
+          });
+          setFormData({ numberOfWords: wordList.length });
         }
       } catch (error) {
         console.error("Error fetching word set:", error);
