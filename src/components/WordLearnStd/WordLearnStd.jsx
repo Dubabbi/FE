@@ -51,6 +51,7 @@ const WordLearnStd = () => {
 
     fetchWordSet();
   }, [setId]);
+  
 
   const handlePrev = () => {
     if (currentWordIndex > 0) {
@@ -63,7 +64,9 @@ const WordLearnStd = () => {
   const handleNext = () => {
     if (currentWordIndex < wordSet.wordCards.length - 1) {
       setCurrentWordIndex(currentWordIndex + 1);
+      console.log(`Moved to next word: Index ${currentWordIndex + 1}`);
     } else {
+      console.log('Reached the last word.');
       alert("마지막 이미지입니다.");
     }
   };
