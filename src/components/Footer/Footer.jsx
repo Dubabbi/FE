@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const StyledFooter = styled.div`
     background-color: #666666;
     margin-bottom: 0;
+    margin-top: auto;
     bottom: 0;
     width: 100%;
     left: 0;

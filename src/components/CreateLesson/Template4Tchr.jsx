@@ -6,11 +6,15 @@ import Upload from '/src/assets/icon/uploadphoto.svg';
 import Back from '/src/assets/icon/back.svg';
 import My from '/src/assets/icon/phimg.svg'; 
 import UploadPhoto from './UploadPhoto';
+import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 
 const Template4Tchr = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const data = location.state;
   const [description, setDescription] = useState(''); 
   const [hint, setHint] = useState(''); 
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
@@ -54,7 +58,30 @@ const Template4Tchr = () => {
     newStoryCards[index].story = value;
     setStoryCards(newStoryCards);
   };
-
+  const handleSubmit = async () => {
+    const payload = {
+      title: data.title,
+      description: description,
+      difficulty: data.difficulty,
+      hint: hint,
+      imageNum: storyCards.length,
+      type: data.content,
+      storyCardEntityList: storyCards.map(card => ({ image: card.image, answerNumber: card.answerNumber }))
+    };
+    try {
+      const response = await axios.post('https://maeummal.com/template2/create', payload, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("key")}`,
+        }
+      });
+      console.log('Response:', response.data);
+      alert('강의가 성공적으로 생성되었습니다.');
+      navigate('/lessontchr')
+    } catch (error) {
+      console.error('Error:', error.response ? error.response.data : error.message);
+      alert('강의 생성에 실패했습니다.');
+    }
+  };
   return (
     <>
       <D.ImageWrap>
@@ -134,7 +161,7 @@ const Template4Tchr = () => {
             </C.HintBox>
           </C.HintGroup>
         </C.HintWrapper>
-        <C.SubmitButton>제출</C.SubmitButton>
+        <C.SubmitButton onClick={handleSubmit}>제출</C.SubmitButton>
       
       <UploadPhoto
         isOpen={isUploadModalOpen}

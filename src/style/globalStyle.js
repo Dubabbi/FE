@@ -4,7 +4,18 @@ export const GlobalStyle = createGlobalStyle`
   :root {
     --vh: 100%;
     background-color: #ffffff;
+    min-height: 100vh;
+    
   }
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* 화면 전체 높이 */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+    
 
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
