@@ -84,21 +84,18 @@ export default function MatchingModal({ isOpen, toggleModal }) {
   
     try {
       const response = await axios.post(
-        'https://maeummal.com/api/match/match-student',
+        `https://maeummal.com/api/match/match-student?pinCode=${pinCode}`,
         { pinCode },
-        { headers: { 'Authorization': `Bearer ${accessToken}` } }
-      );
-  
+        { headers: { 'Authorization': `Bearer ${accessToken}` },
+         withCredentials: true, }
+      ); 
       if (response.data.success) {
         console.log('Response:', response.data);
         alert('매칭 성공!');
-        toggleModal(); // 성공 시 모달 닫기
-      } else {
-        alert('매칭 실패: ' + (response.data.error && response.data.error.message ? response.data.error.message : "An unknown error occurred"));
-      }
+      } 
     } catch (error) {
       console.error('Error:', error);
-      alert('매칭 실패: ' + (error.response && error.response.data && error.response.data.error && error.response.data.error.message ? error.response.data.error.message : "An unknown error occurred"));
+      alert('매칭 실패: ' + (error.response ? error.response.data.message : error.message));
     }
   };
   

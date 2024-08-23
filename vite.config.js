@@ -19,13 +19,6 @@ export default defineConfig({
       maxAge: 3600 
     },
     proxy: {
-      '/api': {
-        target: 'https://maeummal.com',
-        changeOrigin: true,
-        secure: true,
-        rewrite: path => path.replace(/^\/api/, ''),
-        ws: true,
-      },
       '/socket.io': {
         target: 'https://maeummal.com',
         ws: true,

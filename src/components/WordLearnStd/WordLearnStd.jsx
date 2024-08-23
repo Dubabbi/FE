@@ -20,39 +20,41 @@ const WordLearnStd = () => {
 
   useEffect(() => {
     const fetchWordSet = async () => {
+      const url = `https://maeummal.com/word/wordSet?wordSetId=${setId}`;
+      console.log(`Attempting to fetch word set from URL: ${url}`); // URL 로깅
+
       try {
-        console.log(`Fetching word set with ID: ${setId}`);
-        const response = await axios.get(`https://maeummal.com/word/wordSet?wordSetId=${setId}`);
-        console.log('API Response:', response.data);
-  
-        if (response.data.data) {
-          const { title, category, description, wordList, image } = response.data.data;
-          setWordSet({ title, category, description, wordCards: wordList, imagePreviewUrl: image });
+        const response = await axios.get(url);
+        if (response.data.isSuccess && response.data.data) {
+          const { title, category, description, wordList, wordSetId } = response.data.data;
+          setWordSet({
+            title,
+            category,
+            description,
+            setId: wordSetId,
+            wordCards: wordList.map(word => ({
+              id: word.wordId,
+              meaning: word.meaning,
+              description: word.description,
+              image: word.image
+            }))
+          });
         } else {
           console.error('Failed to fetch word set:', response.data.message);
+          throw new Error(`Failed to fetch word set: ${response.data.message}`);
         }
       } catch (error) {
-        console.error('Error fetching word set:', error.response ? error.response.data : error.message);
-        if (error.response) {
-          console.error('Error Response Status:', error.response.status);
-          console.error('Error Response Data:', error.response.data);
-          console.error('Error Response Headers:', error.response.headers);
-        } else if (error.request) {
-          console.error('Error Request:', error.request);
-        } else {
-          console.error('Error Message:', error.message);
-        }
+        console.error('Error fetching word set:', error);
+        alert(`Error fetching data: ${error.toString()}`);
       }
     };
-  
+
     fetchWordSet();
   }, [setId]);
-  
 
   const handlePrev = () => {
     if (currentWordIndex > 0) {
       setCurrentWordIndex(currentWordIndex - 1);
-      console.log(`Moved to previous word: Index ${currentWordIndex - 1}`);
     } else {
       console.log('Already at the first word.');
     }
@@ -61,9 +63,7 @@ const WordLearnStd = () => {
   const handleNext = () => {
     if (currentWordIndex < wordSet.wordCards.length - 1) {
       setCurrentWordIndex(currentWordIndex + 1);
-      console.log(`Moved to next word: Index ${currentWordIndex + 1}`);
     } else {
-      console.log('Reached the last word.');
       alert("마지막 이미지입니다.");
     }
   };
@@ -75,9 +75,7 @@ const WordLearnStd = () => {
       </D.ImageWrap>
       <W.LessonWrapper>
         <D.Section>
-          <D.Section>
-            <h1>낱말 카드 학습</h1>
-          </D.Section>          
+          <h1>낱말 카드 학습 - {wordSet.title}</h1>
           <D.CardTitle>{wordSet.title}</D.CardTitle>
           <D.WordList>
             <D.WordBoard>

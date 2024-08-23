@@ -233,13 +233,12 @@ const MypageTchr = () => {
                         <M.Item>
                         {students.length > 0 ? (
                                 students.map(student => (
-                                    <div key={student.studentId}>
-                                        <M.StdLine>
-                                            <M.StuProfile src={student.profileImage || My} />
+                                    <div key={student.studentId} style={{width: '100%'}}>
+                                        <M.StdLine style={{justifyContent: 'space-between', width: '100%'}}>
+                                            <M.StuProfile src={student.profileImage} />
                                             <M.InfoTitle>{student.name}</M.InfoTitle>
                                             <M.Blank><img src={Arrow} onClick={handleStdinfo}/></M.Blank>
                                         </M.StdLine>
-                                        <hr />
                                     </div>
                                 ))
                             ) : (
@@ -261,19 +260,19 @@ const MypageTchr = () => {
                             <img src={Close} onClick={closeAll} />
                         </M.DetailTitle>
                         <M.Item>
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%' }}>
-                                <p style={{ whiteSpace: 'nowrap', marginLeft: '-110px', fontSize: '1.2rem' }}>학생 정보</p>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginBottom: '2.5%' }}>
+                                <p style={{ whiteSpace: 'nowrap', marginLeft: '0px', fontSize: '1.2rem' }}>학생 정보</p>
                                 <div style={{ width: '100px' }}></div>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', gap: '2%' }}>
                                 <M.InfoFeed style={{ whiteSpace: 'nowrap' }}>{selectedStudentDetails.iq}</M.InfoFeed>
                                 <M.InfoFeed style={{ whiteSpace: 'nowrap' }}>{selectedStudentDetails.phoneNumber}</M.InfoFeed>
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%' }}>
-                                <p style={{ whiteSpace: 'nowrap', marginLeft: '-100px', fontSize: '1.2rem' }}>피드백 목록</p>
-                                <div style={{ width: '100px' }}></div>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginBottom: '2.5%' }}>
+                                <p style={{ whiteSpace: 'nowrap', marginLeft: '0px', fontSize: '1.2rem' }}>피드백 목록</p>
+                                <M.MoreIcon src={More} onClick={handleFeedback} />
                             </div>
-                            <button onClick={handleFeedback}>피드백</button>
+
                         </M.Item>
                     </M.Second>
                 )}

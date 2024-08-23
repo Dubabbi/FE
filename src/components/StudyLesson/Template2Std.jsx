@@ -62,76 +62,78 @@ const Template2Std = () => {
   };
   
   const handleSubmit = () => {
-    // 템플릿 데이터가 올바르게 로드되었는지 확인
-    if (!templateData || !templateData.templateId) { 
-      console.error('템플릿 데이터가 없습니다. 다시 시도해주세요.');
-      return; // 데이터가 없으면 함수 종료
+    // Check if template data is loaded properly
+    if (!templateData || !templateData.templateId) {
+        console.error('템플릿 데이터가 없습니다. 다시 시도해주세요.');
+        return; // Exit the function if data is missing
     }
-  
+
     const userAnswerOrder = selectedImages.map(item => item.answerNumber);
     const correctOrder = templateData.storyCardEntityList.map(card => card.answerNumber);
-  
-    // 사용자가 선택한 이미지 수가 템플릿에서 요구하는 이미지 수와 일치하지 않는 경우
+
+    // Check if the user has selected all required images
     if (userAnswerOrder.length !== templateData.storyCardEntityList.length) {
-      alert('모든 이미지를 선택해주세요.');
-      return; // 더 이상 진행하지 않음
+        alert('모든 이미지를 선택해주세요.');
+        return;
     }
-  
+
     const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
-  
+
     const submitFeedback = async () => {
-      try {
-        const accessToken = `${localStorage.getItem("key")}`;
-        console.log("Submitting feedback request with data:", {
-          templateId: templateData.templateId,
-          answerList: userAnswerOrder.map(String),
-          studentId: 25,
-          templateType: "TEMPLATE2"
-        });
-  
-        const response = await axios.post('https://maeummal.com/feedback/create', {
-          templateId: templateData.templateId, 
-          answerList: userAnswerOrder.map(String),
-          studentId: 25,
-          templateType: "TEMPLATE2"
-        }, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
-        });
-  
-        if (response.data && response.data.id) {
-          setFeedbackData(response.data);
-          handleShowReward(true);
-        } else {
-          console.error('Failed to submit feedback:', response.data.message || 'Unknown error');
+        try {
+            const accessToken = localStorage.getItem("key");
+            console.log("Submitting feedback request with data:", {
+                templateId: templateData.templateId,
+                answerList: userAnswerOrder.map(String),
+                studentId: 25,
+                templateType: "TEMPLATE2",
+                title: templateData.title // Including the title in the POST request
+            });
+
+            const response = await axios.post('https://maeummal.com/feedback/create', {
+                templateId: templateData.templateId,
+                answerList: userAnswerOrder.map(String),
+                studentId: 25,
+                templateType: "TEMPLATE2",
+                title: templateData.title // Passing the title along with other data
+            }, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+
+            if (response.data && response.data.id) {
+                setFeedbackData(response.data);
+                handleShowReward(true);
+            } else {
+                console.error('Failed to submit feedback:', response.data.message || 'Unknown error');
+            }
+        } catch (error) {
+            if (error.response) {
+                console.error('Error response:', error.response.data || 'An unexpected error occurred');
+            } else if (error.request) {
+                console.error('No response received:', error.request);
+            } else {
+                console.error('Error during setup:', error.message);
+            }
         }
-      } catch (error) {
-        if (error.response) {
-          console.error('Error response:', error.response.data || 'An unexpected error occurred');
-        } else if (error.request) {
-          console.error('No response received:', error.request);
-        } else {
-          console.error('Error during setup:', error.message);
-        }
-      }
     };
-  
+
     if (isCorrect) {
-      submitFeedback();
-    } else {
-      if (lives > 0) {
-        setLives(lives - 1);
-        setShowHint(true);
-        setSelectedImages([]);
-        if (lives === 1) {
-          submitFeedback();
-        }
-      } else {
         submitFeedback();
-      }
+    } else {
+        if (lives > 0) {
+            setLives(lives - 1);
+            setShowHint(true);
+            setSelectedImages([]);
+            if (lives === 1) {
+                submitFeedback();
+            }
+        } else {
+            submitFeedback();
+        }
     }
-  };
+};
 
   const handleShowReward = (show) => {
     setShowReward(show);
@@ -144,7 +146,7 @@ const Template2Std = () => {
       navigate('/Feedback2', {
         state: {
           feedbackData,
-          description: templateData.description // description을 전달
+          description: templateData.description 
         }
       });
     } else {
@@ -153,7 +155,7 @@ const Template2Std = () => {
   };
 
   if (isLoading) {
-    return <p>Loading...</p>; // 로딩 중인 경우에 대한 처리
+    return <p>Loading...</p>; 
   }
 
   return (
@@ -178,17 +180,6 @@ const Template2Std = () => {
               <img style={{ border: selectedImages.some(item => item.id === card.storyCardId) ? '4px solid #ACAACC' : '4px solid #eee' }} src={card.image} alt={`Story card ${card.storyCardId}`} />
             </C.TemplateBox>
           ))}
-          {/*
-          <C.TemplateBox
-            key={card.storyCardId}
-            onClick={() => toggleSelectImage(card.storyCardId)}
-            style={{
-              border: selectedImages.some(item => item.id === card.storyCardId) ? '2px solid #ACAACC' : 'none' // 선택된 이미지에 대해 테두리 색상 변경
-            }}
-          >
-            <img src={card.image} alt={`Story card ${card.storyCardId}`} />
-          </C.TemplateBox>
-          */}
         </C.Line>
       </L.LessonWrapper>
       {showHint && (
