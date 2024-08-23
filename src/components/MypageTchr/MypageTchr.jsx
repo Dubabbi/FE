@@ -12,6 +12,10 @@ import StdModal from './MatchingModal';
 import Back from '/src/assets/icon/back.svg';
 import axios from 'axios';
 import tem1 from '/src/assets/icon/template/template1icon.svg';
+import tem2 from '/src/assets/icon/template/template2icon.svg';
+import tem3 from '/src/assets/icon/template/template3icon.svg';
+import tem4 from '/src/assets/icon/template/template4icon.svg';
+import tem5 from '/src/assets/icon/template/template5icon.svg';
 
 const MypageTchr = () => {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
@@ -22,36 +26,87 @@ const MypageTchr = () => {
     const [stdinfoExtended, setIsStdinfoExtended] = useState(false);
     const [isMatchingModalOpen, setIsMatchingModalOpen] = useState(false);
     const [students, setStudents] = useState([]);
+    const [selectedStudentDetails, setSelectedStudentDetails] = useState(null);
     const [error, setError] = useState('');
-    
+
     useEffect(() => {
         const fetchStudents = async () => {
             try {
                 const accessToken = localStorage.getItem("key");
+                if (!accessToken) {
+                    setError('Authentication required');
+                    return;
+                }
                 const response = await axios.get('https://maeummal.com/api/match/students', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
                 });
+
                 if (response.data.isSuccess) {
-                    setStudents(response.data.data);  
+                    setStudents(response.data.data);
                 } else {
-                    throw new Error('Failed to fetch students');
+                    throw new Error(response.data.message || 'Failed to fetch students');
                 }
             } catch (error) {
                 console.error('Error fetching students:', error);
-                setError('Failed to fetch students');
+                setError('Failed to fetch students: ' + error.message);
             }
         };
     
         fetchStudents();
     }, []);
-    
+
+    useEffect(() => {
+        const fetchStudentDetails = async (studentId) => {
+            try {
+                const accessToken = localStorage.getItem("key");
+                if (!accessToken) {
+                    setError('Authentication required');
+                    return;
+                }
+                const response = await axios.get(`https://maeummal.com/api/match/get?studentId=${studentId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+
+                if (response.data.isSuccess) {
+                    setSelectedStudentDetails(response.data.data);
+                } else {
+                    throw new Error(response.data.message || 'Failed to fetch student details');
+                }
+            } catch (error) {
+                console.error('Error fetching student details:', error);
+                setError('Failed to fetch student details: ' + error.message);
+            }
+        };
+
+        // Assuming a default student ID for demo purposes
+        fetchStudentDetails(25);
+    }, []);
+
+    const handleSelectStudent = (studentId) => {
+        fetchStudentDetails(studentId);
+        setIsStdinfoExtended(true);
+    };
+
     const toggleMatchingModal = () => {
         setIsMatchingModalOpen(!isMatchingModalOpen);
     };
     const toggleUploadModal = () => {
         setIsUploadModalOpen(!isUploadModalOpen);
+    };
+
+    const getTemplateIcon = (templateType) => {
+        switch(templateType) {
+            case 'TEMPLATE1': return tem1;
+            case 'TEMPLATE2': return tem2;
+            case 'TEMPLATE3': return tem3;
+            case 'TEMPLATE4': return tem4;
+            case 'TEMPLATE5': return tem5;
+            default: return tem1;
+        }
     };
 
     const handleAddImage = (file) => {
@@ -188,49 +243,71 @@ const MypageTchr = () => {
                                     </div>
                                 ))
                             ) : (
-                                <p>매칭된 학생이 없습니다.</p>
+                                <>
+                                <p>매칭된 학생이 없습니다. </p>
+                                <button style= {{width: '100px'}} onClick={handleFeedback}>피드백</button>
+                                </>
                             )}
                         </M.Item>
                     </M.Second>}
-                    {stdinfoExtended && 
-                        <M.Second style={{paddingTop: '1.7%'}}>
+                    {stdinfoExtended && selectedStudentDetails && (
+                    <M.Second style={{paddingTop: '1.7%'}}>
                         <M.DetailTitle>
                             <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
-                            <M.DetailLabel><M.StuProfile src={My} /><M.InfoTitle>김망곰 학생</M.InfoTitle></M.DetailLabel>
+                            <M.DetailLabel>
+                                <M.StuProfile src={selectedStudentDetails.profileImage || My} />
+                                <M.InfoTitle>{selectedStudentDetails.name}</M.InfoTitle>
+                            </M.DetailLabel>
                             <img src={Close} onClick={closeAll} />
                         </M.DetailTitle>
                         <M.Item>
-                        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%'}}>
-                                <p style={{whiteSpace: 'nowrap', marginLeft: '-110px', fontSize: '1.2rem'}}>학생 정보</p><div style={{width: '100px'}}></div>
-                        </div>
-                        <div style={{display: 'flex', flexDirection:'row', justifyContent: 'space-between', width: '100%', gap: '2%'}}>
-                            <M.InfoFeed style={{ whiteSpace: 'nowrap'}}>지능지수: 50~70(경도)</M.InfoFeed>
-                            <M.InfoFeed style={{whiteSpace: 'nowrap'}}>010-1234-5678</M.InfoFeed>
-                        </div>
-                        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%'}}>
-                                <p style={{whiteSpace: 'nowrap', marginLeft: '-100px', fontSize: '1.2rem'}}>피드백 목록</p><div style={{width: '100px'}}></div>
-                        </div>
-                        <button onClick={handleFeedback}>피드백</button>
-                        </M.Item>
-                        </M.Second>}
-                        {feedbackExtended && 
-                        <M.Second style={{paddingTop: '1.7%'}}>
-                        <M.DetailTitle>
-                            <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
-                            <M.DetailLabel><M.StuProfile src={My} /><M.InfoTitle>김망곰 학생</M.InfoTitle></M.DetailLabel>
-                            <img src={Close} onClick={closeAll} />
-                        </M.DetailTitle>
-                        <M.Item>
-                            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%'}}>
-                                <p style={{whiteSpace: 'nowrap', marginRight: '100px', fontSize: '1.2rem'}}>피드백 목록</p><div style={{width: '100px'}}></div>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%' }}>
+                                <p style={{ whiteSpace: 'nowrap', marginLeft: '-110px', fontSize: '1.2rem' }}>학생 정보</p>
+                                <div style={{ width: '100px' }}></div>
                             </div>
-                        <M.InfoFeed>
-                            <M.FeedTitle><M.Start style={{alignItems: 'center', marginBottom: '2%', gap: '15%'}}><img style={{maxWidth: '20px'}} src={tem1}></img><p style={{whiteSpace: 'nowrap', fontSize: '1.1rem'}}>강의 제목</p></M.Start><p style={{marginBottom: '2%'}}>2024.07.29</p> </M.FeedTitle>
-                            <M.InfoGroup style={{fontFamily: 'sans-serif'}}>랜덤 이미지의 순서를 배열하는 데 큰 어려움이 없어 보임. 그러나 설명을 바탕으로 이미지를 배열하는 데는 약한 모습을 보임. 문장을 연습하는 학습이 필요함. </M.InfoGroup>
-                        </M.InfoFeed>
-                        {/* 나머지 피드백 리스트는 생략 */}
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', gap: '2%' }}>
+                                <M.InfoFeed style={{ whiteSpace: 'nowrap' }}>{selectedStudentDetails.iq}</M.InfoFeed>
+                                <M.InfoFeed style={{ whiteSpace: 'nowrap' }}>{selectedStudentDetails.phoneNumber}</M.InfoFeed>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%' }}>
+                                <p style={{ whiteSpace: 'nowrap', marginLeft: '-100px', fontSize: '1.2rem' }}>피드백 목록</p>
+                                <div style={{ width: '100px' }}></div>
+                            </div>
+                            <button onClick={handleFeedback}>피드백</button>
                         </M.Item>
-                        </M.Second>}
+                    </M.Second>
+                )}
+                {/* Feedback Expanded View */}
+                {feedbackExtended && selectedStudentDetails && (
+                    <M.Second style={{ paddingTop: '1.7%' }}>
+                        <M.DetailTitle>
+                            <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
+                            <M.DetailLabel>
+                                <M.StuProfile src={selectedStudentDetails.profileImage || My} />
+                                <M.InfoTitle>{selectedStudentDetails.name} 학생</M.InfoTitle>
+                            </M.DetailLabel>
+                            <img style={{ marginRight: '-50px'}} src={Close} onClick={closeAll} />
+                        </M.DetailTitle>
+                        <M.Item>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%' }}>
+                                <p style={{ whiteSpace: 'nowrap', marginLeft: '-110px', fontSize: '1.2rem' }}>피드백 목록</p>
+                                <div style={{ width: '100px' }}></div>
+                            </div>
+                            {selectedStudentDetails.feedbackTwo.map(feedback => (
+                                <M.InfoFeed key={feedback.id}>
+                                    <M.FeedTitle>
+                                        <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
+                                            <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="Template Icon"></img>
+                                            <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || 'Untitled'}</p>
+                                        </M.Start>
+                                        <p style={{ marginBottom: '2%' }}>{new Date(feedback.createdAt).toLocaleDateString()}</p>
+                                    </M.FeedTitle>
+                                    <M.InfoGroup style={{ fontFamily: 'sans-serif', textAlign: 'left' }}>{feedback.aiFeedback}</M.InfoGroup>
+                                </M.InfoFeed>
+                            ))}
+                        </M.Item>
+                    </M.Second>
+                )}
                 </M.ContentContainer>
             </M.Section>
             <UploadPhoto 
