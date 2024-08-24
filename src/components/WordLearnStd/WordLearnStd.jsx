@@ -9,64 +9,59 @@ import Back from '/src/assets/icon/back.svg';
 
 const WordLearnStd = () => {
   const navigate = useNavigate();
-  const { setId } = useParams();
+  const { wordSetId } = useParams();
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [wordSet, setWordSet] = useState({
     title: '',
     category: '',
     description: '',
-    wordCards: []
+    wordCards: [] // Ensure initial state is an empty array
   });
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchWordSet = async () => {
-      const url = `https://maeummal.com/word/wordSet?wordSetId=${setId}`;
-      console.log(`Attempting to fetch word set from URL: ${url}`); // URL 로깅
+      const accessToken = localStorage.getItem("key");
+      if (!accessToken) {
+        setError('Authentication required');
+        return;
+      }
 
       try {
-        const response = await axios.get(url);
+        const response = await axios.get(`https://maeummal.com/word/wordSet?wordSetId=${wordSetId}`, {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+
         if (response.data.isSuccess && response.data.data) {
-          const { title, category, description, wordList, wordSetId } = response.data.data;
+          const { title, category, description, wordList } = response.data.data;
           setWordSet({
             title,
             category,
             description,
-            setId: wordSetId,
-            wordCards: wordList.map(word => ({
-              id: word.wordId,
-              meaning: word.meaning,
-              description: word.description,
-              image: word.image
-            }))
+            wordCards: wordList || [] // Safe fallback as an empty array
           });
         } else {
-          console.error('Failed to fetch word set:', response.data.message);
-          throw new Error(`Failed to fetch word set: ${response.data.message}`);
+          throw new Error(response.data.message || 'Failed to fetch word set');
         }
       } catch (error) {
         console.error('Error fetching word set:', error);
-        alert(`Error fetching data: ${error.toString()}`);
+        setError(`Failed to fetch word set: ${error.message}`);
       }
     };
 
     fetchWordSet();
-  }, [setId]);
-  
+  }, [wordSetId]);
 
   const handlePrev = () => {
     if (currentWordIndex > 0) {
       setCurrentWordIndex(currentWordIndex - 1);
-    } else {
-      console.log('Already at the first word.');
     }
   };
 
   const handleNext = () => {
-    if (currentWordIndex < wordSet.wordCards.length - 1) {
+    if (currentWordIndex < (wordSet.wordCards.length - 1)) {
       setCurrentWordIndex(currentWordIndex + 1);
-      console.log(`Moved to next word: Index ${currentWordIndex + 1}`);
     } else {
-      console.log('Reached the last word.');
       alert("마지막 이미지입니다.");
     }
   };
@@ -76,22 +71,28 @@ const WordLearnStd = () => {
       <D.ImageWrap>
         <a href="/WordStd"><img src={Back} alt="Back to main" /></a>
       </D.ImageWrap>
-      <W.LessonWrapper>
+      <W.LessonWrapper style={{marginBottom: '4%'}}>
         <D.Section>
-          <h1>낱말 카드 학습 {wordSet.title}</h1>
-          <D.CardTitle>{wordSet.title}</D.CardTitle>
+          <D.Section>
+          <h1>낱말 카드 학습</h1>
+          </D.Section>
+          <D.CardTitle style={{fontSize: '1.5rem'}}>{wordSet.title}</D.CardTitle>
           <D.WordList>
             <D.WordBoard>
               <D.ArrowButton onClick={handlePrev}><img src={arrowback} alt="이전" /></D.ArrowButton>
               <D.Word>
-                <img src={wordSet.wordCards[currentWordIndex]?.image || ''} alt="단어 이미지" />
+                {wordSet.wordCards.length > 0 ? (
+                  <img src={wordSet.wordCards[currentWordIndex]?.image || ''} alt="단어 이미지" />
+                ) : (
+                  <p>No images available</p>
+                )}
               </D.Word>
               <D.ArrowButton onClick={handleNext}><img src={arrownext} alt="다음" /></D.ArrowButton>
             </D.WordBoard>
           </D.WordList>
         </D.Section>
-        <D.BottomButton style={{ marginBottom: '4%' }}>
-          <a href="/WordStd">학습 종료</a>
+        <D.BottomButton>
+          <a href="/WordNextStd">학습 종료</a>
         </D.BottomButton>
       </W.LessonWrapper>
     </>

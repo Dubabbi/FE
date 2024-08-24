@@ -11,10 +11,11 @@ import placeholderImage from '/src/assets/icon/phimg.svg';
 
 const WordDetailTchr = () => {
   const navigate = useNavigate();
-  const { setId } = useParams();
+  const { wordSetId } = useParams();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalCardIndex, setModalCardIndex] = useState(null);
   const [inputModalValue, setInputModalValue] = useState('');
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
   const [category, setCategory] = useState('');
   const [wordSet, setWordSet] = useState({
@@ -23,7 +24,6 @@ const WordDetailTchr = () => {
     description: '',
     wordCards: []
   });
-
   const categoryOptions = {
     FOOD: '음식',
     ANIMAL: '동물',
@@ -37,25 +37,36 @@ const WordDetailTchr = () => {
 
   useEffect(() => {
     const fetchWordSet = async () => {
+      const accessToken = localStorage.getItem("key");
+      if (!accessToken) {
+        setError('Authentication required');
+        return;
+      }
+
       try {
-        const response = await axios.get(`https://maeummal.com/word/wordSet?wordSetId=${setId}`);
-        if (response.data.isSuccess) {
+        const response = await axios.get(`https://maeummal.com/word/wordSet?wordSetId=${wordSetId}`, {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+
+        if (response.data.isSuccess && response.data.data) {
           const { title, category, description, wordList } = response.data.data;
           setWordSet({
             title,
             category,
             description,
-            wordCards: wordList
+            wordCards: wordList || [] // Safe fallback as an empty array
           });
-          setFormData({ numberOfWords: wordList.length });
+        } else {
+          throw new Error(response.data.message || 'Failed to fetch word set');
         }
       } catch (error) {
-        console.error("Error fetching word set:", error);
-        alert('Failed to load word set.');
+        console.error('Error fetching word set:', error);
+        setError(`Failed to fetch word set: ${error.message}`);
       }
     };
+
     fetchWordSet();
-  }, [setId]);
+  }, [wordSetId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -88,29 +99,63 @@ const WordDetailTchr = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const updatedWordCards = wordSet.wordCards.map(card => ({
+      wordId: card.wordId,
+      meaning: card.meaning,
+      description: card.description,
+      image: card.imagePreviewUrl,
+      prompt: card.prompt
+    }));
+
+    const updateData = {
+      wordSetDTO: {
+        title: wordSet.title,
+        description: wordSet.description,
+        category: wordSet.category
+      },
+      wordDTOList: updatedWordCards
+    };
+
     try {
-      const { title, category, description, wordCards } = wordSet;
-      const response = await axios.patch(`https://maeummal.com/word/wordSet/${setId}`, {
-        title, category, description,
-        wordList: wordCards.map(card => ({
-          wordId: card.wordId,
-          meaning: card.meaning,
-          description: card.description,
-          image: card.imagePreviewUrl,
-          prompt: card.prompt
-        }))
+      const response = await axios.patch(`https://maeummal.com/word/wordSet/${wordSetId}`, updateData, {
+        headers: { 'Content-Type': 'application/json' }
       });
       if (response.data.isSuccess) {
-        alert('Word set updated successfully.');
+        alert('낱말 카드 세트가 성공적으로 수정되었습니다.');
         navigate('/WordTchr');
       } else {
         throw new Error(response.data.message);
       }
     } catch (error) {
       console.error("Error updating word set:", error);
-      alert('Failed to update word set.');
+      alert('낱말 카드 세트 수정에 실패했습니다.');
     }
   };
+  const renderWordImage = (currentWordindex) => {
+    if (wordSet.wordCards.length > 0) {
+      const image = wordSet.wordCards[currentWordindex]?.image || placeholderImage;
+      return (
+        <img
+          src={image}
+          alt="Word Image"
+          style={{ maxWidth: '200px', borderRadius: '7px', border: '4px solid #ACAACC', width: '100%', height: 'auto' }}
+        />
+      );
+    }
+    return <p>No images available</p>;
+  };
+  
+  // 이미지 수정 버튼 클릭 이벤트
+  const handleEditImageClick = (index) => {
+    setCurrentWordIndex(index);
+    const card = wordSet.wordCards[index];
+    toggleModal(card.wordId, card.imagePreviewUrl || placeholderImage);
+  };
+  useEffect(() => {
+    if (wordSet.wordCards.length > 0 && currentWordIndex >= wordSet.wordCards.length) {
+      setCurrentWordIndex(0); // 인덱스 초기화
+    }
+  }, [wordSet.wordCards]);
 
   return (
     <>
@@ -183,13 +228,14 @@ const WordDetailTchr = () => {
             <D.Line>
               <D.Box>
                 <D.SecondTitle>이미지 수정</D.SecondTitle>
-                <W.AddImage onClick={() => toggleModal(card.wordId, card.imagePreviewUrl || placeholderImage)}>
-                  <img
-                    src={card.imagePreviewUrl || placeholderImage}
-                    alt="Edit Image"
-                    style={{ maxWidth: '200px' ,borderRadius: '7px', border: '4px solid #ACAACC', width: '100%', height: 'auto', marginLeft: '0px' }} 
-                  />
-                </W.AddImage>
+                {wordSet.wordCards.length > 0 ? (
+                  <>
+                <W.AddImage onClick={() => handleEditImageClick(index)}>
+                {renderWordImage(index)}
+                </W.AddImage></>
+                ) : (
+                  <p>No images available</p>
+                )}
               </D.Box>
               <D.SecondBox>
                 <D.WordTitle>단어</D.WordTitle>

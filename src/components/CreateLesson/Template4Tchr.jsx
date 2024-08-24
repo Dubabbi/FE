@@ -20,9 +20,9 @@ const Template4Tchr = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [modalCardIndex, setModalCardIndex] = useState(null); // 현재 이미지 업로드를 할 카드 인덱스
   const [storyCards, setStoryCards] = useState([
-    { story: '', imagePreviewUrl: My },
-    { story: '', imagePreviewUrl: My },
-    { story: '', imagePreviewUrl: My }
+    { image: '', answerNumber: 1, imagePreviewUrl: My },
+    { image: '', answerNumber: 2, imagePreviewUrl: My },
+    { image: '', answerNumber: 3, imagePreviewUrl: My },
   ]);
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
