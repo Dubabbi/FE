@@ -17,21 +17,26 @@ const Template4Std = () => {
   const [lives, setLives] = useState(2);
   const [showHint, setShowHint] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   useEffect(() => {
-    const template4Id = 4;
-  
+    const template4Id = 8; 
     const fetchTemplateData = async () => {
+      const accessToken = localStorage.getItem("key");
+      if (!accessToken) {
+        console.log('Authentication required');
+        return;
+      }
+
       try {
-        console.log("Fetching template data..."); // 요청 시작 로그
         const response = await axios.get(`https://maeummal.com/template4/get?template4Id=${template4Id}`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("key")}`
+            Authorization: `Bearer ${accessToken}`
           }
         });
-  
-        if (response.data.isSuccess) {
-          console.log("Template data fetched successfully:", response.data.data); 
+
+        if (response.data.isSuccess && response.data.data) {
+          console.log("Template data fetched successfully:", response.data.data);
           setTemplateData(response.data.data);
           setSelectedImages([]);
         } else {
@@ -40,10 +45,10 @@ const Template4Std = () => {
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
-        setIsLoading(false); 
+        setIsLoading(false);
       }
     };
-  
+
     fetchTemplateData();
   }, []);
 
@@ -51,28 +56,28 @@ const Template4Std = () => {
     const cardInfo = templateData.storyCardEntityList.find(card => card.storyCardId === id);
     const index = selectedImages.findIndex(item => item.id === id);
     if (index === -1) {
-        const newImages = [...selectedImages, { id, answerNumber: cardInfo.answerNumber }];
-        setSelectedImages(newImages);
+      const newImages = [...selectedImages, { id, answerNumber: cardInfo.answerNumber }];
+      setSelectedImages(newImages);
     } else {
-        const newImages = selectedImages.filter(item => item.id !== id);
-        setSelectedImages(newImages);
+      const newImages = selectedImages.filter(item => item.id !== id);
+      setSelectedImages(newImages);
     }
   };
 
   const handleSubmit = () => {
     const userAnswerOrder = selectedImages.map(item => item.answerNumber);
     const correctOrder = templateData.storyCardEntityList.map(card => card.answerNumber);
-  
+
     if (userAnswerOrder.length !== templateData.storyCardEntityList.length) {
       console.error('Answer list size does not match the image card entities size');
       return;
     }
-  
+
     const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
-  
+
     const submitFeedback = async () => {
       try {
-        const accessToken = `${localStorage.getItem("key")}`;
+        const accessToken = localStorage.getItem("key");
         const response = await axios.post('https://maeummal.com/feedback/create', {
           templateId: templateData.templateId,
           answerList: userAnswerOrder.map(String),
@@ -83,7 +88,7 @@ const Template4Std = () => {
             Authorization: `Bearer ${accessToken}`
           }
         });
-  
+
         if (response.data && response.data.id) {
           setFeedbackData(response.data);
           handleShowReward(true);
@@ -100,7 +105,7 @@ const Template4Std = () => {
         }
       }
     };
-  
+
     if (isCorrect) {
       submitFeedback();
     } else {
@@ -116,8 +121,6 @@ const Template4Std = () => {
       }
     }
   };
-  
-  const [selectedCard, setSelectedCard] = useState(null);
 
   const handleSelectCard = (index) => {
     setSelectedCard(index);
@@ -145,7 +148,6 @@ const Template4Std = () => {
   if (isLoading) {
     return <p>Loading...</p>; 
   }
-
 
   return (
     <>
