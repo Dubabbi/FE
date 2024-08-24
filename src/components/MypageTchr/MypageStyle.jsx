@@ -41,7 +41,7 @@ export const Second = styled.div`
   display: flex;
   margin-left: 0;
   max-width: 30%;
-  min-width: 300px;
+  min-width: 370px;
   box-shadow: 0px 5.1px 7.64px rgba(0, 0, 0, 0.15);
   height: auto;
   max-height: 500px;
@@ -76,25 +76,25 @@ export const Item = styled.div`
   background-color: #ffffff;
   text-align: center;
   flex: 1;
-  overflow-x: auto;
-      &::-webkit-scrollbar {
-        width: 9px;
-    }
+  overflow-x: hidden; // Prevent horizontal scrolling
+  overflow-y: auto; // Allow vertical scrolling if needed
+  &::-webkit-scrollbar {
+    width: 9px;
+  }
 
-    &::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
 
-    &::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 10px;
-    }
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
 
-    &::-webkit-scrollbar-thumb:hover {
-        background: #555;
-    }`
-
-;
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+`;
 
 export const ContentContainer = styled.div`
   display: flex;

@@ -244,8 +244,7 @@ const MypageTchr = () => {
                                 ))
                             ) : (
                                 <>
-                                <p>매칭된 학생이 없습니다. </p>
-                                <button style= {{width: '100px'}} onClick={handleFeedback}>피드백</button>
+                                <p style={{marginTop: '3%'}}>매칭된 학생이 없습니다. </p>
                                 </>
                             )}
                         </M.Item>
@@ -256,11 +255,11 @@ const MypageTchr = () => {
                             <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
                             <M.DetailLabel>
                                 <M.StuProfile src={selectedStudentDetails.profileImage || My} />
-                                <M.InfoTitle >{selectedStudentDetails.name}</M.InfoTitle>
+                                <M.InfoTitle>{selectedStudentDetails.name}</M.InfoTitle>
                             </M.DetailLabel>
                             <img style={{ marginRight: '-50px'}} src={Close} onClick={closeAll} />
                         </M.DetailTitle>
-                        <M.Item>
+                        <M.Item style={{maxWidth: '100%'}}>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginBottom: '2.5%' }}>
                                 <p style={{ whiteSpace: 'nowrap', marginLeft: '0px', fontSize: '1.2rem' }}>학생 정보</p>
                                 <div style={{ width: '100px' }}></div>
@@ -272,25 +271,44 @@ const MypageTchr = () => {
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginBottom: '2.5%' }}>
                                 <p style={{ whiteSpace: 'nowrap', marginLeft: '0px', fontSize: '1.2rem' }}>피드백 목록</p>
                                 <M.MoreIcon src={More} onClick={handleFeedback} />
-                            </div>                                    
-                            <ChartComponent />
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', gap: '2%' }}>
+                            {selectedStudentDetails.feedbackTwo.map(feedback => (
+                                <M.InfoFeed style={{width: '50%'}} key={feedback.id}>
+                                    <M.FeedTitle>
+                                        <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
+                                            <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="Template Icon"></img>
+                                            <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || 'Untitled'}</p>
+                                        </M.Start>
+                                    </M.FeedTitle>
+                                    <M.InfoGroup style={{ fontFamily: 'sans-serif', textAlign: 'left', textOverflow: 'ellipsis' }}>{feedback.aiFeedback.length > 70 ? `${feedback.aiFeedback.substring(0, 70)}...` : feedback.aiFeedback}</M.InfoGroup>
+                                </M.InfoFeed>    
+                            ))}</div>
+                            <div>                                  
+                                {selectedStudentDetails.templateChart && (
+                                    <ChartComponent chartData={selectedStudentDetails.templateChart} />
+                                )}
+                            </div>
                         </M.Item>
                     </M.Second>
                 )}
                 {/* Feedback Expanded View */}
+
                 {feedbackExtended && selectedStudentDetails && (
                     <M.Second style={{ paddingTop: '1.7%' }}>
                         <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
                             <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
+                            {selectedStudentDetails && (
                             <M.DetailLabel>
                                 <M.StuProfile src={selectedStudentDetails.profileImage || My} />
                                 <M.InfoTitle>{selectedStudentDetails.name} 학생</M.InfoTitle>
                             </M.DetailLabel>
+                            )}
                             <img style={{ marginRight: '-50px'}} src={Close} onClick={closeAll} />
                         </M.DetailTitle>
                         <M.Item>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%' }}>
-                                <p style={{ whiteSpace: 'nowrap', marginLeft: '-110px', fontSize: '1.2rem' }}>피드백 목록</p>
+                                <p style={{ whiteSpace: 'nowrap', marginLeft: '-140px', fontSize: '1.2rem' }}>피드백 목록</p>
                                 <div style={{ width: '100px' }}></div>
                             </div>
                             {selectedStudentDetails.feedbackTwo.map(feedback => (
