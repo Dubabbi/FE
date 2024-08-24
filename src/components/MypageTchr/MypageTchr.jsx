@@ -83,12 +83,41 @@ const MypageTchr = () => {
             }
         };
 
-        // Assuming a default student ID for demo purposes
-        fetchStudentDetails(25);
+        fetchStudentDetails(1);
     }, []);
 
+    useEffect(() => {
+        const fetchFullFeedback = async (studentId) => {
+            try {
+                const accessToken = localStorage.getItem("key");
+                const response = await axios.get(`https://maeummal.com/feedback/all?id=${studentId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+
+                if (response.data.isSuccess) {
+                    setSelectedStudentDetails(prevDetails => ({
+                        ...prevDetails,
+                        ...response.data.data,
+                        fullFeedback: response.data.data
+                    }));
+                } else {
+                    throw new Error(response.data.message || 'Failed to fetch full feedback');
+                }
+            } catch (error) {
+                console.error('Error fetching full feedback:', error);
+                setError('Failed to fetch full feedback: ' + error.message);
+            }
+        };
+
+            fetchFullFeedback(1);
+        }, []);
+    
+    // 학생 선택 시 전체 피드백 리스트 불러오기
     const handleSelectStudent = (studentId) => {
         fetchStudentDetails(studentId);
+        fetchFullFeedback(studentId); // 전체 피드백 불러오기
         setIsStdinfoExtended(true);
     };
 
@@ -295,37 +324,35 @@ const MypageTchr = () => {
                 {/* Feedback Expanded View */}
 
                 {feedbackExtended && selectedStudentDetails && (
-                    <M.Second style={{ paddingTop: '1.7%' }}>
-                        <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
-                            <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
-                            {selectedStudentDetails && (
-                            <M.DetailLabel>
-                                <M.StuProfile src={selectedStudentDetails.profileImage || My} />
-                                <M.InfoTitle>{selectedStudentDetails.name} 학생</M.InfoTitle>
-                            </M.DetailLabel>
-                            )}
-                            <img style={{ marginRight: '-50px'}} src={Close} onClick={closeAll} />
-                        </M.DetailTitle>
-                        <M.Item>
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%' }}>
-                                <p style={{ whiteSpace: 'nowrap', marginLeft: '-140px', fontSize: '1.2rem' }}>피드백 목록</p>
-                                <div style={{ width: '100px' }}></div>
-                            </div>
-                            {selectedStudentDetails.feedbackTwo.map(feedback => (
-                                <M.InfoFeed key={feedback.id}>
-                                    <M.FeedTitle>
-                                        <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
-                                            <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="Template Icon"></img>
-                                            <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || 'Untitled'}</p>
-                                        </M.Start>
-                                        <p style={{ marginBottom: '2%' }}>{new Date(feedback.createdAt).toLocaleDateString()}</p>
-                                    </M.FeedTitle>
-                                    <M.InfoGroup style={{ fontFamily: 'sans-serif', textAlign: 'left' }}>{feedback.aiFeedback}</M.InfoGroup>
-                                </M.InfoFeed>
-                            ))}
-                        </M.Item>
-                    </M.Second>
-                )}
+                <M.Second style={{ paddingTop: '1.7%' }}>
+                    <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
+                        <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
+                        <M.DetailLabel>
+                            <M.StuProfile src={selectedStudentDetails.profileImage || My} />
+                            <M.InfoTitle>{selectedStudentDetails.name} 학생</M.InfoTitle>
+                        </M.DetailLabel>
+                        <img style={{ marginRight: '-50px'}} src={Close} onClick={closeAll} />
+                    </M.DetailTitle>
+                    <M.Item>
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%' }}>
+                            <p style={{ whiteSpace: 'nowrap', marginLeft: '-140px', fontSize: '1.2rem' }}>피드백 목록</p>
+                            <div style={{ width: '100px' }}></div>
+                        </div>
+                        {selectedStudentDetails.fullFeedback?.map(feedback => (
+                            <M.InfoFeed key={feedback.id}>
+                                <M.FeedTitle>
+                                    <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
+                                        <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="Template Icon"></img>
+                                        <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || 'Untitled'}</p>
+                                    </M.Start>
+                                    <p style={{ marginBottom: '2%' }}>{new Date(feedback.createdAt).toLocaleDateString()}</p>
+                                </M.FeedTitle>
+                                <M.InfoGroup style={{ fontFamily: 'sans-serif', textAlign: 'left' }}>{feedback.aiFeedback}</M.InfoGroup>
+                            </M.InfoFeed>
+                        ))}
+                    </M.Item>
+                </M.Second>
+            )}
                 </M.ContentContainer>
             </M.Section>
             <UploadPhoto 
