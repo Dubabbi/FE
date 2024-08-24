@@ -4,9 +4,6 @@ import * as C from '../CreateLesson/CreateLessonStyle';
 import * as L from '../LessonTchr/LessonStyle';
 import * as D from '../WordCreateTchr/WordDetailStyle';
 import Back from '/src/assets/icon/back.svg';
-import up1 from '/src/assets/image/up1.svg';
-import up2 from '/src/assets/image/up2.svg';
-import up3 from '/src/assets/image/up3.svg';
 import axios from 'axios';
 import { ModalOverlay } from './Feedback2';
 import Reward from '../Reward/Reward';
@@ -19,26 +16,35 @@ const Template4Std = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [lives, setLives] = useState(2);
   const [showHint, setShowHint] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const template2Id = 4;
-
-    axios.get(`https://maeummal.com/template2/get?template2Id=${template2Id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("key")}`
+    const template4Id = 4;
+  
+    const fetchTemplateData = async () => {
+      try {
+        console.log("Fetching template data..."); // 요청 시작 로그
+        const response = await axios.get(`https://maeummal.com/template4/get?template4Id=${template4Id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("key")}`
+          }
+        });
+  
+        if (response.data.isSuccess) {
+          console.log("Template data fetched successfully:", response.data.data); 
+          setTemplateData(response.data.data);
+          setSelectedImages([]);
+        } else {
+          throw new Error('Failed to fetch data');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false); 
       }
-    })
-    .then(response => {
-      if (response.data.isSuccess) {
-        setTemplateData(response.data.data);
-        setSelectedImages([]);
-      } else {
-        throw new Error('Failed to fetch data');
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
+    };
+  
+    fetchTemplateData();
   }, []);
 
   const toggleSelectImage = (id) => {
@@ -68,9 +74,9 @@ const Template4Std = () => {
       try {
         const accessToken = `${localStorage.getItem("key")}`;
         const response = await axios.post('https://maeummal.com/feedback/create', {
-          templateId: 4,
+          templateId: templateData.templateId,
           answerList: userAnswerOrder.map(String),
-          studentId: 12,
+          studentId: 25,
           templateType: "TEMPLATE4"
         }, {
           headers: {
@@ -111,6 +117,11 @@ const Template4Std = () => {
     }
   };
   
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  const handleSelectCard = (index) => {
+    setSelectedCard(index);
+  };
 
   const handleShowReward = (show) => {
     setShowReward(show);
@@ -118,23 +129,23 @@ const Template4Std = () => {
 
   const handleCloseReward = () => {
     setShowReward(false);
-  
+
     if (feedbackData) {
-      navigate('/Feedback2', { 
-        state: { 
-          feedbackData, 
-          description: templateData.description
-        } 
+      navigate('/Feedback2', {
+        state: {
+          feedbackData,
+          description: templateData.description 
+        }
       });
     } else {
       console.error('No feedback data available to pass to Feedback2');
     }
   };
-  const [selectedCard, setSelectedCard] = useState(null);
 
-  const handleSelectCard = (index) => {
-    setSelectedCard(index);
-  };
+  if (isLoading) {
+    return <p>Loading...</p>; 
+  }
+
 
   return (
     <>
@@ -143,21 +154,20 @@ const Template4Std = () => {
       </D.ImageWrap>
       <L.LessonWrapper>
         <L.Section>
-          <h1>이야기 순서 배열하기</h1>
-          <p>Up 이야기 알아보기</p>
+        <h1>{templateData ? templateData.title : 'Loading...'}</h1>
+        <p>{templateData ? templateData.description : 'Loading...'}</p>
         </L.Section>
         <D.Select style={{width: '20%', marginLeft: '7px', marginBottom: '5px'}}>
         </D.Select>
         <C.StoryWrap>
           <C.CardContainer>
-            {[up1, up2, up3].map((image, index) => (
+          {templateData && templateData.storyCardEntityList.map(card => (
               <C.SelectCard
-                key={index}
+                key={card.storyCardId} onClick={() => toggleSelectImage(card.storyCardId)}
                 selected={selectedCard === index}
-                onClick={() => handleSelectCard(index)}
               >
                 <C.ImageList>
-                  <div><img src={image} alt="" /></div>
+                  <div><img style={{ border: selectedImages.some(item => item.id === card.storyCardId) ? '4px solid #ACAACC' : '4px solid #eee' }} src={card.image} alt={`Story card ${card.storyCardId}`} /></div>
                 </C.ImageList>
                 <C.Story><p>이야기</p></C.Story>
               </C.SelectCard>
