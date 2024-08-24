@@ -142,6 +142,7 @@ export const ArrowButton = styled.div`
         align-items: center;
         margin: 0 auto;
         border-radius: 100px;
+        cursor: pointer;
     }
 `;
 

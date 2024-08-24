@@ -51,7 +51,7 @@ export default function User() {
         <Route path="/wordtchr" element={<WordTchrPage />} />
         <Route path="/wordstd" element={<WordStdPage />} />
         <Route path="/lessondetailtchr" element={<LessonDetailTchrPage />} />
-        <Route path="/wordstd/:setId" element={<WordLearnStdPage />} />
+        <Route path="/wordstd/:wordSetId" element={<WordLearnStdPage />} />
         <Route path="/wordnextstd" element={<WordNextStd />} />
         <Route path="/wordcreatetchr" element={<WordCreateTchrPage />} />
         <Route path="/createlesson" element={<CreateLessonPage />} />
@@ -78,7 +78,7 @@ export default function User() {
         <Route path="/mypagestd" element={<MypageStdPage />} />
         <Route path="/mypagetchr" element={<MypageTchrPage />} />
         <Route path="/wordlisttchr" element={<WordListTchrPage />} />
-        <Route path="/wordtchr/:setId" element={<WordDetailTchr />} />
+        <Route path="/wordtchr/:wordSetId" element={<WordDetailTchr />} />
       </Routes>
       <FloatingButton />
       <Footer />
