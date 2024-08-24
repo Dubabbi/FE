@@ -230,12 +230,12 @@ const WordDetailTchr = () => {
                 <D.SecondTitle>이미지 수정</D.SecondTitle>
                 {wordSet.wordCards.length > 0 ? (
                   <>
-                            <W.AddImage onClick={() => handleEditImageClick(index)}>
-              {renderWordImage(index)}
-            </W.AddImage></>
-                                ) : (
-                                  <p>No images available</p>
-                                )}
+                <W.AddImage onClick={() => handleEditImageClick(index)}>
+                {renderWordImage(index)}
+                </W.AddImage></>
+                ) : (
+                  <p>No images available</p>
+                )}
               </D.Box>
               <D.SecondBox>
                 <D.WordTitle>단어</D.WordTitle>
