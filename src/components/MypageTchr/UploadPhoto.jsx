@@ -4,11 +4,10 @@ import close from '/src/assets/icon/closebtn.svg';
 import uploadIcon from '/src/assets/icon/fileupload.svg';
 import axios from 'axios';
 
-const UploadPhoto = ({ isOpen, toggleModal, updateProfileImage }) => {
+const UploadPhoto = ({ isOpen, toggleModal, updateProfileImage  }) => {
   const [file, setFile] = useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   const fileInputRef = useRef(null);
-  console.log('updateProfileImage function:', updateProfileImage); 
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -38,7 +37,7 @@ const UploadPhoto = ({ isOpen, toggleModal, updateProfileImage }) => {
     event.preventDefault();
   };
 
-  const handleAddImage = async (file) => {
+  const handleUpload = async (file) => {
     if (file) {
         const formData = new FormData();
         formData.append('file', file);
@@ -110,7 +109,7 @@ const UploadPhoto = ({ isOpen, toggleModal, updateProfileImage }) => {
           )}
         <C.ButtonWrapper>
           <C.CancelButton onClick={toggleModal}>취소</C.CancelButton>
-          <C.ModalButton onClick={() => handleAddImage(file)} disabled={!file}>다음</C.ModalButton>
+          <C.ModalButton onClick={() => handleUpload(file)} disabled={!file}>다음</C.ModalButton>
         </C.ButtonWrapper>
       </C.ModalContent>
     </C.ModalOverlay>

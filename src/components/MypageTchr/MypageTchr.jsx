@@ -27,8 +27,38 @@ const MypageTchr = () => {
     const [stdinfoExtended, setIsStdinfoExtended] = useState(false);
     const [isMatchingModalOpen, setIsMatchingModalOpen] = useState(false);
     const [students, setStudents] = useState([]);
+    const [teacherInfo, setTeacherInfo] = useState({});
     const [selectedStudentDetails, setSelectedStudentDetails] = useState(null);
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        const fetchTeacherInfo = async () => {
+            try {
+                const accessToken = localStorage.getItem("key");
+                if (!accessToken) {
+                    setError('Authentication required');
+                    return;
+                }
+                const response = await axios.get('https://maeummal.com/user', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+
+                if (response.data.isSuccess) {
+                    setTeacherInfo(response.data.data);
+                    setProfileImage(response.data.data.profileImage);
+                } else {
+                    throw new Error(response.data.message || 'Failed to fetch teacher info');
+                }
+            } catch (error) {
+                console.error('Error fetching teacher info:', error);
+                setError('Failed to fetch teacher info: ' + error.message);
+            }
+        };
+
+        fetchTeacherInfo();
+    }, []);
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -358,7 +388,7 @@ const MypageTchr = () => {
             <UploadPhoto 
                 isOpen={isUploadModalOpen}
                 toggleModal={toggleUploadModal}
-                handleAddImage={handleAddImage}
+                updateProfileImage={handleAddImage}
             />
             <StdModal
                 isOpen={isMatchingModalOpen}
