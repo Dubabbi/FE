@@ -111,7 +111,7 @@ export default function CodeModal({ isOpen, toggleModal }) {
         <CloseButton onClick={toggleModal}>
           <img src={CloseIcon} alt="Close" />
         </CloseButton>
-        <Title>김망곰 학생의 매칭 코드는</Title>
+        <Title>{studentInfo.name} 학생의 매칭 코드는</Title>
         <Title>{studentInfo.pinCode}</Title>
         <Title>입니다.</Title>
         <div>

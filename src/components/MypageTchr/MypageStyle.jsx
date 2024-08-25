@@ -202,7 +202,7 @@ export const Value = styled.div`
   font-size: 1.2rem;
   color: #555;
   margin-top: 5%;
-  margin-bottom: 5%;`
+  margin-bottom: 7.8%;`
 ;
 
 export const SubText = styled.div`

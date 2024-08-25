@@ -130,7 +130,7 @@ const MypageTchr = () => {
                     setSelectedStudentDetails(prevDetails => ({
                         ...prevDetails,
                         ...response.data.data,
-                        fullFeedback: response.data.data
+                        fullFeedback: response.data.data,
                     }));
                 } else {
                     throw new Error(response.data.message || 'Failed to fetch full feedback');
@@ -233,9 +233,9 @@ const MypageTchr = () => {
                                         <M.Label>휴대폰 번호</M.Label>
                                     </M.InfoTitle>
                                     <M.InfoContent>
-                                        <M.Value>부앙단</M.Value>
-                                        <M.Value>example@email.com</M.Value>
-                                        <M.Value>01012345678</M.Value>
+                                        <M.Value>{teacherInfo.name}</M.Value>
+                                        <M.Value>{teacherInfo.email}</M.Value>
+                                        <M.Value>{teacherInfo.phoneNum}</M.Value>
                                     </M.InfoContent>
                                     <M.SettingsIcon src={Settings} onClick={handleExtended}/>
                                 </M.InfoGroup>
@@ -264,17 +264,11 @@ const MypageTchr = () => {
                                     <M.Label>이름</M.Label>
                                     <M.Label>이메일</M.Label>
                                     <M.Label>휴대폰 번호</M.Label>
-                                    <M.Label>성별</M.Label>
-                                    <M.Label>생년월일</M.Label>
-                                    <M.Label>소속기관</M.Label>
                                 </M.InfoTitle>
                                 <M.InfoContent style={{padding: '10px'}}>
-                                    <M.Value>부앙단</M.Value>
-                                    <M.Value>example@email.com</M.Value>
-                                    <M.Value>010-1234-5678</M.Value>
-                                    <M.Value>여성</M.Value>
-                                    <M.Value>1997-08-12</M.Value>
-                                    <M.Value>덕성여자대학교</M.Value>
+                                    <M.Value>{teacherInfo.name}</M.Value>
+                                    <M.Value>{teacherInfo.email}</M.Value>
+                                    <M.Value>{teacherInfo.phoneNum}</M.Value>
                                 </M.InfoContent>
                             </M.InfoGroup>
                         </M.Item>
@@ -332,18 +326,22 @@ const MypageTchr = () => {
                                 <M.MoreIcon src={More} onClick={handleFeedback} />
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', gap: '2%' }}>
-                            {selectedStudentDetails.feedbackTwo.map(feedback => (
-                                <M.InfoFeed style={{width: '50%'}} key={feedback.id}>
-                                    <M.FeedTitle>
-                                        <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
-                                            <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="Template Icon"></img>
-                                            <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || 'Untitled'}</p>
-                                        </M.Start>
-                                    </M.FeedTitle>
-                                    <M.InfoGroup style={{ fontFamily: 'sans-serif', textAlign: 'left', textOverflow: 'ellipsis' }}>{feedback.aiFeedback.length > 70 ? `${feedback.aiFeedback.substring(0, 70)}...` : feedback.aiFeedback}</M.InfoGroup>
-                                </M.InfoFeed>    
+                            {selectedStudentDetails.fullFeedback?.slice(0, 2).map(feedback => (
+                            <M.InfoFeed key={feedback.id}>
+                                <M.FeedTitle>
+                                    <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
+                                        <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="템플릿 아이콘"></img>
+                                        <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || '제목 없음'}</p>
+                                    </M.Start>
+                                </M.FeedTitle>
+                                <M.InfoGroup style={{ fontFamily: 'sans-serif', textAlign: 'left', textOverflow: 'ellipsis' }}>{feedback.aiFeedback.length > 70 ? `${feedback.aiFeedback.substring(0, 70)}...` : feedback.aiFeedback}</M.InfoGroup>
+                            </M.InfoFeed>    
                             ))}</div>
-                            <div>                                  
+                            <div> 
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginBottom: '2.5%' }}>
+                                <p style={{ whiteSpace: 'nowrap', marginLeft: '0px', fontSize: '1.2rem' }}>템플릿 차트</p>
+                                <M.MoreIcon src={More} style={{display: 'none'}}/>
+                            </div>                                 
                                 {selectedStudentDetails.templateChart && (
                                     <ChartComponent chartData={selectedStudentDetails.templateChart} />
                                 )}

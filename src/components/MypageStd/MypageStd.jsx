@@ -299,12 +299,12 @@ const MypageStd = () => {
                                 <M.MoreIcon src={More} onClick={handleFeedback} />
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', gap: '2%' }}>
-                            {selectedStudentDetails.feedbackTwo.map(feedback => (
-                                <M.InfoFeed style={{width: '50%'}} key={feedback.id}>
+                            {selectedStudentDetails.fullFeedback?.slice(0, 2).map(feedback => (
+                                <M.InfoFeed key={feedback.id}>
                                     <M.FeedTitle>
                                         <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
-                                            <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="Template Icon"></img>
-                                            <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || 'Untitled'}</p>
+                                            <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="템플릿 아이콘"></img>
+                                            <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || '제목 없음'}</p>
                                         </M.Start>
                                     </M.FeedTitle>
                                     <M.InfoGroup style={{ fontFamily: 'sans-serif', textAlign: 'left', textOverflow: 'ellipsis' }}>{feedback.aiFeedback.length > 70 ? `${feedback.aiFeedback.substring(0, 70)}...` : feedback.aiFeedback}</M.InfoGroup>
