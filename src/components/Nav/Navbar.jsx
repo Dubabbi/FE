@@ -157,6 +157,7 @@ const ProfileImage = styled.img`
   height: 100%;
   border-radius: 50%;
   border: 4px solid #FEEAFA;
+    object-fit: cover;
 `;
 
 const CrownIcon = styled.span`

@@ -548,3 +548,28 @@ export const FeedTitle = styled.div`
   align-items: center;
   width: 100%;
 `;
+
+export const InfoChange = styled.input`
+  font-size: 1.2rem;
+  color: #555;
+  margin-top: 2%;
+  margin-bottom: 6.55%;
+  border: 2px solid #ccc;  
+  border-radius: 4px;  
+
+  &:focus {               
+    border-color: #555;
+    outline: none;  
+  }
+  `
+;
+
+export const InfoButton = styled.button`
+  padding: 2% 4%;
+  font-size: 1.2rem;
+  border: 2px solid #FED7D7;
+  border-radius: 1rem;
+  &:hover {
+    background: #FFF4F4;
+  }
+`;

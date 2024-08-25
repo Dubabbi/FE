@@ -31,6 +31,9 @@ const MypageStd = () => {
     const [students, setStudents] = useState([]);
     const [selectedStudentDetails, setSelectedStudentDetails] = useState(null);
     const [error, setError] = useState('');
+    const [updatedName, setUpdatedName] = useState('');
+    const [updatedEmail, setUpdatedEmail] = useState('');
+    const [updatedPhoneNum, setUpdatedPhoneNum] = useState('');
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -87,6 +90,47 @@ const MypageStd = () => {
 
         fetchStudentInfo();
     }, []);
+
+    useEffect(() => {
+        if (studentInfo) {
+            setUpdatedName(studentInfo.name);
+            setUpdatedEmail(studentInfo.email);
+            setUpdatedPhoneNum(studentInfo.phoneNum);
+        }
+    }, [studentInfo]);
+
+    const updateStudentInfo = async () => {
+        try {
+            const accessToken = localStorage.getItem("key");
+            if (!accessToken) {
+                setError('Authentication required');
+                return;
+            }
+    
+            const body = {
+                name: updatedName,
+                email: updatedEmail,
+                phoneNum: updatedPhoneNum
+            };
+    
+            const response = await axios.patch('https://thingproxy.freeboard.io/fetch/https://maeummal.com/user/student', body, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+    
+            if (response.data.isSuccess) {
+                setStudentInfo(response.data.data);
+                console.log('Update success:', response.data.data);
+                setIsSettingExtended(false); 
+                alert("개인정보가 변경되었습니다."); 
+            } else {
+                throw new Error(response.data.message || 'Failed to update student info');
+            }
+        } catch (error) {
+            console.error('Error updating student info:', error);
+            setError('Failed to update student info: ' + error.message);
+        }
+    };
+
     useEffect(() => {
         const fetchStudentDetails = async (studentId) => {
             try {
@@ -266,17 +310,32 @@ const MypageStd = () => {
                                     <M.Label>이름</M.Label>
                                     <M.Label>이메일</M.Label>
                                     <M.Label>휴대폰 번호</M.Label>
-                                    <M.Label>IQ</M.Label>
                                 </M.InfoTitle>
                                 <M.InfoContent style={{padding: '10px'}}>
-                                    <M.Value>{studentInfo.name}</M.Value>
-                                    <M.Value>{studentInfo.email}</M.Value>
-                                    <M.Value>{studentInfo.phoneNum}</M.Value>
-                                    <M.Value>{studentInfo.iq}</M.Value>
+                                    <M.InfoChange
+                                        type="text"
+                                        value={updatedName}
+                                        onChange={(e) => setUpdatedName(e.target.value)}
+                                        placeholder="이름 입력"
+                                    />
+                                    <M.InfoChange
+                                        type="email"
+                                        value={updatedEmail}
+                                        onChange={(e) => setUpdatedEmail(e.target.value)}
+                                        placeholder="이메일 입력"
+                                    />
+                                    <M.InfoChange
+                                        type="tel"
+                                        value={updatedPhoneNum}
+                                        onChange={(e) => setUpdatedPhoneNum(e.target.value)}
+                                        placeholder="휴대폰 번호 입력"
+                                    />
                                 </M.InfoContent>
                             </M.InfoGroup>
+                            <M.InfoButton onClick={updateStudentInfo} style={{marginTop: '10px'}}>저장하기</M.InfoButton>
                         </M.Item>
-                    </M.Second>}
+                    </M.Second>
+                    }
                     {stdinfoExtended && selectedStudentDetails && (
                     <M.Second style={{paddingTop: '1.7%',  justifyContent: 'center'}}>
                         <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'center'}}>

@@ -30,6 +30,9 @@ const MypageTchr = () => {
     const [teacherInfo, setTeacherInfo] = useState({});
     const [selectedStudentDetails, setSelectedStudentDetails] = useState(null);
     const [error, setError] = useState('');
+    const [updatedName, setUpdatedName] = useState('');
+    const [updatedEmail, setUpdatedEmail] = useState('');
+    const [updatedPhoneNum, setUpdatedPhoneNum] = useState('');
 
     useEffect(() => {
         const fetchTeacherInfo = async () => {
@@ -60,6 +63,45 @@ const MypageTchr = () => {
         fetchTeacherInfo();
     }, []);
 
+
+    const updateTeacherInfo = async () => {
+        try {
+            const accessToken = localStorage.getItem("key");
+            if (!accessToken) {
+                setError('Authentication required');
+                return;
+            }
+    
+            const body = {
+                name: updatedName,
+                email: updatedEmail,
+                phoneNum: updatedPhoneNum
+            };
+    
+            const response = await axios.patch('https://thingproxy.freeboard.io/fetch/https://maeummal.com/user/teacher', body, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+    
+            if (response.data.isSuccess) {
+                setTeacherInfo(response.data.data);  // Update the teacher info with the response
+                console.log('Update success:', response.data.data);
+                setIsSettingExtended(false); 
+                alert("개인정보가 변경되었습니다."); 
+            } else {
+                throw new Error(response.data.message || 'Failed to update teacher info');
+            }
+        } catch (error) {
+            console.error('Error updating teacher info:', error);
+            setError('Failed to update teacher info: ' + error.message);
+        }
+    };
+    useEffect(() => {
+        if (teacherInfo) {
+            setUpdatedName(teacherInfo.name);
+            setUpdatedEmail(teacherInfo.email);
+            setUpdatedPhoneNum(teacherInfo.phoneNum);
+        }
+    }, [teacherInfo]);
     useEffect(() => {
         const fetchStudents = async () => {
             try {
@@ -266,13 +308,30 @@ const MypageTchr = () => {
                                     <M.Label>휴대폰 번호</M.Label>
                                 </M.InfoTitle>
                                 <M.InfoContent style={{padding: '10px'}}>
-                                    <M.Value>{teacherInfo.name}</M.Value>
-                                    <M.Value>{teacherInfo.email}</M.Value>
-                                    <M.Value>{teacherInfo.phoneNum}</M.Value>
+                                    <M.InfoChange
+                                        type="text"
+                                        value={updatedName}
+                                        onChange={(e) => setUpdatedName(e.target.value)}
+                                        placeholder="이름 입력"
+                                    />
+                                    <M.InfoChange
+                                        type="email"
+                                        value={updatedEmail}
+                                        onChange={(e) => setUpdatedEmail(e.target.value)}
+                                        placeholder="이메일 입력"
+                                    />
+                                    <M.InfoChange
+                                        type="tel"
+                                        value={updatedPhoneNum}
+                                        onChange={(e) => setUpdatedPhoneNum(e.target.value)}
+                                        placeholder="휴대폰 번호 입력"
+                                    />
                                 </M.InfoContent>
                             </M.InfoGroup>
+                            <M.InfoButton onClick={updateTeacherInfo} style={{marginTop: '10px'}}>저장하기</M.InfoButton>
                         </M.Item>
-                    </M.Second>}
+                    </M.Second>
+                    }
                     {isExtended && 
                     <M.Second>
                         <M.InLineTitle>
