@@ -88,7 +88,7 @@ const WordLearnStd = () => {
           <h1 style={{ marginTop: "3%", marginBottom: "3%" }}>
             낱말 카드 학습
           </h1>
-          <D.CardTitle style={{ fontSize: "1.5rem" }}>
+          <D.CardTitle style={{ fontSize: "1.5rem", whiteSpace: "nowrap" }}>
             {wordSet.title}
           </D.CardTitle>
           <D.WordList>
@@ -122,7 +122,14 @@ const WordLearnStd = () => {
                       {wordSet.wordCards[currentWordIndex]?.meaning ||
                         "No description"}
                     </h1>
-                    <p style={{ fontSize: "1.3rem", textAlign: "left" }}>
+                    <p
+                      style={{
+                        fontSize: "1.3rem",
+                        textAlign: "left",
+                        whiteSpace: "normal",
+                        padding: "5%",
+                      }}
+                    >
                       {wordSet.wordCards[currentWordIndex]?.description ||
                         "No description"}
                     </p>
