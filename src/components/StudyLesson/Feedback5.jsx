@@ -1,22 +1,29 @@
 // Feedback2.jsx
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import * as C from "../CreateLesson/CreateLessonStyle";
 import * as L from "../LessonTchr/LessonStyle";
 import * as D from "../WordCreateTchr/WordDetailStyle";
-import * as O from "./Template1Std";
 import * as T from "./Template3Std";
 import * as E from "../CreateLesson/Template3Tchr";
 import Back from "/src/assets/icon/back.svg";
-import correct from "/src/assets/image/correct.svg";
-import wrong from "/src/assets/image/wrong.svg";
 
-const Feedback3 = () => {
+const Feedback5 = () => {
   const data = useLocation().state;
   console.log(data);
+  const [hint, setHint] = useState([false, false, false]);
+  const count = data.correctnessList.filter(
+    (element) => true === element
+  ).length;
   const navigate = useNavigate();
   const handleStop = () => {
     navigate("/MainStd");
+  };
+
+  const handleHint = (index) => {
+    const newHint = [...hint];
+    newHint[index] ? (newHint[index] = false) : (newHint[index] = true);
+    setHint(newHint);
   };
 
   return (
@@ -28,49 +35,42 @@ const Feedback3 = () => {
       </D.ImageWrap>
       <L.LessonWrapper style={{ marginBottom: "5%" }}>
         <L.Section style={{ padding: "50px 0 10px 0" }}>
-          <h1>감정표현</h1>
-          <C.FeedbackContainer style={{ margin: "30px 0 0 100px" }}>
+          <h1>어휘카드 매칭 게임</h1>
+          <C.FeedbackContainer style={{ margin: "40px 0 20px 100px" }}>
             <C.HalfLine />
             <C.FeedbackText>최종평가</C.FeedbackText>
             <C.HalfLine />
           </C.FeedbackContainer>
         </L.Section>
-        <C.FeedbackLine
-          style={{
-            marginBottom: "5%",
-            justifyContent: "center",
-            margin: "20px 20px 40px 100px",
-          }}
-        >
-          <img
-            style={{ height: "60px" }}
-            src={data.correctnessList.includes(false) ? wrong : correct}
-          />
-          <C.SecondBox style={{ margin: "0 25px", height: "60px" }}>
-            {data.solution}
-          </C.SecondBox>
-        </C.FeedbackLine>
         <C.FeedbackLine style={{ justifyContent: "center" }}>
-          {data.studentFeedbackCards?.map((el, index) => (
-            <O.Container key={index} style={{ margin: "0 20px" }}>
-              <T.ImageBox style={{ marginBottom: "10px" }}>
-                <img src={el.image} />
-              </T.ImageBox>
-              <T.WordBox>
-                <T.InputBox
-                  type="text"
-                  style={{
-                    border: data.correctnessList[index]
-                      ? "2.5px solid #969696"
-                      : "2.5px solid #ff0000",
-                  }}
-                  placeholder="작성하기"
-                  value={el.adjective}
-                  disabled
-                />
-                <T.Box>{el.noun}</T.Box>
-              </T.WordBox>
-            </O.Container>
+          <C.FirstBox
+            style={{
+              boxShadow: "none",
+              backgroundColor: "#d9d9d94d",
+              margin: "0 15px",
+              height: "120px",
+              width: "140px",
+              fontSize: "25px",
+            }}
+          >
+            {count === 3 ? "정답" : `${count}/3`}
+          </C.FirstBox>
+          {data.correctFeedbackCards.map((el, index) => (
+            <T.ImageBox
+              key={index}
+              style={{ width: "120px", height: "120px", margin: "0 15px" }}
+              onClick={() => handleHint(index)}
+            >
+              <img
+                src={el.image}
+                style={{
+                  border: data.correctnessList[index]
+                    ? "3px solid #0000ff"
+                    : "3px solid #ff0000",
+                }}
+              />
+              {hint[index] ? <p>{el.description}</p> : ""}
+            </T.ImageBox>
           ))}
         </C.FeedbackLine>
         <C.StoryWrap
@@ -78,7 +78,8 @@ const Feedback3 = () => {
             width: "70%",
             borderRadius: "15px",
             marginLeft: "15%",
-            marginTop: "30px",
+            marginTop: "60px",
+            marginBottom: "15px",
             alignItems: "center",
             justifyContent: "left",
             padding: "55px 25px 15px 25px",
@@ -109,4 +110,4 @@ const Feedback3 = () => {
   );
 };
 
-export default Feedback3;
+export default Feedback5;
