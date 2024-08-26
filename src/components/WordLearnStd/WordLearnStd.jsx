@@ -81,7 +81,7 @@ const WordLearnStd = () => {
       <W.LessonWrapper style={{marginBottom: '5%'}}>
         <D.Section style={{marginBottom: '3%'}}>
           <h1 style={{marginTop: '3%', marginBottom: '3%'}}>낱말 카드 학습</h1>
-          <D.CardTitle style={{fontSize: '1.5rem'}}>{wordSet.title}</D.CardTitle>
+          <D.CardTitle style={{fontSize: '1.5rem', whiteSpace: 'nowrap'}}>{wordSet.title}</D.CardTitle>
           <D.WordList>
             <D.WordBoard>
               <D.ArrowButton onClick={handlePrev}><img src={arrowback} alt="이전" /></D.ArrowButton>
@@ -89,11 +89,11 @@ const WordLearnStd = () => {
                 {showImage ? (
                   <img src={wordSet.wordCards[currentWordIndex]?.image || ''} alt="단어 이미지" />
                 ) : (
-                  <div style={{width: '200px', height: '200px', margin: '0 auto', borderRadius: '7px', 
+                  <div style={{width: '200px', height: '200px', margin: '0 auto',
                       border: '5px solid #FEEAFA', borderRadius: '10px', flexDirection: 'column', display: 'flex', 
-                      alignItems: 'center', justifyContent: 'center', backgroundColor: '#EEE', gap: '6%', backgroundColor: '#fcfcfc' }}>
+                      alignItems: 'center', justifyContent: 'center', gap: '6%', backgroundColor: '#fcfcfc' }}>
                     <h1>{wordSet.wordCards[currentWordIndex]?.meaning || "No description"}</h1>
-                    <p style={{fontSize: '1.3rem', textAlign: 'left'}}>{wordSet.wordCards[currentWordIndex]?.description || "No description"}</p>
+                    <p style={{fontSize: '1.3rem', textAlign: 'left', whiteSpace: 'normal', padding: '5%'}}>{wordSet.wordCards[currentWordIndex]?.description || "No description"}</p>
                   </div>
                 )}
               </D.Word>
