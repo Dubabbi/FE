@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import * as M from "../MainTchr/MainTchrStyle";
 import arrowIcon from "/src/assets/icon/arrowright.svg";
 import tem1Icon from "/src/assets/icon/template/template1icon.svg";
@@ -18,41 +19,68 @@ export const TemplateCard = ({ title, description, imgSrc }) => (
   </M.TemplateCard>
 );
 
-export const TemplateList = [
-  {
-    title: "강의 제목",
-    description: "어휘 카드 매칭",
-    src: tem1Icon,
-  },
-  {
-    title: "강의 제목",
-    description: "이미지 순서 배열하기",
-    src: tem2Icon,
-  },
-  {
-    title: "강의 제목",
-    description: "카테고리 분류하기",
-    src: tem3Icon,
-  },
-  {
-    title: "강의 제목",
-    description: "이야기 순서 배열하기",
-    src: tem4Icon,
-  },
-  {
-    title: "강의 제목",
-    description: "감정 표현",
-    src: tem5Icon,
-  },
+export const temList = [
+  "카테고리 분류하기",
+  "이미지 순서 배열하기",
+  "감정 표현",
+  "이야기 순서 배열하기",
+  "어휘 카드 매칭 게임",
 ];
 
+export const IconList = [tem1Icon, tem2Icon, tem3Icon, tem4Icon, tem5Icon];
+
 export default function MainTchr() {
+  const [lesson, setLesson] = useState([]);
+  const [cardData, setCardData] = useState([]);
   const [StdList, setStdList] = useState([
     { stdName: "김망곰", src: profileImg },
     { stdName: "홍감자", src: profileImg },
     { stdName: "루돌프", src: profileImg },
     { stdName: "고구마", src: profileImg },
   ]);
+
+  useEffect(() => {
+    axios
+      .get("https://maeummal.com/templates/recent")
+      .then((response) => {
+        if (response.data.isSuccess) {
+          setLesson(response.data.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
+    axios
+      .get("https://maeummal.com/word/wordSet/all", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("key")}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.isSuccess) {
+          setCardData(response.data.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
+    axios
+      .get("https://maeummal.com/match/fiveStudents", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("key")}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.isSuccess) {
+          console.log(response.data.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
   return (
     <>
@@ -68,25 +96,29 @@ export default function MainTchr() {
                 </a>
               </M.arrowContainer>
             </M.rowContainer>
-            <M.rowContainer width="96%">
-              {TemplateList.map((item, index) => (
+            <M.rowContainer width="96%" style={{ justifyContent: "normal" }}>
+              {lesson.map((item, index) => (
                 <TemplateCard
                   key={index}
                   title={item.title}
-                  description={item.description}
-                  imgSrc={item.src}
+                  description={item.templateName}
+                  imgSrc={IconList[temList.indexOf(item.templateName)]}
                 />
               ))}
             </M.rowContainer>
           </M.LessonContainer>
           <M.overContainer>
             {/* 나의 낱말 카드 */}
-            <M.CardContainer href="/wordtchr">
+            <M.CardContainer href="/wordlisttchr">
               <M.SectionTitle>나의 낱말 카드</M.SectionTitle>
               <M.ImgContainer>
-                <M.CardImg1 src={wordCardImg} alt="" />
-                <M.CardImg1 src={wordCardImg} alt="" />
-                <M.CardImg2 src={wordCardImg} alt="" />
+                {cardData.map((el, index) =>
+                  index === 0 ? (
+                    <M.CardImg2 key={index} src={el.wordList[0].image} alt="" />
+                  ) : index === 1 || index === 2 ? (
+                    <M.CardImg1 key={index} src={el.wordList[0].image} alt="" />
+                  ) : null
+                )}
               </M.ImgContainer>
             </M.CardContainer>
             {/* 매칭된 학생 */}
