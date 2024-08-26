@@ -416,9 +416,8 @@ const MypageStd = () => {
             </M.Section>
             <UploadPhoto 
                 isOpen={isUploadModalOpen}
-                toggleModal={() => setIsUploadModalOpen(false)}
-                handleAddImage={handleAddImage}
-                updateProfileImage={updateProfileImage}
+                toggleModal={toggleUploadModal}
+                updateProfileImage={handleAddImage}
             />
             <CodeModal
                 isOpen={isCodeModalOpen}
