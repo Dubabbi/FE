@@ -32,7 +32,9 @@ import Level2Result from "./components/SelfStudy/Level2Result";
 import ImageModal from "./components/ImageModal/ImageModal";
 import MatchingModal from "./components/MypageTchr/MatchingModal";
 import Feedback2 from "./components/StudyLesson/Feedback2";
+import Feedback3 from "./components/StudyLesson/Feedback3";
 import Feedback4 from "./components/StudyLesson/Feedback4";
+import Feedback5 from "./components/StudyLesson/Feedback5";
 import Reward from "./components/Reward/Reward";
 import MypageStdPage from "./components/MypageStd/MypageStd";
 import MypageTchrPage from "./components/MypageTchr/MypageTchr";
@@ -80,7 +82,9 @@ export default function User() {
         <Route path="/imagemodal" element={<ImageModal />} />
         <Route path="/matchingmodal" element={<MatchingModal />} />
         <Route path="/feedback2" element={<Feedback2 />} />
+        <Route path="/feedback3" element={<Feedback3 />} />
         <Route path="/feedback4" element={<Feedback4 />} />
+        <Route path="/feedback5" element={<Feedback5 />} />
         <Route path="/reward" element={<Reward />} />
         <Route path="/mypagestd" element={<MypageStdPage />} />
         <Route path="/mypagetchr" element={<MypageTchrPage />} />
