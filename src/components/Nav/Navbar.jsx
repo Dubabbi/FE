@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Logo from '/src/assets/image/logo.svg';
@@ -8,84 +8,80 @@ import axios from 'axios';
 
 export default function Nav() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [profileName, setProfileName] = useState('Guest');
-  const [profileImage, setProfileImage] = useState(My);
-  const [showModal, setShowModal] = useState(false); // 모달 상태 추가
   const [userInfo, setUserInfo] = useState({});
+  const [profileImage, setProfileImage] = useState(My);
+  const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-        try {
-            const accessToken = localStorage.getItem("key");
-            if (!accessToken) {
-                setError('Authentication required');
-                return;
-            }
-            const response = await axios.get('https://maeummal.com/user', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            });
-
-            if (response.data.isSuccess) {
-                setUserInfo(response.data.data);
-                setProfileImage(response.data.data.profileImage);
-            } else {
-                throw new Error(response.data.message || 'Failed to fetch teacher info');
-            }
-        } catch (error) {
-            console.error('Error fetching teacher info:', error);
-            setError('Failed to fetch teacher info: ' + error.message);
+      const accessToken = localStorage.getItem("key");
+      if (!accessToken) {
+        setError('Authentication required');
+        return;
+      }
+      try {
+        const response = await axios.get('https://maeummal.com/user', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+        if (response.data.isSuccess) {
+          setUserInfo(response.data.data);
+          setProfileImage(response.data.data.profileImage || My);
+        } else {
+          throw new Error(response.data.message || 'Failed to fetch user info');
         }
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+        setError('Failed to fetch user info: ' + error.message);
+      }
     };
-
     fetchUserInfo();
-}, []);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('key');
-    console.log("토큰:", token);
     if (token) {
       setIsLoggedIn(true);
-      setProfileName('부앙단 선생님');
     } else {
       setIsLoggedIn(false);
-      setProfileName('Guest');
       setShowModal(true);
     }
   }, []);
-  const closeModal = () => {
-    setShowModal(false);
-  };
+
+  const closeModal = () => setShowModal(false);
 
   return (
     <>
-    <TopWrapper>
-      <Header>
-        <Link to="/MainTchr">
-          <Title>
-            <img src={Logo} alt="마음말 로고" />
-            마음말
-          </Title>
-        </Link>
-      </Header>
-      <LinkWrapper><a href='/mypagetchr'>
-        <ProfileCard>
-          <ProfileName>{userInfo.name} 선생님</ProfileName>
-          <ProfileImageContainer>
-            <ProfileImage src={profileImage} alt="프로필 이미지" />
-            <CrownIcon>👑</CrownIcon>
-          </ProfileImageContainer>
-        </ProfileCard></a>
-      </LinkWrapper>
-    </TopWrapper>
-          {!isLoggedIn && showModal && (
-            <Modal showModal={showModal} closeModal={closeModal} />
-          )}
-          </>
+      <TopWrapper>
+        <Header>
+          <Link to="/MainTchr">
+            <Title>
+              <img src={Logo} alt="Logo" />
+              마음말
+            </Title>
+          </Link>
+        </Header>
+        <LinkWrapper>
+          <a href='/mypagetchr'>
+            <ProfileCard>
+              <ProfileName>
+                {userInfo.name} {userInfo.iq != null ? '학생' : '선생님'}
+              </ProfileName>
+              <ProfileImageContainer>
+                <ProfileImage src={profileImage} alt="Profile" />
+                <CrownIcon>👑</CrownIcon>
+              </ProfileImageContainer>
+            </ProfileCard>
+          </a>
+        </LinkWrapper>
+      </TopWrapper>
+      {!isLoggedIn && showModal && (
+        <Modal showModal={showModal} closeModal={closeModal} />
+      )}
+    </>
   );
 }
+
 
 const TopWrapper = styled.div`
   position: fixed;
