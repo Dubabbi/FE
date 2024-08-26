@@ -8,7 +8,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth(); // AuthContext에서 login 함수 가져오기
+  const [userId, setUserId] = useState(null);
+  const { login } = useAuth();
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -34,23 +35,28 @@ const Login = () => {
         }
       );
 
-      const token = response.data.data.token;
-      if (response.status === 200 && token) {
+      const { token, id } = response.data.data;
+      if (response.status === 200 && token ) {
         // 로그인 성공 시
         alert("로그인에 성공했습니다.");
         console.log("토큰:", token);
-        login(token); // AuthContext의 login 함수 호출
+        login(token, id);
         navigate("/maintchr");
       } else {
         alert("로그인에 실패했습니다.");
       }
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        alert("등록되지 않은 회원입니다.");
-      } else if (error.response && error.response.status === 401) {
-        alert("인증에 실패하였습니다. 이메일과 비밀번호를 확인하세요.");
+      console.error("로그인 요청 중 오류 발생:", error);
+      if (error.response) {
+        if (error.response.status === 400) {
+          alert("등록되지 않은 회원입니다.");
+        } else if (error.response.status === 401) {
+          alert("인증에 실패하였습니다. 이메일과 비밀번호를 확인하세요.");
+        } else {
+          alert("로그인에 실패했습니다. 서버 오류 발생.");
+        }
       } else {
-        alert("로그인에 실패했습니다.");
+        alert("로그인에 실패했습니다. 네트워크 오류가 발생했습니다.");
       }
     }
   };

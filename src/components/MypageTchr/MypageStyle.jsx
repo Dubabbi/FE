@@ -202,7 +202,7 @@ export const Value = styled.div`
   font-size: 1.2rem;
   color: #555;
   margin-top: 5%;
-  margin-bottom: 5%;`
+  margin-bottom: 7.8%;`
 ;
 
 export const SubText = styled.div`
@@ -547,4 +547,29 @@ export const FeedTitle = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+`;
+
+export const InfoChange = styled.input`
+  font-size: 1.2rem;
+  color: #555;
+  margin-top: 2%;
+  margin-bottom: 6.55%;
+  border: 2px solid #ccc;  
+  border-radius: 4px;  
+
+  &:focus {               
+    border-color: #555;
+    outline: none;  
+  }
+  `
+;
+
+export const InfoButton = styled.button`
+  padding: 2% 4%;
+  font-size: 1.2rem;
+  border: 2px solid #FED7D7;
+  border-radius: 1rem;
+  &:hover {
+    background: #FFF4F4;
+  }
 `;

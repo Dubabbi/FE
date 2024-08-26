@@ -4,9 +4,12 @@ import * as C from '../CreateLesson/CreateLessonStyle';
 import * as L from '../LessonTchr/LessonStyle';
 import * as D from '../WordCreateTchr/WordDetailStyle';
 import Back from '/src/assets/icon/back.svg';
-import axios from 'axios';
+import Pink from '/src/assets/icon/heartpink.svg';
+import White from '/src/assets/icon/heartwhite.svg';
 import { ModalOverlay } from './Feedback2';
+import axios from 'axios';
 import Reward from '../Reward/Reward';
+import Toast from '/src/assets/icon/errortoast.svg';
 
 const Template4Std = () => {
   const navigate = useNavigate();
@@ -20,7 +23,7 @@ const Template4Std = () => {
   const [selectedCard, setSelectedCard] = useState(null);
 
   useEffect(() => {
-    const template4Id = 8; 
+    const template4Id = 1;
     const fetchTemplateData = async () => {
       const accessToken = localStorage.getItem("key");
       if (!accessToken) {
@@ -37,8 +40,8 @@ const Template4Std = () => {
 
         if (response.data.isSuccess && response.data.data) {
           console.log("Template data fetched successfully:", response.data.data);
-          setTemplateData(response.data.data);
-          setSelectedImages([]);
+          setTemplateData(response.data.data); // API 구조에 따라 데이터 설정
+          setSelectedImages([]); // 이미지 선택 초기화
         } else {
           throw new Error('Failed to fetch data');
         }
@@ -52,6 +55,7 @@ const Template4Std = () => {
     fetchTemplateData();
   }, []);
 
+
   const toggleSelectImage = (id) => {
     const cardInfo = templateData.storyCardEntityList.find(card => card.storyCardId === id);
     const index = selectedImages.findIndex(item => item.id === id);
@@ -63,61 +67,53 @@ const Template4Std = () => {
       setSelectedImages(newImages);
     }
   };
-
-  const handleSubmit = () => {
+  const submitFeedback = async (userOrder) => {
+    try {
+      const accessToken = localStorage.getItem("key");
+      const response = await axios.post('https://maeummal.com/feedback/create', {
+        templateId: templateData.templateId,
+        answerList: userOrder.map(String),
+        studentId: 25,
+        templateType: "TEMPLATE4"
+      }, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+  
+      if (response.data && response.data.id) {
+        setFeedbackData(response.data);
+        setShowReward(true);
+      } else {
+        console.error('Failed to submit feedback:', response.data.message || 'Unknown error');
+      }
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+    }
+  };
+  
+  const handleSubmit = async () => {
     const userAnswerOrder = selectedImages.map(item => item.answerNumber);
     const correctOrder = templateData.storyCardEntityList.map(card => card.answerNumber);
-
+  
     if (userAnswerOrder.length !== templateData.storyCardEntityList.length) {
       console.error('Answer list size does not match the image card entities size');
       return;
     }
-
+  
     const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
-
-    const submitFeedback = async () => {
-      try {
-        const accessToken = localStorage.getItem("key");
-        const response = await axios.post('https://maeummal.com/feedback/create', {
-          templateId: templateData.templateId,
-          answerList: userAnswerOrder.map(String),
-          studentId: 25,
-          templateType: "TEMPLATE4"
-        }, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
-        });
-
-        if (response.data && response.data.id) {
-          setFeedbackData(response.data);
-          handleShowReward(true);
-        } else {
-          console.error('Failed to submit feedback:', response.data.message || 'Unknown error');
-        }
-      } catch (error) {
-        if (error.response) {
-          console.error('Error response:', error.response.data);
-        } else if (error.request) {
-          console.error('No response received:', error.request);
-        } else {
-          console.error('Error during setup:', error.message);
-        }
-      }
-    };
-
+  
     if (isCorrect) {
-      submitFeedback();
+      await submitFeedback(userAnswerOrder);
     } else {
-      if (lives > 0) {
+      if (lives > 1) {
         setLives(lives - 1);
         setShowHint(true);
         setSelectedImages([]);
-        if (lives === 1) {
-          submitFeedback();
-        }
       } else {
-        submitFeedback();
+        setLives(0);
+        setShowHint(false);
+        await submitFeedback(userAnswerOrder);
       }
     }
   };
@@ -132,17 +128,9 @@ const Template4Std = () => {
 
   const handleCloseReward = () => {
     setShowReward(false);
-
-    if (feedbackData) {
-      navigate('/Feedback2', {
-        state: {
-          feedbackData,
-          description: templateData.description 
-        }
+      navigate('/Feedback4', {
+          state: {feedbackData, description: templateData.description } 
       });
-    } else {
-      console.error('No feedback data available to pass to Feedback2');
-    }
   };
 
   if (isLoading) {
@@ -154,6 +142,11 @@ const Template4Std = () => {
       <D.ImageWrap>
         <a href="/MainTchr"><img src={Back} alt="" /></a>
       </D.ImageWrap>
+      <D.HeartWrap>
+        {Array.from({ length: 2 }).map((_, index) => (
+          <img key={index} src={index < (2 - lives) ? White : Pink} alt="Heart" />
+        ))}
+      </D.HeartWrap>
       <L.LessonWrapper>
         <L.Section>
         <h1>{templateData ? templateData.title : 'Loading...'}</h1>
@@ -163,13 +156,15 @@ const Template4Std = () => {
         </D.Select>
         <C.StoryWrap>
           <C.CardContainer>
-          {templateData && templateData.storyCardEntityList.map(card => (
+          {templateData && templateData.storyCardEntityList.map((card, index) => (
               <C.SelectCard
-                key={card.storyCardId} onClick={() => toggleSelectImage(card.storyCardId)}
+                key={card.storyCardId} 
+                style={{ border: selectedImages.some(item => item.id === card.storyCardId) ? '4px solid #ACAACC' : '4px solid #eee' }}
+                onClick={() => toggleSelectImage(card.storyCardId)}
                 selected={selectedCard === index}
               >
                 <C.ImageList>
-                  <div><img style={{ border: selectedImages.some(item => item.id === card.storyCardId) ? '4px solid #ACAACC' : '4px solid #eee' }} src={card.image} alt={`Story card ${card.storyCardId}`} /></div>
+                  <div><img  src={card.image} alt={`Story card ${card.storyCardId}`} /></div>
                 </C.ImageList>
                 <C.Story><p>이야기</p></C.Story>
               </C.SelectCard>
@@ -177,6 +172,13 @@ const Template4Std = () => {
           </C.CardContainer>
         </C.StoryWrap>
       </L.LessonWrapper>
+      {showHint && (
+        <C.HintWrapper style={{border: 'none', position: 'fixed', width: '60%', marginLeft: '20%', marginTop: '-4%'}}>
+          <C.HintToast style={{ minWidth: '200px', backgroundColor: '#fff' }}>
+            <img src={Toast} alt="Hint" />{templateData ? templateData.hint : 'Loading...'}
+          </C.HintToast>
+        </C.HintWrapper>
+      )}
       <C.SubmitButton onClick={handleSubmit}>제출</C.SubmitButton>
       {showReward && (
         <ModalOverlay>

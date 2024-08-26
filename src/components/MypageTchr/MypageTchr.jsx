@@ -27,9 +27,81 @@ const MypageTchr = () => {
     const [stdinfoExtended, setIsStdinfoExtended] = useState(false);
     const [isMatchingModalOpen, setIsMatchingModalOpen] = useState(false);
     const [students, setStudents] = useState([]);
+    const [teacherInfo, setTeacherInfo] = useState({});
     const [selectedStudentDetails, setSelectedStudentDetails] = useState(null);
     const [error, setError] = useState('');
+    const [updatedName, setUpdatedName] = useState('');
+    const [updatedEmail, setUpdatedEmail] = useState('');
+    const [updatedPhoneNum, setUpdatedPhoneNum] = useState('');
 
+    useEffect(() => {
+        const fetchTeacherInfo = async () => {
+            try {
+                const accessToken = localStorage.getItem("key");
+                if (!accessToken) {
+                    setError('Authentication required');
+                    return;
+                }
+                const response = await axios.get('https://maeummal.com/user', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+
+                if (response.data.isSuccess) {
+                    setTeacherInfo(response.data.data);
+                    setProfileImage(response.data.data.profileImage);
+                } else {
+                    throw new Error(response.data.message || 'Failed to fetch teacher info');
+                }
+            } catch (error) {
+                console.error('Error fetching teacher info:', error);
+                setError('Failed to fetch teacher info: ' + error.message);
+            }
+        };
+
+        fetchTeacherInfo();
+    }, []);
+
+
+    const updateTeacherInfo = async () => {
+        try {
+            const accessToken = localStorage.getItem("key");
+            if (!accessToken) {
+                setError('Authentication required');
+                return;
+            }
+    
+            const body = {
+                name: updatedName,
+                email: updatedEmail,
+                phoneNum: updatedPhoneNum
+            };
+    
+            const response = await axios.patch('https://thingproxy.freeboard.io/fetch/https://maeummal.com/user/teacher', body, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+    
+            if (response.data.isSuccess) {
+                setTeacherInfo(response.data.data);  // Update the teacher info with the response
+                console.log('Update success:', response.data.data);
+                setIsSettingExtended(false); 
+                alert("개인정보가 변경되었습니다."); 
+            } else {
+                throw new Error(response.data.message || 'Failed to update teacher info');
+            }
+        } catch (error) {
+            console.error('Error updating teacher info:', error);
+            setError('Failed to update teacher info: ' + error.message);
+        }
+    };
+    useEffect(() => {
+        if (teacherInfo) {
+            setUpdatedName(teacherInfo.name);
+            setUpdatedEmail(teacherInfo.email);
+            setUpdatedPhoneNum(teacherInfo.phoneNum);
+        }
+    }, [teacherInfo]);
     useEffect(() => {
         const fetchStudents = async () => {
             try {
@@ -83,12 +155,41 @@ const MypageTchr = () => {
             }
         };
 
-        // Assuming a default student ID for demo purposes
-        fetchStudentDetails(25);
+        fetchStudentDetails(1);
     }, []);
 
+    useEffect(() => {
+        const fetchFullFeedback = async (studentId) => {
+            try {
+                const accessToken = localStorage.getItem("key");
+                const response = await axios.get(`https://maeummal.com/feedback/all?id=${studentId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+
+                if (response.data.isSuccess) {
+                    setSelectedStudentDetails(prevDetails => ({
+                        ...prevDetails,
+                        ...response.data.data,
+                        fullFeedback: response.data.data,
+                    }));
+                } else {
+                    throw new Error(response.data.message || 'Failed to fetch full feedback');
+                }
+            } catch (error) {
+                console.error('Error fetching full feedback:', error);
+                setError('Failed to fetch full feedback: ' + error.message);
+            }
+        };
+
+            fetchFullFeedback(1);
+        }, []);
+    
+    // 학생 선택 시 전체 피드백 리스트 불러오기
     const handleSelectStudent = (studentId) => {
         fetchStudentDetails(studentId);
+        fetchFullFeedback(studentId); // 전체 피드백 불러오기
         setIsStdinfoExtended(true);
     };
 
@@ -174,9 +275,9 @@ const MypageTchr = () => {
                                         <M.Label>휴대폰 번호</M.Label>
                                     </M.InfoTitle>
                                     <M.InfoContent>
-                                        <M.Value>부앙단</M.Value>
-                                        <M.Value>example@email.com</M.Value>
-                                        <M.Value>01012345678</M.Value>
+                                        <M.Value>{teacherInfo.name}</M.Value>
+                                        <M.Value>{teacherInfo.email}</M.Value>
+                                        <M.Value>{teacherInfo.phoneNum}</M.Value>
                                     </M.InfoContent>
                                     <M.SettingsIcon src={Settings} onClick={handleExtended}/>
                                 </M.InfoGroup>
@@ -205,21 +306,32 @@ const MypageTchr = () => {
                                     <M.Label>이름</M.Label>
                                     <M.Label>이메일</M.Label>
                                     <M.Label>휴대폰 번호</M.Label>
-                                    <M.Label>성별</M.Label>
-                                    <M.Label>생년월일</M.Label>
-                                    <M.Label>소속기관</M.Label>
                                 </M.InfoTitle>
                                 <M.InfoContent style={{padding: '10px'}}>
-                                    <M.Value>부앙단</M.Value>
-                                    <M.Value>example@email.com</M.Value>
-                                    <M.Value>010-1234-5678</M.Value>
-                                    <M.Value>여성</M.Value>
-                                    <M.Value>1997-08-12</M.Value>
-                                    <M.Value>덕성여자대학교</M.Value>
+                                    <M.InfoChange
+                                        type="text"
+                                        value={updatedName}
+                                        onChange={(e) => setUpdatedName(e.target.value)}
+                                        placeholder="이름 입력"
+                                    />
+                                    <M.InfoChange
+                                        type="email"
+                                        value={updatedEmail}
+                                        onChange={(e) => setUpdatedEmail(e.target.value)}
+                                        placeholder="이메일 입력"
+                                    />
+                                    <M.InfoChange
+                                        type="tel"
+                                        value={updatedPhoneNum}
+                                        onChange={(e) => setUpdatedPhoneNum(e.target.value)}
+                                        placeholder="휴대폰 번호 입력"
+                                    />
                                 </M.InfoContent>
                             </M.InfoGroup>
+                            <M.InfoButton onClick={updateTeacherInfo} style={{marginTop: '10px'}}>저장하기</M.InfoButton>
                         </M.Item>
-                    </M.Second>}
+                    </M.Second>
+                    }
                     {isExtended && 
                     <M.Second>
                         <M.InLineTitle>
@@ -273,18 +385,22 @@ const MypageTchr = () => {
                                 <M.MoreIcon src={More} onClick={handleFeedback} />
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', gap: '2%' }}>
-                            {selectedStudentDetails.feedbackTwo.map(feedback => (
-                                <M.InfoFeed style={{width: '50%'}} key={feedback.id}>
-                                    <M.FeedTitle>
-                                        <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
-                                            <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="Template Icon"></img>
-                                            <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || 'Untitled'}</p>
-                                        </M.Start>
-                                    </M.FeedTitle>
-                                    <M.InfoGroup style={{ fontFamily: 'sans-serif', textAlign: 'left', textOverflow: 'ellipsis' }}>{feedback.aiFeedback.length > 70 ? `${feedback.aiFeedback.substring(0, 70)}...` : feedback.aiFeedback}</M.InfoGroup>
-                                </M.InfoFeed>    
+                            {selectedStudentDetails.fullFeedback?.slice(0, 2).map(feedback => (
+                            <M.InfoFeed key={feedback.id}>
+                                <M.FeedTitle>
+                                    <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
+                                        <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="템플릿 아이콘"></img>
+                                        <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || '제목 없음'}</p>
+                                    </M.Start>
+                                </M.FeedTitle>
+                                <M.InfoGroup style={{ fontFamily: 'sans-serif', textAlign: 'left', textOverflow: 'ellipsis' }}>{feedback.aiFeedback.length > 70 ? `${feedback.aiFeedback.substring(0, 70)}...` : feedback.aiFeedback}</M.InfoGroup>
+                            </M.InfoFeed>    
                             ))}</div>
-                            <div>                                  
+                            <div> 
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginBottom: '2.5%' }}>
+                                <p style={{ whiteSpace: 'nowrap', marginLeft: '0px', fontSize: '1.2rem' }}>템플릿 차트</p>
+                                <M.MoreIcon src={More} style={{display: 'none'}}/>
+                            </div>                                 
                                 {selectedStudentDetails.templateChart && (
                                     <ChartComponent chartData={selectedStudentDetails.templateChart} />
                                 )}
@@ -295,43 +411,41 @@ const MypageTchr = () => {
                 {/* Feedback Expanded View */}
 
                 {feedbackExtended && selectedStudentDetails && (
-                    <M.Second style={{ paddingTop: '1.7%' }}>
-                        <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
-                            <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
-                            {selectedStudentDetails && (
-                            <M.DetailLabel>
-                                <M.StuProfile src={selectedStudentDetails.profileImage || My} />
-                                <M.InfoTitle>{selectedStudentDetails.name} 학생</M.InfoTitle>
-                            </M.DetailLabel>
-                            )}
-                            <img style={{ marginRight: '-50px'}} src={Close} onClick={closeAll} />
-                        </M.DetailTitle>
-                        <M.Item>
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%' }}>
-                                <p style={{ whiteSpace: 'nowrap', marginLeft: '-140px', fontSize: '1.2rem' }}>피드백 목록</p>
-                                <div style={{ width: '100px' }}></div>
-                            </div>
-                            {selectedStudentDetails.feedbackTwo.map(feedback => (
-                                <M.InfoFeed key={feedback.id}>
-                                    <M.FeedTitle>
-                                        <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
-                                            <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="Template Icon"></img>
-                                            <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || 'Untitled'}</p>
-                                        </M.Start>
-                                        <p style={{ marginBottom: '2%' }}>{new Date(feedback.createdAt).toLocaleDateString()}</p>
-                                    </M.FeedTitle>
-                                    <M.InfoGroup style={{ fontFamily: 'sans-serif', textAlign: 'left' }}>{feedback.aiFeedback}</M.InfoGroup>
-                                </M.InfoFeed>
-                            ))}
-                        </M.Item>
-                    </M.Second>
-                )}
+                <M.Second style={{ paddingTop: '1.7%' }}>
+                    <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
+                        <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
+                        <M.DetailLabel>
+                            <M.StuProfile src={selectedStudentDetails.profileImage || My} />
+                            <M.InfoTitle>{selectedStudentDetails.name} 학생</M.InfoTitle>
+                        </M.DetailLabel>
+                        <img style={{ marginRight: '-50px'}} src={Close} onClick={closeAll} />
+                    </M.DetailTitle>
+                    <M.Item>
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%' }}>
+                            <p style={{ whiteSpace: 'nowrap', marginLeft: '-140px', fontSize: '1.2rem' }}>피드백 목록</p>
+                            <div style={{ width: '100px' }}></div>
+                        </div>
+                        {selectedStudentDetails.fullFeedback?.map(feedback => (
+                            <M.InfoFeed key={feedback.id}>
+                                <M.FeedTitle>
+                                    <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
+                                        <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="Template Icon"></img>
+                                        <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || 'Untitled'}</p>
+                                    </M.Start>
+                                    <p style={{ marginBottom: '2%' }}>{new Date(feedback.createdAt).toLocaleDateString()}</p>
+                                </M.FeedTitle>
+                                <M.InfoGroup style={{ fontFamily: 'sans-serif', textAlign: 'left' }}>{feedback.aiFeedback}</M.InfoGroup>
+                            </M.InfoFeed>
+                        ))}
+                    </M.Item>
+                </M.Second>
+            )}
                 </M.ContentContainer>
             </M.Section>
             <UploadPhoto 
                 isOpen={isUploadModalOpen}
                 toggleModal={toggleUploadModal}
-                handleAddImage={handleAddImage}
+                updateProfileImage={handleAddImage}
             />
             <StdModal
                 isOpen={isMatchingModalOpen}

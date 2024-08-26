@@ -32,12 +32,18 @@ import Level2Result from "./components/SelfStudy/Level2Result";
 import ImageModal from "./components/ImageModal/ImageModal";
 import MatchingModal from "./components/MypageTchr/MatchingModal";
 import Feedback2 from "./components/StudyLesson/Feedback2";
+import Feedback4 from "./components/StudyLesson/Feedback4";
 import Reward from "./components/Reward/Reward";
 import MypageStdPage from "./components/MypageStd/MypageStd";
 import MypageTchrPage from "./components/MypageTchr/MypageTchr";
 import WordListTchrPage from "./components/WordTchr/WordListTchr";
 import WordDetailTchr from "./components/WordTchr/WordDetailTchr";
 import WordNextStd from "./components/WordLearnStd/WordNextStd";
+import FeedbackTem1 from "./components/FeedbackDetail/FeedbackTem1";
+import FeedbackTem2 from "./components/FeedbackDetail/FeedbackTem2";
+import FeedbackTem3 from "./components/FeedbackDetail/FeedbackTem3";
+import FeedbackTem4 from "./components/FeedbackDetail/FeedbackTem4";
+import FeedbackTem5 from "./components/FeedbackDetail/FeedbackTem5";
 
 export default function User() {
   return (
@@ -74,11 +80,17 @@ export default function User() {
         <Route path="/imagemodal" element={<ImageModal />} />
         <Route path="/matchingmodal" element={<MatchingModal />} />
         <Route path="/feedback2" element={<Feedback2 />} />
+        <Route path="/feedback4" element={<Feedback4 />} />
         <Route path="/reward" element={<Reward />} />
         <Route path="/mypagestd" element={<MypageStdPage />} />
         <Route path="/mypagetchr" element={<MypageTchrPage />} />
         <Route path="/wordlisttchr" element={<WordListTchrPage />} />
         <Route path="/wordtchr/:wordSetId" element={<WordDetailTchr />} />
+        <Route path="/feedbacktem1" element={<FeedbackTem1 />} />
+        <Route path="/feedbacktem2" element={<FeedbackTem2 />} />
+        <Route path="/feedbacktem3" element={<FeedbackTem3 />} />
+        <Route path="/feedbacktem4" element={<FeedbackTem4 />} />
+        <Route path="/feedbacktem5" element={<FeedbackTem5 />} />
       </Routes>
       <FloatingButton />
       <Footer />

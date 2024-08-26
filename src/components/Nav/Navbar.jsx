@@ -4,11 +4,44 @@ import styled from 'styled-components';
 import Logo from '/src/assets/image/logo.svg';
 import My from '/src/assets/image/profile.svg';
 import Modal from '../Nav/LoginModal';
+import axios from 'axios';
 
 export default function Nav() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [profileName, setProfileName] = useState('Guest');
+  const [profileImage, setProfileImage] = useState(My);
   const [showModal, setShowModal] = useState(false); // 모달 상태 추가
+  const [userInfo, setUserInfo] = useState({});
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+        try {
+            const accessToken = localStorage.getItem("key");
+            if (!accessToken) {
+                setError('Authentication required');
+                return;
+            }
+            const response = await axios.get('https://maeummal.com/user', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+
+            if (response.data.isSuccess) {
+                setUserInfo(response.data.data);
+                setProfileImage(response.data.data.profileImage);
+            } else {
+                throw new Error(response.data.message || 'Failed to fetch teacher info');
+            }
+        } catch (error) {
+            console.error('Error fetching teacher info:', error);
+            setError('Failed to fetch teacher info: ' + error.message);
+        }
+    };
+
+    fetchUserInfo();
+}, []);
 
   useEffect(() => {
     const token = localStorage.getItem('key');
@@ -39,9 +72,9 @@ export default function Nav() {
       </Header>
       <LinkWrapper><a href='/mypagetchr'>
         <ProfileCard>
-          <ProfileName>부앙단 선생님</ProfileName>
+          <ProfileName>{userInfo.name} 선생님</ProfileName>
           <ProfileImageContainer>
-            <ProfileImage src={My} alt="프로필 이미지" />
+            <ProfileImage src={profileImage} alt="프로필 이미지" />
             <CrownIcon>👑</CrownIcon>
           </ProfileImageContainer>
         </ProfileCard></a>
@@ -124,6 +157,7 @@ const ProfileImage = styled.img`
   height: 100%;
   border-radius: 50%;
   border: 4px solid #FEEAFA;
+    object-fit: cover;
 `;
 
 const CrownIcon = styled.span`
