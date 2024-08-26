@@ -134,7 +134,7 @@ const Template5Std = () => {
       setFirstTime(false);
     } else if (!firstTime) {
       const count = correct.filter((element) => true === element).length;
-      if (count != data.imageNum) {
+      if (count != 3) {
         setLives(lives - 1);
       }
       feedback();
