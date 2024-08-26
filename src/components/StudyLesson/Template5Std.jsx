@@ -42,6 +42,7 @@ const Template5Std = () => {
   const answerRef = useRef(false);
   const [lives, setLives] = useState(2);
   const [correct, setCorrect] = useState([]);
+  const [hintShow, setHintShow] = useState([]);
   const [firstTime, setFirstTime] = useState(true);
   const [word, setWord] = useState([]);
   const [wordList, setWordList] = useState([]);
@@ -130,6 +131,7 @@ const Template5Std = () => {
           : (newCorrect[index] = false);
       });
       setCorrect(newCorrect);
+      setHintShow(newCorrect);
       setLives(lives - 1);
       setFirstTime(false);
     } else if (!firstTime) {
@@ -139,7 +141,7 @@ const Template5Std = () => {
       }
       feedback();
     } else {
-      alert("빈칸을 모두 작성해주세요!");
+      alert("모두 선을 이어주세요!");
     }
   };
 
@@ -212,7 +214,7 @@ const Template5Std = () => {
         <O.Row>
           {!firstTime && (
             <O.Container>
-              {correct.map((el, index) => (
+              {hintShow.map((el, index) => (
                 <HintBox style={{ opacity: el ? "0%" : "100%" }} key={index}>
                   {wordList[index].description}
                   <img src={hint} />
