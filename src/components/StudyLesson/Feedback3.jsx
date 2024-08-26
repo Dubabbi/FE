@@ -8,8 +8,8 @@ import * as O from "./Template1Std";
 import * as T from "./Template3Std";
 import * as E from "../CreateLesson/Template3Tchr";
 import Back from "/src/assets/icon/back.svg";
-import correct from "/src/assets/image/correct.svg";
-import wrong from "/src/assets/image/wrong.svg";
+import correct from "/src/assets/icon/correct.svg";
+import wrong from "/src/assets/icon/incorrect.svg";
 
 const Feedback3 = () => {
   const data = useLocation().state;
