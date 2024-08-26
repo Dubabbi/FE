@@ -49,12 +49,14 @@ export default function Nav() {
   }, []);
 
   const closeModal = () => setShowModal(false);
+  const profilePageLink = userInfo.iq != null ? '/mypagestd' : '/mypagetchr';
+  const mainPageLink = userInfo.iq != null ? '/mainstd' : '/maintchr';
 
   return (
     <>
       <TopWrapper>
         <Header>
-          <Link to="/MainTchr">
+          <Link to={mainPageLink}>
             <Title>
               <img src={Logo} alt="Logo" />
               마음말
@@ -62,7 +64,7 @@ export default function Nav() {
           </Link>
         </Header>
         <LinkWrapper>
-          <a href='/mypagetchr'>
+          <a href={profilePageLink}>
             <ProfileCard>
               <ProfileName>
                 {userInfo.name} {userInfo.iq != null ? '학생' : '선생님'}
