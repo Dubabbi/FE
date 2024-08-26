@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import * as M from "../MainTchr/MainTchrStyle";
 import * as MS from "./MainStdStyle";
-import { TemplateList, TemplateCard } from "../MainTchr/MainTchr";
+import { IconList, TemplateCard, temList } from "../MainTchr/MainTchr";
 import arrowIcon from "/src/assets/icon/arrowright.svg";
 import wordCardImg from "/src/assets/image/word.svg";
 import badgeIcon from "/src/assets/icon/badge.svg";
@@ -20,11 +21,53 @@ const ChallengePercent = ({ percent }) => (
 );
 
 const MainStd = () => {
-  const [challengeList, setchallengeList] = useState([
-    { state: "ing", text: "낱말 카드 학습하기" },
-    { state: "ing", text: "강의 1개 이상 수강하기" },
-    { state: "finish", text: "자율 학습" },
-  ]);
+  const [lesson, setLesson] = useState([]);
+  const [cardData, setCardData] = useState([]);
+  const [challengeData, setChallengeData] = useState({});
+
+  useEffect(() => {
+    const token = localStorage.getItem("key");
+    axios
+      .get("https://maeummal.com/templates/recent")
+      .then((response) => {
+        if (response.data.isSuccess) {
+          setLesson(response.data.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
+    axios
+      .get("https://maeummal.com/word/wordSet/all", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.isSuccess) {
+          setCardData(response.data.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
+    axios
+      .get("https://maeummal.com/challenge/get", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.isSuccess) {
+          setChallengeData(response.data.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
   return (
     <M.AppContainer>
@@ -39,13 +82,13 @@ const MainStd = () => {
               </a>
             </M.arrowContainer>
           </M.rowContainer>
-          <M.rowContainer width="98%">
-            {TemplateList.map((item, index) => (
+          <M.rowContainer width="98%" style={{ justifyContent: "normal" }}>
+            {lesson?.map((item, index) => (
               <TemplateCard
                 key={index}
                 title={item.title}
-                description={item.description}
-                imgSrc={item.src}
+                description={item.templateName}
+                imgSrc={IconList[temList.indexOf(item.templateName)]}
               />
             ))}
           </M.rowContainer>
@@ -55,9 +98,13 @@ const MainStd = () => {
           <M.CardContainer href="/wordstd">
             <M.SectionTitle>낱말 카드 학습하기</M.SectionTitle>
             <M.ImgContainer>
-              <M.CardImg1 src={wordCardImg} alt="" />
-              <M.CardImg1 src={wordCardImg} alt="" />
-              <M.CardImg2 src={wordCardImg} alt="" />
+              {cardData.map((el, index) =>
+                index === 0 ? (
+                  <M.CardImg2 key={index} src={el.wordList[0].image} alt="" />
+                ) : index === 1 || index === 2 ? (
+                  <M.CardImg1 key={index} src={el.wordList[0].image} alt="" />
+                ) : null
+              )}
             </M.ImgContainer>
           </M.CardContainer>
           {/*  오늘의 챌린지 */}
@@ -66,25 +113,17 @@ const MainStd = () => {
             <M.rowContainer>
               <MS.challengeContainer>
                 <MS.challenging>진행 중</MS.challenging>
-                {challengeList.map((item, index) => {
-                  if (item.state == "ing")
-                    return (
-                      <MS.challengeText key={index}>
-                        {item.text}
-                      </MS.challengeText>
-                    );
-                })}
+                {challengeData.unCompletedMissions?.map((item, index) => (
+                  <MS.challengeText key={index}>{item}</MS.challengeText>
+                ))}
                 <MS.challengeFinish>완료</MS.challengeFinish>
-                {challengeList.map((item, index) => {
-                  if (item.state == "finish")
-                    return (
-                      <MS.challengeText key={index}>
-                        {item.text}
-                      </MS.challengeText>
-                    );
-                })}
+                {challengeData.completedMissions?.map((item, index) => (
+                  <MS.challengeText key={index}>{item}</MS.challengeText>
+                ))}
               </MS.challengeContainer>
-              <ChallengePercent percent={33} />
+              <ChallengePercent
+                percent={challengeData.percent ? challengeData.percent : 0}
+              />
             </M.rowContainer>
           </M.CardContainer>
           {/* 획득한 배지 */}
