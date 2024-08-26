@@ -35,8 +35,8 @@ export const Section = styled.section`
 
 export const CardTitle = styled.div`
     align-items: center;
-    width: 8%;
-    margin-left: 46%;
+    width: 10%;
+    margin-left: 45%;
     margin-bottom: 4%;
     padding: 0.6%;
     border-radius: 7px;
