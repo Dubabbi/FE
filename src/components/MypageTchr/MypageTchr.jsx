@@ -51,7 +51,7 @@ const MypageTchr = () => {
 
                 if (response.data.isSuccess) {
                     setTeacherInfo(response.data.data);
-                    setProfileImage(response.data.data.profileImage);
+                    setProfileImage(response.data.data.profileImage || My);
                 } else {
                     throw new Error(response.data.message || 'Failed to fetch teacher info');
                 }

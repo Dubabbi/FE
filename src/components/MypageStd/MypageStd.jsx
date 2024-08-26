@@ -78,7 +78,7 @@ const MypageStd = () => {
 
                 if (response.data.isSuccess) {
                     setStudentInfo(response.data.data);
-                    setProfileImage(response.data.data.profileImage);
+                    setProfileImage(response.data.data.profileImage || My);
                 } else {
                     throw new Error(response.data.message || 'Failed to fetch teacher info');
                 }
@@ -267,7 +267,7 @@ const MypageStd = () => {
                 <M.ContentContainer $isExtended={isExtended || isSettingExtended || stdinfoExtended || feedbackExtended}>
                     <M.Content>
                         <M.InLine>
-                            <M.Profile src={studentInfo.profileImage} />
+                            <M.Profile src={studentInfo.profileImage || My} />
                             <M.Upload src={Upload} alt="Upload Photo" onClick={toggleUploadModal} />
                         </M.InLine>
                         <M.InfoBox>
