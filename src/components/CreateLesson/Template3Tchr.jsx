@@ -1,14 +1,15 @@
 // Template3Tchr.jsx
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import * as C from "./CreateLessonStyle";
 import * as L from "../LessonTchr/LessonStyle";
 import * as D from "../WordCreateTchr/WordDetailStyle";
 import Back from "/src/assets/icon/back.svg";
 import add from "../../assets/icon/add.svg";
-import createimg from "/src/assets/image/template/createimg.svg";
-import send from "/src/assets/icon/send.svg";
 import Form from "react-bootstrap/Form";
+import ModalComponent from "../ImageModal/ImageModal";
 
 // 전체 카드 컨테이너 스타일
 export const CardContainer = styled.div`
@@ -79,34 +80,70 @@ export const ExampleBox = styled.div`
 `;
 
 const Template3Tchr = () => {
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalCardIndex, setModalCardIndex] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+  const [options, setOptions] = useState([""]);
   const [inputComment, setInputComment] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     numberOfStories: "1",
   });
 
-  const [values, setValues] = useState({
-    abj: [""],
-    noun: [""],
-    hint: [""],
-    option: [""],
-  });
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleModalSubmit();
+    }
+  };
+
+  const handleModalSubmit = async () => {
+    try {
+      const response = await axios.post("https://maeummal.com/ai/image", {
+        prompt: inputValue,
+      });
+      if (response.status === 200 && response.data) {
+        const newValue = [...values];
+        newValue[modalCardIndex].image = response.data;
+        setValues(newValue);
+        setModalOpen(false);
+      }
+    } catch (error) {
+      console.error("Error generating image or creating Template2:", error);
+      alert("이미지 생성 또는 템플릿 생성에 실패했습니다.");
+    }
+  };
+
+  const [values, setValues] = useState([
+    {
+      image: "",
+      adjective: "",
+      noun: "",
+      hint: "",
+    },
+  ]);
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
-    const newValues = { ...values };
-    newValues[name][index] = value;
-    setValues(newValues);
+    if (name === "option") {
+      const newOption = [...options];
+      newOption[index] = value;
+      setOptions(newOption);
+    } else {
+      const newValues = [...values];
+      newValues[index][name] = value;
+      setValues(newValues);
+    }
   };
 
-  const toggleModal = () => {
+  const toggleModal = (index) => {
+    setModalCardIndex(index);
     setModalOpen(!modalOpen);
-  };
-
-  const handleSubmit = () => {
-    console.log("Input Submitted:", inputValue);
-    toggleModal(); // 제출 후 모달 닫기
   };
 
   const handleSelectChange = (e) => {
@@ -118,6 +155,49 @@ const Template3Tchr = () => {
 
     if (name === "numberOfWords") {
       adjustWordCards(parseInt(value, 10));
+    }
+    let newData = [];
+    Array.from({ length: value }).map(
+      (_, index) =>
+        (newData[index] = {
+          image: "",
+          adjective: "",
+          noun: "",
+          hint: "",
+        })
+    );
+    setValues(newData);
+  };
+
+  const handleCreate = () => {
+    const payload = {
+      template3DTO: {
+        //title: "",
+        description: inputComment,
+        imageNum: values.length,
+        templateType: "TEMPLATE3",
+        options: options,
+      },
+      //type: data.difficulty,
+      imageCardDTOList: values,
+    };
+    if (values.length == formData.numberOfStories) {
+      axios
+        .post(`https://maeummal.com/template3/create`, payload, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("key")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            navigate("/lessonTchr");
+          }
+        })
+        .catch((error) => {
+          console.error("Error while create template5:", error);
+        });
+    } else {
+      alert("모두 작성해주세요.");
     }
   };
 
@@ -172,16 +252,31 @@ const Template3Tchr = () => {
             {Array.from({ length: parseInt(formData.numberOfStories) }).map(
               (_, index) => (
                 <Card key={index}>
-                  <ImageBox>
-                    <img src={add} onClick={toggleModal} />
+                  <ImageBox
+                    style={{
+                      border: values[index].image
+                        ? "none"
+                        : "3px solid #f6f6f6",
+                    }}
+                  >
+                    <img
+                      style={{
+                        width: values[index].image ? "100%" : "40px",
+                        height: "auto",
+                        borderRadius: "1rem",
+                        display: "inline-block",
+                      }}
+                      src={values[index].image || add}
+                      onClick={() => toggleModal(index)}
+                    />
                   </ImageBox>
                   <InputField
                     style={{ marginTop: "10px" }}
                     type="text"
-                    name="abj"
+                    name="adjective"
                     placeholder="관형구"
                     as="textarea"
-                    value={values.abj[index]}
+                    value={values[index].adj}
                     onChange={(e) => handleChange(e, index)}
                   />
                   <InputField
@@ -190,7 +285,7 @@ const Template3Tchr = () => {
                     name="noun"
                     placeholder="단어"
                     as="textarea"
-                    value={values.noun[index]}
+                    value={values[index].noun}
                     onChange={(e) => handleChange(e, index)}
                   />
                   <ExampleBox style={{ top: "324px" }}>힌트</ExampleBox>
@@ -205,37 +300,13 @@ const Template3Tchr = () => {
                     name="hint"
                     placeholder="힌트를 입력해주세요."
                     as="textarea"
-                    value={values.hint[index]}
+                    value={values[index].hint}
                     onChange={(e) => handleChange(e, index)}
                   />
                 </Card>
               )
             )}
           </CardContainer>
-          {modalOpen && (
-            <C.ModalOverlay>
-              <C.ModalContent>
-                <h1>이미지 생성</h1>
-                <C.ModalImg>
-                  <div>
-                    <img src={createimg} />
-                  </div>
-                </C.ModalImg>
-                <C.InputWrap>
-                  <C.InputField
-                    type="text"
-                    placeholder="텍스트 입력"
-                    // value={inputValue}
-                    // onChange={handleInputChange}
-                  />
-                  <C.Send>
-                    <img src={send} />
-                  </C.Send>
-                </C.InputWrap>
-                <C.ModalButton onClick={handleSubmit}>제출</C.ModalButton>
-              </C.ModalContent>
-            </C.ModalOverlay>
-          )}
         </C.StoryWrap>
         {/* 보기 */}
         <C.StoryWrap
@@ -270,7 +341,7 @@ const Template3Tchr = () => {
                 name="option"
                 placeholder="관형구"
                 as="textarea"
-                value={values.option[index]}
+                value={options[index]}
                 onChange={(e) => handleChange(e, index)}
               />
             ))}
@@ -313,9 +384,18 @@ const Template3Tchr = () => {
             />
           </CardContainer>
         </C.StoryWrap>
-        <C.SubmitButton style={{ marginBottom: "50px", marginTop: "30px" }}>
-          제출
-        </C.SubmitButton>
+        {modalOpen && (
+          <ModalComponent
+            isOpen={modalOpen}
+            toggleModal={() => setModalOpen(false)}
+            inputModalValue={inputValue}
+            handleInputModalChange={handleInputChange}
+            handleKeyPress={handleKeyPress}
+            handleModalSubmit={handleModalSubmit}
+            generatedImageUrl={values[modalCardIndex].image}
+          />
+        )}
+        <C.SubmitButton onClick={handleCreate}>제출</C.SubmitButton>
       </L.LessonWrapper>
     </>
   );
