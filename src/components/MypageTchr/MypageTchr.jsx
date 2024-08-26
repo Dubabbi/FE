@@ -17,6 +17,7 @@ import tem3 from '/src/assets/icon/template/template3icon.svg';
 import tem4 from '/src/assets/icon/template/template4icon.svg';
 import tem5 from '/src/assets/icon/template/template5icon.svg';
 import ChartComponent from './ChartComponent';
+import call from '/src/assets/icon/phone.svg';
 
 const MypageTchr = () => {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
@@ -298,7 +299,7 @@ const MypageTchr = () => {
                         </M.InfoBox>
                     </M.Content>
                     {isSettingExtended && 
-                    <M.Second>
+                    <M.Second style={{maxHeight: '70vh'}}>
                         <M.SecondLabel>개인정보 변경</M.SecondLabel>
                         <M.Item>
                             <M.InfoGroup style={{padding: '7%', border: '1px solid #eee', borderRadius: '5px', marginTop: '10%'}}>
@@ -333,7 +334,7 @@ const MypageTchr = () => {
                     </M.Second>
                     }
                     {isExtended && 
-                    <M.Second>
+                    <M.Second style={{maxHeight: '70vh'}}>
                         <M.InLineTitle>
                             <M.Start>
                                 <M.MatchingLabel>매칭 학생 목록</M.MatchingLabel>
@@ -362,7 +363,7 @@ const MypageTchr = () => {
                         </M.Item>
                     </M.Second>}
                     {stdinfoExtended && selectedStudentDetails && (
-                    <M.Second style={{paddingTop: '1.7%'}}>
+                    <M.Second style={{paddingTop: '1.7%', maxHeight: '70vh'}}>
                         <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
                             <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
                             <M.DetailLabel>
@@ -377,8 +378,10 @@ const MypageTchr = () => {
                                 <div style={{ width: '100px' }}></div>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', gap: '2%' }}>
-                                <M.InfoFeed style={{ whiteSpace: 'nowrap' }}>{selectedStudentDetails.iq}</M.InfoFeed>
-                                <M.InfoFeed style={{ whiteSpace: 'nowrap' }}>{selectedStudentDetails.phoneNumber}</M.InfoFeed>
+                                <M.InfoFeed style={{ paddingTop: '4%',whiteSpace: 'nowrap' }}>{selectedStudentDetails.iq}</M.InfoFeed>
+                                <M.InfoFeed style={{ paddingTop: '4%',whiteSpace: 'nowrap', flexDirection: 'row', justifyContent:'center', width: '100%', gap: '1%' }}>
+                                    <img src={call} style={{ maxWidth: '15px' }}/>{selectedStudentDetails.phoneNumber}
+                                </M.InfoFeed>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginBottom: '2.5%' }}>
                                 <p style={{ whiteSpace: 'nowrap', marginLeft: '0px', fontSize: '1.2rem' }}>피드백 목록</p>
@@ -411,7 +414,7 @@ const MypageTchr = () => {
                 {/* Feedback Expanded View */}
 
                 {feedbackExtended && selectedStudentDetails && (
-                <M.Second style={{ paddingTop: '1.7%' }}>
+                <M.Second style={{ paddingTop: '1.7%', maxHeight: '70vh' }}>
                     <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
                         <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
                         <M.DetailLabel>

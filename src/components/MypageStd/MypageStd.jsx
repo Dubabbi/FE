@@ -26,7 +26,7 @@ const MypageStd = () => {
     const [studentInfo, setStudentInfo] = useState({});
     const [isSettingExtended, setIsSettingExtended] = useState(false);
     const [feedbackExtended, setIsFeedbackExtended] = useState(false);
-    const [stdinfoExtended, setIsStdinfoExtended] = useState(true);
+    const [stdinfoExtended, setIsStdinfoExtended] = useState(false);
     const [isCodeModalOpen, setIsCodeModalOpen] = useState(false);
     const [students, setStudents] = useState([]);
     const [selectedStudentDetails, setSelectedStudentDetails] = useState(null);
@@ -296,13 +296,14 @@ const MypageStd = () => {
                                 </M.InfoGroup>
                             </M.InfoItem>
                             <M.InfoItem style={{ maxHeight: '50px' }}>
-                                <M.Label>지능지수</M.Label>
+                                <M.Label>피드백 목록</M.Label>
+                                <M.MoreIcon src={More} onClick={handleFeedback} />
                             </M.InfoItem>
                             <img src={code} style={{marginLeft: '-80%', cursor: 'pointer'}} onClick={toggleCodeModal}/>
                         </M.InfoBox>
                     </M.Content>
                     {isSettingExtended && 
-                    <M.Second>
+                    <M.Second style={{maxHeight: '70vh'}}>
                         <M.SecondLabel>개인정보 변경</M.SecondLabel>
                         <M.Item>
                             <M.InfoGroup style={{padding: '7%', border: '1px solid #eee', borderRadius: '5px', marginTop: '10%'}}>
@@ -383,12 +384,12 @@ const MypageStd = () => {
                 )}
 
                 {feedbackExtended && selectedStudentDetails && (
-                <M.Second style={{ paddingTop: '1.7%' }}>
+                <M.Second style={{ paddingTop: '1.7%', maxHeight: '70vh' }}>
                     <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
                         <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
                         <M.DetailLabel>
-                            <M.StuProfile src={selectedStudentDetails.profileImage || My} />
-                            <M.InfoTitle>{selectedStudentDetails.name} 학생</M.InfoTitle>
+                            <M.StuProfile src={studentInfo.profileImage || My} />
+                            <M.InfoTitle>{studentInfo.name} 학생</M.InfoTitle>
                         </M.DetailLabel>
                         <img style={{ marginRight: '-50px'}} src={Close} onClick={closeAll} />
                     </M.DetailTitle>
