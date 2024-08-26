@@ -188,7 +188,7 @@ const Template5Std = () => {
     ]);
     setLine([]);
     setfinalAnswer([]);
-    setCorrect([]);
+    //setCorrect([]);
   };
 
   const handleCloseReward = () => {
