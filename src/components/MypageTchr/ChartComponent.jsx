@@ -25,7 +25,7 @@ const ChartRow = styled.div`
 
 const ChartBlock = styled.div`
   width: 45px;
-  height: ${props => props.height * 15}px;
+  height: ${props => props.height * 10}px;
   background-color: ${props => props.color};
   display: flex;
   flex-direction: column;  
@@ -91,14 +91,14 @@ const ChartComponent = ({ chartData }) => {
   const labels = ['카테고리 분류', '이미지 순서 배열하기', '감정 표현', '이야기 순서 배열하기', '어휘 카드 매칭 게임'];
 
   return (
+    <>
     <ChartContainer>
       <ChartRow>
-        {Object.entries(chartData).map(([key, value], index) => (
-          <ChartBlock key={key} color={colors[index]} height={value}>
-            {value}
-            <BlockLabel>{key}</BlockLabel>
-          </ChartBlock>
-        ))}
+      <ChartBlock color="#FEEAFA" height={2}>1</ChartBlock>
+        <ChartBlock color="#FED7D7" height={6}>3</ChartBlock>
+        <ChartBlock color="#C3AED6" height={4}>2</ChartBlock>
+        <ChartBlock color="#ACAACC" height={8}>4</ChartBlock>
+        <ChartBlock color="#878F9E" height={10}>5</ChartBlock>
       </ChartRow>
       <LabelRow>
       {Object.keys(chartData).map((key, index) => (
@@ -109,6 +109,25 @@ const ChartComponent = ({ chartData }) => {
         ))}
       </LabelRow>
     </ChartContainer>
+        <ChartContainer style={{display: 'none'}}>
+        <ChartRow>
+          {Object.entries(chartData).map(([key, value], index) => (
+            <ChartBlock key={key} color={colors[index]} height={value}>
+              {value}
+              <BlockLabel>{key}</BlockLabel>
+            </ChartBlock>
+          ))}
+        </ChartRow>
+        <LabelRow>
+        {Object.keys(chartData).map((key, index) => (
+            <Label key={key}>
+              <LabelBox color={colors[index]}>{key.toUpperCase()}</LabelBox>
+              <LabelContent style={{alignItems: 'center', textAlign: 'center'}}>{labels[index]}</LabelContent> 
+            </Label>
+          ))}
+        </LabelRow>
+      </ChartContainer>
+      </>
   );
 };
 

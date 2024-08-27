@@ -19,7 +19,7 @@ const RewardWrapper = styled.div`
   justify-content: center;
   img {
     max-width: 80%;
-    margin-left: 10%;
+    margin: 10%;
     cursor: pointer;
   }
 `;

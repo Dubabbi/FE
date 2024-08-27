@@ -650,3 +650,24 @@ export const FeedTitle = styled.h1`
     margin-left: 15%;
     position: relative;
 `;
+
+export const StoryList = styled.div`
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: 2px solid #F6F6F6;
+  border-radius: 1rem;
+
+  img {
+    max-width: 95%;
+    max-height: 100%;
+    border-radius: 1rem;
+    object-fit: cover; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
