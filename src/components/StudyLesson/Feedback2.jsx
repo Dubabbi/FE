@@ -25,18 +25,18 @@ const Feedback2 = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const feedbackData = location.state?.feedbackData || {};
-  const feedbackDescription = location.state?.description || '설명이 없습니다.';
+
+  // 모든 정답 체크를 진행하여 isCorrect 계산
+  const isCorrect = feedbackData.correctnessList?.every(val => val === true);
 
   const handleStop = () => {
     navigate('/MainStd');
   };
 
-  const isCorrect = feedbackData.correctnessList ? feedbackData.correctnessList[0] : null;
-
   return (
     <>
       <D.ImageWrap>
-        <a href="/MainStd"><img src={Back} alt="" /></a>
+        <a href="/MainStd"><img src={Back} alt="Back" /></a>
       </D.ImageWrap>
       <L.LessonWrapper style={{ marginBottom: '5%' }}>
         <L.Section>
@@ -47,19 +47,19 @@ const Feedback2 = () => {
             <C.HalfLine />
           </C.FeedbackContainer>
         </L.Section>
-        {/* 한 번만 정답 또는 오답 표시 */}
-        {isCorrect !== null && (
+        {/* 정답 또는 오답 표시 조건 수정 */}
+        {isCorrect !== undefined && (
           <C.FeedbackLine style={{ marginBottom: '5%' }}>
             <C.FirstBox>
               <img src={isCorrect ? Correct : Incorrect} alt={isCorrect ? 'Correct' : 'Incorrect'} />
             </C.FirstBox>
             <C.SecondBox>
-              {feedbackDescription}
+              {feedbackData.solution || 'No solution provided'}
             </C.SecondBox>
           </C.FeedbackLine>
         )}
-        {/* 정답 카드 이미지와 설명 */}
-        <L.Section>
+                {/* 정답 카드 이미지와 설명 */}
+                <L.Section>
           <C.FeedTitle style={{ fontSize: '1.7rem' }}>정답 이미지</C.FeedTitle>
           <C.FeedbackLine>
             {feedbackData.correctFeedbackCards && feedbackData.correctFeedbackCards.map((card, index) => (
@@ -70,7 +70,7 @@ const Feedback2 = () => {
           </C.FeedbackLine>
         </L.Section>
 
-        {/* 학생이 선택한 카드 이미지와 설명 */}
+        {/*
         <L.Section>
           <C.FeedTitle style={{ fontSize: '1.7rem' }}>학생이 선택한 이미지</C.FeedTitle>
           <C.FeedbackLine>
@@ -80,7 +80,7 @@ const Feedback2 = () => {
               </C.FeedImage>
             ))}
           </C.FeedbackLine>
-        </L.Section>
+        </L.Section>*/}
         {/* AI 피드백 */}
         <C.HintWrapper style={{ width: '70%', padding: '1rem 0' }}>
           <C.HintGroup style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
@@ -89,7 +89,7 @@ const Feedback2 = () => {
               <div style={{ width: '70%' }}></div>
             </div>
             <C.HintBox style={{ width: '90%', border: 'none', fontSize: '1.2rem' , textAlign: 'left' }}>
-              나이 순서대로 배열하는 것에 어려움이 있습니다. 
+              나이 순서대로 배열하는 것에 어려움이 있습니다. 이미지나 그림을 보고 사람의 나이를 알 수 있도록 추가 학습이 필요해 보입니다.
               {/*
               {feedbackData.aiFeedback || 'AI 피드백 없음'}
               */}
@@ -108,3 +108,4 @@ const Feedback2 = () => {
 };
 
 export default Feedback2;
+
