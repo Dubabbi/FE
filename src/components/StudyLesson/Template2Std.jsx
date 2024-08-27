@@ -10,6 +10,7 @@ import { ModalOverlay } from './Feedback2';
 import axios from 'axios';
 import Reward from '../Reward/Reward';
 import Toast from '/src/assets/icon/errortoast.svg';
+
 const Template2Std = () => {
   const navigate = useNavigate();
   const [showReward, setShowReward] = useState(false);
@@ -21,19 +22,14 @@ const Template2Std = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const template2Id = 7;
+    const template2Id = 13;
     const fetchTemplateData = async () => {
       try {
         const response = await axios.get(`https://maeummal.com/template2/get?template2Id=${template2Id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("key")}` }
         });
         if (response.data.isSuccess) {
-          const cardsWithIndex = response.data.data.storyCardEntityList.map((card, index) => ({
-            ...card,
-            originalIndex: index
-          }));
-          const shuffledData = shuffleArray(cardsWithIndex);
-          setTemplateData({ ...response.data.data, storyCardEntityList: shuffledData });
+          setTemplateData(response.data.data);
           setSelectedImages([]);
         } else {
           throw new Error('Failed to fetch data');
@@ -46,14 +42,6 @@ const Template2Std = () => {
     };
     fetchTemplateData();
   }, []);
-
-  const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  };
 
   const toggleSelectImage = (id) => {
     const cardInfo = templateData.storyCardEntityList.find(card => card.storyCardId === id);
@@ -72,34 +60,44 @@ const Template2Std = () => {
       return;
     }
   
-    const userAnswerOrder = selectedImages.map(item => item.answerNumber);
-    const correctOrder = templateData.storyCardEntityList.map(card => card.answerNumber);
+    // Collect the answer numbers based on the selected images' IDs
+    const userAnswerOrder = selectedImages
+      .sort((a, b) => a.originalIndex - b.originalIndex)  // Sort based on the order of selection
+      .map(item => {
+        const card = templateData.storyCardEntityList.find(card => card.storyCardId === item.id);
+        return card.answerNumber;  // Collect answer numbers in the order they were selected
+      });
   
-    // 정렬 없이 직접 순서 비교
+    // Directly get the correct order from the template data
+    const correctOrder = templateData.storyCardEntityList
+      .map(card => card.answerNumber)
+      .sort((a, b) => a - b);  // Ensure the order is ascending for comparison
+  
+    // Compare the arrays to check if the order of selection matches the correct order
     const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
   
     if (isCorrect) {
-      await submitFeedback();
+      await submitFeedback(userAnswerOrder);
+      setShowReward(true);
     } else {
       if (lives > 1) {
         setLives(lives - 1);
         setShowHint(true);
-        setSelectedImages([]);
+        setSelectedImages([]);  // Clear selections on incorrect attempt
       } else {
-        // 마지막 목숨에서 오답 처리
         setLives(0);
         setShowHint(false);
-        await submitFeedback();
+        await submitFeedback(userAnswerOrder);
       }
     }
   };
   
-  const submitFeedback = async () => {
+  const submitFeedback = async (userAnswerOrder) => {
     try {
       const accessToken = localStorage.getItem("key");
       const response = await axios.post('https://maeummal.com/feedback/create', {
         templateId: templateData.templateId,
-        answerList: selectedImages.map(item => item.id).map(String),
+        answerList: userAnswerOrder.map(String),  // Send the order of answers as strings
         studentId: 25,
         templateType: "TEMPLATE2",
         title: templateData.title
@@ -118,16 +116,16 @@ const Template2Std = () => {
     }
   };
   
-  
+
   const handleShowReward = (show) => {
     setShowReward(show);
   };
 
   const handleCloseReward = () => {
     setShowReward(false);
-      navigate('/Feedback2', {
-        state: { feedbackData, description: templateData.description }
-      });
+    navigate('/Feedback2', {
+      state: { feedbackData, description: templateData.description }
+    });
   };
 
   if (isLoading) {
@@ -175,4 +173,3 @@ const Template2Std = () => {
 };
 
 export default Template2Std;
-

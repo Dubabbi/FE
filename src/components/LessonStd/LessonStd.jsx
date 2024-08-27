@@ -14,7 +14,7 @@ const LessonStd = () => {
   const [searchValue, setSearchValue] = useState('');
   const [lessons, setLessons] = useState([]);
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // useHistory 훅을 사용하여 네비게이션을 할당합니다.
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     axios.get('https://maeummal.com/templates/all')
@@ -38,8 +38,8 @@ const LessonStd = () => {
     console.log(`Navigating to template: ${templateName}`); // 디버그 메시지 추가
     switch(templateName) {
       case '카테고리 분류하기': navigate('/template1std'); break;
-      case '감정 표현': navigate('/template2std'); break;
-      case '이미지 순서 배열하기': navigate('/template3std'); break;
+      case '감정 표현': navigate('/template3std'); break;
+      case '이미지 순서 배열하기': navigate('/template2std'); break;
       case '이야기 순서 배열하기': navigate('/template4std'); break;
       case '어휘 카드 매칭 게임': navigate('/template5std'); break;
       default: console.error('No such template: ' + templateName);

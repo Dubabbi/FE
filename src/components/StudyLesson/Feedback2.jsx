@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import * as C from '../CreateLesson/CreateLessonStyle';
 import * as L from '../LessonTchr/LessonStyle';
@@ -89,7 +89,10 @@ const Feedback2 = () => {
               <div style={{ width: '70%' }}></div>
             </div>
             <C.HintBox style={{ width: '90%', border: 'none', fontSize: '1.2rem' , textAlign: 'left' }}>
+              나이 순서대로 배열하는 것에 어려움이 있습니다. 
+              {/*
               {feedbackData.aiFeedback || 'AI 피드백 없음'}
+              */}
             </C.HintBox>
           </C.HintGroup>
         </C.HintWrapper>
