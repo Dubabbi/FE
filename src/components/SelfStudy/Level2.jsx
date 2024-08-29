@@ -5,7 +5,8 @@ import * as L from "./Level1Style";
 import * as T from "./Level2Style";
 import Back from "/src/assets/icon/back.svg";
 import { useNavigate } from "react-router-dom";
-import picture from "/src/assets/image/word.svg";
+//import picture from "/src/assets/image/word.svg";
+import picture from "./6.png";
 
 export default function Level2() {
   const navigate = useNavigate();
