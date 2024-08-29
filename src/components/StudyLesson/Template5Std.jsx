@@ -1,6 +1,6 @@
 // Template5Std.jsx
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import * as C from "../CreateLesson/CreateLessonStyle";
@@ -36,6 +36,7 @@ export const HintBox = styled.div`
 `;
 
 const Template5Std = () => {
+  const template5Id = useLocation().state;
   const navigate = useNavigate();
   const [feedbackData, setFeedbackData] = useState(null);
   const [showReward, setShowReward] = useState(false);
@@ -59,7 +60,7 @@ const Template5Std = () => {
       used: [0, 0, 0],
     },
   ]);
-  const template5Id = 1;
+  //const template5Id = 1;
 
   useEffect(() => {
     axios
@@ -155,7 +156,7 @@ const Template5Std = () => {
 
   const feedback = () => {
     const payload = {
-      templateId: 1,
+      templateId: template5Id,
       answerList: finalAnswer,
       studentId: 25,
       templateType: "TEMPLATE5",
