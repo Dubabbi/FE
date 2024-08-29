@@ -24,7 +24,7 @@ export default function Level2Result() {
         </a>
       </D.ImageWrap>
       <S.AppContainer style={{ height: "100%" }}>
-        <h1>자율학습 L1</h1>
+        <h1>자율학습 L2</h1>
         {/* 해답 */}
         <S.rowContainer width="90%">
           <T.SentenceContainer
