@@ -93,23 +93,30 @@ const Template4Std = () => {
   };
   
   const handleSubmit = async () => {
-    const userAnswerOrder = selectedImages.map(item => item.answerNumber);
-    const correctOrder = templateData.storyCardEntityList.map(card => card.answerNumber);
-  
-    if (userAnswerOrder.length !== templateData.storyCardEntityList.length) {
-      console.error('Answer list size does not match the image card entities size');
+    if (!templateData || !templateData.templateId) {
+      console.error('Template data is missing, please try again.');
       return;
     }
   
-    const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
+    // 사용자 선택에 따른 answerNumber 배열 (정렬하지 않음)
+    const userAnswerOrder = selectedImages.map(item => item.answerNumber);
   
+    // 서버에서 제공된 정답 순서 (정렬하지 않음)
+    const correctOrder = templateData.storyCardEntityList
+      .sort((a, b) => a.answerNumber - b.answerNumber)
+      .map(card => card.answerNumber);
+  
+    // 배열을 문자열로 변환하여 비교
+    const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
+    
     if (isCorrect) {
       await submitFeedback(userAnswerOrder);
+      setShowReward(true);
     } else {
       if (lives > 1) {
         setLives(lives - 1);
         setShowHint(true);
-        setSelectedImages([]);
+        setSelectedImages([]); // 정답이 아닐 경우 선택 초기화
       } else {
         setLives(0);
         setShowHint(false);
@@ -117,7 +124,6 @@ const Template4Std = () => {
       }
     }
   };
-
   const handleSelectCard = (index) => {
     setSelectedCard(index);
   };
@@ -166,7 +172,7 @@ const Template4Std = () => {
                 <C.ImageList>
                   <div><img  src={card.image} alt={`Story card ${card.storyCardId}`} /></div>
                 </C.ImageList>
-                <C.Story><p>이야기</p></C.Story>
+                <C.Story><p>{card.description}</p></C.Story>
               </C.SelectCard>
             ))}
           </C.CardContainer>
