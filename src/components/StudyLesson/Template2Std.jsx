@@ -20,6 +20,7 @@ const Template2Std = () => {
   const [lives, setLives] = useState(2);
   const [showHint, setShowHint] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [imageSelectionOrder, setImageSelectionOrder] = useState({});
 
   useEffect(() => {
     const template2Id = 13;
@@ -44,13 +45,21 @@ const Template2Std = () => {
   }, []);
 
   const toggleSelectImage = (id) => {
-    const cardInfo = templateData.storyCardEntityList.find(card => card.storyCardId === id);
     const index = selectedImages.findIndex(item => item.id === id);
     if (index === -1) {
-      const newImages = [...selectedImages, { id, originalIndex: cardInfo.originalIndex }];
+      const newImages = [...selectedImages, { id, originalIndex: selectedImages.length + 1 }];
       setSelectedImages(newImages);
+      setImageSelectionOrder(newImages.reduce((acc, item, idx) => {
+        acc[item.id] = idx + 1;
+        return acc;
+      }, {}));
     } else {
-      setSelectedImages(selectedImages.filter(item => item.id !== id));
+      const newImages = selectedImages.filter(item => item.id !== id);
+      setSelectedImages(newImages);
+      setImageSelectionOrder(newImages.reduce((acc, item, idx) => {
+        acc[item.id] = idx + 1;
+        return acc;
+      }, {}));
     }
   };
 
@@ -148,11 +157,16 @@ const Template2Std = () => {
           <p>{templateData ? templateData.description : 'Loading...'}</p>
         </L.Section>
         <C.Line>
-          {templateData && templateData.storyCardEntityList.map(card => (
-            <C.TemplateBox key={card.storyCardId} onClick={() => toggleSelectImage(card.storyCardId)}>
-              <img style={{ border: selectedImages.some(item => item.id === card.storyCardId) ? '4px solid #ACAACC' : '4px solid #eee' }} src={card.image} alt={`Story card ${card.storyCardId}`} />
-            </C.TemplateBox>
-          ))}
+        {templateData && templateData.storyCardEntityList.map(card => (
+  <C.TemplateBox key={card.storyCardId} onClick={() => toggleSelectImage(card.storyCardId)} style={{ position: 'relative' }}>
+    <img src={card.image} alt={`Story card ${card.storyCardId}`} style={{ border: selectedImages.some(item => item.id === card.storyCardId) ? '4px solid #ACAACC' : '4px solid #eee' }} />
+    {imageSelectionOrder[card.storyCardId] && (
+      <div style={{ position: 'absolute', top: '5px', right: '5px', color: 'white', fontWeight: 'bold', background: 'rgba(0, 0, 0, 0.5)', padding: '2px 6px', borderRadius: '50%' }}>
+        {imageSelectionOrder[card.storyCardId]}
+      </div>
+    )}
+  </C.TemplateBox>
+))}
         </C.Line>
       </L.LessonWrapper>
       {showHint && (
