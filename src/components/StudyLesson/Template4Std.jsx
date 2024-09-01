@@ -21,6 +21,7 @@ const Template4Std = () => {
   const [showHint, setShowHint] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [imageSelectionOrder, setImageSelectionOrder] = useState({});
 
   useEffect(() => {
     const template4Id = 1;
@@ -59,14 +60,28 @@ const Template4Std = () => {
   const toggleSelectImage = (id) => {
     const cardInfo = templateData.storyCardEntityList.find(card => card.storyCardId === id);
     const index = selectedImages.findIndex(item => item.id === id);
+  
     if (index === -1) {
+      // 이미지 선택
       const newImages = [...selectedImages, { id, answerNumber: cardInfo.answerNumber }];
       setSelectedImages(newImages);
+  
+      // 선택 순서 저장
+      const newOrder = newImages.length; // 마지막 선택된 이미지이므로 총 길이가 새로운 순서가 됨
+      setImageSelectionOrder(prev => ({ ...prev, [id]: newOrder }));
     } else {
+      // 이미지 선택 취소
       const newImages = selectedImages.filter(item => item.id !== id);
       setSelectedImages(newImages);
+  
+      // 선택 순서에서 제거
+      const newOrder = { ...imageSelectionOrder };
+      delete newOrder[id];
+      setImageSelectionOrder(newOrder);
     }
   };
+  
+  
   const submitFeedback = async (userOrder) => {
     try {
       const accessToken = localStorage.getItem("key");
@@ -98,17 +113,13 @@ const Template4Std = () => {
       return;
     }
   
-    // 사용자 선택에 따른 answerNumber 배열 (정렬하지 않음)
     const userAnswerOrder = selectedImages.map(item => item.answerNumber);
-  
-    // 서버에서 제공된 정답 순서 (정렬하지 않음)
     const correctOrder = templateData.storyCardEntityList
       .sort((a, b) => a.answerNumber - b.answerNumber)
       .map(card => card.answerNumber);
   
-    // 배열을 문자열로 변환하여 비교
     const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
-    
+  
     if (isCorrect) {
       await submitFeedback(userAnswerOrder);
       setShowReward(true);
@@ -124,6 +135,7 @@ const Template4Std = () => {
       }
     }
   };
+  
   const handleSelectCard = (index) => {
     setSelectedCard(index);
   };
@@ -163,18 +175,33 @@ const Template4Std = () => {
         <C.StoryWrap>
           <C.CardContainer>
           {templateData && templateData.storyCardEntityList.map((card, index) => (
-              <C.SelectCard
-                key={card.storyCardId} 
-                style={{ border: selectedImages.some(item => item.id === card.storyCardId) ? '4px solid #ACAACC' : '4px solid #eee' }}
-                onClick={() => toggleSelectImage(card.storyCardId)}
-                selected={selectedCard === index}
-              >
-                <C.ImageList>
-                  <div><img  src={card.image} alt={`Story card ${card.storyCardId}`} /></div>
-                </C.ImageList>
-                <C.Story><p>{card.description}</p></C.Story>
-              </C.SelectCard>
-            ))}
+          <C.SelectCard
+            key={card.storyCardId}
+            style={{ position: 'relative', border: selectedImages.some(item => item.id === card.storyCardId) ? '4px solid #ACAACC' : '4px solid #eee' }}
+            onClick={() => toggleSelectImage(card.storyCardId)}
+            selected={selectedCard === index}
+          >
+            <C.ImageList>
+              <img src={card.image} alt={`Story card ${card.storyCardId}`} />
+            </C.ImageList>
+            <C.Story><p>{card.description}</p></C.Story>
+            {imageSelectionOrder[card.storyCardId] && (
+              <div style={{
+                position: 'absolute', // 절대 위치 지정으로 상단 우측에 숫자 표시
+                top: '5px', // 상단에서 5px
+                right: '5px', // 우측에서 5px
+                color: 'white',
+                fontWeight: 'bold',
+                background: 'rgba(0, 0, 0, 0.75)',
+                padding: '2px 6px',
+                borderRadius: '50%',
+                fontSize: '0.75em' // 폰트 크기 조정
+              }}>
+                {imageSelectionOrder[card.storyCardId]}
+              </div>
+            )}
+          </C.SelectCard>
+          ))}
           </C.CardContainer>
         </C.StoryWrap>
       </L.LessonWrapper>

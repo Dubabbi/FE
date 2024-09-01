@@ -158,15 +158,15 @@ const Template2Std = () => {
         </L.Section>
         <C.Line>
         {templateData && templateData.storyCardEntityList.map(card => (
-  <C.TemplateBox key={card.storyCardId} onClick={() => toggleSelectImage(card.storyCardId)} style={{ position: 'relative' }}>
-    <img src={card.image} alt={`Story card ${card.storyCardId}`} style={{ border: selectedImages.some(item => item.id === card.storyCardId) ? '4px solid #ACAACC' : '4px solid #eee' }} />
-    {imageSelectionOrder[card.storyCardId] && (
-      <div style={{ position: 'absolute', top: '5px', right: '5px', color: 'white', fontWeight: 'bold', background: 'rgba(0, 0, 0, 0.5)', padding: '2px 6px', borderRadius: '50%' }}>
-        {imageSelectionOrder[card.storyCardId]}
-      </div>
-    )}
-  </C.TemplateBox>
-))}
+        <C.TemplateBox key={card.storyCardId} onClick={() => toggleSelectImage(card.storyCardId)} style={{ position: 'relative' }}>
+          <img src={card.image} alt={`Story card ${card.storyCardId}`} style={{ border: selectedImages.some(item => item.id === card.storyCardId) ? '4px solid #ACAACC' : '4px solid #eee' }} />
+          {imageSelectionOrder[card.storyCardId] && (
+            <div style={{ position: 'absolute', top: '5px', right: '5px', color: 'white', fontWeight: 'bold', background: 'rgba(0, 0, 0, 0.5)', padding: '2px 6px', borderRadius: '50%' }}>
+              {imageSelectionOrder[card.storyCardId]}
+            </div>
+          )}
+        </C.TemplateBox>
+      ))}
         </C.Line>
       </L.LessonWrapper>
       {showHint && (
