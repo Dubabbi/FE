@@ -22,6 +22,7 @@ import CodeModal from './CodeModal';
 const MypageStd = () => {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
     const [profileImage, setProfileImage] = useState(My);
+    const [isSettingPwExtended, setIsSettingPwExtended] = useState(false);
     const [isExtended, setIsExtended] = useState(false);
     const [studentInfo, setStudentInfo] = useState({});
     const [isSettingExtended, setIsSettingExtended] = useState(false);
@@ -34,6 +35,8 @@ const MypageStd = () => {
     const [updatedName, setUpdatedName] = useState('');
     const [updatedEmail, setUpdatedEmail] = useState('');
     const [updatedPhoneNum, setUpdatedPhoneNum] = useState('');
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -130,7 +133,31 @@ const MypageStd = () => {
             setError('Failed to update student info: ' + error.message);
         }
     };
+    const changePassword = async () => {
+        const accessToken = localStorage.getItem("key");
+        if (!accessToken) {
+            setError('Authentication required');
+            return;
+        }
+        
+        try {
+            const response = await axios.patch('https://thingproxy.freeboard.io/fetch/https://maeummal.com/user/ChangePassword', {
+                currentPassword,
+                newPassword
+            }, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
 
+            if (response.data.isSuccess) {
+                alert('비밀번호가 성공적으로 변경되었습니다.');
+            } else {
+                throw new Error(response.data.message || 'Failed to change password');
+            }
+        } catch (error) {
+            console.error('Error changing password:', error);
+            setError('Failed to change password: ' + error.message);
+        }
+    };
     useEffect(() => {
         const fetchStudentDetails = async (studentId) => {
             try {
@@ -227,6 +254,7 @@ const MypageStd = () => {
         setIsSettingExtended(false);
         setIsFeedbackExtended(false);
         setIsExtended(!isExtended);
+        setIsSettingPwExtended(false);
         setIsStdinfoExtended(false);
     };
 
@@ -234,19 +262,22 @@ const MypageStd = () => {
         setIsExtended(false);
         setIsFeedbackExtended(false);
         setIsSettingExtended(!isSettingExtended);
+        setIsSettingPwExtended(false);
         setIsStdinfoExtended(false);
     };
 
-    const handleStdinfo = () => {
-        setIsSettingExtended(false);
+    const handlePwExtended = () => {
         setIsExtended(false);
-        setIsStdinfoExtended(!stdinfoExtended);
         setIsFeedbackExtended(false);
+        setIsSettingExtended(false);
+        setIsSettingPwExtended(!isSettingPwExtended);
+        setIsStdinfoExtended(false);
     };
 
     const handleFeedback = () => {
         setIsSettingExtended(false);
         setIsExtended(false);
+        setIsSettingPwExtended(false);
         setIsFeedbackExtended(!feedbackExtended);
         setIsStdinfoExtended(false);
     };
@@ -254,6 +285,7 @@ const MypageStd = () => {
     const closeAll = () => {
         setIsExtended(false);
         setIsSettingExtended(false);
+        setIsSettingPwExtended(false);
         setIsFeedbackExtended(false);
         setIsStdinfoExtended(false);
     };
@@ -264,7 +296,7 @@ const MypageStd = () => {
     return (
         <M.MypageWrapper>
             <M.Section>
-                <M.ContentContainer $isExtended={isExtended || isSettingExtended || stdinfoExtended || feedbackExtended}>
+                <M.ContentContainer $isExtended={isExtended || isSettingExtended || isSettingPwExtended || stdinfoExtended || feedbackExtended}>
                     <M.Content>
                         <M.InLine>
                             <M.Profile src={studentInfo.profileImage || My} />
@@ -292,7 +324,7 @@ const MypageStd = () => {
                                         비밀번호
                                         <M.SubText>비밀번호를 변경하려면 인증이 필요합니다.</M.SubText>
                                     </M.InfoTitle>
-                                    <M.SettingsIcon src={Settings} />
+                                    <M.SettingsIcon src={Settings} onClick={handlePwExtended}/>
                                 </M.InfoGroup>
                             </M.InfoItem>
                             <M.InfoItem style={{ maxHeight: '50px' }}>
@@ -334,6 +366,34 @@ const MypageStd = () => {
                                 </M.InfoContent>
                             </M.InfoGroup>
                             <M.InfoButton onClick={updateStudentInfo} style={{marginTop: '10px'}}>저장하기</M.InfoButton>
+                        </M.Item>
+                    </M.Second>
+                    }
+                                        {isSettingPwExtended && 
+                    <M.Second style={{maxHeight: '70vh'}}>
+                        <M.SecondLabel>비밀번호 변경</M.SecondLabel>
+                        <M.Item>
+                            <M.InfoGroup style={{padding: '7%', border: '1px solid #eee', borderRadius: '5px', marginTop: '10%'}}>
+                                <M.InfoTitle style={{padding: '10px'}}>
+                                    <M.Label>현재 비밀번호</M.Label>
+                                    <M.Label>새 비밀번호</M.Label>
+                                </M.InfoTitle>
+                                <M.InfoContent style={{padding: '10px'}}>
+                                    <M.InfoChange
+                                        type="password"
+                                        value={currentPassword}
+                                        onChange={e => setCurrentPassword(e.target.value)}
+                                        placeholder="현재 비밀번호"
+                                    />
+                                    <M.InfoChange
+                                        type="password"
+                                        value={newPassword}
+                                        onChange={e => setNewPassword(e.target.value)}
+                                        placeholder="새 비밀번호"
+                                    />
+                                </M.InfoContent>
+                            </M.InfoGroup>
+                            <M.InfoButton onClick={changePassword} style={{marginTop: '10px'}}>변경하기</M.InfoButton>
                         </M.Item>
                     </M.Second>
                     }

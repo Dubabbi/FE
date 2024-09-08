@@ -34,9 +34,9 @@ const Feedback4 = () => {
   };
   const [templateData, setTemplateData] = useState({
     storyCardEntityList: [
-      { storyCardId: 1, image: image1, answerNumber: 1, description: '주인공 칼은 모험을 떠나고 싶은 아내의 꿈을 이뤄주고 싶었지만, 아내가 세상을 떠날 때까지 꿈을 이뤄주지 못했어요.' },
-      { storyCardId: 2, image: image2, answerNumber: 2, description: '아내와의 추억이 가득한 집을 철거할 위기에 처하자, 수천 개의 풍선을 매달아 집을 통째로 남아메리카로 날려 버려요.' },
-      { storyCardId: 3, image: image3, answerNumber: 3, description: '황야의 탐험가 러셀과 강아지와 함께 섬에서 어려운 상황들을 이겨내며 아내와의 추억을 회상하고 삶의 의미와 가치를 깨닫게 돼요.' }
+      { storyCardId: 1, image: image1, answerNumber: 1, description },
+      { storyCardId: 2, image: image2, answerNumber: 2, description },
+      { storyCardId: 3, image: image3, answerNumber: 3, description }
     ]
   });
   const isCorrect = feedbackData.correctnessList ? feedbackData.correctnessList[0] : null;
@@ -57,16 +57,10 @@ const Feedback4 = () => {
         </L.Section>
           <C.FeedbackLine style={{ marginBottom: '5%' }}>
             <C.FirstBox>
-            <img src={Correct} alt={isCorrect ? 'Correct' : 'Incorrect'} />
-              {/*
               <img src={isCorrect ? Correct : Incorrect} alt={isCorrect ? 'Correct' : 'Incorrect'} />
-                */}
               </C.FirstBox>
             <C.SecondBox>
-              아내의 꿈을 이루어 주며 새로운 삶의 의미를 깨닫는 칼의 이야기
-              {/*
               {feedbackDescription}
-              */}
             </C.SecondBox>
           </C.FeedbackLine>
         <C.StoryWrap style={{marginBottom: '3%'}}>
@@ -92,10 +86,7 @@ const Feedback4 = () => {
               <div style={{ width: '70%' }}></div>
             </div>
             <C.HintBox style={{ width: '90%', border: 'none', fontSize: '1.2rem' , textAlign: 'left' }}>
-              첫 번째 이야기부터 마지막 이야기까지 한 번에 정답을 맞혔습니다. 내용이 많고 어려운 이야기도 잘 이해하는 것으로 보입니다.
-              {/*
               {feedbackData.aiFeedback || 'AI 피드백 없음'}
-              */}
             </C.HintBox>
           </C.HintGroup>
         </C.HintWrapper>

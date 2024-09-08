@@ -16,6 +16,7 @@ const WordCreateTchr = () => {
   const [inputModalValue, setInputModalValue] = useState('');
   const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
   const [titleValue, setTitleValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false); 
   const [formData, setFormData] = useState({
     title: '',
     numberOfWords: 1,
@@ -91,6 +92,7 @@ const WordCreateTchr = () => {
 
   const handleModalSubmit = async () => {
     try {
+      setIsLoading(true);
       const response = await axios.post('https://maeummal.com/ai/image', { prompt: inputModalValue });
       if (response.status === 200 && response.data) {
         const updatedCards = [...wordCards];
@@ -255,7 +257,9 @@ const WordCreateTchr = () => {
             <D.Box>
               <D.SecondTitle>이미지 추가</D.SecondTitle>
               <W.AddImage>
-                {card.imagePreviewUrl ? (
+              {isLoading && modalCardIndex === card.wordId ? ( // 이미지 생성 중인 경우
+                  <p>이미지 생성 중...</p>
+                ) : card.imagePreviewUrl ? (
                   <img
                     src={card.imagePreviewUrl}
                     alt="미리보기"
@@ -303,6 +307,7 @@ const WordCreateTchr = () => {
           handleRegenerateImage={handleRegenerateImage}
           handleAddImage={handleAddImage}
           generatedImageUrl={generatedImageUrl}
+          isLoading={isLoading} 
         />
         <hr style={{ width: '60%', margin: '80px', marginLeft: '20%' }} />
         <C.SubmitButton style={{ marginBottom: '15%', marginTop: '5%' }} onClick={handleSubmit}>제출</C.SubmitButton>
