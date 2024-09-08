@@ -24,6 +24,7 @@ const MypageTchr = () => {
     const [profileImage, setProfileImage] = useState(My);
     const [isExtended, setIsExtended] = useState(false);
     const [isSettingExtended, setIsSettingExtended] = useState(false);
+    const [isSettingPwExtended, setIsSettingPwExtended] = useState(false);
     const [feedbackExtended, setIsFeedbackExtended] = useState(false);
     const [stdinfoExtended, setIsStdinfoExtended] = useState(false);
     const [isMatchingModalOpen, setIsMatchingModalOpen] = useState(false);
@@ -34,6 +35,9 @@ const MypageTchr = () => {
     const [updatedName, setUpdatedName] = useState('');
     const [updatedEmail, setUpdatedEmail] = useState('');
     const [updatedPhoneNum, setUpdatedPhoneNum] = useState('');
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+
 
     useEffect(() => {
         const fetchTeacherInfo = async () => {
@@ -87,6 +91,7 @@ const MypageTchr = () => {
                 setTeacherInfo(response.data.data);  // Update the teacher info with the response
                 console.log('Update success:', response.data.data);
                 setIsSettingExtended(false); 
+            
                 alert("개인정보가 변경되었습니다."); 
             } else {
                 throw new Error(response.data.message || 'Failed to update teacher info');
@@ -103,6 +108,31 @@ const MypageTchr = () => {
             setUpdatedPhoneNum(teacherInfo.phoneNum);
         }
     }, [teacherInfo]);
+    const changePassword = async () => {
+        const accessToken = localStorage.getItem("key");
+        if (!accessToken) {
+            setError('Authentication required');
+            return;
+        }
+        
+        try {
+            const response = await axios.patch('https://thingproxy.freeboard.io/fetch/https://maeummal.com/user/ChangePassword', {
+                currentPassword,
+                newPassword
+            }, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+
+            if (response.data.isSuccess) {
+                alert('비밀번호가 성공적으로 변경되었습니다.');
+            } else {
+                throw new Error(response.data.message || 'Failed to change password');
+            }
+        } catch (error) {
+            console.error('Error changing password:', error);
+            setError('Failed to change password: ' + error.message);
+        }
+    };
     useEffect(() => {
         const fetchStudents = async () => {
             try {
@@ -227,6 +257,7 @@ const MypageTchr = () => {
         setIsSettingExtended(false);
         setIsFeedbackExtended(false);
         setIsExtended(!isExtended);
+        setIsSettingPwExtended(false);
         setIsStdinfoExtended(false);
     };
 
@@ -234,6 +265,15 @@ const MypageTchr = () => {
         setIsExtended(false);
         setIsFeedbackExtended(false);
         setIsSettingExtended(!isSettingExtended);
+        setIsSettingPwExtended(false);
+        setIsStdinfoExtended(false);
+    };
+
+    const handlePwExtended = () => {
+        setIsExtended(false);
+        setIsFeedbackExtended(false);
+        setIsSettingExtended(false);
+        setIsSettingPwExtended(!isSettingPwExtended);
         setIsStdinfoExtended(false);
     };
 
@@ -241,6 +281,7 @@ const MypageTchr = () => {
         setIsSettingExtended(false);
         setIsExtended(false);
         setIsStdinfoExtended(!stdinfoExtended);
+        setIsSettingPwExtended(false);
         setIsFeedbackExtended(false);
     };
 
@@ -248,6 +289,7 @@ const MypageTchr = () => {
         setIsSettingExtended(false);
         setIsExtended(false);
         setIsFeedbackExtended(!feedbackExtended);
+        setIsSettingPwExtended(false);
         setIsStdinfoExtended(false);
     };
 
@@ -255,13 +297,14 @@ const MypageTchr = () => {
         setIsExtended(false);
         setIsSettingExtended(false);
         setIsFeedbackExtended(false);
+        setIsSettingPwExtended(false);
         setIsStdinfoExtended(false);
     };
 
     return (
         <M.MypageWrapper>
             <M.Section>
-                <M.ContentContainer $isExtended={isExtended || isSettingExtended || stdinfoExtended || feedbackExtended}>
+                <M.ContentContainer $isExtended={isExtended || isSettingExtended || isSettingPwExtended || stdinfoExtended || feedbackExtended}>
                     <M.Content>
                         <M.InLine>
                             <M.Profile src={profileImage} />
@@ -289,7 +332,7 @@ const MypageTchr = () => {
                                         비밀번호
                                         <M.SubText>비밀번호를 변경하려면 인증이 필요합니다.</M.SubText>
                                     </M.InfoTitle>
-                                    <M.SettingsIcon src={Settings} />
+                                    <M.SettingsIcon src={Settings} onClick={handlePwExtended}/>
                                 </M.InfoGroup>
                             </M.InfoItem>
                             <M.InfoItem style={{ maxHeight: '50px' }}>
@@ -329,7 +372,35 @@ const MypageTchr = () => {
                                     />
                                 </M.InfoContent>
                             </M.InfoGroup>
-                            <M.InfoButton onClick={updateTeacherInfo} style={{marginTop: '10px'}}>저장하기</M.InfoButton>
+                            <M.InfoButton onClick={updateTeacherInfo} style={{marginTop: '10px'}}>변경하기</M.InfoButton>
+                        </M.Item>
+                    </M.Second>
+                    }
+                    {isSettingPwExtended && 
+                    <M.Second style={{maxHeight: '70vh'}}>
+                        <M.SecondLabel>비밀번호 변경</M.SecondLabel>
+                        <M.Item>
+                            <M.InfoGroup style={{padding: '7%', border: '1px solid #eee', borderRadius: '5px', marginTop: '10%'}}>
+                                <M.InfoTitle style={{padding: '10px'}}>
+                                    <M.Label>현재 비밀번호</M.Label>
+                                    <M.Label>새 비밀번호</M.Label>
+                                </M.InfoTitle>
+                                <M.InfoContent style={{padding: '10px'}}>
+                                    <M.InfoChange
+                                        type="password"
+                                        value={currentPassword}
+                                        onChange={e => setCurrentPassword(e.target.value)}
+                                        placeholder="현재 비밀번호"
+                                    />
+                                    <M.InfoChange
+                                        type="password"
+                                        value={newPassword}
+                                        onChange={e => setNewPassword(e.target.value)}
+                                        placeholder="새 비밀번호"
+                                    />
+                                </M.InfoContent>
+                            </M.InfoGroup>
+                            <M.InfoButton onClick={changePassword} style={{marginTop: '10px'}}>변경하기</M.InfoButton>
                         </M.Item>
                     </M.Second>
                     }
