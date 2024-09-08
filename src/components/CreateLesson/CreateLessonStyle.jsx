@@ -231,6 +231,28 @@ export const ModalImg = styled.div`
     }
 `
 
+export const ModalImage = styled.div`
+    flex: 0 0 auto;
+    text-align: center;
+    padding: 5px;
+    margin: 0 10px;
+    min-width: 130px;
+    div {
+      width: 130px; 
+      height: 130px;
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center;
+      margin: 0 auto; 
+      border-radius: 5px;
+      background-color: rgba(217, 217, 217, 0.3);
+      img {
+        width: 30%;
+      }
+    }
+`
+
 export const ModalButton = styled.button`
   padding: 8px 20px;
   color: white;
