@@ -1,6 +1,6 @@
 // Template3Std.jsx
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import * as C from "../CreateLesson/CreateLessonStyle";
@@ -82,6 +82,7 @@ export const ImageBox = styled.div`
 `;
 
 const Template3Std = () => {
+  const template3Id = useLocation().state;
   const navigate = useNavigate();
   const [feedbackData, setFeedbackData] = useState(null);
   const [showReward, setShowReward] = useState(false);
@@ -90,7 +91,7 @@ const Template3Std = () => {
   const [firstTime, setFirstTime] = useState(true);
   const [inputValue, setInputValue] = useState([]);
   const [data, setData] = useState({});
-  const template3Id = 1;
+  //const template3Id = 1;
 
   useEffect(() => {
     axios

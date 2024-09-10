@@ -1,7 +1,7 @@
 // Template3Tchr.jsx
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import * as C from "./CreateLessonStyle";
 import * as L from "../LessonTchr/LessonStyle";
@@ -80,6 +80,7 @@ export const ExampleBox = styled.div`
 `;
 
 const Template3Tchr = () => {
+  const data = useLocation().state;
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalCardIndex, setModalCardIndex] = useState(null);
@@ -172,13 +173,13 @@ const Template3Tchr = () => {
   const handleCreate = () => {
     const payload = {
       template3DTO: {
-        //title: "",
+        title: data.title,
+        level: data.difficulty,
         description: inputComment,
         imageNum: values.length,
         templateType: "TEMPLATE3",
         options: options,
       },
-      //type: data.difficulty,
       imageCardDTOList: values,
     };
     if (values.length == formData.numberOfStories) {

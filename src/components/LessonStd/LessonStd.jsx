@@ -39,10 +39,10 @@ const LessonStd = () => {
     console.log(`Navigating to template: ${templateName}`); // 디버그 메시지 추가
     switch (templateName) {
       case "카테고리 분류하기":
-        navigate("/template1std");
+        navigate("/template1std", { state: temId });
         break;
       case "감정 표현":
-        navigate("/template3std");
+        navigate("/template3std", { state: temId });
         break;
       case "이미지 순서 배열하기":
         navigate("/template2std");

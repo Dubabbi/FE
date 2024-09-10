@@ -1,5 +1,7 @@
 // Template1Std.jsx
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 import styled from "styled-components";
 import * as C from "../CreateLesson/CreateLessonStyle";
 import * as S from "../SelfStudy/SelfStudyStyle";
@@ -64,6 +66,7 @@ export const Text = styled.div`
 `;
 
 const Template1Std = () => {
+  const template1Id = useLocation().state;
   const [category, setCatergory] = useState(["동물", "식물", "음식"]);
   const [line, setLine] = useState([]);
   const [addLine, setAddLine] = useState(["", ""]);
@@ -80,6 +83,25 @@ const Template1Std = () => {
       used: [0, 0, 0],
     },
   ]);
+
+  useEffect(() => {
+    axios
+      .get(`https://maeummal.com/api/temp1/get?temp1Id=${template1Id}`)
+      .then((response) => {
+        if (response.data.isSuccess) {
+          console.log(response.data);
+          // const data = response.data.data.wordCardList;
+          // setWordList(data);
+          // let newWord = [];
+          // data.map((el, index) => (newWord[index] = el.meaning));
+          // setWord(newWord.sort(() => Math.random() - 0.5));
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
   const boxClick = (event, index) => {
     const newDataList = [...dataList];
     const newAddLine = [...addLine];
