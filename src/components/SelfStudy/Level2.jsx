@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import * as S from "./SelfStudyStyle";
 import * as D from "../WordCreateTchr/WordDetailStyle";
 import * as L from "./Level1Style";
 import * as T from "./Level2Style";
 import Back from "/src/assets/icon/back.svg";
 import { useNavigate } from "react-router-dom";
-//import picture from "/src/assets/image/word.svg";
-import picture from "./6.png";
+import picture from "/src/assets/image/word.svg";
 
 export default function Level2() {
   const navigate = useNavigate();
@@ -33,6 +33,29 @@ export default function Level2() {
   const numClick = (index) => {
     setSelectNum(index + 1);
   };
+  const category = "과일";
+  useEffect(() => {
+    axios
+      .post(
+        `https://maeummal.com/prep1/generate?category=${category}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("key")}`,
+          },
+        }
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          // setSelectCard(response.data.data.wordCardList);
+          // setSuccessful(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Error while create template1:", error);
+      });
+  }, []);
 
   return (
     <>

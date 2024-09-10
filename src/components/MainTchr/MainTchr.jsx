@@ -67,7 +67,7 @@ export default function MainTchr() {
       });
 
     axios
-      .get("https://maeummal.com/match/fiveStudents", {
+      .get("https://maeummal.com/api/match/fiveStudents", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("key")}`,
         },
