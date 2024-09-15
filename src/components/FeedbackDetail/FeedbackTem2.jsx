@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as C from '../CreateLesson/CreateLessonStyle';
 import * as D from '../WordCreateTchr/WordDetailStyle';
 import * as L from '../LessonTchr/LessonStyle';
@@ -27,14 +27,40 @@ export const ModalOverlay = styled.div`
 const FeedbackTem2 = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const feedbackData = location.state?.feedbackData || {};
-  const feedbackDescription = location.state?.description || '설명이 없습니다.';
+  const [feedbackData, setFeedbackData] = useState({});
+  const feedbackId = location.state?.feedbackId;
+
+  useEffect(() => {
+    if (feedbackId) {
+      fetchFeedbackDetails(feedbackId);
+    }
+  }, [feedbackId]);
+
+  const fetchFeedbackDetails = async (id) => {
+    try {
+      const response = await axios.get(`https://maeummal.com/feedback/detail?id=${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      if (response.data.isSuccess) {
+        setFeedbackData(response.data.data);
+      } else {
+        alert(response.data.message); // More user-friendly error handling
+      }
+    } catch (error) {
+      console.error('Error fetching feedback details:', error);
+      alert('Failed to fetch feedback details.');
+    }
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
 
   const handleStop = () => {
     navigate('/MainStd');
   };
 
-  const isCorrect = feedbackData.correctnessList ? feedbackData.correctnessList[0] : null;
+  const isCorrect = feedbackData.correctnessList ? feedbackData.correctnessList[0] : false;
 
   return (
     <>
@@ -44,12 +70,8 @@ const FeedbackTem2 = () => {
       <L.LessonWrapper style={{ marginBottom: '5%' }}>
         <L.Section>
           <h1>{feedbackData.templateTitle || '강의 제목'}</h1>
-          <C.FeedbackContainer>
-            <C.HalfLine />
-            <C.FeedbackText>최종평가</C.FeedbackText>
-            <C.HalfLine />
-          </C.FeedbackContainer>
         </L.Section>
+        
         {/* 한 번만 정답 또는 오답 표시 */}
         {isCorrect !== null && (
           <C.FeedbackLine style={{ marginBottom: '5%' }}>
@@ -57,25 +79,14 @@ const FeedbackTem2 = () => {
               <img src={isCorrect ? Correct : Incorrect} alt={isCorrect ? 'Correct' : 'Incorrect'} />
             </C.FirstBox>
             <C.SecondBox>
-              {feedbackDescription}
+            {feedbackData.description || 'No description provided.'}
             </C.SecondBox>
           </C.FeedbackLine>
         )}
-        {/* 정답 카드 이미지와 설명 */}
-        <L.Section>
-          <C.FeedTitle style={{ fontSize: '1.7rem' }}>정답 이미지</C.FeedTitle>
-          <C.FeedbackLine>
-            {feedbackData.correctFeedbackCards && feedbackData.correctFeedbackCards.map((card, index) => (
-              <C.FeedImage key={index}>
-                <img src={card.image} alt={`Correct Card ${index + 1}`} style={{ maxWidth: '100%' }} />
-              </C.FeedImage>
-            ))}
-          </C.FeedbackLine>
-        </L.Section>
-
+        <C.Border>
         {/* 학생이 선택한 카드 이미지와 설명 */}
         <L.Section>
-          <C.FeedTitle style={{ fontSize: '1.7rem' }}>학생이 선택한 이미지</C.FeedTitle>
+          <C.StuTitle style={{ fontSize: '1.7rem' }}>학생이 선택한 이미지</C.StuTitle>
           <C.FeedbackLine>
             {feedbackData.studentFeedbackCards && feedbackData.studentFeedbackCards.map((card, index) => (
               <C.FeedImage key={index}>
@@ -84,6 +95,18 @@ const FeedbackTem2 = () => {
             ))}
           </C.FeedbackLine>
         </L.Section>
+        {/* 정답 카드 이미지와 설명 */}
+        <L.Section>
+          <C.StuTitle style={{ fontSize: '1.7rem' }}>정답 이미지</C.StuTitle>
+          <C.FeedbackLine>
+            {feedbackData.correctFeedbackCards && feedbackData.correctFeedbackCards.map((card, index) => (
+              <C.FeedImage key={index}>
+                <img src={card.image} alt={`Correct Card ${index + 1}`} style={{ maxWidth: '100%' }} />
+              </C.FeedImage>
+            ))}
+          </C.FeedbackLine>
+        </L.Section>
+        </C.Border>
         {/* AI 피드백 */}
         <C.HintWrapper style={{ width: '70%', padding: '1rem 0' }}>
           <C.HintGroup style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
