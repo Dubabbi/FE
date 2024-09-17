@@ -36,6 +36,10 @@ import Feedback3 from "./components/StudyLesson/Feedback3";
 import Feedback4 from "./components/StudyLesson/Feedback4";
 import Feedback5 from "./components/StudyLesson/Feedback5";
 import Reward from "./components/Reward/Reward";
+import Reward2 from "./components/Reward/Reward2";
+import Reward3 from "./components/Reward/Reward3";
+import Reward4 from "./components/Reward/Reward4";
+import Reward5 from "./components/Reward/Reward5";
 import MypageStdPage from "./components/MypageStd/MypageStd";
 import MypageTchrPage from "./components/MypageTchr/MypageTchr";
 import WordListTchrPage from "./components/WordTchr/WordListTchr";
@@ -86,6 +90,10 @@ export default function User() {
         <Route path="/feedback4" element={<Feedback4 />} />
         <Route path="/feedback5" element={<Feedback5 />} />
         <Route path="/reward" element={<Reward />} />
+        <Route path="/reward2" element={<Reward2 />} />
+        <Route path="/reward3" element={<Reward3 />} />
+        <Route path="/reward4" element={<Reward4 />} />
+        <Route path="/reward5" element={<Reward5 />} />
         <Route path="/mypagestd" element={<MypageStdPage />} />
         <Route path="/mypagetchr" element={<MypageTchrPage />} />
         <Route path="/wordlisttchr" element={<WordListTchrPage />} />

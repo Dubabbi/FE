@@ -1,9 +1,9 @@
-// Reward.jsx
+// Reward5.jsx
 import React from 'react';
 import styled from 'styled-components';
-import reward from '/src/assets/image/Reward/reward.svg';
+import reward from '/src/assets/image/Reward/reward5.svg';
 
-export default function Reward({ onClose }) {
+export default function Reward5({ onClose }) {
   return (
     <RewardWrapper onClick={onClose}>
       <img src={reward} alt='보상' />

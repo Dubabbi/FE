@@ -693,3 +693,20 @@ export const StoryList = styled.div`
     align-items: center;
   }
 `;
+
+export const Border = styled.div`
+    border-radius: 1.4rem;
+    border: 2px solid rgba(244, 244, 244, 1);
+    flex: 0 0 auto;
+    width: 70%;
+    margin-left: 15%;
+    margin-bottom: 5%;
+`
+
+export const StuTitle = styled.h1`
+    display: flex;
+    font-size: 1.7rem;
+    max-width: 30%;
+    margin-left: 5%;
+    position: relative;
+`;

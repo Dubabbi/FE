@@ -8,7 +8,7 @@ import Pink from '/src/assets/icon/heartpink.svg';
 import White from '/src/assets/icon/heartwhite.svg';
 import { ModalOverlay } from './Feedback2';
 import axios from 'axios';
-import Reward from '../Reward/Reward';
+import Reward from '../Reward/Reward2';
 import Toast from '/src/assets/icon/errortoast.svg';
 
 const Template2Std = () => {
