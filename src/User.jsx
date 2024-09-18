@@ -50,6 +50,11 @@ import FeedbackTem2 from "./components/FeedbackDetail/FeedbackTem2";
 import FeedbackTem3 from "./components/FeedbackDetail/FeedbackTem3";
 import FeedbackTem4 from "./components/FeedbackDetail/FeedbackTem4";
 import FeedbackTem5 from "./components/FeedbackDetail/FeedbackTem5";
+import Template1Edit from './components/EditLesson/Template1Edit';
+import Template2Edit from './components/EditLesson/Template2Edit';
+import Template3Edit from './components/EditLesson/Template3Edit';
+import Template4Edit from './components/EditLesson/Template4Edit';
+import Template5Edit from './components/EditLesson/Template5Edit';
 
 export default function User() {
   return (
@@ -103,6 +108,11 @@ export default function User() {
         <Route path="/feedbacktem3" element={<FeedbackTem3 />} />
         <Route path="/feedbacktem4" element={<FeedbackTem4 />} />
         <Route path="/feedbacktem5" element={<FeedbackTem5 />} />
+        <Route path="/template1edit" element={<Template1Edit />} />
+        <Route path="/template2edit" element={<Template2Edit />} />
+        <Route path="/template3edit" element={<Template3Edit />} />
+        <Route path="/template4edit" element={<Template4Edit />} />
+        <Route path="/template5edit" element={<Template5Edit />} />
       </Routes>
       <FloatingButton />
       <Footer />
