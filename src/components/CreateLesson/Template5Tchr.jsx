@@ -1,6 +1,6 @@
 // Template5Tchr.jsx
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { FaSearch } from "react-icons/fa";
 import Form from "react-bootstrap/Form";
@@ -13,6 +13,7 @@ import * as O from "./Template1Tchr";
 import * as T from "../StudyLesson/Template1Std";
 
 const Template5Tchr = () => {
+  const data = useLocation().state;
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const [myCardList, setMyCardList] = useState([]);
@@ -61,7 +62,11 @@ const Template5Tchr = () => {
         axios
           .post(
             `https://maeummal.com/template5/create?wordSetId=${selectRef.current}`,
-            {},
+            {
+              title: data.title,
+              level: data.difficulty,
+              wordSetId: selectRef.current,
+            },
             {
               headers: {
                 Authorization: `Bearer ${token}`,
