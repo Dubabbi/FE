@@ -3,11 +3,42 @@ import * as C from "../CreateLesson/CreateLessonStyle";
 import * as D from "../WordCreateTchr/WordDetailStyle";
 import * as E from "../CreateLesson/Template3Tchr";
 import * as L from "../LessonTchr/LessonStyle";
+import * as O from "../CreateLesson/Template1Tchr";
+import * as T from "../StudyLesson/Template1Std";
+import * as W from "../WordTchr/WordStyle";
 import Back from "/src/assets/icon/back.svg";
 import correct from "/src/assets/icon/correct.svg";
 import wrong from "/src/assets/icon/incorrect.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+const Answer = ({ title, data, correctList = [true, true, true] }) => (
+  <T.Container style={{ alignItems: "center" }}>
+    <p>{title}</p>
+    <O.Line style={{ justifyContent: "center", marginTop: "10px" }}>
+      {data.map((el, index) => (
+        <W.Section key={index} style={{ padding: "0" }}>
+          <T.ImgContainer>
+            <img style={{ height: "80px", margin: "8px" }} src={el.image} />
+          </T.ImgContainer>
+          <T.Text
+            style={{
+              width: "80px",
+              height: "80px",
+              fontSize: "1.5rem",
+              margin: "8px",
+              border: correctList[index]
+                ? "2px solid #969696"
+                : "2px solid #ff0000",
+            }}
+          >
+            {el.meaning}
+          </T.Text>
+        </W.Section>
+      ))}
+    </O.Line>
+  </T.Container>
+);
 
 const FeedbackTem5 = () => {
   const [feedbackData, setFeedbackData] = useState();
@@ -65,10 +96,15 @@ const FeedbackTem5 = () => {
               justifyContent: "center",
               //padding: "55px 25px 15px 25px",
               fontSize: "18px",
+              gap: "40px",
             }}
           >
-            <p>학생이 입력한 답:</p>
-            <p>dd</p>
+            <Answer
+              title="학생이 입력한 답"
+              data={feedbackData.studentFeedbackCards}
+              correctList={feedbackData.correctnessList}
+            />
+            <Answer title="정답" data={feedbackData.correctFeedbackCards} />
           </C.StoryWrap>
           <C.StoryWrap
             style={{
