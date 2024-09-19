@@ -144,7 +144,7 @@ const Template3Std = () => {
 
   const feedback = () => {
     const payload = {
-      templateId: 1,
+      templateId: template3Id,
       answerList: inputValue,
       studentId: 25,
       templateType: "TEMPLATE3",
