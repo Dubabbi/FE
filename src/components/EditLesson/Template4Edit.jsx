@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
-import * as C from '../CreateLesson/CreateLessonStyle';
-import * as L from '../LessonTchr/LessonStyle';
-import * as D from '../WordCreateTchr/WordDetailStyle';
-import Upload from '/src/assets/icon/uploadphoto.svg';
-import Back from '/src/assets/icon/back.svg';
-import My from '/src/assets/icon/phimg.svg'; 
-import UploadPhoto from './UploadPhoto';
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
-import Form from 'react-bootstrap/Form';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import * as C from "../CreateLesson/CreateLessonStyle";
+import * as L from "../LessonTchr/LessonStyle";
+import * as D from "../WordCreateTchr/WordDetailStyle";
+import Upload from "/src/assets/icon/uploadphoto.svg";
+import Back from "/src/assets/icon/back.svg";
+import My from "/src/assets/icon/phimg.svg";
+import UploadPhoto from "../CreateLesson/UploadPhoto";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
+import Form from "react-bootstrap/Form";
+import { useNavigate } from "react-router-dom";
 
 const Template4Edit = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const data = location.state;
-  const [description, setDescription] = useState(''); 
-  const [hint, setHint] = useState(''); 
+  const [description, setDescription] = useState("");
+  const [hint, setHint] = useState("");
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [modalCardIndex, setModalCardIndex] = useState(null); // 현재 이미지 업로드를 할 카드 인덱스
   const [storyCards, setStoryCards] = useState([
-    { image: '', answerNumber: 1, imagePreviewUrl: My },
-    { image: '', answerNumber: 2, imagePreviewUrl: My },
-    { image: '', answerNumber: 3, imagePreviewUrl: My },
+    { image: "", answerNumber: 1, imagePreviewUrl: My },
+    { image: "", answerNumber: 2, imagePreviewUrl: My },
+    { image: "", answerNumber: 3, imagePreviewUrl: My },
   ]);
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
@@ -66,26 +66,38 @@ const Template4Edit = () => {
       hint: hint,
       imageNum: storyCards.length,
       type: data.content,
-      storyCardEntityList: storyCards.map(card => ({ image: card.image, answerNumber: card.answerNumber }))
+      storyCardEntityList: storyCards.map((card) => ({
+        image: card.image,
+        answerNumber: card.answerNumber,
+      })),
     };
     try {
-      const response = await axios.post('https://maeummal.com/template2/create', payload, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("key")}`,
+      const response = await axios.post(
+        "https://maeummal.com/template2/create",
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("key")}`,
+          },
         }
-      });
-      console.log('Response:', response.data);
-      alert('강의가 성공적으로 생성되었습니다.');
-      navigate('/lessontchr')
+      );
+      console.log("Response:", response.data);
+      alert("강의가 성공적으로 생성되었습니다.");
+      navigate("/lessontchr");
     } catch (error) {
-      console.error('Error:', error.response ? error.response.data : error.message);
-      alert('강의 생성에 실패했습니다.');
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
+      alert("강의 생성에 실패했습니다.");
     }
   };
   return (
     <>
       <D.ImageWrap>
-        <a href="/MainTchr"><img src={Back} alt="Back" /></a>
+        <a href="/MainTchr">
+          <img src={Back} alt="Back" />
+        </a>
       </D.ImageWrap>
       <L.LessonWrapper>
         <L.Section>
@@ -100,14 +112,14 @@ const Template4Edit = () => {
                     src={card.imagePreviewUrl}
                     alt="Preview"
                     style={{
-                      borderRadius: '7px',
-                      border: '4px solid #ACAACC',
-                      width: 'auto',
-                      height: '93%',
-                      maxWidth: '93%',
-                      objectFit: 'cover',
-                      maxHeight: '100%',
-                      marginLeft: '0px'
+                      borderRadius: "7px",
+                      border: "4px solid #ACAACC",
+                      width: "auto",
+                      height: "93%",
+                      maxWidth: "93%",
+                      objectFit: "cover",
+                      maxHeight: "100%",
+                      marginLeft: "0px",
                     }}
                   />
                 </C.SelectBox>
@@ -117,13 +129,22 @@ const Template4Edit = () => {
                   as="textarea"
                   value={card.story}
                   onChange={(e) => handleStoryCardChange(index, e.target.value)}
-                  style={{ backgroundColor: '#FCFBFB'}}
+                  style={{ backgroundColor: "#FCFBFB" }}
                 />
               </C.SelectCard>
             ))}
           </C.CardContainer>
           {/* 여기서 각 C.Upload 버튼을 카드별로 제어 */}
-          <div style={{ width: '86%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '7%', marginTop: '2%' }}>
+          <div
+            style={{
+              width: "86%",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginLeft: "7%",
+              marginTop: "2%",
+            }}
+          >
             {storyCards.map((_, index) => (
               <C.Upload
                 key={index}
@@ -134,11 +155,11 @@ const Template4Edit = () => {
             ))}
           </div>
         </C.StoryWrap>
-        </L.LessonWrapper>
-        <C.HintWrapper style={{marginTop: '3%'}}>
-          <C.HintGroup>
+      </L.LessonWrapper>
+      <C.HintWrapper style={{ marginTop: "3%" }}>
+        <C.HintGroup>
           <C.Label>해설</C.Label>
-          <C.HintBox style={{ minWidth: '200px' }}>
+          <C.HintBox style={{ minWidth: "200px" }}>
             <Form.Control
               type="text"
               placeholder="해설을 입력하세요"
@@ -147,22 +168,22 @@ const Template4Edit = () => {
               onChange={handleDescriptionChange}
             />
           </C.HintBox>
-          </C.HintGroup>
-          <C.HintGroup>
-            <C.Label>힌트</C.Label>
-            <C.HintBox style={{ minWidth: '200px' }}>
-              <Form.Control
-                type="text"
-                placeholder="문제 힌트를 입력하세요"
-                name="hint"
-                value={hint}
-                onChange={handleHintChange}
-              />
-            </C.HintBox>
-          </C.HintGroup>
-        </C.HintWrapper>
-        <C.SubmitButton onClick={handleSubmit}>제출</C.SubmitButton>
-      
+        </C.HintGroup>
+        <C.HintGroup>
+          <C.Label>힌트</C.Label>
+          <C.HintBox style={{ minWidth: "200px" }}>
+            <Form.Control
+              type="text"
+              placeholder="문제 힌트를 입력하세요"
+              name="hint"
+              value={hint}
+              onChange={handleHintChange}
+            />
+          </C.HintBox>
+        </C.HintGroup>
+      </C.HintWrapper>
+      <C.SubmitButton onClick={handleSubmit}>제출</C.SubmitButton>
+
       <UploadPhoto
         isOpen={isUploadModalOpen}
         toggleModal={() => setIsUploadModalOpen(false)}
