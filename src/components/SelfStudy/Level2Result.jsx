@@ -5,7 +5,6 @@ import * as L from "./Level1Style";
 import * as T from "./Level2Style";
 import Back from "/src/assets/icon/back.svg";
 //import picture from "/src/assets/image/word.svg";
-import picture from "./6.png";
 import hint from "/src/assets/image/hint.svg";
 import { useLocation } from "react-router-dom";
 
@@ -13,7 +12,7 @@ export default function Level2Result() {
   const hintClick = (state) => {
     setHintState(state);
   };
-  const [data, selectNum, answerType] = useLocation().state;
+  const [data, dataList, selectNum, answerType] = useLocation().state;
   const [hintState, setHintState] = useState(false);
 
   return (
@@ -42,26 +41,30 @@ export default function Level2Result() {
           </T.SentenceContainer>
         </S.rowContainer>
         {/* 해설 및 힌트 말풍선 */}
-        <T.hintBubble state={hintState}>
-          {answerType ? "해설" : "힌트"}
-          <T.hint>
-            {answerType ? data.comment : data.hint}
-            <T.hintClose onClick={() => hintClick(false)}>확인</T.hintClose>
-          </T.hint>
-        </T.hintBubble>
+        {hintState && (
+          <T.hintBubble>
+            {answerType ? "해설" : "힌트"}
+            <T.hint>
+              {answerType
+                ? data.savedData.detailedSituation
+                : data.savedData.detailedSituation}
+              <T.hintClose onClick={() => hintClick(false)}>확인</T.hintClose>
+            </T.hint>
+          </T.hintBubble>
+        )}
         {/* 문제 */}
         <T.rowContainer>
-          <T.imgContainer src={picture} />
+          <T.imgContainer src={data.savedData.imageUrl} />
           <T.questionContainer>
             <S.rowContainer>
               <L.SecondTitle style={{ width: "150px" }}>
-                {data.answer}
+                {data.firstPart}
               </L.SecondTitle>
               <T.answerBox clickstate={answerType}>
-                {data.list[selectNum - 1]}
+                {dataList[selectNum - 1]}
               </T.answerBox>
             </S.rowContainer>
-            {data.list.map((el, index) => (
+            {dataList.map((el, index) => (
               <S.rowContainer onClick={() => numClick(el)}>
                 <T.num>{index + 1}</T.num>
                 <T.list>{el}</T.list>

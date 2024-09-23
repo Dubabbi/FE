@@ -20,15 +20,17 @@ export const rowContainer = styled.div`
 `;
 
 export const questionContainer = styled.div`
-  width: 300px;
+  width: 350px;
   display: inline-block;
   margin-top: 10px;
 `;
 
 export const blankBox = styled.div`
   display: flex;
-  width: 150px;
-  height: 50px;
+  min-width: 150px;
+  max-width: 250px;
+  min-height: 50px;
+  padding: 5px;
   background-color: ${(props) => (props.clickstate ? "none" : "#acaacc")};
   border-radius: 10px;
   align-items: center;
@@ -50,8 +52,10 @@ export const num = styled.div`
 `;
 
 export const list = styled.div`
-  width: 150px;
-  height: 50px;
+  min-width: 150px;
+  max-width: 230px;
+  min-height: 50px;
+  padding: 5px;
   border: 2px solid #acaacc;
   border-radius: 12px;
   margin: 10px 20px;
@@ -63,8 +67,9 @@ export const list = styled.div`
 
 export const answerBox = styled.div`
   display: flex;
-  width: 150px;
-  height: 50px;
+  min-width: 150px;
+  max-width: 250px;
+  min-height: 50px;
   border-radius: 10px;
   align-items: center;
   justify-content: center;
@@ -102,7 +107,6 @@ export const hintBubble = styled.div`
   top: 273px;
   width: 270px;
   font-size: 1.8rem;
-  opacity: ${(props) => (props.state ? "100%" : "0%")};
   display: flex;
   flex-direction: column;
   align-items: center;
