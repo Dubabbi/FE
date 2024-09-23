@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import * as S from "./SelfStudyStyle";
 import * as D from "../WordCreateTchr/WordDetailStyle";
 import Back from "/src/assets/icon/back.svg";
@@ -12,41 +12,58 @@ import { Loading } from "./Loading";
 
 export default function SelfCategory() {
   const navigate = useNavigate();
-  const onClickCategory = (event, selectCategory) => {
+  const level = useLocation().state;
+  const onClickCategory = (selectCategory) => {
     setLoading(true);
     const token = localStorage.getItem("key");
-    // console.log(token);
-    axios
-      .post(
-        "https://maeummal.com/prep2/",
-        {
-          category: selectCategory,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+    if (level === 1) {
+      axios
+        .post(
+          "https://maeummal.com/prep2/",
+          {
+            category: CategoryList[selectCategory].eng,
           },
-        }
-      )
-      .then((response) => {
-        //console.log(response.data.data);
-        if (response.status === 200 && token) {
-          console.log("successful");
-          const wordData = response.data.data;
-          const wordList = [
-            [wordData.noun1, wordData.noun2, wordData.noun3, wordData.noun4],
-            [wordData.adv1, wordData.adv2, wordData.adv3, wordData.adv4],
-            [wordData.verb1, wordData.verb2, wordData.verb3, wordData.verb4],
-          ];
-          //console.log(wordList);
-          navigate("/level1", { state: wordList });
-        } else {
-          throw new Error("Failed to fetch data");
-        }
-      })
-      .catch((error) => {
-        console.error("Error while create picture:", error);
-      });
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          if (response.status === 200 && token) {
+            const wordData = response.data.data;
+            const wordList = [
+              [wordData.noun1, wordData.noun2, wordData.noun3, wordData.noun4],
+              [wordData.adv1, wordData.adv2, wordData.adv3, wordData.adv4],
+              [wordData.verb1, wordData.verb2, wordData.verb3, wordData.verb4],
+            ];
+            navigate("/level1", { state: wordList });
+          }
+        })
+        .catch((error) => {
+          console.error("Error while create picture:", error);
+        });
+    }
+    if (level === 2) {
+      axios
+        .post(
+          `https://maeummal.com/prep1/generate?category=${CategoryList[selectCategory].category}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            navigate("/level2", { state: response.data });
+          }
+        })
+        .catch((error) => {
+          console.error("Error while create template1:", error);
+        });
+    }
   };
   const [CategoryList, setCategoryList] = useState([
     { category: "학교", src: school, eng: "SCHOOL" },
@@ -77,7 +94,7 @@ export default function SelfCategory() {
                 {CategoryList.map((item, index) => (
                   <S.Category
                     key={index}
-                    onClick={(e) => onClickCategory(e, item.eng)}
+                    onClick={() => onClickCategory(index)}
                   >
                     <S.level style={{ width: "130px", height: "125px" }}>
                       <img src={item.src} alt="" />
