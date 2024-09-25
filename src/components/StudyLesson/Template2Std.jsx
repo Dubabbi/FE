@@ -23,7 +23,7 @@ const Template2Std = () => {
   const [imageSelectionOrder, setImageSelectionOrder] = useState({});
 
   useEffect(() => {
-    const template2Id = 13;
+    const template2Id = 8;
     const fetchTemplateData = async () => {
       try {
         const response = await axios.get(`https://maeummal.com/template2/get?template2Id=${template2Id}`, {
@@ -88,11 +88,12 @@ const Template2Std = () => {
     if (isCorrect) {
       await submitFeedback(userAnswerOrder);
       setShowReward(true);
+      awardBadge();
     } else {
       if (lives > 1) {
         setLives(lives - 1);
         setShowHint(true);
-        setSelectedImages([]);  // Clear selections on incorrect attempt
+        setSelectedImages([]); 
       } else {
         setLives(0);
         setShowHint(false);
@@ -107,7 +108,7 @@ const Template2Std = () => {
       const response = await axios.post('https://maeummal.com/feedback/create', {
         templateId: templateData.templateId,
         answerList: userAnswerOrder.map(String),  // Send the order of answers as strings
-        studentId: 25,
+        studentId: 1,
         templateType: "TEMPLATE2",
         title: templateData.title
       }, {
@@ -122,6 +123,26 @@ const Template2Std = () => {
       }
     } catch (error) {
       console.error('Error during feedback submission:', error);
+    }
+  };
+  const awardBadge = async () => {
+    const accessToken = localStorage.getItem("key");
+    const memberId = 1;
+    const templateType = "TEMPLATE2"; 
+    
+    try {
+      const response = await axios.post(`https://maeummal.com/badges/award?memberId=${memberId}`, {
+        templateType 
+      }, {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      });
+    
+      if (!response.data) {
+        throw new Error('Failed to award badge');
+      }
+      console.log('Badge awarded successfully:', response.data);
+    } catch (error) {
+      console.error('Error awarding badge:', error);
     }
   };
   
