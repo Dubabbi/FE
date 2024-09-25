@@ -9,7 +9,7 @@ import * as E from "../CreateLesson/Template3Tchr";
 import Back from "/src/assets/icon/back.svg";
 
 const Feedback5 = () => {
-  const data = useLocation().state;
+  const [data, tempNum] = useLocation().state;
   console.log(data);
   const [hint, setHint] = useState([false, false, false]);
   const count = data.correctnessList.filter(
@@ -35,7 +35,7 @@ const Feedback5 = () => {
       </D.ImageWrap>
       <L.LessonWrapper style={{ marginBottom: "5%" }}>
         <L.Section style={{ padding: "50px 0 10px 0" }}>
-          <h1>어휘카드 매칭 게임</h1>
+          <h1>{tempNum === 1 ? "카테고리 분류하기" : "어휘카드 매칭 게임"}</h1>
           <C.FeedbackContainer style={{ margin: "40px 0 20px 100px" }}>
             <C.HalfLine />
             <C.FeedbackText>최종평가</C.FeedbackText>

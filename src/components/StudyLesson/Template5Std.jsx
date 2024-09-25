@@ -158,7 +158,7 @@ const Template5Std = () => {
     const payload = {
       templateId: template5Id,
       answerList: finalAnswer,
-      studentId: 25,
+      studentId: 1,
       templateType: "TEMPLATE5",
     };
     axios
@@ -196,7 +196,7 @@ const Template5Std = () => {
 
   const handleCloseReward = () => {
     setShowReward(false);
-    navigate("/feedback5", { state: feedbackData });
+    navigate("/feedback5", { state: [feedbackData, 5] });
   };
   return (
     <>
