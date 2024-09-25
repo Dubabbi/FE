@@ -81,32 +81,6 @@ const Template4Std = () => {
     }
   };
   
-  
-  const submitFeedback = async (userOrder) => {
-    try {
-      const accessToken = localStorage.getItem("key");
-      const response = await axios.post('https://maeummal.com/feedback/create', {
-        templateId: templateData.templateId,
-        answerList: userOrder.map(String),
-        studentId: 25,
-        templateType: "TEMPLATE4"
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
-  
-      if (response.data && response.data.id) {
-        setFeedbackData(response.data);
-        setShowReward(true);
-      } else {
-        console.error('Failed to submit feedback:', response.data.message || 'Unknown error');
-      }
-    } catch (error) {
-      console.error('Error submitting feedback:', error);
-    }
-  };
-  
   const handleSubmit = async () => {
     if (!templateData || !templateData.templateId) {
       console.error('Template data is missing, please try again.');
@@ -136,13 +110,39 @@ const Template4Std = () => {
       }
     }
   };
+  const submitFeedback = async (userOrder) => {
+    try {
+      const accessToken = localStorage.getItem("key");
+      const response = await axios.post('https://maeummal.com/feedback/create', {
+        templateId: templateData.templateId,
+        answerList: userOrder.map(String),
+        studentId: 25,
+        templateType: "TEMPLATE4"
+      }, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+  
+      if (response.data && response.data.id) {
+        setFeedbackData(response.data);
+        setShowReward(true);
+      } else {
+        console.error('Failed to submit feedback:', response.data.message || 'Unknown error');
+      }
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+    }
+  };
+  
+
   
   const handleSelectCard = (index) => {
     setSelectedCard(index);
   };
   const awardBadge = async () => {
     const accessToken = localStorage.getItem("key"); // 액세스 토큰을 로컬 스토리지에서 가져옵니다.
-    const memberId = 25; // 예시 memberId, 실제 사용자 ID로 교체해야 합니다.
+    const memberId = 1; // 예시 memberId, 실제 사용자 ID로 교체해야 합니다.
     const templateType = "TEMPLATE4"; 
     
     try {
