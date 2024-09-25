@@ -117,7 +117,7 @@ const WordDetailTchr = () => {
     };
 
     try {
-      const response = await axios.patch(`https://maeummal.com/word/wordSet/${wordSetId}`, updateData, {
+      const response = await axios.patch(`https://thingproxy.freeboard.io/fetch/https://maeummal.com/word/wordSet/${wordSetId}`, updateData, {
         headers: { 'Content-Type': 'application/json' }
       });
       if (response.data.isSuccess) {
