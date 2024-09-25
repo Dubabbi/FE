@@ -89,10 +89,8 @@ const Feedback2 = () => {
               <div style={{ width: '70%' }}></div>
             </div>
             <C.HintBox style={{ width: '90%', border: 'none', fontSize: '1.2rem' , textAlign: 'left' }}>
-              나이 순서대로 배열하는 것에 어려움이 있습니다. 이미지나 그림을 보고 사람의 나이를 알 수 있도록 추가 학습이 필요해 보입니다.
-              {/*
               {feedbackData.aiFeedback || 'AI 피드백 없음'}
-              */}
+
             </C.HintBox>
           </C.HintGroup>
         </C.HintWrapper>

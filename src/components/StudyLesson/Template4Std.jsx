@@ -8,7 +8,7 @@ import Pink from '/src/assets/icon/heartpink.svg';
 import White from '/src/assets/icon/heartwhite.svg';
 import { ModalOverlay } from './Feedback2';
 import axios from 'axios';
-import Reward from '../Reward/Reward';
+import Reward from '../Reward/Reward4';
 import Toast from '/src/assets/icon/errortoast.svg';
 
 const Template4Std = () => {
@@ -123,6 +123,7 @@ const Template4Std = () => {
     if (isCorrect) {
       await submitFeedback(userAnswerOrder);
       setShowReward(true);
+      awardBadge();
     } else {
       if (lives > 1) {
         setLives(lives - 1);
@@ -139,7 +140,26 @@ const Template4Std = () => {
   const handleSelectCard = (index) => {
     setSelectedCard(index);
   };
-
+  const awardBadge = async () => {
+    const accessToken = localStorage.getItem("key"); // 액세스 토큰을 로컬 스토리지에서 가져옵니다.
+    const memberId = 25; // 예시 memberId, 실제 사용자 ID로 교체해야 합니다.
+    const templateType = "TEMPLATE4"; 
+    
+    try {
+      const response = await axios.post(`https://maeummal.com/badges/award?memberId=${memberId}`, {
+        templateType 
+      }, {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      });
+    
+      if (!response.data) {
+        throw new Error('Failed to award badge');
+      }
+      console.log('Badge awarded successfully:', response.data);
+    } catch (error) {
+      console.error('Error awarding badge:', error);
+    }
+  };
   const handleShowReward = (show) => {
     setShowReward(show);
   };

@@ -28,29 +28,39 @@ const FeedbackTem2 = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [feedbackData, setFeedbackData] = useState({});
-  const feedbackId = location.state?.feedbackId;
-
+  {/*const feedbackId = location.state?.feedbackId;*/}
+  const feedbackId = 9;
   useEffect(() => {
     if (feedbackId) {
       fetchFeedbackDetails(feedbackId);
     }
   }, [feedbackId]);
-
+  
   const fetchFeedbackDetails = async (id) => {
     try {
-      const response = await axios.get(`https://maeummal.com/feedback/detail?id=${id}`, {
+      const response = await axios.get(`https://maeummal.com/feedback/detail?id=${feedbackId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       if (response.data.isSuccess) {
-        setFeedbackData(response.data.data);
+        const { data } = response.data;
+        setFeedbackData({
+          templateTitle: data.templateTitle,
+          correctnessList: data.correctnessList,
+          aiFeedback: data.aiFeedback,
+          solution: data.solution,
+          correctFeedbackCards: data.correctFeedbackCards,
+          studentFeedbackCards: data.studentFeedbackCards,
+          answerNum: data.answerNum
+        });
       } else {
-        alert(response.data.message); // More user-friendly error handling
+        alert(response.data.message);
       }
     } catch (error) {
       console.error('Error fetching feedback details:', error);
       alert('Failed to fetch feedback details.');
     }
   };
+  
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -79,7 +89,7 @@ const FeedbackTem2 = () => {
               <img src={isCorrect ? Correct : Incorrect} alt={isCorrect ? 'Correct' : 'Incorrect'} />
             </C.FirstBox>
             <C.SecondBox>
-            {feedbackData.description || 'No description provided.'}
+            {feedbackData.solution || 'No description provided.'}
             </C.SecondBox>
           </C.FeedbackLine>
         )}
@@ -99,9 +109,10 @@ const FeedbackTem2 = () => {
         <L.Section>
           <C.StuTitle style={{ fontSize: '1.7rem' }}>정답 이미지</C.StuTitle>
           <C.FeedbackLine>
-            {feedbackData.correctFeedbackCards && feedbackData.correctFeedbackCards.map((card, index) => (
+          {feedbackData.correctFeedbackCards && feedbackData.correctFeedbackCards.map((card, index) => (
               <C.FeedImage key={index}>
-                <img src={card.image} alt={`Correct Card ${index + 1}`} style={{ maxWidth: '100%' }} />
+                <img src={card.image} alt={`${card.adjective} ${card.noun}`} style={{ maxWidth: '100%' }} />
+                <span>{card.adjective} {card.noun}</span> {/* 예를 들어, 상큼한 사과 */}
               </C.FeedImage>
             ))}
           </C.FeedbackLine>

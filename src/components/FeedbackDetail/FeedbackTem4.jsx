@@ -28,30 +28,38 @@ const FeedbackTem4 = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [feedbackData, setFeedbackData] = useState({});
-  const feedbackId = location.state?.feedbackId;
 
+  const feedbackId = 9;
   useEffect(() => {
     if (feedbackId) {
       fetchFeedbackDetails(feedbackId);
     }
   }, [feedbackId]);
-
+  
   const fetchFeedbackDetails = async (id) => {
     try {
-      const response = await axios.get(`https://maeummal.com/feedback/detail?id=${id}`, {
+      const response = await axios.get(`https://maeummal.com/feedback/detail?id=${feedbackId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       if (response.data.isSuccess) {
-        setFeedbackData(response.data.data);
+        const { data } = response.data;
+        setFeedbackData({
+          templateTitle: data.templateTitle,
+          correctnessList: data.correctnessList,
+          aiFeedback: data.aiFeedback,
+          solution: data.solution,
+          correctFeedbackCards: data.correctFeedbackCards,
+          studentFeedbackCards: data.studentFeedbackCards,
+          answerNum: data.answerNum
+        });
       } else {
-        alert(response.data.message); // More user-friendly error handling
+        alert(response.data.message);
       }
     } catch (error) {
       console.error('Error fetching feedback details:', error);
       alert('Failed to fetch feedback details.');
     }
   };
-
   const handleNavigation = (path) => {
     navigate(path);
   };
@@ -79,7 +87,7 @@ const FeedbackTem4 = () => {
               <img src={isCorrect ? Correct : Incorrect} alt={isCorrect ? 'Correct' : 'Incorrect'} />
             </C.FirstBox>
             <C.SecondBox>
-            {feedbackData.description || 'No description provided.'}
+            {feedbackData.solution || 'No description provided.'}
             </C.SecondBox>
           </C.FeedbackLine>
         )}
