@@ -12,7 +12,7 @@ import wrong from "/src/assets/icon/incorrect.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Answer = ({ title, data, correctList = [true, true, true] }) => (
+export const Answer = ({ title, data, correctList = [true, true, true] }) => (
   <T.Container style={{ alignItems: "center" }}>
     <p>{title}</p>
     <O.Line style={{ justifyContent: "center", marginTop: "10px" }}>
