@@ -45,10 +45,10 @@ const LessonStd = () => {
         navigate("/template3std", { state: temId });
         break;
       case "이미지 순서 배열하기":
-        navigate("/template2std");
+        navigate("/template2std", { state: temId });
         break;
       case "이야기 순서 배열하기":
-        navigate("/template4std");
+        navigate("/template4std", { state: temId });
         break;
       case "어휘 카드 매칭 게임":
         navigate("/template5std", { state: temId });
