@@ -6,12 +6,15 @@ import styled from "styled-components";
 import * as C from "../CreateLesson/CreateLessonStyle";
 import * as S from "../SelfStudy/SelfStudyStyle";
 import * as D from "../WordCreateTchr/WordDetailStyle";
+import * as F from "./Template5Std";
 import Back from "/src/assets/icon/back.svg";
 import word from "../../assets/image/word.svg";
 import Pink from "/src/assets/icon/heartpink.svg";
 import White from "/src/assets/icon/heartwhite.svg";
 import reset from "../../assets/icon/reset.svg";
 import hint from "../../assets/icon/hint.svg";
+import { ModalOverlay } from "./Feedback2";
+import Reward from "../Reward/Reward";
 
 export const Row = styled.div`
   display: flex;
@@ -111,11 +114,15 @@ const Template1Std = () => {
   ]);
 
   useEffect(() => {
+    const accessToken = localStorage.getItem("key");
     axios
-      .get(`https://maeummal.com/api/temp1/get?temp1Id=${template1Id}`)
+      .get(`https://maeummal.com/api/temp1/get?temp1Id=${template1Id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
       .then((response) => {
-        if (response.data.isSuccess) {
-          const data = response.data.data.wordCardList;
+        if (response.status === 200) {
+          const data = response.data.words;
+          console.log(data);
           setWordList(data);
           let newWord = [];
           data.map((el, index) => (newWord[index] = el.meaning));
@@ -206,7 +213,7 @@ const Template1Std = () => {
     const payload = {
       templateId: template1Id,
       answerList: finalAnswer,
-      studentId: 25,
+      studentId: 1,
       templateType: "TEMPLATE1",
     };
     axios
@@ -244,7 +251,7 @@ const Template1Std = () => {
 
   const handleCloseReward = () => {
     setShowReward(false);
-    navigate("/feedback5", { state: feedbackData });
+    navigate("/feedback5", { state: [feedbackData, 1] });
   };
   return (
     <>
@@ -259,15 +266,15 @@ const Template1Std = () => {
         ))}
       </D.HeartWrap>
       <S.AppContainer>
-        <h1>어휘 카드 매칭 게임</h1>
+        <h1>카테고리 분류하기</h1>
         <Row>
           {!firstTime && (
             <Container>
               {hintShow.map((el, index) => (
-                <HintBox style={{ opacity: el ? "0%" : "100%" }} key={index}>
+                <F.HintBox style={{ opacity: el ? "0%" : "100%" }} key={index}>
                   {wordList[index].description}
                   <img src={hint} />
-                </HintBox>
+                </F.HintBox>
               ))}
             </Container>
           )}

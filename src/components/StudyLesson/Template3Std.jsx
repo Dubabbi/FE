@@ -146,7 +146,7 @@ const Template3Std = () => {
     const payload = {
       templateId: template3Id,
       answerList: inputValue,
-      studentId: 25,
+      studentId: 1,
       templateType: "TEMPLATE3",
     };
     axios
