@@ -50,7 +50,13 @@ const Template4Edit = () => {
           setLevel(templateData.level); 
           setDescription(templateData.description);
           setHint(templateData.hint);
-          setStoryCards(templateData.storyCardEntityList || []);
+  
+          // 이미지 미리 보기 URL을 추가하여 각 카드에 설정
+          const updatedStoryCards = templateData.storyCardEntityList.map(card => ({
+            ...card,
+            imagePreviewUrl: card.image || My // API에서 받은 image를 사용하거나 기본 이미지
+          }));
+          setStoryCards(updatedStoryCards);
         } else {
           throw new Error('Failed to fetch data');
         }
@@ -61,7 +67,7 @@ const Template4Edit = () => {
   
     fetchTemplateData();
   }, [location.state?.template4Id]);
-
+  
   // 이미지 추가 및 업로드 처리 함수
   const handleAddImage = async (file) => {
     if (file) {
