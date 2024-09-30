@@ -25,7 +25,7 @@ const Template4Std = () => {
   const [firstFeedback, setFirstFeedback] = useState(null); // 1차 피드백 response
 
   useEffect(() => {
-    const template4Id = 1;
+    const template4Id = 17;
     const fetchTemplateData = async () => {
       const accessToken = localStorage.getItem("key");
       if (!accessToken) {

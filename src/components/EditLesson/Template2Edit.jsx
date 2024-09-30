@@ -6,6 +6,7 @@ import Back from '/src/assets/icon/back.svg';
 import add from '../../assets/icon/add.svg';
 import ModalComponent from '../ImageModal/ImageModal';
 import axios from 'axios';
+import { AiFillDelete } from 'react-icons/ai';  
 import { useLocation, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 
@@ -18,7 +19,7 @@ const Template2Edit = () => {
     title: '', 
     level: '', 
     content: '', 
-    template2Id: null
+    template2Id: ''
   };
 
   // 상태 초기화
@@ -134,7 +135,39 @@ const Template2Edit = () => {
   if (isLoading) {
     return <p>Loading...</p>;  // 데이터 로딩 중 처리
   }
+  // 템플릿 삭제 함수
+  const handleDeleteTemplate = async () => {
+    const confirmDelete = window.confirm('정말 템플릿을 삭제하시겠습니까?');
+    if (confirmDelete) {
+      const template2Id = 13;
+  
+      try {
+        const response = await axios.delete(`https://maeummal.com/template2/${template2Id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('key')}`
+          }
+        });
 
+        // 상태 코드에 따라 다른 메시지를 출력
+        if (response.status === 204) {
+          alert('템플릿이 성공적으로 삭제되었습니다.');
+          navigate('/lessontchr'); 
+        }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status === 404) {
+            alert('템플릿을 찾을 수 없습니다.');
+          } else if (error.response.status === 403) {
+            alert('자신의 템플릿만 삭제할 수 있습니다.');
+          } else {
+            alert(`삭제 실패: ${error.response.data.message}`);
+          }
+        } else {
+          alert(`템플릿 삭제 중 오류가 발생했습니다: ${error.message}`);
+        }
+      }
+    }
+  };
   return (
     <>
       <D.ImageWrap>
@@ -164,6 +197,10 @@ const Template2Edit = () => {
           ))}
         </C.Line>
       </L.LessonWrapper>
+      <C.SubmitButton onClick={handleDeleteTemplate}>
+        <AiFillDelete style={{ marginRight: '8px' }} />
+        템플릿 삭제
+      </C.SubmitButton>
       <C.HintWrapper>
         {/* 타이틀 수정 필드 */}
         <C.HintGroup>

@@ -29,7 +29,7 @@ const Template4Edit = () => {
   ]);
   
   useEffect(() => {
-    const template4Id = 1; // 템플릿 ID
+    const template4Id = 17; // 템플릿 ID
     const fetchTemplateData = async () => {
       const accessToken = localStorage.getItem('key');
       if (!accessToken) {
