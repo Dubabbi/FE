@@ -90,7 +90,7 @@ const LessonStd = () => {
           <CommonTable>
             {lessons.map((lesson, index) => (
               <CommonTableRow key={`${lesson.id}_${index}`}>
-                <CommonTableColumn>{lesson.templateId}</CommonTableColumn>
+                <CommonTableColumn>{index + 1}</CommonTableColumn>
                 <CommonTableColumn style={{ fontWeight: "bold" }}>
                   <a
                     href="#"
