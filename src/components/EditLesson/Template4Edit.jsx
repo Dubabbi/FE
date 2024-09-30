@@ -16,13 +16,12 @@ const Template4Edit = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 상태 추가
   const [title, setTitle] = useState(''); 
   const [level, setLevel] = useState('');
   const [description, setDescription] = useState(''); 
   const [hint, setHint] = useState(''); 
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
-  const [modalCardIndex, setModalCardIndex] = useState(null); 
+  const [modalCardIndex, setModalCardIndex] = useState(null);
   const [storyCards, setStoryCards] = useState([
     { image: '', answerNumber: 1, imagePreviewUrl: My, description: '' },
     { image: '', answerNumber: 2, imagePreviewUrl: My, description: '' },
@@ -30,7 +29,7 @@ const Template4Edit = () => {
   ]);
   
   useEffect(() => {
-    const template4Id = 1; // 템플릿 ID (해당 ID를 설정)
+    const template4Id = 1; // 템플릿 ID
     const fetchTemplateData = async () => {
       const accessToken = localStorage.getItem('key');
       if (!accessToken) {
@@ -62,7 +61,37 @@ const Template4Edit = () => {
   
     fetchTemplateData();
   }, [location.state?.template4Id]);
-  
+
+  // 이미지 추가 및 업로드 처리 함수
+  const handleAddImage = async (file) => {
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('id', '3');
+
+      try {
+        const response = await axios.post('https://maeummal.com/template4/upload', formData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('key')}`,
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        if (response.data.isSuccess) {
+          const newStoryCards = [...storyCards];
+          newStoryCards[modalCardIndex].image = response.data.data.url;
+          newStoryCards[modalCardIndex].imagePreviewUrl = response.data.data.url;
+          setStoryCards(newStoryCards);
+        } else {
+          alert(`이미지 업로드에 실패했습니다: ${response.data.message}`);
+        }
+      } catch (error) {
+        alert(`이미지 업로드 중 오류가 발생했습니다: ${error.toString()}`);
+      } finally {
+        setIsUploadModalOpen(false);
+      }
+    }
+  };
+
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
   };
@@ -74,19 +103,6 @@ const Template4Edit = () => {
   const toggleUploadModal = (index) => {
     setModalCardIndex(index);
     setIsUploadModalOpen(true);
-  };
-
-  const handleAddImage = (file) => {
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const newStoryCards = [...storyCards];
-        newStoryCards[modalCardIndex].imagePreviewUrl = reader.result;
-        setStoryCards(newStoryCards);
-        setIsUploadModalOpen(false);
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   const handleStoryCardChange = (index, value) => {
@@ -120,7 +136,6 @@ const Template4Edit = () => {
         }
       );
       if (response.data.isSuccess) {
-        console.log('Response:', response.data);
         alert('템플릿이 성공적으로 수정되었습니다.');
         navigate('/lessontchr');
       } else {
@@ -134,12 +149,12 @@ const Template4Edit = () => {
   const handleDeleteTemplate = async () => {
     const confirmDelete = window.confirm('정말 템플릿을 삭제하시겠습니까?');
     if (confirmDelete) {
-      const template4Id = 1; // 삭제할 템플릿 ID
+      const template4Id = 1;
   
       try {
         const response = await axios.delete(`https://maeummal.com/template4/delete?template4Id=${template4Id}`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+            Authorization: `Bearer ${localStorage.getItem('key')}`
           }
         });
   
@@ -166,7 +181,6 @@ const Template4Edit = () => {
       <L.LessonWrapper>
         <L.Section>
           <h1>이야기 순서 배열하기</h1>
-
         </L.Section>
         
         <C.StoryWrap>
@@ -213,14 +227,12 @@ const Template4Edit = () => {
         </C.StoryWrap>
       </L.LessonWrapper>
 
-      {/* 템플릿 삭제 버튼 */}
       <C.SubmitButton onClick={handleDeleteTemplate}>
         <AiFillDelete style={{ marginRight: '8px' }} />
         템플릿 삭제
       </C.SubmitButton>
 
       <C.HintWrapper style={{marginTop: '3%'}}>
-          {/* 타이틀 수정 필드 */}
          <C.HintGroup controlId="formTitle">
             <C.Label>타이틀</C.Label>
             <C.HintBox style={{ minWidth: '200px' }}>
@@ -228,12 +240,11 @@ const Template4Edit = () => {
               type="text"
               placeholder="타이틀을 입력하세요"
               value={title}
-              onChange={(e) => setTitle(e.target.value)} // 타이틀 수정
+              onChange={(e) => setTitle(e.target.value)}
             />
             </C.HintBox>
           </C.HintGroup>
 
-          {/* 레벨 수정 필드 */}
           <C.HintGroup controlId="formLevel">
             <C.Label>레벨</C.Label>
             <C.HintBox style={{ minWidth: '200px' }}>
@@ -241,9 +252,9 @@ const Template4Edit = () => {
               type="number"
               placeholder="레벨을 입력하세요"
               value={level}
-              min={1} // 최소값 1 설정
-              max={5} // 최대값 5 설정
-              onChange={(e) => setLevel(e.target.value)} // 레벨 수정
+              min={1}
+              max={5}
+              onChange={(e) => setLevel(e.target.value)}
             />
             </C.HintBox>
           </C.HintGroup>
@@ -253,7 +264,6 @@ const Template4Edit = () => {
             <Form.Control
               type="text"
               placeholder="해설을 입력하세요"
-              name="description"
               value={description}
               onChange={handleDescriptionChange}
             />
@@ -265,7 +275,6 @@ const Template4Edit = () => {
             <Form.Control
               type="text"
               placeholder="문제 힌트를 입력하세요"
-              name="hint"
               value={hint}
               onChange={handleHintChange}
             />

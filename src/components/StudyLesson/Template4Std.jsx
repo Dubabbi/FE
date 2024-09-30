@@ -170,13 +170,25 @@ const Template4Std = () => {
     setShowReward(show);
   };
 
-  const handleCloseReward = () => {
-    setShowReward(false);
-      navigate('/Feedback4', {
-          state: {feedbackData, description: templateData.description } 
-      });
-  };
 
+  const handleCloseReward = () => {
+    const cardData = templateData.storyCardEntityList.map(card => ({
+      description: card.description, // 카드 설명
+      image: card.image,             // 카드 이미지 URL
+      storyCardId: card.storyCardId  // 카드 ID
+    }));
+  
+    setShowReward(false);
+  
+    navigate('/Feedback4', {
+      state: {
+        feedbackData,  // 피드백 데이터
+        description: templateData.description, // 설명
+        cardData // 카드 데이터 배열로 전달
+      }
+    });
+  };
+  
   if (isLoading) {
     return <p>Loading...</p>; 
   }

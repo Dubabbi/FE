@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import * as C from '../CreateLesson/CreateLessonStyle';
 import * as L from '../LessonTchr/LessonStyle';
@@ -28,6 +28,7 @@ const Feedback4 = () => {
   // 기본값 설정으로 빈 데이터에 대한 처리
   const feedbackData = location.state?.feedbackData || {};
   const feedbackDescription = location.state?.description || '설명이 없습니다.';
+  const cardData = location.state?.cardData || []; // 카드 데이터 받아오기
 
   const handleStop = () => {
     navigate('/MainStd');
@@ -65,9 +66,9 @@ const Feedback4 = () => {
 
         <C.StoryWrap style={{ marginBottom: '3%' }}>
           <C.CardContainer>
-            {/* 서버에서 받은 데이터를 동적으로 렌더링 */}
-            {feedbackData.correctFeedbackCards?.map((card) => (
-              <C.SelectCard key={card.storyCardId} style={{ border: '4px solid #eee' }}>
+            {/* 전달받은 cardData 배열을 사용해 설명과 이미지 렌더링 */}
+            {cardData.map((card, index) => (
+              <C.SelectCard key={index} style={{ border: '4px solid #eee' }}>
                 <C.StoryList>
                   <img style={{ height: '100%', border: 'none' }} src={card.image} alt={`Story card ${card.storyCardId}`} />
                 </C.StoryList>
