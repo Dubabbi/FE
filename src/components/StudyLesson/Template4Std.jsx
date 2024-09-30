@@ -64,7 +64,8 @@ const Template4Std = () => {
         templateId: templateData.templateId,
         answerList: userOrder.map(String),
         studentId: 25,
-        templateType: "TEMPLATE4"
+        templateType: "TEMPLATE4",
+        solution: templateData.description // 전체 해설 전송
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -140,7 +141,8 @@ const Template4Std = () => {
         templateId: templateData.templateId,
         answerList: userOrder.map(String),
         studentId: 25,
-        templateType: "TEMPLATE4"
+        templateType: "TEMPLATE4",
+        solution: templateData.description // 전체 해설 전송
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -197,7 +199,7 @@ const Template4Std = () => {
     navigate('/Feedback4', {
       state: {
         feedbackData,
-        description: templateData.description,
+        solution: templateData.description, // 전체 해설을 전달
         cardData
       }
     });
