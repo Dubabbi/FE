@@ -21,10 +21,18 @@ const LessonStd = () => {
       .get("https://maeummal.com/templates/all")
       .then((response) => {
         if (response.data.isSuccess) {
+          // createdAt으로 정렬된 데이터를 저장
           const sortedData = response.data.data.sort((a, b) => {
             return new Date(b.createdAt) - new Date(a.createdAt);
           });
-          setLessons(sortedData);
+  
+          // sortedData의 각 항목에 순차적인 templateId 할당
+          const updatedData = sortedData.map((lesson, index) => ({
+            ...lesson,
+            templateId: index + 1 // 1부터 시작하는 새로운 templateId
+          }));
+  
+          setLessons(updatedData); // 업데이트된 데이터를 상태로 저장
         } else {
           throw new Error("Failed to fetch data");
         }
