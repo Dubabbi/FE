@@ -4,12 +4,10 @@ import * as D from '../WordCreateTchr/WordDetailStyle';
 import * as L from '../LessonTchr/LessonStyle';
 import Back from '/src/assets/icon/back.svg';
 import styled from 'styled-components';
-import Form from 'react-bootstrap/Form';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Correct from '/src/assets/icon/correct.svg';
 import Incorrect from '/src/assets/icon/incorrect.svg';
-
 
 export const ModalOverlay = styled.div`
   position: fixed;
@@ -27,18 +25,21 @@ export const ModalOverlay = styled.div`
 const FeedbackTem2 = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  // location.state에서 feedbackId를 가져옵니다.
+  const feedbackId = location.state?.feedbackId;
+
   const [feedbackData, setFeedbackData] = useState({});
-  {/*const feedbackId = location.state?.feedbackId;*/}
-  const feedbackId = 146;
+
   useEffect(() => {
     if (feedbackId) {
       fetchFeedbackDetails(feedbackId);
     }
   }, [feedbackId]);
-  
+
   const fetchFeedbackDetails = async (id) => {
     try {
-      const response = await axios.get(`https://maeummal.com/feedback/detail?id=${feedbackId}`, {
+      const response = await axios.get(`https://maeummal.com/feedback/detail?id=${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       if (response.data.isSuccess) {
@@ -60,7 +61,6 @@ const FeedbackTem2 = () => {
       alert('Failed to fetch feedback details.');
     }
   };
-  
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -89,7 +89,7 @@ const FeedbackTem2 = () => {
               <img src={isCorrect ? Correct : Incorrect} alt={isCorrect ? 'Correct' : 'Incorrect'} />
             </C.FirstBox>
             <C.SecondBox>
-            {feedbackData.solution || 'No description provided.'}
+              {feedbackData.solution || 'No description provided.'}
             </C.SecondBox>
           </C.FeedbackLine>
         )}
@@ -109,7 +109,7 @@ const FeedbackTem2 = () => {
         <L.Section>
           <C.StuTitle style={{ fontSize: '1.7rem' }}>정답 이미지</C.StuTitle>
           <C.FeedbackLine>
-          {feedbackData.correctFeedbackCards && feedbackData.correctFeedbackCards.map((card, index) => (
+            {feedbackData.correctFeedbackCards && feedbackData.correctFeedbackCards.map((card, index) => (
               <C.FeedImage key={index}>
                 <img src={card.image} alt={`${card.adjective} ${card.noun}`} style={{ maxWidth: '100%' }} />
                 <span>{card.adjective} {card.noun}</span> {/* 예를 들어, 상큼한 사과 */}

@@ -1,4 +1,5 @@
 import React from 'react';
+import ErrorBoundary from './ErrorBoundary';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import SelectPage from './pages/Select';
 import LoginPage from './pages/Login';
@@ -12,6 +13,7 @@ import User from './User';
 export default function Router() {
   return (
     <>
+    <ErrorBoundary>
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginPage />} />
@@ -24,6 +26,7 @@ export default function Router() {
         <Route path="/*" element={<User />} />
         </Routes>
       </BrowserRouter>
+      </ErrorBoundary>
     </>
   );
 }

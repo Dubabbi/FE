@@ -27,18 +27,21 @@ export const ModalOverlay = styled.div`
 const FeedbackTem4 = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  // location.state에서 feedbackId를 가져옵니다.
+  const feedbackId = location.state?.feedbackId;
+
   const [feedbackData, setFeedbackData] = useState({});
 
-  const feedbackId = 143;
   useEffect(() => {
     if (feedbackId) {
       fetchFeedbackDetails(feedbackId);
     }
   }, [feedbackId]);
-  
+
   const fetchFeedbackDetails = async (id) => {
     try {
-      const response = await axios.get(`https://maeummal.com/feedback/detail?id=${feedbackId}`, {
+      const response = await axios.get(`https://maeummal.com/feedback/detail?id=${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       if (response.data.isSuccess) {
