@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import { FaSearch } from "react-icons/fa";
 import Form from "react-bootstrap/Form";
 import * as W from "../WordTchr/WordStyle";
 import Back from "/src/assets/icon/back.svg";
-import close from "/src/assets/icon/close.svg";
 import * as D from "../WordCreateTchr/WordDetailStyle";
 import * as C from "../CreateLesson/CreateLessonStyle";
 import * as T from "../StudyLesson/Template1Std";
@@ -16,7 +14,6 @@ export default function Template1Edit() {
   const template1Id = useLocation().state.templateId;
   const navigate = useNavigate();
   const [data, setData] = useState();
-  const [successful, setSuccessful] = useState(false);
   const [myCardList, setMyCardList] = useState([]);
 
   useEffect(() => {
@@ -42,22 +39,6 @@ export default function Template1Edit() {
   };
 
   const [selectCard, setSelectCard] = useState([]);
-  const cardClick = (index) => {
-    if (myCardList[index].clicked) {
-      const newMyCardList = [...myCardList];
-      newMyCardList[index].clicked = 0;
-      setMyCardList(newMyCardList);
-      const filtered = selectCard.filter((el) => el !== index);
-      setSelectCard(filtered);
-    } else {
-      const newMyCardList = [...myCardList];
-      newMyCardList[index].clicked = 1;
-      setMyCardList(newMyCardList);
-      let addCard = [...selectCard];
-      addCard.push(index);
-      setSelectCard(addCard);
-    }
-  };
 
   const handleCreate = () => {
     if (data) {
