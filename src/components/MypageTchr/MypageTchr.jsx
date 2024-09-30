@@ -111,28 +111,33 @@ const MypageTchr = () => {
     const changePassword = async () => {
         const accessToken = localStorage.getItem("key");
         if (!accessToken) {
-            setError('Authentication required');
-            return;
+          setError('Authentication required');
+          return;
         }
-        
+      
         try {
-            const response = await axios.patch('https://thingproxy.freeboard.io/fetch/https://maeummal.com/user/ChangePassword', {
-                currentPassword,
-                newPassword
-            }, {
-                headers: { Authorization: `Bearer ${accessToken}` }
-            });
-
-            if (response.data.isSuccess) {
-                alert('비밀번호가 성공적으로 변경되었습니다.');
-            } else {
-                throw new Error(response.data.message || 'Failed to change password');
+          // currentPassword와 newPassword를 쿼리 파라미터로 직접 전달
+          const response = await axios.patch(
+            `https://thingproxy.freeboard.io/fetch/https://maeummal.com/user/changePassword?currentPassword=${currentPassword}&newPassword=${newPassword}`,
+            {}, // PATCH 요청에서는 빈 본문을 보낼 수 있습니다
+            {
+              headers: { Authorization: `Bearer ${accessToken}` }
             }
+          );
+      
+          if (response.data.isSuccess) {
+            alert('비밀번호가 성공적으로 변경되었습니다.');
+          } else {
+            throw new Error(response.data.message || 'Failed to change password');
+          }
         } catch (error) {
-            console.error('Error changing password:', error);
-            setError('Failed to change password: ' + error.message);
+          console.error('Error changing password:', error);
+          setError('Failed to change password: ' + error.message);
         }
-    };
+      };
+      
+      
+      
     useEffect(() => {
         const fetchStudents = async () => {
             try {

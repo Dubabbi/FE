@@ -97,7 +97,8 @@ const Template4Std = () => {
     if (isCorrect) {
       await submitFeedback(userAnswerOrder);
       setShowReward(true);
-      awardBadge();
+      awardBadge(22, "TEMPLATE4");
+
     } else {
       if (lives > 1) {
         setLives(lives - 1);
@@ -140,18 +141,15 @@ const Template4Std = () => {
   const handleSelectCard = (index) => {
     setSelectedCard(index);
   };
-  const awardBadge = async () => {
-    const accessToken = localStorage.getItem("key"); // 액세스 토큰을 로컬 스토리지에서 가져옵니다.
-    const memberId = 1; // 예시 memberId, 실제 사용자 ID로 교체해야 합니다.
-    const templateType = "TEMPLATE4"; 
-    
+  const awardBadge = async (memberId, templateType) => {
+    const accessToken = localStorage.getItem("key");
+  
     try {
-      const response = await axios.post(`https://maeummal.com/badges/award?memberId=${memberId}`, {
-        templateType 
-      }, {
+      // memberId와 templateType을 &로 연결하여 URL에 쿼리 파라미터로 전달
+      const response = await axios.post(`https://maeummal.com/badges/award?memberId=${memberId}&templateType=${templateType}`, {}, {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
-    
+  
       if (!response.data) {
         throw new Error('Failed to award badge');
       }
@@ -160,6 +158,8 @@ const Template4Std = () => {
       console.error('Error awarding badge:', error);
     }
   };
+  
+  
   const handleShowReward = (show) => {
     setShowReward(show);
   };
