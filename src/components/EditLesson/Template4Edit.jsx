@@ -7,6 +7,7 @@ import Back from '/src/assets/icon/back.svg';
 import My from '/src/assets/icon/phimg.svg'; 
 import UploadPhoto from '../CreateLesson/UploadPhoto';
 import axios from 'axios';
+import { AiFillDelete } from 'react-icons/ai';  
 import { useLocation } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
@@ -14,10 +15,13 @@ import { useNavigate } from 'react-router-dom';
 const Template4Edit = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [title, setTitle] = useState(''); 
+  const [level, setLevel] = useState('');
   const [description, setDescription] = useState(''); 
   const [hint, setHint] = useState(''); 
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
-  const [modalCardIndex, setModalCardIndex] = useState(null); // 현재 이미지 업로드를 할 카드 인덱스
+  const [modalCardIndex, setModalCardIndex] = useState(null);
   const [storyCards, setStoryCards] = useState([
     { image: '', answerNumber: 1, imagePreviewUrl: My, description: '' },
     { image: '', answerNumber: 2, imagePreviewUrl: My, description: '' },
@@ -42,6 +46,8 @@ const Template4Edit = () => {
   
         if (response.data.isSuccess && response.data.data) {
           const templateData = response.data.data;
+          setTitle(templateData.title); 
+          setLevel(templateData.level); 
           setDescription(templateData.description);
           setHint(templateData.hint);
           setStoryCards(templateData.storyCardEntityList || []);
@@ -55,7 +61,37 @@ const Template4Edit = () => {
   
     fetchTemplateData();
   }, [location.state?.template4Id]);
-  
+
+  // 이미지 추가 및 업로드 처리 함수
+  const handleAddImage = async (file) => {
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('id', '3');
+
+      try {
+        const response = await axios.post('https://maeummal.com/template4/upload', formData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('key')}`,
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        if (response.data.isSuccess) {
+          const newStoryCards = [...storyCards];
+          newStoryCards[modalCardIndex].image = response.data.data.url;
+          newStoryCards[modalCardIndex].imagePreviewUrl = response.data.data.url;
+          setStoryCards(newStoryCards);
+        } else {
+          alert(`이미지 업로드에 실패했습니다: ${response.data.message}`);
+        }
+      } catch (error) {
+        alert(`이미지 업로드 중 오류가 발생했습니다: ${error.toString()}`);
+      } finally {
+        setIsUploadModalOpen(false);
+      }
+    }
+  };
+
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
   };
@@ -65,33 +101,20 @@ const Template4Edit = () => {
   };
 
   const toggleUploadModal = (index) => {
-    setModalCardIndex(index); // 클릭한 카드 인덱스 설정
-    setIsUploadModalOpen(true); // 업로드 모달 열기
-  };
-
-  const handleAddImage = (file) => {
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const newStoryCards = [...storyCards];
-        newStoryCards[modalCardIndex].imagePreviewUrl = reader.result; // 선택된 카드 인덱스의 이미지 업데이트
-        setStoryCards(newStoryCards);
-        setIsUploadModalOpen(false); // 이미지 업로드 후 모달 닫기
-      };
-      reader.readAsDataURL(file);
-    }
+    setModalCardIndex(index);
+    setIsUploadModalOpen(true);
   };
 
   const handleStoryCardChange = (index, value) => {
     const newStoryCards = [...storyCards];
-    newStoryCards[index].description = value; // 스토리 카드의 설명 변경
+    newStoryCards[index].description = value;
     setStoryCards(newStoryCards);
   };
 
   const handleSubmit = async () => {
     const payload = {
-      title: 'Example Title',  // title을 여기에 설정합니다.
-      level: 5,  // level도 여기에 설정합니다.
+      title, 
+      level,  
       description,
       hint,
       storyCardEntityList: storyCards.map(card => ({
@@ -102,26 +125,48 @@ const Template4Edit = () => {
     };
 
     try {
-      const template4Id = 1; // 수정할 템플릿 ID를 가져옵니다.
+      const template4Id = 1; 
       const response = await axios.patch(
-        `https://thingproxy.freeboard.io/fetch/https://maeummal.com/template4/update?template4Id=${template4Id}`, // template4Id를 URL 파라미터로 전달
+        `https://thingproxy.freeboard.io/fetch/https://maeummal.com/template4/update?template4Id=${template4Id}`, 
         payload,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('key')}`, // 인증 토큰
+            Authorization: `Bearer ${localStorage.getItem('key')}`,
           },
         }
       );
       if (response.data.isSuccess) {
-        console.log('Response:', response.data);
         alert('템플릿이 성공적으로 수정되었습니다.');
         navigate('/lessontchr');
       } else {
         throw new Error(response.data.message);
       }
     } catch (error) {
-      console.error('Error:', error.response ? error.response.data : error.message);
       alert('템플릿 수정에 실패했습니다.');
+    }
+  };
+
+  const handleDeleteTemplate = async () => {
+    const confirmDelete = window.confirm('정말 템플릿을 삭제하시겠습니까?');
+    if (confirmDelete) {
+      const template4Id = 1;
+  
+      try {
+        const response = await axios.delete(`https://maeummal.com/template4/delete?template4Id=${template4Id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('key')}`
+          }
+        });
+  
+        if (response.data.isSuccess) {
+          alert('템플릿이 삭제되었습니다.');
+          navigate('/lessontchr'); 
+        } else {
+          alert(`삭제 실패: ${response.data.message}`);
+        }
+      } catch (error) {
+        alert(`템플릿 삭제 중 오류가 발생했습니다: ${error.message}`);
+      }
     }
   };
 
@@ -132,10 +177,12 @@ const Template4Edit = () => {
           <img src={Back} alt="Back" />
         </a>
       </D.ImageWrap>
+      
       <L.LessonWrapper>
         <L.Section>
           <h1>이야기 순서 배열하기</h1>
         </L.Section>
+        
         <C.StoryWrap>
           <C.CardContainer>
             {storyCards.map((card, index) => (
@@ -179,14 +226,44 @@ const Template4Edit = () => {
           </div>
         </C.StoryWrap>
       </L.LessonWrapper>
+
+      <C.SubmitButton onClick={handleDeleteTemplate}>
+        <AiFillDelete style={{ marginRight: '8px' }} />
+        템플릿 삭제
+      </C.SubmitButton>
+
       <C.HintWrapper style={{marginTop: '3%'}}>
+         <C.HintGroup controlId="formTitle">
+            <C.Label>타이틀</C.Label>
+            <C.HintBox style={{ minWidth: '200px' }}>
+            <Form.Control
+              type="text"
+              placeholder="타이틀을 입력하세요"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            </C.HintBox>
+          </C.HintGroup>
+
+          <C.HintGroup controlId="formLevel">
+            <C.Label>레벨</C.Label>
+            <C.HintBox style={{ minWidth: '200px' }}>
+            <Form.Control
+              type="number"
+              placeholder="레벨을 입력하세요"
+              value={level}
+              min={1}
+              max={5}
+              onChange={(e) => setLevel(e.target.value)}
+            />
+            </C.HintBox>
+          </C.HintGroup>
         <C.HintGroup>
           <C.Label>해설</C.Label>
           <C.HintBox style={{ minWidth: '200px' }}>
             <Form.Control
               type="text"
               placeholder="해설을 입력하세요"
-              name="description"
               value={description}
               onChange={handleDescriptionChange}
             />
@@ -198,7 +275,6 @@ const Template4Edit = () => {
             <Form.Control
               type="text"
               placeholder="문제 힌트를 입력하세요"
-              name="hint"
               value={hint}
               onChange={handleHintChange}
             />

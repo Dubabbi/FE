@@ -552,6 +552,59 @@ export const HintBox = styled(Form)`
     }
 `;
 
+export const HintWrapper2 = styled.div`
+  flex: 0 0 auto;
+  text-align: center;
+  margin: 0 auto;
+  border-radius: 1.4rem;
+  border: 2px solid rgba(244, 244, 244, 1);
+  width: 100%;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+      @media (max-width: 768px) {
+        width: 70%;
+    }
+`;
+
+export const HintGroup2 = styled.div`
+  display: flex;
+  flex-direction: column;  /* Row에서 Column으로 변경 */
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  margin-top: 2%;
+`;
+
+export const HintBox2 = styled.div`
+  width: 75%;
+  font-size: 17px;
+  border-radius: 7px;
+  border: 1.5px solid #ACAACC;
+  margin: 2%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 15px;
+  min-height: 37px;  /* 최소 높이 설정 */
+  height: auto;  /* 높이를 자동으로 설정 */
+
+  .form-control {
+    width: 100%;  /* 넓이를 100%로 설정 */
+    font-size: 1.5rem;
+    border-radius: 5px;
+    padding: 10px;
+        padding-right: 10px; 
+        padding-left: 10px;/* 텍스트 영역의 크기 조정 비활성화 */
+  }
+  
+  /* 텍스트가 길어질 경우 줄바꿈 허용 */
+  word-wrap: break-word;
+  white-space: pre-wrap;
+`;
+
+
 
 export const Label = styled.div`
   font-size: 1.2rem;
@@ -563,7 +616,6 @@ export const Label = styled.div`
   height: auto;
   padding: 4px;
 `;
-
 export const HintGroup = styled.div`
   display: flex;
   flex-direction: row;
@@ -571,6 +623,7 @@ export const HintGroup = styled.div`
   align-items: center;
   width: 100%;
 `;
+
 
 export const Box = styled.div`
     flex: 0 0 auto;

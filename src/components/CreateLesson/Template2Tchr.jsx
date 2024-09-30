@@ -14,7 +14,7 @@ const Template2Tchr = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const data = location.state;
-  const [difficulty, setDifficulty] = useState(data.difficulty);
+  const [level, setLevel] = useState(data.level);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalCardIndex, setModalCardIndex] = useState(null);
   const [inputValue, setInputValue] = useState('');
@@ -69,7 +69,7 @@ const Template2Tchr = () => {
       const payload = {
         title: data.title,
         description: description,
-        difficulty: data.difficulty,
+        level: data.level,
         hint: hint,
         imageNum: storyCards.length,
         type: data.content,

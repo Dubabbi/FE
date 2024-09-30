@@ -37,24 +37,25 @@ const LessonTchr = () => {
     console.log(`Navigating to template: ${templateName}`); // 디버그 메시지 추가
     switch (templateName) {
       case "카테고리 분류하기":
-        navigate("/template1std", { state: temId });
+        navigate("/template1edit", { state: { templateId: temId } });
         break;
       case "감정 표현":
-        navigate("/template3std", { state: temId });
+        navigate("/template3edit", { state: { templateId: temId } });
         break;
       case "이미지 순서 배열하기":
-        navigate("/template2std");
+        navigate("/template2edit", { state: { templateId: temId } });
         break;
       case "이야기 순서 배열하기":
-        navigate("/template4std");
+        navigate("/template4edit", { state: { templateId: temId } });
         break;
       case "어휘 카드 매칭 게임":
-        navigate("/template5std", { state: temId });
+        navigate("/template5edit", { state: { templateId: temId } });
         break;
       default:
         console.error("No such template: " + templateName);
     }
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -90,10 +91,10 @@ const LessonTchr = () => {
             <a
               onClick={() =>
                 navigateToTemplate(lesson.templateName, lesson.templateId)
-                }
-                >
-                {lesson.title}
-              </a>
+              }
+            >
+              {lesson.title}
+            </a>
               </CommonTableColumn>
             <CommonTableColumn>{lesson.templateName}</CommonTableColumn>
             <CommonTableColumn>{lesson.createdAt}</CommonTableColumn>

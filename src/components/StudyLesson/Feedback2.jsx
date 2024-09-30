@@ -82,18 +82,18 @@ const Feedback2 = () => {
           </C.FeedbackLine>
         </L.Section>*/}
         {/* AI 피드백 */}
-        <C.HintWrapper style={{ width: '70%', padding: '1rem 0' }}>
-          <C.HintGroup style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
+        <C.HintWrapper2 style={{ width: '70%', padding: '1rem 0' }}>
+          <C.HintGroup2 style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '100%', marginTop: '2%' }}>
               <C.Label style={{ marginLeft: '-3%' }}>AI 피드백</C.Label>
               <div style={{ width: '70%' }}></div>
             </div>
-            <C.HintBox style={{ width: '90%', border: 'none', fontSize: '1.2rem' , textAlign: 'left' }}>
+            <C.HintBox2 style={{ width: '90%', border: 'none', fontSize: '1.2rem' , textAlign: 'left' }}>
               {feedbackData.aiFeedback || 'AI 피드백 없음'}
 
-            </C.HintBox>
-          </C.HintGroup>
-        </C.HintWrapper>
+            </C.HintBox2>
+          </C.HintGroup2>
+        </C.HintWrapper2>
         {/* 버튼 */}
         <C.InLineButton>
           <C.FeedbackButton onClick={handleStop}>그만 할래요</C.FeedbackButton>

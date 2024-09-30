@@ -98,6 +98,7 @@ const Template4Std = () => {
       await submitFeedback(userAnswerOrder);
       setShowReward(true);
       awardBadge();
+
     } else {
       if (lives > 1) {
         setLives(lives - 1);
@@ -141,18 +142,20 @@ const Template4Std = () => {
     setSelectedCard(index);
   };
   const awardBadge = async () => {
-    const accessToken = localStorage.getItem("key"); // 액세스 토큰을 로컬 스토리지에서 가져옵니다.
-    const memberId = 1; // 예시 memberId, 실제 사용자 ID로 교체해야 합니다.
-    const templateType = "TEMPLATE4"; 
+    const accessToken = localStorage.getItem("key");
+    const memberId = 22;  // memberId를 변수로 선언
+    const templateType = "TEMPLATE4";  // templateType을 변수로 선언
     
     try {
-      const response = await axios.post(`https://maeummal.com/badges/award?memberId=${memberId}`, {
-        templateType 
-      }, {
-        headers: { Authorization: `Bearer ${accessToken}` }
-      });
-    
-      if (!response.data) {
+      const response = await axios.post(
+        `https://maeummal.com/badges/award?memberId=${memberId}&templateType=${templateType}`, 
+        {}, 
+        {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        }
+      );
+  
+      if (!response.data.isSuccess) {
         throw new Error('Failed to award badge');
       }
       console.log('Badge awarded successfully:', response.data);
@@ -160,17 +163,32 @@ const Template4Std = () => {
       console.error('Error awarding badge:', error);
     }
   };
+  
+  
+  
   const handleShowReward = (show) => {
     setShowReward(show);
   };
 
-  const handleCloseReward = () => {
-    setShowReward(false);
-      navigate('/Feedback4', {
-          state: {feedbackData, description: templateData.description } 
-      });
-  };
 
+  const handleCloseReward = () => {
+    const cardData = templateData.storyCardEntityList.map(card => ({
+      description: card.description, // 카드 설명
+      image: card.image,             // 카드 이미지 URL
+      storyCardId: card.storyCardId  // 카드 ID
+    }));
+  
+    setShowReward(false);
+  
+    navigate('/Feedback4', {
+      state: {
+        feedbackData,  // 피드백 데이터
+        description: templateData.description, // 설명
+        cardData // 카드 데이터 배열로 전달
+      }
+    });
+  };
+  
   if (isLoading) {
     return <p>Loading...</p>; 
   }

@@ -23,7 +23,7 @@ const Template2Std = () => {
   const [imageSelectionOrder, setImageSelectionOrder] = useState({});
 
   useEffect(() => {
-    const template2Id = 8;
+    const template2Id = 11;
     const fetchTemplateData = async () => {
       try {
         const response = await axios.get(`https://maeummal.com/template2/get?template2Id=${template2Id}`, {
@@ -69,20 +69,17 @@ const Template2Std = () => {
       return;
     }
   
-    // Collect the answer numbers based on the selected images' IDs
+
     const userAnswerOrder = selectedImages
-      .sort((a, b) => a.originalIndex - b.originalIndex)  // Sort based on the order of selection
+      .sort((a, b) => a.originalIndex - b.originalIndex)  
       .map(item => {
         const card = templateData.storyCardEntityList.find(card => card.storyCardId === item.id);
-        return card.answerNumber;  // Collect answer numbers in the order they were selected
+        return card.answerNumber;
       });
   
-    // Directly get the correct order from the template data
     const correctOrder = templateData.storyCardEntityList
       .map(card => card.answerNumber)
-      .sort((a, b) => a - b);  // Ensure the order is ascending for comparison
-  
-    // Compare the arrays to check if the order of selection matches the correct order
+      .sort((a, b) => a - b); 
     const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
   
     if (isCorrect) {
@@ -127,17 +124,19 @@ const Template2Std = () => {
   };
   const awardBadge = async () => {
     const accessToken = localStorage.getItem("key");
-    const memberId = 1;
-    const templateType = "TEMPLATE2"; 
+    const memberId = 22;  // memberId를 변수로 선언
+    const templateType = "TEMPLATE2";  // templateType을 변수로 선언
     
     try {
-      const response = await axios.post(`https://maeummal.com/badges/award?memberId=${memberId}`, {
-        templateType 
-      }, {
-        headers: { Authorization: `Bearer ${accessToken}` }
-      });
-    
-      if (!response.data) {
+      const response = await axios.post(
+        `https://maeummal.com/badges/award?memberId=${memberId}&templateType=${templateType}`, 
+        {}, 
+        {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        }
+      );
+  
+      if (!response.data.isSuccess) {
         throw new Error('Failed to award badge');
       }
       console.log('Badge awarded successfully:', response.data);
@@ -145,6 +144,7 @@ const Template2Std = () => {
       console.error('Error awarding badge:', error);
     }
   };
+  
   
 
   const handleShowReward = (show) => {

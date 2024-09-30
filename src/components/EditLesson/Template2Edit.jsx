@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as C from '../CreateLesson/CreateLessonStyle';
 import * as L from '../LessonTchr/LessonStyle';
 import * as D from '../WordCreateTchr/WordDetailStyle';
@@ -6,26 +6,59 @@ import Back from '/src/assets/icon/back.svg';
 import add from '../../assets/icon/add.svg';
 import ModalComponent from '../ImageModal/ImageModal';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
-import { useNavigate } from 'react-router-dom';
 
 const Template2Edit = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const data = location.state;
-  const [difficulty, setDifficulty] = useState(data.difficulty);
+
+  // location.state를 안전하게 처리
+  const data = location.state || {
+    title: '', 
+    level: '', 
+    content: '', 
+    template2Id: null
+  };
+
+  // 상태 초기화
+  const [title, setTitle] = useState('');
+  const [level, setLevel] = useState('');  
+  const [description, setDescription] = useState(''); 
+  const [hint, setHint] = useState(''); 
+  const [storyCards, setStoryCards] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalCardIndex, setModalCardIndex] = useState(null);
   const [inputValue, setInputValue] = useState('');
-  const [description, setDescription] = useState(''); 
-  const [hint, setHint] = useState(''); 
-  const [storyCards, setStoryCards] = useState([
-    { image: '', answerNumber: 1 },
-    { image: '', answerNumber: 2 },
-    { image: '', answerNumber: 3 },
-  ]);
-  console.log(data);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // 템플릿 데이터 로드
+  useEffect(() => {
+    const template2Id = data.template2Id || 8;  // 전달받은 템플릿 ID 사용
+    const fetchTemplateData = async () => {
+      try {
+        const response = await axios.get(`https://maeummal.com/template2/get?template2Id=${template2Id}`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("key")}` }
+        });
+        if (response.data.isSuccess) {
+          const fetchedData = response.data.data;
+          setTitle(fetchedData.title);  // 불러온 타이틀
+          setLevel(fetchedData.level);  // 불러온 난이도
+          setDescription(fetchedData.description);  // 불러온 설명
+          setHint(fetchedData.hint);  // 불러온 힌트
+          setStoryCards(fetchedData.storyCardEntityList || []);  // 불러온 카드들
+        } else {
+          throw new Error('Failed to fetch data');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchTemplateData();
+  }, [data.template2Id]);
+
   const toggleModal = (index) => {
     setModalCardIndex(index);
     setModalOpen(!modalOpen);
@@ -50,7 +83,6 @@ const Template2Edit = () => {
     setHint(e.target.value);
   };
 
-  
   const handleModalSubmit = async () => {
     try {
       const response = await axios.post('https://maeummal.com/ai/image', { prompt: inputValue });
@@ -61,35 +93,47 @@ const Template2Edit = () => {
         setModalOpen(false);
       }
     } catch (error) {
-      console.error('Error generating image or creating Template2:', error);
+      console.error('Error generating image:', error);
       alert('이미지 생성에 실패했습니다.');
-    }};
+    }
+  };
 
-    const handleSubmit = async () => {
-      const payload = {
-        title: data.title,
-        description: description,
-        difficulty: data.difficulty,
-        hint: hint,
-        imageNum: storyCards.length,
-        type: data.content,
-        storyCardEntityList: storyCards.map(card => ({ image: card.image, answerNumber: card.answerNumber }))
-      };
-      try {
-        const response = await axios.post('https://maeummal.com/template2/create', payload, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("key")}`,
-          }
-        });
-        console.log('Response:', response.data);
-        alert('강의가 성공적으로 생성되었습니다.');
-        navigate('/lessontchr')
-      } catch (error) {
-        console.error('Error:', error.response ? error.response.data : error.message);
-        alert('강의 생성에 실패했습니다.');
-      }
+  const handleSubmit = async () => {
+    const payload = {
+      title: title,  // 수정된 타이틀
+      description: description,  // 수정된 설명
+      level: level,  // 수정된 난이도
+      hint: hint,  // 수정된 힌트
+      imageNum: storyCards.length,
+      type: data.content,
+      storyCardEntityList: storyCards.map(card => ({
+        image: card.image,
+        answerNumber: card.answerNumber
+      }))
     };
-  
+
+    try {
+      const response = await axios.put(
+        `https://maeummal.com/template2/update/${data.template2Id}`, // 수정할 템플릿 ID를 포함한 URL
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('key')}`,
+          },
+        }
+      );
+      console.log('Response:', response.data);
+      alert('템플릿이 성공적으로 수정되었습니다.');
+      navigate('/lessontchr');
+    } catch (error) {
+      console.error('Error:', error.response ? error.response.data : error.message);
+      alert('템플릿 수정에 실패했습니다.');
+    }
+  };
+
+  if (isLoading) {
+    return <p>Loading...</p>;  // 데이터 로딩 중 처리
+  }
 
   return (
     <>
@@ -102,29 +146,56 @@ const Template2Edit = () => {
           <p>순서대로 이미지를 생성해 주세요.</p>
         </L.Section>
         <C.Line>
-        {storyCards.map((card, index) => (
-          <C.Box key={index}  
-            style={{
-              border: card.image ? 'none' : '5px solid #ACAACC'
-            }}>
-            <div onClick={() => toggleModal(index)}>
-              <img
-                style={{
-                  width: card.image ? '100%' : '40%',
-                  height: 'auto',
-                  borderRadius: '1rem',
-                  border: card.image ? '5px solid #ACAACC' : 'none'
-                }}
-                src={card.image || add}
-                alt="Add Image"
-              />
-            </div>
-          </C.Box>
-        ))}
+          {storyCards.map((card, index) => (
+            <C.Box key={index} style={{ border: card.image ? 'none' : '5px solid #ACAACC' }}>
+              <div onClick={() => toggleModal(index)}>
+                <img
+                  style={{
+                    width: card.image ? '100%' : '40%',
+                    height: 'auto',
+                    borderRadius: '1rem',
+                    border: card.image ? '5px solid #ACAACC' : 'none'
+                  }}
+                  src={card.image || add}
+                  alt="Add Image"
+                />
+              </div>
+            </C.Box>
+          ))}
         </C.Line>
       </L.LessonWrapper>
-        <C.HintWrapper>
-          <C.HintGroup>
+      <C.HintWrapper>
+        {/* 타이틀 수정 필드 */}
+        <C.HintGroup>
+          <C.Label>타이틀</C.Label>
+          <C.HintBox style={{ minWidth: '200px' }}>
+            <Form.Control
+              type="text"
+              placeholder="타이틀을 입력하세요"
+              name="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}  // 타이틀 수정
+            />
+          </C.HintBox>
+        </C.HintGroup>
+
+        {/* 난이도 수정 필드 */}
+        <C.HintGroup>
+          <C.Label>난이도</C.Label>
+          <C.HintBox style={{ minWidth: '200px' }}>
+          <Form.Control
+              type="number"
+              placeholder="레벨을 입력하세요"
+              value={level}
+              min={1} // 최소값 1 설정
+              max={5} // 최대값 5 설정
+              onChange={(e) => setLevel(e.target.value)} // 레벨 수정
+            />
+          </C.HintBox>
+        </C.HintGroup>
+
+        {/* 설명 수정 필드 */}
+        <C.HintGroup>
           <C.Label>해설</C.Label>
           <C.HintBox style={{ minWidth: '200px' }}>
             <Form.Control
@@ -132,23 +203,25 @@ const Template2Edit = () => {
               placeholder="해설을 입력하세요"
               name="description"
               value={description}
-              onChange={handleDescriptionChange}
+              onChange={handleDescriptionChange}  // 설명 수정
             />
           </C.HintBox>
-          </C.HintGroup>
-          <C.HintGroup>
-            <C.Label>힌트</C.Label>
-            <C.HintBox style={{ minWidth: '200px' }}>
-              <Form.Control
-                type="text"
-                placeholder="문제 힌트를 입력하세요"
-                name="hint"
-                value={hint}
-                onChange={handleHintChange}
-              />
-            </C.HintBox>
-          </C.HintGroup>
-        </C.HintWrapper>
+        </C.HintGroup>
+
+        {/* 힌트 수정 필드 */}
+        <C.HintGroup>
+          <C.Label>힌트</C.Label>
+          <C.HintBox style={{ minWidth: '200px' }}>
+            <Form.Control
+              type="text"
+              placeholder="문제 힌트를 입력하세요"
+              name="hint"
+              value={hint}
+              onChange={handleHintChange}  // 힌트 수정
+            />
+          </C.HintBox>
+        </C.HintGroup>
+      </C.HintWrapper>
       {modalOpen && (
         <ModalComponent
           isOpen={modalOpen}
