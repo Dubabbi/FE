@@ -305,7 +305,30 @@ const MypageTchr = () => {
         setIsSettingPwExtended(false);
         setIsStdinfoExtended(false);
     };
-
+    const navigateToFeedback = (templateName, feedbackId) => {
+        console.log(`Navigating to feedback: Template = ${templateName}, ID = ${feedbackId}`);
+      
+        switch (templateName) {
+          case "카테고리 분류하기":
+            navigate("/feedbacktem1", { state: { feedbackId } });
+            break;
+          case "이미지 순서 배열하기":
+            navigate("/feedbacktem2", { state: { feedbackId } });
+            break;
+          case "감정 표현":
+            navigate("/feedbacktem3", { state: { feedbackId } });
+            break;
+          case "이야기 순서 배열하기":
+            navigate("/feedbacktem4", { state: { feedbackId } });
+            break;
+          case "어휘 카드 매칭 게임":
+            navigate("/feedbacktem5", { state: { feedbackId } });
+            break;
+          default:
+            console.error(`No such template: ${templateName}`);
+        }
+      };
+    
     return (
         <M.MypageWrapper>
             <M.Section>
@@ -505,7 +528,11 @@ const MypageTchr = () => {
                             <div style={{ width: '100px' }}></div>
                         </div>
                         {selectedStudentDetails.fullFeedback?.map(feedback => (
-                            <M.InfoFeed key={feedback.id}>
+                              <M.InfoFeed 
+                                key={feedback.id} 
+                                onClick={() => navigateToFeedback(feedback.templateType, feedback.id)} // 클릭 시 navigateToFeedback 함수 호출
+                                style={{ cursor: 'pointer' }} // 클릭 가능한 영역으로 표시
+                                >
                                 <M.FeedTitle>
                                     <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
                                         <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="Template Icon"></img>

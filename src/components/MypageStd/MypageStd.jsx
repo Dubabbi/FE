@@ -18,6 +18,7 @@ import tem5 from '/src/assets/icon/template/template5icon.svg';
 import ChartComponent from '../MypageTchr/ChartComponent';
 import code from '/src/assets/image/code.svg';
 import CodeModal from './CodeModal';
+import { useNavigate } from 'react-router-dom';
 
 const MypageStd = () => {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
@@ -37,7 +38,7 @@ const MypageStd = () => {
     const [updatedPhoneNum, setUpdatedPhoneNum] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
-
+    const navigate = useNavigate('');
     useEffect(() => {
         const fetchStudents = async () => {
             try {
@@ -141,10 +142,9 @@ const MypageStd = () => {
         }
       
         try {
-          // currentPassword와 newPassword를 쿼리 파라미터로 직접 전달
           const response = await axios.patch(
             `https://thingproxy.freeboard.io/fetch/https://maeummal.com/user/changePassword?currentPassword=${currentPassword}&newPassword=${newPassword}`,
-            {}, // PATCH 요청에서는 빈 본문을 보낼 수 있습니다
+            {}, 
             {
               headers: { Authorization: `Bearer ${accessToken}` }
             }
@@ -295,6 +295,30 @@ const MypageStd = () => {
     const updateProfileImage = (newImageUrl) => {
         setProfileImage(newImageUrl);
     };
+    const navigateToFeedback = (templateName, feedbackId) => {
+        console.log(`Navigating to feedback: Template = ${templateName}, ID = ${feedbackId}`);
+      
+        switch (templateName) {
+          case "TEMPLATE1": // 카테고리 분류하기
+            navigate("/feedbacktem1", { state: { feedbackId } });
+            break;
+          case "TEMPLATE2": // 이미지 순서 배열하기
+            navigate("/feedbacktem2", { state: { feedbackId } });
+            break;
+          case "TEMPLATE3": // 감정 표현
+            navigate("/feedbacktem3", { state: { feedbackId } });
+            break;
+          case "TEMPLATE4": // 이야기 순서 배열하기
+            navigate("/feedbacktem4", { state: { feedbackId } });
+            break;
+          case "TEMPLATE5": // 어휘 카드 매칭 게임
+            navigate("/feedbacktem5", { state: { feedbackId } });
+            break;
+          default:
+            console.error(`No such template: ${templateName}`);
+        }
+      };
+      
     return (
         <M.MypageWrapper>
             <M.Section>
@@ -461,7 +485,11 @@ const MypageStd = () => {
                             <div style={{ width: '100px' }}></div>
                         </div>
                         {selectedStudentDetails.fullFeedback?.map(feedback => (
-                            <M.InfoFeed key={feedback.id}>
+                            <M.InfoFeed
+                                key={feedback.id} 
+                                onClick={() => navigateToFeedback(feedback.templateType, feedback.id)} // 클릭 시 navigateToFeedback 함수 호출
+                                style={{ cursor: 'pointer' }} // 클릭 가능한 영역으로 표시
+                                >
                                 <M.FeedTitle>
                                     <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
                                         <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="Template Icon"></img>
