@@ -115,7 +115,7 @@ const Template1Tchr = () => {
         const token = localStorage.getItem("key");
         axios
           .post(
-            `https://maeummal.com/api/temp1/create?title=${data.title}&level=${data.difficulty}`,
+            `https://maeummal.com/api/temp1/create?title=${data.title}&level=${data.level}`,
             {},
             {
               headers: {
