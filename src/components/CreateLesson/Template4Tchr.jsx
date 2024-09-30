@@ -19,9 +19,9 @@ const Template4Tchr = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [modalCardIndex, setModalCardIndex] = useState(null);
   const [storyCards, setStoryCards] = useState([
-    { image: '', answerNumber: 1, imagePreviewUrl: My },
-    { image: '', answerNumber: 2, imagePreviewUrl: My },
-    { image: '', answerNumber: 3, imagePreviewUrl: My },
+    { image: '', answerNumber: 1, imagePreviewUrl: My, description: '' },
+    { image: '', answerNumber: 2, imagePreviewUrl: My, description: '' },
+    { image: '', answerNumber: 3, imagePreviewUrl: My, description: '' },
   ]);
 
   const handleDescriptionChange = e => setDescription(e.target.value);
@@ -42,7 +42,6 @@ const Template4Tchr = () => {
         const response = await axios.post('https://maeummal.com/template4/upload', formData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'multipart/form-data'
           }
         });
         if (response.data.isSuccess) {
@@ -61,9 +60,10 @@ const Template4Tchr = () => {
     }
   };
 
+  // story -> description으로 변경
   const handleStoryCardChange = (index, value) => {
     const newStoryCards = storyCards.map((card, i) =>
-      i === index ? { ...card, story: value } : card
+      i === index ? { ...card, description: value } : card
     );
     setStoryCards(newStoryCards);
   };
@@ -71,13 +71,14 @@ const Template4Tchr = () => {
   const handleSubmit = async () => {
     const payload = {
       title: data.title,
-      description,
-      hint,
+      description: description,
+      level: data.level,
+      hint: hint,
       type: data.content,
       storyCardEntityList: storyCards.map(card => ({
         image: card.image, 
         answerNumber: card.answerNumber,
-        description: card.story
+        description: card.description // 여기서 story 대신 description 사용
       }))
     };
     try {
@@ -120,7 +121,7 @@ const Template4Tchr = () => {
                   type="text"
                   placeholder="이야기 입력"
                   as="textarea"
-                  value={card.story}
+                  value={card.description} // story 대신 description 사용
                   onChange={e => handleStoryCardChange(index, e.target.value)}
                   style={{ backgroundColor: '#FCFBFB' }}
                 />
