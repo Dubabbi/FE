@@ -18,13 +18,6 @@ const Template2Std = () => {
   // 이전 페이지에서 전달된 templateId를 가져와서 상태에 저장
   const [templateId, setTemplateId] = useState(location.state?.templateId || null);  // templateId를 상태로 저장
 
-  // 전달된 templateId 값 확인을 위한 디버깅
-  useEffect(() => {
-    console.log('Received templateId:', templateId);
-    if (!templateId) {
-      console.error('Template ID is missing');  // templateId가 없는 경우 콘솔에 에러 출력
-    }
-  }, [templateId]);
 
   const [showReward, setShowReward] = useState(false);
   const [feedbackData, setFeedbackData] = useState(null);
@@ -37,15 +30,26 @@ const Template2Std = () => {
 
   useEffect(() => {
     if (!templateId) {
+      console.error('Template ID is missing');
       return;
     }
 
+
     const fetchTemplateData = async () => {
+      const accessToken = localStorage.getItem("key");
+      if (!accessToken) {
+        console.log('Authentication required');
+        return;
+      }
+
       try {
         const response = await axios.get(`https://maeummal.com/template2/get?template2Id=${templateId}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("key")}` }
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
         });
-        if (response.data.isSuccess) {
+
+        if (response.data.isSuccess && response.data.data) {
           setTemplateData(response.data.data);
           setSelectedImages([]);
         } else {
@@ -194,16 +198,21 @@ const Template2Std = () => {
           <p>{templateData ? templateData.description : 'Loading...'}</p>
         </L.Section>
         <C.Line>
-        {templateData && templateData.storyCardEntityList.map(card => (
-        <C.TemplateBox key={card.storyCardId} onClick={() => toggleSelectImage(card.storyCardId)} style={{ position: 'relative' }}>
-          <img src={card.image} alt={`Story card ${card.storyCardId}`} style={{ border: selectedImages.some(item => item.id === card.storyCardId) ? '4px solid #ACAACC' : '4px solid #eee' }} />
-          {imageSelectionOrder[card.storyCardId] && (
-            <div style={{ position: 'absolute', top: '5px', right: '5px', color: 'white', fontWeight: 'bold', background: 'rgba(0, 0, 0, 0.5)', padding: '2px 6px', borderRadius: '50%' }}>
-              {imageSelectionOrder[card.storyCardId]}
-            </div>
-          )}
-        </C.TemplateBox>
-      ))}
+        {/* templateData.storyCardEntityList가 존재할 때만 map 호출 */}
+        {templateData && templateData.storyCardEntityList ? (
+          templateData.storyCardEntityList.map(card => (
+            <C.TemplateBox key={card.storyCardId} onClick={() => toggleSelectImage(card.storyCardId)} style={{ position: 'relative' }}>
+              <img src={card.image} alt={`Story card ${card.storyCardId}`} style={{ border: selectedImages.some(item => item.id === card.storyCardId) ? '4px solid #ACAACC' : '4px solid #eee' }} />
+              {imageSelectionOrder[card.storyCardId] && (
+                <div style={{ position: 'absolute', top: '5px', right: '5px', color: 'white', fontWeight: 'bold', background: 'rgba(0, 0, 0, 0.5)', padding: '2px 6px', borderRadius: '50%' }}>
+                  {imageSelectionOrder[card.storyCardId]}
+                </div>
+              )}
+            </C.TemplateBox>
+          ))
+        ) : (
+          <p>Loading cards...</p>
+        )}
         </C.Line>
       </L.LessonWrapper>
       {showHint && (
