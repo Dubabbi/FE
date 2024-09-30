@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as M from './MypageStyle';
+import { useNavigate } from 'react-router-dom';
 import My from '/src/assets/image/profile.svg';
 import Upload from '/src/assets/icon/uploadphoto.svg';
 import Settings from '/src/assets/icon/settings.svg'; 
@@ -165,7 +166,7 @@ const MypageTchr = () => {
     
         fetchStudents();
     }, []);
-
+    const navigate = useNavigate('');
     useEffect(() => {
         const fetchStudentDetails = async (studentId) => {
             try {
@@ -309,26 +310,26 @@ const MypageTchr = () => {
         console.log(`Navigating to feedback: Template = ${templateName}, ID = ${feedbackId}`);
       
         switch (templateName) {
-          case "카테고리 분류하기":
+          case "TEMPLATE1": // 카테고리 분류하기
             navigate("/feedbacktem1", { state: { feedbackId } });
             break;
-          case "이미지 순서 배열하기":
+          case "TEMPLATE2": // 이미지 순서 배열하기
             navigate("/feedbacktem2", { state: { feedbackId } });
             break;
-          case "감정 표현":
+          case "TEMPLATE3": // 감정 표현
             navigate("/feedbacktem3", { state: { feedbackId } });
             break;
-          case "이야기 순서 배열하기":
+          case "TEMPLATE4": // 이야기 순서 배열하기
             navigate("/feedbacktem4", { state: { feedbackId } });
             break;
-          case "어휘 카드 매칭 게임":
+          case "TEMPLATE5": // 어휘 카드 매칭 게임
             navigate("/feedbacktem5", { state: { feedbackId } });
             break;
           default:
             console.error(`No such template: ${templateName}`);
         }
       };
-    
+      
     return (
         <M.MypageWrapper>
             <M.Section>
@@ -528,7 +529,7 @@ const MypageTchr = () => {
                             <div style={{ width: '100px' }}></div>
                         </div>
                         {selectedStudentDetails.fullFeedback?.map(feedback => (
-                              <M.InfoFeed 
+                            <M.InfoFeed
                                 key={feedback.id} 
                                 onClick={() => navigateToFeedback(feedback.templateType, feedback.id)} // 클릭 시 navigateToFeedback 함수 호출
                                 style={{ cursor: 'pointer' }} // 클릭 가능한 영역으로 표시
