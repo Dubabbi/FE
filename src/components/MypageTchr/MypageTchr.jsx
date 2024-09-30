@@ -371,7 +371,7 @@ const MypageTchr = () => {
                         </M.InfoBox>
                     </M.Content>
                     {isSettingExtended && 
-                    <M.Second style={{maxHeight: '90vh'}}>
+                    <M.Second>
                         <M.SecondLabel>개인정보 변경</M.SecondLabel>
                         <M.Item>
                             <M.InfoGroup style={{padding: '7%', border: '1px solid #eee', borderRadius: '5px', marginTop: '10%'}}>
@@ -406,7 +406,7 @@ const MypageTchr = () => {
                     </M.Second>
                     }
                     {isSettingPwExtended && 
-                    <M.Second style={{maxHeight: '90vh'}}>
+                    <M.Second>
                         <M.SecondLabel>비밀번호 변경</M.SecondLabel>
                         <M.Item>
                             <M.InfoGroup style={{padding: '7%', border: '1px solid #eee', borderRadius: '5px', marginTop: '10%'}}>
@@ -434,7 +434,7 @@ const MypageTchr = () => {
                     </M.Second>
                     }
                     {isExtended && 
-                    <M.Second style={{maxHeight: '90vh'}}>
+                    <M.Second>
                         <M.InLineTitle>
                             <M.Start>
                                 <M.MatchingLabel>매칭 학생 목록</M.MatchingLabel>
@@ -463,7 +463,7 @@ const MypageTchr = () => {
                         </M.Item>
                     </M.Second>}
                     {stdinfoExtended && selectedStudentDetails && (
-                    <M.Second style={{paddingTop: '1.7%', maxHeight: '90vh'}}>
+                    <M.Second style={{paddingTop: '1.7%'}}>
                         <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
                             <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
                             <M.DetailLabel>
@@ -514,7 +514,7 @@ const MypageTchr = () => {
                 {/* Feedback Expanded View */}
 
                 {feedbackExtended && selectedStudentDetails && (
-                <M.Second style={{ paddingTop: '1.7%', maxHeight: '90vh' }}>
+                <M.Second style={{ paddingTop: '1.7%'}}>
                     <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
                         <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
                         <M.DetailLabel>
