@@ -8,13 +8,15 @@ import My from '/src/assets/icon/phimg.svg';
 import UploadPhoto from '../CreateLesson/UploadPhoto';
 import axios from 'axios';
 import { AiFillDelete } from 'react-icons/ai';  
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
-import { useNavigate } from 'react-router-dom';
 
 const Template4Edit = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  // 전달된 templateId를 가져옵니다.
+  const { templateId } = location.state || {};
 
   const [title, setTitle] = useState(''); 
   const [level, setLevel] = useState('');
@@ -27,30 +29,34 @@ const Template4Edit = () => {
     { image: '', answerNumber: 2, imagePreviewUrl: My, description: '' },
     { image: '', answerNumber: 3, imagePreviewUrl: My, description: '' },
   ]);
-  
+
   useEffect(() => {
-    const template4Id = 17; // 템플릿 ID
+    if (!templateId) {
+      console.error('Template ID is missing');
+      return;
+    }
+
     const fetchTemplateData = async () => {
       const accessToken = localStorage.getItem('key');
       if (!accessToken) {
         console.log('Authentication required');
         return;
       }
-  
+
       try {
-        const response = await axios.get(`https://maeummal.com/template4/get?template4Id=${template4Id}`, {
+        const response = await axios.get(`https://maeummal.com/template4/get?template4Id=${templateId}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`
           }
         });
-  
+
         if (response.data.isSuccess && response.data.data) {
           const templateData = response.data.data;
           setTitle(templateData.title); 
           setLevel(templateData.level); 
           setDescription(templateData.description);
           setHint(templateData.hint);
-  
+
           // 이미지 미리 보기 URL을 추가하여 각 카드에 설정
           const updatedStoryCards = templateData.storyCardEntityList.map(card => ({
             ...card,
@@ -64,10 +70,10 @@ const Template4Edit = () => {
         console.error('Error fetching data:', error);
       }
     };
-  
+
     fetchTemplateData();
-  }, [location.state?.template4Id]);
-  
+  }, [templateId]);
+
   // 이미지 추가 및 업로드 처리 함수
   const handleAddImage = async (file) => {
     if (file) {
@@ -131,9 +137,8 @@ const Template4Edit = () => {
     };
 
     try {
-      const template4Id = 1; 
       const response = await axios.patch(
-        `https://thingproxy.freeboard.io/fetch/https://maeummal.com/template4/update?template4Id=${template4Id}`, 
+        `https://thingproxy.freeboard.io/fetch/https://maeummal.com/template4/update?template4Id=${templateId}`, 
         payload,
         {
           headers: {
@@ -155,15 +160,13 @@ const Template4Edit = () => {
   const handleDeleteTemplate = async () => {
     const confirmDelete = window.confirm('정말 템플릿을 삭제하시겠습니까?');
     if (confirmDelete) {
-      const template4Id = 1;
-  
       try {
-        const response = await axios.delete(`https://maeummal.com/template4/delete?template4Id=${template4Id}`, {
+        const response = await axios.delete(`https://maeummal.com/template4/delete?template4Id=${templateId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('key')}`
           }
         });
-  
+
         if (response.data.isSuccess) {
           alert('템플릿이 삭제되었습니다.');
           navigate('/lessontchr'); 
