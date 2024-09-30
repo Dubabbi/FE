@@ -13,21 +13,22 @@ export const LessonWrapper = styled.div`
 export const Section = styled.section`
   padding: 50px 0;
   h1{
-    font-size: 1.7vw;
+    font-size: 2.5rem;
     color: #2F327D;
     text-align: center;
     margin-bottom: 2rem;
   }
   p{
-    font-size: 1.1vw;
+    font-size: 1.5rem;
     text-align: center;
   }
   @media (max-width: 768px) {
+    margin-top: 4%;
     h1{
-    font-size: 2.5vw;
+    font-size: 2rem;
     }
     p{
-      font-size: 2vw;
+      font-size: 1.7rem;
     }
   } 
 `

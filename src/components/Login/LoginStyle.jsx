@@ -58,29 +58,30 @@ export const Page = styled.div`
   position: fixed;
   right: 5%;
   top: 7%;
+  bottom: 7%;
   width: 38%;
-  height: 85vh;
   flex-direction: column;
   border-radius: 2rem;
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
+  overflow: auto;  // 내용이 많을 경우 스크롤 가능하도록 설정
 
   @media (max-width: 1024px) { 
     right: 5%;
     top: 5%;
     width: 50%;
-    height: 90%;
     padding: 0 1.5rem;
   }
 
   @media (max-width: 768px) { 
     right: 10%;
     top: 5%;
+    bottom: 5%;
     width: 80%;
-    height: 90%;
     padding: 0 1.5rem;
   }
 `;
+
 
 export const TitleWrap = styled.div`
   font-size: 2.6rem;
