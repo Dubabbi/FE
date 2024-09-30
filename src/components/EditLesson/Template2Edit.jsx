@@ -6,6 +6,7 @@ import Back from '/src/assets/icon/back.svg';
 import add from '../../assets/icon/add.svg';
 import ModalComponent from '../ImageModal/ImageModal';
 import axios from 'axios';
+import { AiFillDelete } from 'react-icons/ai';  
 import { useLocation, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 
@@ -13,13 +14,8 @@ const Template2Edit = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // location.state를 안전하게 처리
-  const data = location.state || {
-    title: '', 
-    level: '', 
-    content: '', 
-    template2Id: null
-  };
+  // location.state에서 templateId 가져오기
+  const { templateId } = location.state || {};
 
   // 상태 초기화
   const [title, setTitle] = useState('');
@@ -34,19 +30,23 @@ const Template2Edit = () => {
 
   // 템플릿 데이터 로드
   useEffect(() => {
-    const template2Id = data.template2Id || 8;  // 전달받은 템플릿 ID 사용
+    if (!templateId) {
+      console.error('Template ID is missing');
+      return;
+    }
+
     const fetchTemplateData = async () => {
       try {
-        const response = await axios.get(`https://maeummal.com/template2/get?template2Id=${template2Id}`, {
+        const response = await axios.get(`https://maeummal.com/template2/get?template2Id=${templateId}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("key")}` }
         });
         if (response.data.isSuccess) {
           const fetchedData = response.data.data;
-          setTitle(fetchedData.title);  // 불러온 타이틀
-          setLevel(fetchedData.level);  // 불러온 난이도
-          setDescription(fetchedData.description);  // 불러온 설명
-          setHint(fetchedData.hint);  // 불러온 힌트
-          setStoryCards(fetchedData.storyCardEntityList || []);  // 불러온 카드들
+          setTitle(fetchedData.title);  
+          setLevel(fetchedData.level);  
+          setDescription(fetchedData.description);  
+          setHint(fetchedData.hint);  
+          setStoryCards(fetchedData.storyCardEntityList || []);  
         } else {
           throw new Error('Failed to fetch data');
         }
@@ -57,7 +57,7 @@ const Template2Edit = () => {
       }
     };
     fetchTemplateData();
-  }, [data.template2Id]);
+  }, [templateId]);
 
   const toggleModal = (index) => {
     setModalCardIndex(index);
@@ -100,12 +100,11 @@ const Template2Edit = () => {
 
   const handleSubmit = async () => {
     const payload = {
-      title: title,  // 수정된 타이틀
-      description: description,  // 수정된 설명
-      level: level,  // 수정된 난이도
-      hint: hint,  // 수정된 힌트
+      title: title,  
+      description: description,  
+      level: level,  
+      hint: hint,  
       imageNum: storyCards.length,
-      type: data.content,
       storyCardEntityList: storyCards.map(card => ({
         image: card.image,
         answerNumber: card.answerNumber
@@ -114,7 +113,7 @@ const Template2Edit = () => {
 
     try {
       const response = await axios.put(
-        `https://maeummal.com/template2/update/${data.template2Id}`, // 수정할 템플릿 ID를 포함한 URL
+        `https://thingproxy.freeboard.io/fetch/https://maeummal.com/template2/update/${templateId}`,  
         payload,
         {
           headers: {
@@ -122,7 +121,6 @@ const Template2Edit = () => {
           },
         }
       );
-      console.log('Response:', response.data);
       alert('템플릿이 성공적으로 수정되었습니다.');
       navigate('/lessontchr');
     } catch (error) {
@@ -131,8 +129,40 @@ const Template2Edit = () => {
     }
   };
 
+  // 템플릿 삭제 함수
+  const handleDeleteTemplate = async () => {
+    const confirmDelete = window.confirm('정말 템플릿을 삭제하시겠습니까?');
+    if (confirmDelete) {
+      try {
+        const response = await axios.delete(`https://maeummal.com/template2/${templateId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('key')}`
+          }
+        });
+
+        // 상태 코드에 따라 다른 메시지를 출력
+        if (response.status === 204) {
+          alert('템플릿이 성공적으로 삭제되었습니다.');
+          navigate('/lessontchr'); 
+        }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status === 404) {
+            alert('템플릿을 찾을 수 없습니다.');
+          } else if (error.response.status === 403) {
+            alert('자신의 템플릿만 삭제할 수 있습니다.');
+          } else {
+            alert(`삭제 실패: ${error.response.data.message}`);
+          }
+        } else {
+          alert(`템플릿 삭제 중 오류가 발생했습니다: ${error.message}`);
+        }
+      }
+    }
+  };
+
   if (isLoading) {
-    return <p>Loading...</p>;  // 데이터 로딩 중 처리
+    return <p>Loading...</p>;  
   }
 
   return (
@@ -164,8 +194,11 @@ const Template2Edit = () => {
           ))}
         </C.Line>
       </L.LessonWrapper>
+      <C.SubmitButton onClick={handleDeleteTemplate}>
+        <AiFillDelete style={{ marginRight: '8px' }} />
+        템플릿 삭제
+      </C.SubmitButton>
       <C.HintWrapper>
-        {/* 타이틀 수정 필드 */}
         <C.HintGroup>
           <C.Label>타이틀</C.Label>
           <C.HintBox style={{ minWidth: '200px' }}>
@@ -174,12 +207,11 @@ const Template2Edit = () => {
               placeholder="타이틀을 입력하세요"
               name="title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}  // 타이틀 수정
+              onChange={(e) => setTitle(e.target.value)}  
             />
           </C.HintBox>
         </C.HintGroup>
 
-        {/* 난이도 수정 필드 */}
         <C.HintGroup>
           <C.Label>난이도</C.Label>
           <C.HintBox style={{ minWidth: '200px' }}>
@@ -187,14 +219,13 @@ const Template2Edit = () => {
               type="number"
               placeholder="레벨을 입력하세요"
               value={level}
-              min={1} // 최소값 1 설정
-              max={5} // 최대값 5 설정
-              onChange={(e) => setLevel(e.target.value)} // 레벨 수정
+              min={1} 
+              max={5} 
+              onChange={(e) => setLevel(e.target.value)} 
             />
           </C.HintBox>
         </C.HintGroup>
 
-        {/* 설명 수정 필드 */}
         <C.HintGroup>
           <C.Label>해설</C.Label>
           <C.HintBox style={{ minWidth: '200px' }}>
@@ -203,12 +234,11 @@ const Template2Edit = () => {
               placeholder="해설을 입력하세요"
               name="description"
               value={description}
-              onChange={handleDescriptionChange}  // 설명 수정
+              onChange={handleDescriptionChange}  
             />
           </C.HintBox>
         </C.HintGroup>
 
-        {/* 힌트 수정 필드 */}
         <C.HintGroup>
           <C.Label>힌트</C.Label>
           <C.HintBox style={{ minWidth: '200px' }}>
@@ -217,7 +247,7 @@ const Template2Edit = () => {
               placeholder="문제 힌트를 입력하세요"
               name="hint"
               value={hint}
-              onChange={handleHintChange}  // 힌트 수정
+              onChange={handleHintChange}  
             />
           </C.HintBox>
         </C.HintGroup>

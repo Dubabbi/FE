@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // useHistory 훅을 가져옵니다.
+import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import Form from "react-bootstrap/Form";
 import CommonTable from "../LessonTchr/CommonTable";
@@ -36,22 +36,22 @@ const LessonStd = () => {
   }, []);
 
   const navigateToTemplate = (templateName, temId) => {
-    console.log(`Navigating to template: ${templateName}`); // 디버그 메시지 추가
+    console.log(`Navigating to template: ${templateName}, ID: ${temId}`);
     switch (templateName) {
       case "카테고리 분류하기":
-        navigate("/template1std", { state: temId });
+        navigate("/template1std", { state: { templateId: temId } });
         break;
       case "감정 표현":
-        navigate("/template3std", { state: temId });
+        navigate("/template3std", { state: { templateId: temId } });
         break;
       case "이미지 순서 배열하기":
-        navigate("/template2std", { state: temId });
+        navigate("/template2std", { state: { templateId: temId } });
         break;
       case "이야기 순서 배열하기":
-        navigate("/template4std", { state: temId });
+        navigate("/template4std", { state: { templateId: temId } });
         break;
       case "어휘 카드 매칭 게임":
-        navigate("/template5std", { state: temId });
+        navigate("/template5std", { state: { templateId: temId } });
         break;
       default:
         console.error("No such template: " + templateName);
@@ -93,6 +93,7 @@ const LessonStd = () => {
                 <CommonTableColumn>{lesson.templateId}</CommonTableColumn>
                 <CommonTableColumn style={{ fontWeight: "bold" }}>
                   <a
+                    href="#"
                     onClick={() =>
                       navigateToTemplate(lesson.templateName, lesson.templateId)
                     }

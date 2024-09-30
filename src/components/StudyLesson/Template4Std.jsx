@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import * as C from '../CreateLesson/CreateLessonStyle';
 import * as L from '../LessonTchr/LessonStyle';
 import * as D from '../WordCreateTchr/WordDetailStyle';
@@ -13,19 +13,29 @@ import Toast from '/src/assets/icon/errortoast.svg';
 
 const Template4Std = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // templateId를 상태로 저장
+  const [templateId, setTemplateId] = useState(location.state?.templateId || null);
+
   const [showReward, setShowReward] = useState(false);
   const [feedbackData, setFeedbackData] = useState(null);
   const [templateData, setTemplateData] = useState(null);
   const [selectedImages, setSelectedImages] = useState([]);
-  const [lives, setLives] = useState(2); // 하트 수 관리
-  const [showHint, setShowHint] = useState(false); // 힌트 표시 여부
-  const [isLoading, setIsLoading] = useState(true); // 로딩 상태
-  const [selectedCard, setSelectedCard] = useState(null); // 선택된 카드
-  const [imageSelectionOrder, setImageSelectionOrder] = useState({}); // 이미지 선택 순서
-  const [firstFeedback, setFirstFeedback] = useState(null); // 1차 피드백 response
+  const [lives, setLives] = useState(2);
+  const [showHint, setShowHint] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [imageSelectionOrder, setImageSelectionOrder] = useState({});
+  const [firstFeedback, setFirstFeedback] = useState(null);
 
+  // templateId를 기반으로 데이터를 가져옵니다.
   useEffect(() => {
-    const template4Id = 1;
+    if (!templateId) {
+      console.error('Template ID is missing');
+      return;
+    }
+
     const fetchTemplateData = async () => {
       const accessToken = localStorage.getItem("key");
       if (!accessToken) {
@@ -34,15 +44,15 @@ const Template4Std = () => {
       }
 
       try {
-        const response = await axios.get(`https://maeummal.com/template4/get?template4Id=${template4Id}`, {
+        const response = await axios.get(`https://maeummal.com/template4/get?template4Id=${templateId}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`
           }
         });
 
         if (response.data.isSuccess && response.data.data) {
-          setTemplateData(response.data.data); // API 구조에 따라 데이터 설정
-          setSelectedImages([]); // 이미지 선택 초기화
+          setTemplateData(response.data.data);
+          setSelectedImages([]);
         } else {
           throw new Error('Failed to fetch data');
         }
@@ -54,9 +64,8 @@ const Template4Std = () => {
     };
 
     fetchTemplateData();
-  }, []);
+  }, [templateId]);  // templateId가 변경될 때마다 데이터를 새로 가져옵니다.
 
-  // 1차 피드백 요청을 보내는 함수
   const submitFirstFeedback = async (userOrder) => {
     try {
       const accessToken = localStorage.getItem("token");
@@ -65,7 +74,7 @@ const Template4Std = () => {
         answerList: userOrder.map(String),
         studentId: 25,
         templateType: "TEMPLATE4",
-        solution: templateData.description // 전체 해설 전송
+        solution: templateData.description 
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -73,9 +82,9 @@ const Template4Std = () => {
       });
 
       if (response.data) {
-        setFirstFeedback(response.data); // 1차 피드백 응답 저장
-        setLives(response.data.heartCount); // 피드백에 따른 하트 수 업데이트
-        setShowHint(true); // 힌트 표시
+        setFirstFeedback(response.data);
+        setLives(response.data.heartCount);
+        setShowHint(true);
       } else {
         console.error('Failed to submit first feedback');
       }
@@ -84,7 +93,6 @@ const Template4Std = () => {
     }
   };
 
-  // 이미지 선택 토글 함수
   const toggleSelectImage = (id) => {
     const cardInfo = templateData.storyCardEntityList.find(card => card.storyCardId === id);
     const index = selectedImages.findIndex(item => item.id === id);
@@ -103,7 +111,6 @@ const Template4Std = () => {
     }
   };
 
-  // 제출 버튼을 눌렀을 때 호출되는 함수
   const handleSubmit = async () => {
     if (!templateData || !templateData.templateId) {
       console.error('Template data is missing, please try again.');
@@ -118,22 +125,21 @@ const Template4Std = () => {
     const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
   
     if (isCorrect) {
-      await submitFeedback(userAnswerOrder); // 최종 피드백 전송
+      await submitFeedback(userAnswerOrder);
       setShowReward(true);
-      awardBadge(); // 보상 지급
+      awardBadge();
     } else {
       if (lives > 1) {
         setLives(lives - 1);
         setSelectedImages([]);
-        await submitFirstFeedback(userAnswerOrder); // 1차 피드백 전송
+        await submitFirstFeedback(userAnswerOrder);
       } else {
         setLives(0);
-        await submitFeedback(userAnswerOrder); // 최종 피드백 전송
+        await submitFeedback(userAnswerOrder);
       }
     }
   };
 
-  // 최종 피드백 전송 함수
   const submitFeedback = async (userOrder) => {
     try {
       const accessToken = localStorage.getItem("token");
@@ -142,7 +148,7 @@ const Template4Std = () => {
         answerList: userOrder.map(String),
         studentId: 25,
         templateType: "TEMPLATE4",
-        solution: templateData.description // 전체 해설 전송
+        solution: templateData.description 
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -160,7 +166,6 @@ const Template4Std = () => {
     }
   };
 
-  // 보상 지급 함수
   const awardBadge = async () => {
     const accessToken = localStorage.getItem("key");
     const memberId = 22;
@@ -199,7 +204,7 @@ const Template4Std = () => {
     navigate('/Feedback4', {
       state: {
         feedbackData,
-        solution: templateData.description, // 전체 해설을 전달
+        solution: templateData.description,
         cardData
       }
     });
@@ -259,7 +264,6 @@ const Template4Std = () => {
         </C.StoryWrap>
       </L.LessonWrapper>
 
-      {/* Show hint after 1차 피드백 */}
       {showHint && firstFeedback && (
         <C.HintWrapper style={{border: 'none', position: 'fixed', width: '60%', marginLeft: '20%', marginTop: '-4%'}}>
           <C.HintToast style={{ minWidth: '200px', backgroundColor: '#fff' }}>

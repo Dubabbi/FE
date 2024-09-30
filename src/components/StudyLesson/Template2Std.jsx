@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import * as C from '../CreateLesson/CreateLessonStyle';
 import * as L from '../LessonTchr/LessonStyle';
 import * as D from '../WordCreateTchr/WordDetailStyle';
@@ -13,6 +13,19 @@ import Toast from '/src/assets/icon/errortoast.svg';
 
 const Template2Std = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // 이전 페이지에서 전달된 templateId를 가져와서 상태에 저장
+  const [templateId, setTemplateId] = useState(location.state?.templateId || null);  // templateId를 상태로 저장
+
+  // 전달된 templateId 값 확인을 위한 디버깅
+  useEffect(() => {
+    console.log('Received templateId:', templateId);
+    if (!templateId) {
+      console.error('Template ID is missing');  // templateId가 없는 경우 콘솔에 에러 출력
+    }
+  }, [templateId]);
+
   const [showReward, setShowReward] = useState(false);
   const [feedbackData, setFeedbackData] = useState(null);
   const [templateData, setTemplateData] = useState(null);
@@ -23,10 +36,13 @@ const Template2Std = () => {
   const [imageSelectionOrder, setImageSelectionOrder] = useState({});
 
   useEffect(() => {
-    const template2Id = 11;
+    if (!templateId) {
+      return;
+    }
+
     const fetchTemplateData = async () => {
       try {
-        const response = await axios.get(`https://maeummal.com/template2/get?template2Id=${template2Id}`, {
+        const response = await axios.get(`https://maeummal.com/template2/get?template2Id=${templateId}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("key")}` }
         });
         if (response.data.isSuccess) {
@@ -41,8 +57,10 @@ const Template2Std = () => {
         setIsLoading(false);
       }
     };
+
     fetchTemplateData();
-  }, []);
+  }, [templateId]);  // templateId가 변경될 때마다 데이터를 새로 가져옵니다.
+
 
   const toggleSelectImage = (id) => {
     const index = selectedImages.findIndex(item => item.id === id);
@@ -68,20 +86,19 @@ const Template2Std = () => {
       console.error('Template data is missing, please try again.');
       return;
     }
-  
 
     const userAnswerOrder = selectedImages
-      .sort((a, b) => a.originalIndex - b.originalIndex)  
+      .sort((a, b) => a.originalIndex - b.originalIndex)
       .map(item => {
         const card = templateData.storyCardEntityList.find(card => card.storyCardId === item.id);
         return card.answerNumber;
       });
-  
+
     const correctOrder = templateData.storyCardEntityList
       .map(card => card.answerNumber)
-      .sort((a, b) => a - b); 
+      .sort((a, b) => a - b);
     const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
-  
+
     if (isCorrect) {
       await submitFeedback(userAnswerOrder);
       setShowReward(true);
@@ -90,7 +107,7 @@ const Template2Std = () => {
       if (lives > 1) {
         setLives(lives - 1);
         setShowHint(true);
-        setSelectedImages([]); 
+        setSelectedImages([]);
       } else {
         setLives(0);
         setShowHint(false);
@@ -98,20 +115,20 @@ const Template2Std = () => {
       }
     }
   };
-  
+
   const submitFeedback = async (userAnswerOrder) => {
     try {
       const accessToken = localStorage.getItem("key");
       const response = await axios.post('https://maeummal.com/feedback/create', {
         templateId: templateData.templateId,
-        answerList: userAnswerOrder.map(String),  // Send the order of answers as strings
+        answerList: userAnswerOrder.map(String),
         studentId: 1,
         templateType: "TEMPLATE2",
         title: templateData.title
       }, {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
-  
+
       if (response.data && response.data.id) {
         setFeedbackData(response.data);
         handleShowReward(true);
@@ -122,10 +139,11 @@ const Template2Std = () => {
       console.error('Error during feedback submission:', error);
     }
   };
+
   const awardBadge = async () => {
     const accessToken = localStorage.getItem("key");
-    const memberId = 22;  // memberId를 변수로 선언
-    const templateType = "TEMPLATE2";  // templateType을 변수로 선언
+    const memberId = 22;
+    const templateType = "TEMPLATE2";
     
     try {
       const response = await axios.post(
@@ -135,7 +153,7 @@ const Template2Std = () => {
           headers: { Authorization: `Bearer ${accessToken}` }
         }
       );
-  
+
       if (!response.data.isSuccess) {
         throw new Error('Failed to award badge');
       }
@@ -144,8 +162,6 @@ const Template2Std = () => {
       console.error('Error awarding badge:', error);
     }
   };
-  
-  
 
   const handleShowReward = (show) => {
     setShowReward(show);
