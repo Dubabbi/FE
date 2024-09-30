@@ -128,7 +128,7 @@ const Template4Tchr = () => {
               </C.SelectCard>
             ))}
           </C.CardContainer>
-          <div style={{ width: '86%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '7%', marginTop: '2%' }}>
+          <div style={{ width: '100%', gap: '1%', display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginTop: '2%' }}>
             {storyCards.map((_, index) => (
               <C.Upload key={index} src={Upload} alt="Upload Photo" onClick={() => toggleUploadModal(index)} />
             ))}

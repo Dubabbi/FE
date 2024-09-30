@@ -47,55 +47,94 @@ export const Title = styled(Form)`
     display: flex;
     position: relative;
 `;
-
 export const LessonBox = styled.div`
-    width: 70%;
-    margin-left: 15%;
-    padding: 3%;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 70%;
+  margin-left: 15%;
+  padding: 3%;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  @media (max-width: 768px) {
+    width: 90%;
+    margin-left: 5%;
+    padding: 5%;
+  }
 `;
 
 export const TemplateList = styled.div`
-    display: flex;
-    position: relative;
-    justify-content: flex-between;
-    gap: 3%;
-    width: 90%;
-    margin-left: 5%;
-    padding-bottom: 2%;
+  display: flex;
+  position: relative;
+  justify-content: flex-start; // 각 요소들을 시작 지점부터 나열
+  gap: 3%;
+  max-width: 90%;
+  margin-left: 5%;
+  padding-bottom: 2%;
+  flex-wrap: nowrap; // 줄바꿈 방지
+  overflow-x: auto; // 가로 스크롤 허용
+  -webkit-overflow-scrolling: touch; // 모바일에서 부드러운 스크롤 경험 제공
+  img{
+    max-width: 17%;
+  }
+  @media (max-width: 768px) {
+    gap: 1%;
+    margin-bottom: 5%;
     img{
-        width: 18%;
+      max-width: 30%;
+      width: 30%;
     }
+  }
 `;
 
+
+
 export const SubmitButton = styled.button`
-  margin-left: 45%;
   width: 10%;
   padding: 0.8rem;
+  margin-left: 45%;
   margin-top: 1.5%;
+  margin-bottom: 2%;
   height: 3.8rem;
   border: none;
   border-radius: 6px;
   background-color: #ACAACC;
   color: white;
-  font-size: 1.1vw;
+  font-size: 1.7rem;
   cursor: pointer;
-  margin-bottom: 8%;
-
-  @media (max-width: 1024px) {
-    padding: 1rem;
-    margin-top: 1.5%;
-    height: 4rem;
-    margin-left: 15%;
-    width: 30%;
-    margin-left: 35%;
-    font-size: 2.6vw;
-  } 
   &:hover {
     background-color: #8C84B0;
-}
+  }
+  @media (max-width: 1024px) {
+    width: 20%;
+    margin-left: 40%;
+    font-size: 1.5rem;
+    margin-bottom: 4%;
+  }
+  @media (max-width: 768px) {
+    width: 30%;
+    margin-left: 35%;
+    font-size: 1.4rem;
+    margin-bottom: 4%;
+  }
 `;
+
+export const Page = styled.div`
+  position: fixed;
+  right: 5%;
+  top: 7%;
+  bottom: 7%;
+  width: 38%;
+  @media (max-width: 1024px) {
+    width: 50%;
+    padding: 0 1.5rem;
+  }
+  @media (max-width: 768px) {
+    width: 80%;
+    right: 10%;
+    top: 10%;
+    bottom: 10%;
+  }
+`;
+
+
 
 export const Card = styled.div`
   background-color: rgba(217, 217, 217, 0.14);
@@ -334,7 +373,7 @@ export const StoryField = styled.input`
   padding: 10px;
   resize: none;
   margin: 10px;
-  font-size: 1vw;
+  font-size: 1.4rem;
   border: none;
   border-radius: 5px;
   background: #F6F6F6;
@@ -347,6 +386,9 @@ export const StoryField = styled.input`
   }
   &::placeholder {
     color: #777777;
+  }
+  @media(max-width: 780px){
+    font-size: 1.3rem;
   }
 `;
 
@@ -525,8 +567,9 @@ export const HintWrapper = styled.div`
     align-items: center;
     margin: 0 auto;
     @media (max-width: 768px) {
-        width: 150px;
-        height: 150px;
+        width: auto;
+        max-width: 90%;
+        height: auto;
     }
 `
 
@@ -549,6 +592,9 @@ export const HintBox = styled(Form)`
         border-radius: 5px;
         padding-right: 10px; 
         padding-left: 10px;
+      @media(max-width: 780px){
+        font-size: 1.3rem;
+      }
     }
 `;
 
@@ -691,11 +737,15 @@ export const HintToast = styled.div`
 
 
 export const Upload = styled.img`
-    width: 150px;
+    width: 20%;
     height: auto;
     text-align: center;
     align-items: center;
-    cursor: pointer;`
+    cursor: pointer;
+    @media(max-width: 780px){
+      width: 30%;
+    }
+`
 ;
 
 export const FeedImage = styled.div`
