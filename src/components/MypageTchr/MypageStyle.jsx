@@ -11,6 +11,7 @@ export const Section = styled.div`
   justify-content: center;
   gap: 0px;
   margin: 0 auto;
+  min-height: 100vh;
   display: flex;
   padding-top: 11%;
   padding-bottom: 7%;
@@ -28,6 +29,7 @@ export const Content = styled.div`
   border: 1px solid #EBEBEE;
   flex-direction: column;
   align-items: center;
+  max-height: 60vh;
   justify-content: center;
   background-color: #ffffff;
   text-align: center;
@@ -44,7 +46,7 @@ export const Second = styled.div`
   min-width: 370px;
   box-shadow: 0px 5.1px 7.64px rgba(0, 0, 0, 0.15);
   height: auto;
-  max-height: 500px;
+  max-height: 60vh;
   border-radius: 6px;
   border: 1px solid #EBEBEE;
   flex-direction: column;
