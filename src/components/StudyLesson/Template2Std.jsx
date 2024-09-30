@@ -69,20 +69,17 @@ const Template2Std = () => {
       return;
     }
   
-    // Collect the answer numbers based on the selected images' IDs
+
     const userAnswerOrder = selectedImages
-      .sort((a, b) => a.originalIndex - b.originalIndex)  // Sort based on the order of selection
+      .sort((a, b) => a.originalIndex - b.originalIndex)  
       .map(item => {
         const card = templateData.storyCardEntityList.find(card => card.storyCardId === item.id);
-        return card.answerNumber;  // Collect answer numbers in the order they were selected
+        return card.answerNumber;
       });
   
-    // Directly get the correct order from the template data
     const correctOrder = templateData.storyCardEntityList
       .map(card => card.answerNumber)
-      .sort((a, b) => a - b);  // Ensure the order is ascending for comparison
-  
-    // Compare the arrays to check if the order of selection matches the correct order
+      .sort((a, b) => a - b); 
     const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
   
     if (isCorrect) {
