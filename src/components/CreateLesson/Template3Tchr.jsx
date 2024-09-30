@@ -21,7 +21,7 @@ export const CardContainer = styled.div`
 `;
 
 // 개별 카드 스타일
-const Card = styled.div`
+export const Card = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,7 +29,7 @@ const Card = styled.div`
 `;
 
 // 이미지 박스
-const ImageBox = styled.div`
+export const ImageBox = styled.div`
   width: 170px;
   height: 170px;
   display: flex;
@@ -45,7 +45,7 @@ const ImageBox = styled.div`
 `;
 
 // 입력 필드
-const InputField = styled.input`
+export const InputField = styled.input`
   width: 170px;
   resize: none;
   font-size: 1.3rem;
