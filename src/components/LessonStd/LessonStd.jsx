@@ -57,7 +57,7 @@ const LessonStd = () => {
         break;
       case "이미지 순서 배열하기":
         navigate("/template2std", { state: { templateId: templateId } });
-        break;
+        break;33
       case "이야기 순서 배열하기":
         navigate("/template4std", { state: { templateId: templateId } });
         break;
@@ -85,10 +85,8 @@ const LessonStd = () => {
         <L.Section>
           <h1>수강 중인 강의</h1>
           <L.LineStd>
-            <L.StyledForm onSubmit={handleSubmit}>
-              <L.StyledButton type="submit" variant="none">
-                <FaSearch size={15} />
-              </L.StyledButton>
+          <L.StyledForm onSubmit={handleSubmit}>
+              <L.StyledButton type="submit" variant="none"><FaSearch size={15} /></L.StyledButton>
               <Form.Control
                 type="text"
                 placeholder="Search..."
@@ -98,7 +96,7 @@ const LessonStd = () => {
             </L.StyledForm>
           </L.LineStd>
           <CommonTable>
-            {lessons.map((lesson, index) => (
+            {filteredLessons.map((lesson, index) => (
               <CommonTableRow key={`${lesson.id}_${index}`}>
                 <CommonTableColumn>{index + 1}</CommonTableColumn>
                 <CommonTableColumn style={{ fontWeight: "bold" }}>
