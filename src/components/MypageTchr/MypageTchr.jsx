@@ -468,13 +468,13 @@ const MypageTchr = () => {
                     </M.Second>}
                     {stdinfoExtended && selectedStudentDetails && (
                     <M.Second style={{paddingTop: '1.7%'}}>
-                        <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
-                            <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
+                        <M.DetailTitle>
+                            <img src={Back} onClick={handleToggleExtended} alt="Back to main" style={{ cursor: 'pointer' }} />
                             <M.DetailLabel>
                                 <M.StuProfile src={selectedStudentDetails.profileImage || My} />
                                 <M.InfoTitle>{selectedStudentDetails.name} 학생</M.InfoTitle>
                             </M.DetailLabel>
-                            <img style={{ marginRight: '-50px'}} src={Close} onClick={closeAll} />
+                            <img src={Close} onClick={closeAll} style={{ cursor: 'pointer', maxWidth: '30px' }} alt="Close" />
                         </M.DetailTitle>
                         <M.Item style={{maxWidth: '100%'}}>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', 
@@ -521,12 +521,12 @@ const MypageTchr = () => {
                 {feedbackExtended && selectedStudentDetails && (
                 <M.Second style={{ paddingTop: '1.7%'}}>
                     <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
-                        <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
+                        <img src={Back} style={{maxWidth: '30px', cursor: 'pointer'}} onClick={handleToggleExtended} alt="Back to main" />
                         <M.DetailLabel>
                             <M.StuProfile src={selectedStudentDetails.profileImage || My} />
                             <M.InfoTitle>{selectedStudentDetails.name} 학생</M.InfoTitle>
                         </M.DetailLabel>
-                        <img style={{ marginRight: '-50px'}} src={Close} onClick={closeAll} />
+                        <img src={Close} style={{maxWidth: '30px', cursor: 'pointer'}} onClick={closeAll} />
                     </M.DetailTitle>
                     <M.Item>
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%' }}>

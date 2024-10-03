@@ -200,46 +200,38 @@ const MypageStd = () => {
       };
 
 
-      useEffect(() => {
-        const fetchFullFeedback = async () => {
-            if (!userId) return;  // userId가 없으면 실행 중지
-            setIsLoading(true);
-            try {
-                const response = await axios.get(`https://maeummal.com/feedback/all?id=${userId}`, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem('key')}` }
-                });
-                if (response.data.isSuccess) {
-                    // 피드백 데이터를 날짜에 따라 최신순으로 정렬
-                    const sortedFeedback = response.data.data.sort((a, b) => 
-                        new Date(b.createdAt) - new Date(a.createdAt)
-                    );
-                    console.log('Feedback loaded and sorted:', sortedFeedback);
-                    setSelectedStudentDetails(prevDetails => ({
-                        ...prevDetails,
-                        fullFeedback: sortedFeedback
-                    }));
-                } else {
-                    console.error('Failed to load feedback:', response.data.message);
-                    throw new Error(response.data.message || 'Failed to fetch full feedback');
-                }
-            } catch (error) {
-                console.error('Error fetching full feedback:', error);
-                setError('Failed to fetch full feedback: ' + error.message);
-            } finally {
-                setIsLoading(false);
+      const fetchFullFeedback = async (userId) => {
+        if (!userId) return;  // Ensure userId is present
+        const accessToken = localStorage.getItem('key');
+        if (!accessToken) {
+          setError('Authentication required');
+          return;
+        }
+        setIsLoading(true);
+        try {
+            const response = await axios.get(`https://maeummal.com/feedback/all?id=${userId}`, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+            if (response.data.isSuccess) {
+                // Handle sorting and updating state
+                const sortedFeedback = response.data.data.sort((a, b) => 
+                    new Date(b.createdAt) - new Date(a.createdAt)
+                );
+                setSelectedStudentDetails(prevDetails => ({
+                    ...prevDetails,
+                    fullFeedback: sortedFeedback
+                }));
+            } else {
+                throw new Error(response.data.message || 'Failed to fetch full feedback');
             }
-        };
-    
-        fetchFullFeedback();
-    }, [userId]);  // 의존성 배열에 userId를 포함
-    
-    
-    // 학생 선택 시 전체 피드백 리스트 불러오기
-    const handleSelectStudent = (userId) => {
-        fetchStudentDetails(userId);
-        fetchFullFeedback(userId); // 전체 피드백 불러오기
-        setIsStdinfoExtended(true);
+        } catch (error) {
+            console.error('Error fetching full feedback:', error);
+            setError('Failed to fetch full feedback: ' + error.message);
+        } finally {
+            setIsLoading(false);
+        }
     };
+    
 
     const toggleCodeModal = () => {
         setIsCodeModalOpen(!isCodeModalOpen);
@@ -336,13 +328,14 @@ const MypageStd = () => {
             console.error(`No such template: ${templateName}`);
         }
       };
-      useEffect(() => {
-        // location.pathname을 사용하여 현재 경로가 변경될 때마다 로직 실행
+
+    useEffect(() => {
         if (userId) {
-            fetchStudentDetails(userId);
             fetchFullFeedback(userId);
         }
-    }, [location.pathname]);
+    }, [userId, fetchFullFeedback]); 
+
+
     return (
         <M.MypageWrapper>
             <M.Section>
@@ -419,7 +412,7 @@ const MypageStd = () => {
                         </M.Item>
                     </M.Second>
                     }
-                                        {isSettingPwExtended && 
+                    {isSettingPwExtended && 
                     <M.Second >
                         <M.SecondLabel>비밀번호 변경</M.SecondLabel>
                         <M.Item>
@@ -498,16 +491,16 @@ const MypageStd = () => {
                 {feedbackExtended && selectedStudentDetails && (
                 <M.Second style={{ paddingTop: '1.7%'}}>
                     <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
-                        <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
+                        <img src={Back} style={{maxWidth: '30px', cursor: 'pointer'}} onClick={handleToggleExtended} alt="Back to main" />
                         <M.DetailLabel>
                             <M.StuProfile src={studentInfo.profileImage || My} />
                             <M.InfoTitle>{studentInfo.name} 학생</M.InfoTitle>
                         </M.DetailLabel>
-                        <img style={{ marginRight: '-50px'}} src={Close} onClick={closeAll} />
+                        <img src={Close} style={{maxWidth: '30px', cursor: 'pointer'}} onClick={closeAll} />
                     </M.DetailTitle>
                     <M.Item>
-                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '60%', marginBottom: '2.5%' }}>
-                            <p style={{ whiteSpace: 'nowrap', marginLeft: '-140px', fontSize: '1.2rem' }}>피드백 목록</p>
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginBottom: '2.5%' }}>
+                            <p style={{ whiteSpace: 'nowrap', fontSize: '1.2rem' }}>피드백 목록</p>
                             <div style={{ width: '100px' }}></div>
                         </div>
                         {selectedStudentDetails && selectedStudentDetails.fullFeedback && selectedStudentDetails.fullFeedback.map(feedback => (
