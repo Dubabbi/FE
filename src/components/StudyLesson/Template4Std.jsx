@@ -14,7 +14,7 @@ import Toast from '/src/assets/icon/errortoast.svg';
 const Template4Std = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+  const [userId, setUserId] = useState(null);
   // templateId를 상태로 저장
   const [templateId, setTemplateId] = useState(location.state?.templateId || null);
 
@@ -28,7 +28,32 @@ const Template4Std = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [imageSelectionOrder, setImageSelectionOrder] = useState({});
   const [firstFeedback, setFirstFeedback] = useState(null);
-
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const accessToken = localStorage.getItem('key');
+      if (!accessToken) {
+        console.error('Authentication token is missing');
+        return;
+      }
+  
+      try {
+        const response = await axios.get('https://maeummal.com/auth/userId', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+        if (response.status === 200) {
+          console.log('Fetched user ID:', response.data); // Log to see what is actually returned
+          setUserId(response.data); // Assuming the response is just the userId
+        } else {
+          throw new Error('Failed to fetch user ID');
+        }
+      } catch (error) {
+        console.error('Error fetching user ID:', error.message || 'Unknown error');
+      }
+    };
+  
+    fetchUserId();
+  }, []);
+  
   // templateId를 기반으로 데이터를 가져옵니다.
   useEffect(() => {
     if (!templateId) {
@@ -72,7 +97,7 @@ const Template4Std = () => {
       const response = await axios.post('https://maeummal.com/feedback/createFirst', {
         templateId: templateData.templateId,
         answerList: userOrder.map(String),
-        studentId: 25,
+        studentId: userId,
         templateType: "TEMPLATE4",
         solution: templateData.description 
       }, {
@@ -146,7 +171,7 @@ const Template4Std = () => {
       const response = await axios.post('https://maeummal.com/feedback/create', {
         templateId: templateData.templateId,
         answerList: userOrder.map(String),
-        studentId: 25,
+        studentId: userId,
         templateType: "TEMPLATE4",
         solution: templateData.description 
       }, {
@@ -167,24 +192,28 @@ const Template4Std = () => {
   };
 
   const awardBadge = async () => {
-    const accessToken = localStorage.getItem("key");
-    const memberId = 22;
-    const templateType = "TEMPLATE4";
-    
-    try {
-      const response = await axios.post(
-        `https://maeummal.com/badges/award?memberId=${memberId}&templateType=${templateType}`, 
-        {}, 
-        {
-          headers: { Authorization: `Bearer ${accessToken}` }
-        }
-      );
+    if (userId !== null) {  // userId가 null이 아닌지 확인
+      const accessToken = localStorage.getItem("key");
+      const memberId = userId;
+      const templateType = "TEMPLATE4";
+      
+      try {
+        const response = await axios.post(
+          `https://maeummal.com/badges/award?memberId=${memberId}&templateType=${templateType}`, 
+          {}, 
+          {
+            headers: { Authorization: `Bearer ${accessToken}` }
+          }
+        );
   
-      if (!response.data.isSuccess) {
-        throw new Error('Failed to award badge');
+        if (!response.data.isSuccess) {  // 응답 성공 여부 확인
+
+        console.log('Badge awarded successfully:', response.data)}
+      } catch (error) {
+        console.error('Error awarding badge:', error.response ? error.response.data : error);  // 오류 응답 로그 개선
       }
-    } catch (error) {
-      console.error('Error awarding badge:', error);
+    } else {
+      console.error('UserId is null, cannot award badge');
     }
   };
 

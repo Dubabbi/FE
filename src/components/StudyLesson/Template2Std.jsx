@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import * as C from '../CreateLesson/CreateLessonStyle';
 import * as L from '../LessonTchr/LessonStyle';
 import * as D from '../WordCreateTchr/WordDetailStyle';
@@ -7,18 +8,14 @@ import Back from '/src/assets/icon/back.svg';
 import Pink from '/src/assets/icon/heartpink.svg';
 import White from '/src/assets/icon/heartwhite.svg';
 import { ModalOverlay } from './Feedback2';
-import axios from 'axios';
 import Reward from '../Reward/Reward2';
 import Toast from '/src/assets/icon/errortoast.svg';
 
 const Template2Std = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  // 이전 페이지에서 전달된 templateId를 가져와서 상태에 저장
-  const [templateId, setTemplateId] = useState(location.state?.templateId || null);  // templateId를 상태로 저장
-
-
+  const [userId, setUserId] = useState(null);
+  const [templateId, setTemplateId] = useState(location.state?.templateId || null);
   const [showReward, setShowReward] = useState(false);
   const [feedbackData, setFeedbackData] = useState(null);
   const [templateData, setTemplateData] = useState(null);
@@ -27,6 +24,33 @@ const Template2Std = () => {
   const [showHint, setShowHint] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [imageSelectionOrder, setImageSelectionOrder] = useState({});
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const accessToken = localStorage.getItem('key');
+      if (!accessToken) {
+        console.error('Authentication token is missing');
+        return;
+      }
+  
+      try {
+        const response = await axios.get('https://maeummal.com/auth/userId', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+        if (response.status === 200) {
+          console.log('Fetched user ID:', response.data); // Log to see what is actually returned
+          setUserId(response.data); // Assuming the response is just the userId
+        } else {
+          throw new Error('Failed to fetch user ID');
+        }
+      } catch (error) {
+        console.error('Error fetching user ID:', error.message || 'Unknown error');
+      }
+    };
+  
+    fetchUserId();
+  }, []);
+  
+  
 
   useEffect(() => {
     if (!templateId) {
@@ -34,11 +58,10 @@ const Template2Std = () => {
       return;
     }
 
-
     const fetchTemplateData = async () => {
       const accessToken = localStorage.getItem("key");
       if (!accessToken) {
-        console.log('Authentication required');
+        console.error('Authentication required');
         return;
       }
 
@@ -63,8 +86,7 @@ const Template2Std = () => {
     };
 
     fetchTemplateData();
-  }, [templateId]);  // templateId가 변경될 때마다 데이터를 새로 가져옵니다.
-
+  }, [templateId]);
 
   const toggleSelectImage = (id) => {
     const index = selectedImages.findIndex(item => item.id === id);
@@ -126,7 +148,7 @@ const Template2Std = () => {
       const response = await axios.post('https://maeummal.com/feedback/create', {
         templateId: templateData.templateId,
         answerList: userAnswerOrder.map(String),
-        studentId: 1,
+        studentId: userId,
         templateType: "TEMPLATE2",
         title: templateData.title
       }, {
@@ -145,27 +167,31 @@ const Template2Std = () => {
   };
 
   const awardBadge = async () => {
-    const accessToken = localStorage.getItem("key");
-    const memberId = 22;
-    const templateType = "TEMPLATE2";
-    
-    try {
-      const response = await axios.post(
-        `https://maeummal.com/badges/award?memberId=${memberId}&templateType=${templateType}`, 
-        {}, 
-        {
-          headers: { Authorization: `Bearer ${accessToken}` }
-        }
-      );
+    if (userId !== null) {  // userId가 null이 아닌지 확인
+      const accessToken = localStorage.getItem("key");
+      const memberId = userId;
+      const templateType = "TEMPLATE2";
+      
+      try {
+        const response = await axios.post(
+          `https://maeummal.com/badges/award?memberId=${memberId}&templateType=${templateType}`, 
+          {}, 
+          {
+            headers: { Authorization: `Bearer ${accessToken}` }
+          }
+        );
+  
+        if (!response.data.isSuccess) {  // 응답 성공 여부 확인
 
-      if (!response.data.isSuccess) {
-        throw new Error('Failed to award badge');
+        console.log('Badge awarded successfully:', response.data)}
+      } catch (error) {
+        console.error('Error awarding badge:', error.response ? error.response.data : error);  // 오류 응답 로그 개선
       }
-      console.log('Badge awarded successfully:', response.data);
-    } catch (error) {
-      console.error('Error awarding badge:', error);
+    } else {
+      console.error('UserId is null, cannot award badge');
     }
   };
+  
 
   const handleShowReward = (show) => {
     setShowReward(show);
@@ -181,6 +207,7 @@ const Template2Std = () => {
   if (isLoading) {
     return <p>Loading...</p>;
   }
+
 
   return (
     <>
