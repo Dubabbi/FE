@@ -28,6 +28,9 @@ const ModalContent = styled.div`
   align-items: center;
   justify-content: space-around;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  @media(max-width: 1024px){
+    height: 36vh;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -42,7 +45,7 @@ const CloseButton = styled.button`
 `;
 
 const Title = styled.h1`
-  font-size: 1vw;
+  font-size: 1.5rem;
   margin-top: 2%;
   color: #333333;
 `;

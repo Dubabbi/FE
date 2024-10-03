@@ -74,17 +74,59 @@ export const TemplateList = styled.div`
   img{
     max-width: 17%;
   }
+  @media (max-width: 1024px) {
+    gap: 2%;
+    margin-bottom: 5%;
+    img{
+      max-width: 25%;
+      width: 25%;
+    }
+  }
   @media (max-width: 768px) {
     gap: 1%;
     margin-bottom: 5%;
     img{
-      max-width: 30%;
-      width: 30%;
+      max-width: 40%;
+      width: 40%;
     }
   }
 `;
 
+export const TemHintBox = styled.div`
+  min-width: 80px;
+  height: 26px;
+  position: absolute;
+  background-color: #fed7d7;
+  border-radius: 13px;
+  top: 5px; 
+  left: 50%; // 가로 중앙
+  transform: translateX(-50%); // 중앙 정렬
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+`;
 
+export const ExampleContainer = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 0px;
+  overflow-x: auto;
+  margin: 0 15px;
+  justify-content: space-evenly;
+  @media(max-width: 780px){
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 10px;
+  }
+`;
+
+export const InputContainer = styled.div`
+  position: relative;
+  width: 170px;
+  margin-top: 20px; 
+`;
 
 export const SubmitButton = styled.button`
   width: 10%;

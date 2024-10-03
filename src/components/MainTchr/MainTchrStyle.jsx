@@ -186,4 +186,5 @@ export const CardImg2 = styled.img`
 export const addStd = styled.img`
   height: 30px;
   margin-left: 10px;
+  cursor: pointer;
 `;
