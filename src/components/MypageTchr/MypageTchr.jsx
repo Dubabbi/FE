@@ -167,68 +167,72 @@ const MypageTchr = () => {
         fetchStudents();
     }, []);
     const navigate = useNavigate('');
-    useEffect(() => {
-        const fetchStudentDetails = async (studentId) => {
-            try {
-                const accessToken = localStorage.getItem("key");
-                if (!accessToken) {
-                    setError('Authentication required');
-                    return;
-                }
-                const response = await axios.get(`https://maeummal.com/api/match/get?studentId=${studentId}`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
-                });
-
-                if (response.data.isSuccess) {
-                    setSelectedStudentDetails(response.data.data);
-                } else {
-                    throw new Error(response.data.message || 'Failed to fetch student details');
-                }
-            } catch (error) {
-                console.error('Error fetching student details:', error);
-                setError('Failed to fetch student details: ' + error.message);
-            }
-        };
-
-        fetchStudentDetails(1);
-    }, []);
-
-    useEffect(() => {
-        const fetchFullFeedback = async (studentId) => {
-            try {
-                const accessToken = localStorage.getItem("key");
-                const response = await axios.get(`https://maeummal.com/feedback/all?id=${studentId}`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
-                });
-
-                if (response.data.isSuccess) {
-                    setSelectedStudentDetails(prevDetails => ({
-                        ...prevDetails,
-                        ...response.data.data,
-                        fullFeedback: response.data.data,
-                    }));
-                } else {
-                    throw new Error(response.data.message || 'Failed to fetch full feedback');
-                }
-            } catch (error) {
-                console.error('Error fetching full feedback:', error);
-                setError('Failed to fetch full feedback: ' + error.message);
-            }
-        };
-
-            fetchFullFeedback(1);
-        }, []);
     
     // 학생 선택 시 전체 피드백 리스트 불러오기
-    const handleSelectStudent = (studentId) => {
-        fetchStudentDetails(studentId);
-        fetchFullFeedback(studentId); // 전체 피드백 불러오기
-        setIsStdinfoExtended(true);
+    const handleSelectStudent = async (studentId) => {
+        try {
+            const accessToken = localStorage.getItem("key");
+            if (!accessToken) {
+                setError('Authentication required');
+                return;
+            }
+    
+            await fetchStudentDetails(studentId); // 학생의 상세 정보를 동적으로 불러옵니다.
+            await fetchFullFeedback(studentId); // 학생의 피드백 정보를 동적으로 불러옵니다.
+    
+            setIsStdinfoExtended(true);
+            setIsExtended(false);
+            setIsSettingExtended(false);
+            setIsSettingPwExtended(false);
+        } catch (error) {
+            console.error('Failed to fetch student details or feedback:', error);
+            setError(error.message);
+        }
     };
+    
+    // 학생 상세 정보를 불러오는 함수
+    const fetchStudentDetails = async (studentId) => {
+        const accessToken = localStorage.getItem("key");
+        if (!accessToken) {
+            setError('Authentication required');
+            return;
+        }
+        const response = await axios.get(`https://maeummal.com/api/match/get?studentId=${studentId}`, {
+            headers: { Authorization: `Bearer ${accessToken}` }
+        });
+    
+        if (response.data.isSuccess) {
+            setSelectedStudentDetails(response.data.data);
+        } else {
+            throw new Error(response.data.message || 'Failed to fetch student details');
+        }
+    };
+    
+    // 학생의 피드백 정보를 불러오는 함수
+    const fetchFullFeedback = async (studentId) => {
+        const accessToken = localStorage.getItem("key");
+        if (!accessToken) {
+            setError('Authentication required');
+            return;
+        }
+        const response = await axios.get(`https://maeummal.com/feedback/all?id=${studentId}`, {
+            headers: { Authorization: `Bearer ${accessToken}` }
+        });
+    
+        if (response.data.isSuccess) {
+            const sortedFeedback = response.data.data.sort((a, b) => 
+                new Date(b.createdAt) - new Date(a.createdAt)
+            );
+            setSelectedStudentDetails(prevDetails => ({
+                ...prevDetails,
+                fullFeedback: sortedFeedback
+            }));
+        } else {
+            throw new Error(response.data.message || 'Failed to fetch full feedback');
+        }
+    };
+    
+    
 
     const toggleMatchingModal = () => {
         setIsMatchingModalOpen(!isMatchingModalOpen);
@@ -449,9 +453,9 @@ const MypageTchr = () => {
                                 students.map(student => (
                                     <div key={student.studentId} style={{width: '100%'}}>
                                         <M.StdLine style={{justifyContent: 'space-between', width: '100%'}}>
-                                            <M.StuProfile src={student.profileImage} />
-                                            <M.InfoTitle>{student.name}</M.InfoTitle>
-                                            <M.Blank><img src={Arrow} onClick={handleStdinfo}/></M.Blank>
+                                            <M.StuProfile src={student.profileImage || My} />
+                                            <M.InfoTitle>{student.name} 학생</M.InfoTitle>
+                                            <M.Blank><img src={Arrow} onClick={() => handleSelectStudent(student.studentId)}/></M.Blank>
                                         </M.StdLine>
                                     </div>
                                 ))
@@ -468,12 +472,13 @@ const MypageTchr = () => {
                             <img src={Back} onClick={handleToggleExtended} alt="Back to main" />
                             <M.DetailLabel>
                                 <M.StuProfile src={selectedStudentDetails.profileImage || My} />
-                                <M.InfoTitle>{selectedStudentDetails.name}</M.InfoTitle>
+                                <M.InfoTitle>{selectedStudentDetails.name} 학생</M.InfoTitle>
                             </M.DetailLabel>
                             <img style={{ marginRight: '-50px'}} src={Close} onClick={closeAll} />
                         </M.DetailTitle>
                         <M.Item style={{maxWidth: '100%'}}>
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginBottom: '2.5%' }}>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', 
+                                        width: '100%', marginBottom: '2.5%' }}>
                                 <p style={{ whiteSpace: 'nowrap', marginLeft: '0px', fontSize: '1.2rem' }}>학생 정보</p>
                                 <div style={{ width: '100px' }}></div>
                             </div>
