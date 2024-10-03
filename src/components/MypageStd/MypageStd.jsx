@@ -18,11 +18,12 @@ import tem5 from '/src/assets/icon/template/template5icon.svg';
 import ChartComponent from '../MypageTchr/ChartComponent';
 import code from '/src/assets/image/code.svg';
 import CodeModal from './CodeModal';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const MypageStd = () => {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
     const [profileImage, setProfileImage] = useState(My);
+    const [userId, setUserId] = useState(null);
     const [isSettingPwExtended, setIsSettingPwExtended] = useState(false);
     const [isExtended, setIsExtended] = useState(false);
     const [studentInfo, setStudentInfo] = useState({});
@@ -38,34 +39,70 @@ const MypageStd = () => {
     const [updatedPhoneNum, setUpdatedPhoneNum] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const location = useLocation();
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate('');
     useEffect(() => {
-        const fetchStudents = async () => {
-            try {
-                const accessToken = localStorage.getItem("key");
-                if (!accessToken) {
-                    setError('Authentication required');
-                    return;
-                }
-                const response = await axios.get('https://maeummal.com/api/match/students', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
-                });
-
-                if (response.data.isSuccess) {
-                    setStudents(response.data.data);
-                } else {
-                    throw new Error(response.data.message || 'Failed to fetch students');
-                }
-            } catch (error) {
-                console.error('Error fetching students:', error);
-                setError('Failed to fetch students: ' + error.message);
+        const fetchUserId = async () => {
+          const accessToken = localStorage.getItem('key');
+          if (!accessToken) {
+            console.error('Authentication token is missing');
+            return;
+          }
+      
+          try {
+            const response = await axios.get('https://maeummal.com/auth/userId', {
+              headers: { Authorization: `Bearer ${accessToken}` }
+            });
+            if (response.status === 200 && response.data) {
+              if (response.data) {
+                setUserId(response.data);// Call fetch details using fetched userId
+              } 
+            } else {
+              throw new Error('Failed to fetch user ID');
             }
+          } catch (error) {
+            console.error('Error fetching user ID:', error.message || 'Unknown error');
+          }
         };
-    
-        fetchStudents();
-    }, []);
+      
+        fetchUserId();
+      }, []);
+      
+      // Fetching student details using userId
+      const fetchStudentDetails = async (userId) => {
+        if (userId !== null) {
+        const accessToken = localStorage.getItem('key');
+        if (!accessToken) {
+          setError('Authentication required');
+          return;
+        }
+        try {
+          const response = await axios.get(`https://maeummal.com/feedback/all?id=${userId}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          });
+      
+          if (response.data.isSuccess) {
+            setSelectedStudentDetails(response.data.data);
+          } else {
+            throw new Error(response.data.message || 'Failed to fetch student details');
+          }
+        } catch (error) {
+          console.error('Error fetching student details:', error);
+          setError('Failed to fetch student details: ' + error.message);
+        }}
+      };
+      
+      // Ensure this useEffect is triggered only when userId is available and has changed
+      useEffect(() => {
+        if (userId) {
+          fetchStudentDetails(userId);
+        }
+      }, [userId]);
+      
+
     useEffect(() => {
         const fetchStudentInfo = async () => {
             try {
@@ -94,6 +131,7 @@ const MypageStd = () => {
 
         fetchStudentInfo();
     }, []);
+    
 
     useEffect(() => {
         if (studentInfo) {
@@ -160,66 +198,46 @@ const MypageStd = () => {
           setError('Failed to change password: ' + error.message);
         }
       };
-    useEffect(() => {
-        const fetchStudentDetails = async (studentId) => {
+
+
+      useEffect(() => {
+        const fetchFullFeedback = async () => {
+            if (!userId) return;  // userId가 없으면 실행 중지
+            setIsLoading(true);
             try {
-                const accessToken = localStorage.getItem("key");
-                if (!accessToken) {
-                    setError('Authentication required');
-                    return;
-                }
-                const response = await axios.get(`https://maeummal.com/api/match/get?studentId=${studentId}`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
+                const response = await axios.get(`https://maeummal.com/feedback/all?id=${userId}`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('key')}` }
                 });
-
                 if (response.data.isSuccess) {
-                    setSelectedStudentDetails(response.data.data);
-                } else {
-                    throw new Error(response.data.message || 'Failed to fetch student details');
-                }
-            } catch (error) {
-                console.error('Error fetching student details:', error);
-                setError('Failed to fetch student details: ' + error.message);
-            }
-        };
-
-        fetchStudentDetails(1);
-    }, []);
-
-    useEffect(() => {
-        const fetchFullFeedback = async (studentId) => {
-            try {
-                const accessToken = localStorage.getItem("key");
-                const response = await axios.get(`https://maeummal.com/feedback/all?id=${studentId}`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
-                });
-
-                if (response.data.isSuccess) {
+                    // 피드백 데이터를 날짜에 따라 최신순으로 정렬
+                    const sortedFeedback = response.data.data.sort((a, b) => 
+                        new Date(b.createdAt) - new Date(a.createdAt)
+                    );
+                    console.log('Feedback loaded and sorted:', sortedFeedback);
                     setSelectedStudentDetails(prevDetails => ({
                         ...prevDetails,
-                        ...response.data.data,
-                        fullFeedback: response.data.data
+                        fullFeedback: sortedFeedback
                     }));
                 } else {
+                    console.error('Failed to load feedback:', response.data.message);
                     throw new Error(response.data.message || 'Failed to fetch full feedback');
                 }
             } catch (error) {
                 console.error('Error fetching full feedback:', error);
                 setError('Failed to fetch full feedback: ' + error.message);
+            } finally {
+                setIsLoading(false);
             }
         };
-
-            fetchFullFeedback(1);
-        }, []);
+    
+        fetchFullFeedback();
+    }, [userId]);  // 의존성 배열에 userId를 포함
+    
     
     // 학생 선택 시 전체 피드백 리스트 불러오기
-    const handleSelectStudent = (studentId) => {
-        fetchStudentDetails(studentId);
-        fetchFullFeedback(studentId); // 전체 피드백 불러오기
+    const handleSelectStudent = (userId) => {
+        fetchStudentDetails(userId);
+        fetchFullFeedback(userId); // 전체 피드백 불러오기
         setIsStdinfoExtended(true);
     };
 
@@ -318,7 +336,13 @@ const MypageStd = () => {
             console.error(`No such template: ${templateName}`);
         }
       };
-      
+      useEffect(() => {
+        // location.pathname을 사용하여 현재 경로가 변경될 때마다 로직 실행
+        if (userId) {
+            fetchStudentDetails(userId);
+            fetchFullFeedback(userId);
+        }
+    }, [location.pathname]);
     return (
         <M.MypageWrapper>
             <M.Section>
@@ -445,16 +469,18 @@ const MypageStd = () => {
                                 <M.MoreIcon src={More} onClick={handleFeedback} />
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', gap: '2%' }}>
-                            {selectedStudentDetails.fullFeedback?.slice(0, 2).map(feedback => (
+                            {selectedStudentDetails && selectedStudentDetails.fullFeedback && selectedStudentDetails.fullFeedback.map(feedback => (
                                 <M.InfoFeed key={feedback.id}>
                                     <M.FeedTitle>
-                                        <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
-                                            <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="템플릿 아이콘"></img>
-                                            <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || '제목 없음'}</p>
+                                        <M.Start>
+                                            <img src={getTemplateIcon(feedback.templateType)} alt="Template Icon" style={{ maxWidth: '20px' }} />
+                                            <p>{feedback.title || '제목 없음'}</p>
                                         </M.Start>
                                     </M.FeedTitle>
-                                    <M.InfoGroup style={{ fontFamily: 'sans-serif', textAlign: 'left', textOverflow: 'ellipsis' }}>{feedback.aiFeedback.length > 70 ? `${feedback.aiFeedback.substring(0, 70)}...` : feedback.aiFeedback}</M.InfoGroup>
-                                </M.InfoFeed>    
+                                    <M.InfoGroup>
+                                        {feedback.aiFeedback}
+                                    </M.InfoGroup>
+                                </M.InfoFeed>
                             ))}</div>
                             <div>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginBottom: '2.5%' }}>
@@ -484,22 +510,23 @@ const MypageStd = () => {
                             <p style={{ whiteSpace: 'nowrap', marginLeft: '-140px', fontSize: '1.2rem' }}>피드백 목록</p>
                             <div style={{ width: '100px' }}></div>
                         </div>
-                        {selectedStudentDetails.fullFeedback?.map(feedback => (
-                            <M.InfoFeed
-                                key={feedback.id} 
-                                onClick={() => navigateToFeedback(feedback.templateType, feedback.id)} // 클릭 시 navigateToFeedback 함수 호출
-                                style={{ cursor: 'pointer' }} // 클릭 가능한 영역으로 표시
-                                >
-                                <M.FeedTitle>
-                                    <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
-                                        <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="Template Icon"></img>
-                                        <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || 'Untitled'}</p>
-                                    </M.Start>
-                                    <p style={{ marginBottom: '2%' }}>{new Date(feedback.createdAt).toLocaleDateString()}</p>
-                                </M.FeedTitle>
-                                <M.InfoGroup style={{ fontFamily: 'sans-serif', textAlign: 'left' }}>{feedback.aiFeedback}</M.InfoGroup>
-                            </M.InfoFeed>
-                        ))}
+                        {selectedStudentDetails && selectedStudentDetails.fullFeedback && selectedStudentDetails.fullFeedback.map(feedback => (
+                        <M.InfoFeed key={feedback.id}
+                        onClick={() => navigateToFeedback(feedback.templateType, feedback.id)} // 클릭 시 navigateToFeedback 함수 호출
+                        style={{ cursor: 'pointer' }} // 클릭 가능한 영역으로 표시
+                        >
+                            <M.FeedTitle>
+                                <M.Start style={{ alignItems: 'center', marginBottom: '2%', gap: '15%' }}>
+                                    <img style={{ maxWidth: '20px' }} src={getTemplateIcon(feedback.templateType)} alt="Template Icon"  />
+                                    <p style={{ whiteSpace: 'nowrap', fontSize: '1.1rem' }}>{feedback.title || '제목 없음'}</p>
+                                </M.Start>
+                                <p style={{ marginBottom: '2%' }}>{new Date(feedback.createdAt).toLocaleDateString()}</p>
+                            </M.FeedTitle>
+                            <M.InfoGroup style={{ fontFamily: 'sans-serif', textAlign: 'left' }}>
+                                {feedback.aiFeedback}
+                            </M.InfoGroup>
+                        </M.InfoFeed>
+                    ))}
                     </M.Item>
                 </M.Second>
             )}
