@@ -12,7 +12,7 @@ export default function Nav() {
   const [profileImage, setProfileImage] = useState(My);
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState('');
-
+  const [userId, setUserId] = useState(null);
   useEffect(() => {
     const fetchUserInfo = async () => {
       const accessToken = localStorage.getItem("key");
@@ -47,6 +47,29 @@ export default function Nav() {
       setShowModal(true);
     }
   }, []);
+  
+  const fetchUserId = async () => {
+    const accessToken = localStorage.getItem('key');
+    if (!accessToken) {
+      console.error('Authentication token is missing');
+      return;
+    }
+  
+    try {
+      const response = await axios.get('https://maeummal.com/auth/userId', {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      });
+      if (response.status === 200) {
+        console.log('Fetched user ID:', response.data);
+        return response.data;
+      } else {
+        throw new Error('Failed to fetch user ID');
+      }
+    } catch (error) {
+      console.error('Error fetching user ID:', error);
+    }
+  };
+  
 
   const closeModal = () => setShowModal(false);
   const profilePageLink = userInfo.iq != null ? '/mypagestd' : '/mypagetchr';
