@@ -210,13 +210,14 @@ export const SecondTitle = styled(Form)`
     margin-left: 30%;
     width: 56%;
     height: 37px; 
-    font-size: 1.2vw; 
+    font-size: 1.9rem; 
     margin-bottom: 1%;
     display: flex;
     align-items: center;
     position: relative;
     @media (max-width: 768px) {
-        font-size: 2.4vw;
+        font-size: 1.8rem;
+        white-space: nowrap;
     }
 `   
 

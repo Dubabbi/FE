@@ -289,7 +289,8 @@ const Template3Tchr = () => {
                     value={values[index].noun}
                     onChange={(e) => handleChange(e, index)}
                   />
-                  <ExampleBox style={{ top: "324px" }}>힌트</ExampleBox>
+                  <C.InputContainer>
+                  <C.TemHintBox>힌트</C.TemHintBox>
                   <InputField
                     style={{
                       marginTop: "20px",
@@ -304,6 +305,7 @@ const Template3Tchr = () => {
                     value={values[index].hint}
                     onChange={(e) => handleChange(e, index)}
                   />
+                  </C.InputContainer>
                 </Card>
               )
             )}
@@ -322,9 +324,7 @@ const Template3Tchr = () => {
           }}
         >
           <ExampleBox>보기</ExampleBox>
-          <CardContainer
-            style={{ padding: "0px", justifyContent: "space-evenly" }}
-          >
+          <C.ExampleContainer>
             {Array.from({ length: 5 }).map((_, index) => (
               <InputField
                 key={index}
@@ -346,7 +346,7 @@ const Template3Tchr = () => {
                 onChange={(e) => handleChange(e, index)}
               />
             ))}
-          </CardContainer>
+          </C.ExampleContainer>
         </C.StoryWrap>
         <C.StoryWrap
           style={{
