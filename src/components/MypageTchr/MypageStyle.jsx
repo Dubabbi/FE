@@ -15,7 +15,10 @@ export const Section = styled.div`
   display: flex;
   padding-top: 11%;
   padding-bottom: 7%;
-  transition: max-width 0.3s ease-out;`
+  transition: max-width 0.3s ease-out;
+  @media(max-width: 780px){
+  }
+`
 ;
 
 export const Content = styled.div`
@@ -23,6 +26,7 @@ export const Content = styled.div`
   margin-left: ${({ $isExtended }) => $isExtended ? '0' : '0'}; 
   max-width: ${({ $isExtended }) => $isExtended ? '40%' : '50%'};
   min-width: ${({ $isExtended }) => $isExtended ? '300px' : 'auto'};
+  min-height: 500px;
   box-shadow: 0px 5.1px 7.64px rgba(0, 0, 0, 0.15);
   height: auto;
   border-radius: 6px;
@@ -35,13 +39,26 @@ export const Content = styled.div`
   text-align: center;
   padding: ${({ $isExtended }) => $isExtended ? '15px' : '30px'}; // 패딩 조절
   transition: all 0.3s ease-out;
-  flex: 1;` 
-;
+  flex: 1;
+  flex-shrink: 0;
+  @media (max-width: 1024px) {
+    margin-bottom: 20px;  
+    max-height: 80vh;
+  }
+  @media (max-width: 780px) {
+    max-width: 90%; 
+    width: 80%;
+    margin-bottom: 20px;  
+    margin-left: 10%;
+    max-height: 75vh;
+  }
+`;
 
 
 export const Second = styled.div`
   display: flex;
   margin-left: 0;
+  min-height: 500px;
   max-width: 30%;
   min-width: 370px;
   box-shadow: 0px 5.1px 7.64px rgba(0, 0, 0, 0.15);
@@ -65,8 +82,19 @@ export const Second = styled.div`
     background-color: #ccc; 
     margin: 10px 0;
   
-  }`
-;
+  }
+  @media (max-width: 1024px) {
+    margin-bottom: 20px;  
+    max-height: 80vh;
+  }
+  @media (max-width: 780px) {
+    max-width: 90%; 
+    width: 80%;
+    margin-right: 7%;
+    margin-bottom: 20px;  
+    max-height: 75vh;
+  }
+`;
 
 export const Item = styled.div`
   display: flex;
@@ -113,6 +141,10 @@ export const ContentContainer = styled.div`
       transform: translateX(5%); 
     }
   `}
+  @media (max-width: 780px) {
+    flex-direction: column;  
+    align-items: center;    
+  }
 `;
 
 export const InLine = styled.div`
@@ -183,8 +215,9 @@ export const Label = styled.div`
   font-weight: bold;
   color: #333;
   margin-top: 11%;
-  margin-bottom: 11%;`
-;
+  margin-bottom: 11%;
+  white-space: nowrap;
+`;
 
 export const SecondLabel = styled.div`
   font-size: 1.2rem;
@@ -430,10 +463,9 @@ export const RemoveFileButton = styled.button`
 
 export const InLineTitle = styled.div`
   display: inline-flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   flex-direction: row;
-  margin-right: 30%;
-  gap: 45%;
+  width: 100%;
   align-items: center;
   margin-bottom: 4%;
   img{
@@ -452,8 +484,8 @@ export const MatchingLabel = styled.div`
   height: auto;
   text-align: center;
   align-items: center;
-  padding: 7px;`
-;
+  padding: 7px;
+`;
 
 export const StuProfile = styled.img`
   width: 45px;
@@ -478,33 +510,23 @@ export const Start = styled.div`
   display: flex;
   gap: 10%;
   justify-content: flex-start;
-  flex-direction: row;`
-;
+  flex-direction: row;
+`;
 
 
 export const DetailTitle = styled.div`
-  display: inline-flex;
-  justify-content: space-around;
-  margin-top: 0px;
-  marginRight: 25%;
-  max-width: 80%;
-  gap: 18%;
-  margin-right: 12%;
-  flex-direction: row; 
+  display: flex;
+  justify-content: space-between; 
   align-items: center;
-  margin-bottom: 5%;
-  img{
-    max-width: 30px;
-    cursor: pointer;
-  }`
-;
+  width: 100%;  
+  padding: 10px 20px;  
+`;
 
 
 export const DetailLabel = styled.div`
   font-size: 2vw;
   font-weight: bold;
   gap: 7%;
-  width: 200px;
   height: auto;
   display: flex;
   flex-direction: row;
