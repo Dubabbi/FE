@@ -35,8 +35,8 @@ export const Section = styled.section`
 
 export const CardTitle = styled.div`
     align-items: center;
-    width: 10%;
-    margin-left: 45%;
+    width: 100px;
+    margin: 0 auto;
     margin-bottom: 4%;
     padding: 0.6%;
     border-radius: 7px;
@@ -94,13 +94,15 @@ export const WordBoard = styled.div`
     gap: 3%;
     width: 100%;
     padding-bottom: 2%;
-    overflow-x: auto;
     white-space: nowrap;
+    @media(max-width: 780px){
+        gap: 0px;
+    }
 `;
 
 export const WordList = styled.div`
-    width: 50%;
-    margin-left: 25%;
+    width: 500px;
+    margin: 0 auto;
     height: 40vh;
     padding: 3%;
     border-radius: 40px;
@@ -108,6 +110,10 @@ export const WordList = styled.div`
     display: flex;
     align-items: center;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    @media(max-width: 780px){
+        height: 50vh;
+        width: 400px;
+    }
 `;
 
 export const WordSecondList = styled.div`
@@ -147,13 +153,14 @@ export const ArrowButton = styled.div`
 `;
 
 export const BottomButton = styled.button`
-  margin-left: 43%;
-  width: 14%;
+  margin: 0 auto;
+  width: 100px;
   padding: 0.7rem;
   height: 4rem;
   border: none;
   font-weight: bold;
   border-radius: 5px;
+  white-space: nowrap;
   background-color: #ACAACC; 
   color: white;
   font-size: 1.5rem;
@@ -165,6 +172,7 @@ export const BottomButton = styled.button`
 
 export const ImageWrap = styled.div`
     display: flex;
+    z-index: 100;
     justify-content: space-between;
     position: fixed;
     left: 2%;

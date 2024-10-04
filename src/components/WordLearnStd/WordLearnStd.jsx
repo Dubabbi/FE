@@ -83,7 +83,7 @@ const WordLearnStd = () => {
           <img src={Back} alt="Back to main" />
         </a>
       </D.ImageWrap>
-      <W.LessonWrapper style={{ marginBottom: "5%" }}>
+      <W.LessonWrapper style={{ marginBottom: "5%", textAlign: 'center' }}>
         <D.Section style={{ marginBottom: "3%" }}>
           <h1 style={{ marginTop: "3%", marginBottom: "3%" }}>
             낱말 카드 학습
@@ -99,12 +99,14 @@ const WordLearnStd = () => {
               <D.Word onClick={toggleImageVisibility}>
                 {showImage ? (
                   <img
+                    style={{cursor: 'pointer'}}
                     src={wordSet.wordCards[currentWordIndex]?.image || ""}
                     alt="단어 이미지"
                   />
                 ) : (
                   <div
                     style={{
+                      cursor: 'pointer',
                       width: "200px",
                       height: "200px",
                       margin: "0 auto",

@@ -8,6 +8,7 @@ import tem3Icon from "/src/assets/icon/template/template3icon.svg";
 import tem4Icon from "/src/assets/icon/template/template4icon.svg";
 import tem5Icon from "/src/assets/icon/template/template5icon.svg";
 import profileImg from "/src/assets/image/tchr.svg";
+import My from '/src/assets/image/profile.svg';
 import wordCardImg from "/src/assets/image/word.svg";
 import addStd from "/src/assets/icon/stdAdd.svg";
 import StdModal from '../MypageTchr/MatchingModal';
@@ -142,7 +143,7 @@ export default function MainTchr() {
               <M.rowContainer width="90%">
               {students.map((student) => (
                   <M.MatchingStdContainer key={student.studentId}>
-                    <img src={student.profileImage || profileImg} alt={student.stdName}/>
+                    <img src={student.profileImage || My} alt={student.stdName}/>
                     <div>{student.name}</div>
                   </M.MatchingStdContainer>
                 ))}

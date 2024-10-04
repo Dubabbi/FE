@@ -195,7 +195,7 @@ const WordCreateTchr = () => {
           <h1>낱말 카드 제작</h1>
         </W.Section>
       </W.LessonWrapper>
-        <D.TitleLine>
+        <D.TitleLine style={{marginTop: '0px'}}>
           <div style={{ width: '50%' }}>
             <D.WordTitle>세트 이름</D.WordTitle>
             <D.Title style={{ minWidth: '200px' }}>
