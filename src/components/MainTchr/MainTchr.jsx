@@ -10,7 +10,7 @@ import tem5Icon from "/src/assets/icon/template/template5icon.svg";
 import profileImg from "/src/assets/image/tchr.svg";
 import wordCardImg from "/src/assets/image/word.svg";
 import addStd from "/src/assets/icon/stdAdd.svg";
-import StdModal from '../MypageTchr/MatchingModal';
+import StdModal from "../MypageTchr/MatchingModal";
 
 export const TemplateCard = ({ title, description, imgSrc }) => (
   <M.TemplateCard>
@@ -35,13 +35,6 @@ export default function MainTchr() {
   const [cardData, setCardData] = useState([]);
   const [isMatchingModalOpen, setIsMatchingModalOpen] = useState(false);
   const [students, setStudents] = useState([]);
-  const [error, setError] = useState('');
-  const [StdList, setStdList] = useState([
-    { stdName: "김망곰", src: profileImg },
-    { stdName: "홍감자", src: profileImg },
-    { stdName: "루돌프", src: profileImg },
-    { stdName: "고구마", src: profileImg },
-  ]);
 
   useEffect(() => {
     axios
@@ -78,15 +71,15 @@ export default function MainTchr() {
       })
       .then((response) => {
         if (response.data.isSuccess) {
-          setStudents(response.data.data); 
-          console.log("Fetched students:", response.data.data); 
+          setStudents(response.data.data);
+          console.log("Fetched students:", response.data.data);
         }
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   }, []);
-  
+
   const toggleMatchingModal = () => {
     setIsMatchingModalOpen(!isMatchingModalOpen);
   };
@@ -133,16 +126,19 @@ export default function MainTchr() {
             <M.StdListContainer width="65%">
               <M.SectionTitle>
                 매칭된 학생
-                <M.addStd src={addStd} onClick={toggleMatchingModal}/>
+                <M.addStd src={addStd} onClick={toggleMatchingModal} />
                 <StdModal
-                isOpen={isMatchingModalOpen}
-                toggleModal={toggleMatchingModal} 
-              />
+                  isOpen={isMatchingModalOpen}
+                  toggleModal={toggleMatchingModal}
+                />
               </M.SectionTitle>
-              <M.rowContainer width="90%">
-              {students.map((student) => (
+              <M.rowContainer width="90%" style={{ minHeight: "162px" }}>
+                {students.map((student) => (
                   <M.MatchingStdContainer key={student.studentId}>
-                    <img src={student.profileImage || profileImg} alt={student.stdName}/>
+                    <img
+                      src={student.profileImage || profileImg}
+                      alt={student.stdName}
+                    />
                     <div>{student.name}</div>
                   </M.MatchingStdContainer>
                 ))}
