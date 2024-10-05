@@ -24,11 +24,45 @@ const MainStd = () => {
   const [lesson, setLesson] = useState([]);
   const [cardData, setCardData] = useState([]);
   const [challengeData, setChallengeData] = useState({});
+  const [badge, setBadge] = useState();
 
   useEffect(() => {
     const token = localStorage.getItem("key");
+
     axios
-      .get("https://maeummal.com/templates/recent")
+      .get("https://maeummal.com/auth/userId", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          axios
+            .get(`https://maeummal.com/badges/user/${response.data}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+            .then((response) => {
+              if (response.status === 200) {
+                setBadge(response.data);
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching data:", error);
+            });
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
+    axios
+      .get("https://maeummal.com/templates/recent", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.data.isSuccess) {
           setLesson(response.data.data);
@@ -134,7 +168,7 @@ const MainStd = () => {
             </M.SectionTitle>
             <M.rowContainer width="200px">
               <MS.Badge src={badgeImg} />
-              <MS.badgeCount>11개</MS.badgeCount>
+              <MS.badgeCount>{`${badge?.length}개`}</MS.badgeCount>
             </M.rowContainer>
           </M.CardContainer>
         </M.overContainer>

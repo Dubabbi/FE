@@ -11,7 +11,7 @@ import Back from "/src/assets/icon/back.svg";
 import Pink from "/src/assets/icon/heartpink.svg";
 import White from "/src/assets/icon/heartwhite.svg";
 import * as O from "./Template1Std";
-import Reward from "../Reward/Reward";
+import Reward from "../Reward/Reward3";
 import { ModalOverlay } from "./Feedback2";
 
 export const Box = styled.div`
@@ -82,8 +82,9 @@ export const ImageBox = styled.div`
 `;
 
 const Template3Std = () => {
-  const template3Id = useLocation().state;
+  const template3Id = useLocation().state?.templateId;
   const navigate = useNavigate();
+  const [userId, setUserId] = useState();
   const [feedbackData, setFeedbackData] = useState(null);
   const [showReward, setShowReward] = useState(false);
   const [lives, setLives] = useState(2);
@@ -91,14 +92,31 @@ const Template3Std = () => {
   const [firstTime, setFirstTime] = useState(true);
   const [inputValue, setInputValue] = useState([]);
   const [data, setData] = useState({});
-  //const template3Id = 1;
 
   useEffect(() => {
+    const accessToken = localStorage.getItem("key");
     axios
-      .get(`https://maeummal.com/template3/get?template3Id=${template3Id}`)
+      .get(`https://maeummal.com/template3/get?template3Id=${template3Id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
       .then((response) => {
         if (response.data.isSuccess) {
           setData(response.data.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
+    axios
+      .get("https://maeummal.com/auth/userId", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setUserId(response.data);
         }
       })
       .catch((error) => {
@@ -146,7 +164,7 @@ const Template3Std = () => {
     const payload = {
       templateId: template3Id,
       answerList: inputValue,
-      studentId: 1,
+      studentId: userId,
       templateType: "TEMPLATE3",
     };
     axios

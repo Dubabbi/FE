@@ -73,7 +73,8 @@ export const Text = styled.div`
 `;
 
 const Template1Std = () => {
-  const template1Id = useLocation().state;
+  const template1Id = useLocation().state?.templateId;
+  const [userId, setUserId] = useState();
   const [category, setCatergory] = useState(["동물", "식물", "음식"]);
   const randomCategory = [...category].sort(() => Math.random() - 0.5);
   // const [dataList, setdataList] = useState([
@@ -127,6 +128,21 @@ const Template1Std = () => {
           let newWord = [];
           data.map((el, index) => (newWord[index] = el.meaning));
           setWord(newWord.sort(() => Math.random() - 0.5));
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
+    axios
+      .get("https://maeummal.com/auth/userId", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setUserId(response.data);
         }
       })
       .catch((error) => {
@@ -213,7 +229,7 @@ const Template1Std = () => {
     const payload = {
       templateId: template1Id,
       answerList: finalAnswer,
-      studentId: 1,
+      studentId: userId,
       templateType: "TEMPLATE1",
     };
     axios

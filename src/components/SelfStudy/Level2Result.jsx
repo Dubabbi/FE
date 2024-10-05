@@ -4,7 +4,6 @@ import * as D from "../WordCreateTchr/WordDetailStyle";
 import * as L from "./Level1Style";
 import * as T from "./Level2Style";
 import Back from "/src/assets/icon/back.svg";
-//import picture from "/src/assets/image/word.svg";
 import hint from "/src/assets/image/hint.svg";
 import { useLocation } from "react-router-dom";
 
