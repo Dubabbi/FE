@@ -13,7 +13,12 @@ const ChallengePercent = ({ percent }) => (
     <MS.StyledSVG viewBox="0 0 200 200">
       {/* cx, cy:  원의 중심의 x,y 좌표 r: 반지름 크기 */}
       <MS.OuterCircle cx="100" cy="100" r="90" />
-      <MS.ProgressCircle cx="100" cy="100" r="90" progress={percent / 100} />
+      <MS.ProgressCircle
+        cx="100"
+        cy="100"
+        r="90"
+        data-progress={percent / 100}
+      />
       <MS.InnerCircle cx="100" cy="100" r="70" />
     </MS.StyledSVG>
     <MS.Text>{percent}%</MS.Text>

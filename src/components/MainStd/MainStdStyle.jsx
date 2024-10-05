@@ -93,7 +93,10 @@ export const ProgressCircle = styled.circle`
   stroke-dasharray: ${(props) =>
     2 * Math.PI * 90}; //원의 둘레로 점선의 패턴을 정의
   stroke-dashoffset: ${(props) =>
-    2 * Math.PI * 90 * (1 - props.progress)}; //선이 그려지는 시작 위치를 조절
+    2 *
+    Math.PI *
+    90 *
+    (1 - props["data-progress"])}; //선이 그려지는 시작 위치를 조절
   stroke-linecap: round; //선 끝을 둥글게
   transform: rotate(-90deg); //디자인에 맞게 회전
   transform-origin: center;

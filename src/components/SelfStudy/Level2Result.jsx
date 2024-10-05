@@ -26,7 +26,7 @@ export default function Level2Result() {
         {/* 해답 */}
         <S.rowContainer width="90%">
           <T.SentenceContainer
-            answerType={answerType}
+            data-answertype={answerType}
             style={{ maxWidth: "180px" }}
           >
             {answerType ? "잘했어요!" : "다시 생각해 볼까요?"}
@@ -59,12 +59,12 @@ export default function Level2Result() {
               <L.SecondTitle style={{ width: "150px" }}>
                 {data.firstPart}
               </L.SecondTitle>
-              <T.answerBox clickstate={answerType}>
+              <T.answerBox data-clickstate={answerType}>
                 {dataList[selectNum - 1]}
               </T.answerBox>
             </S.rowContainer>
             {dataList.map((el, index) => (
-              <S.rowContainer onClick={() => numClick(el)}>
+              <S.rowContainer key={index} onClick={() => numClick(el)}>
                 <T.num>{index + 1}</T.num>
                 <T.list>{el}</T.list>
               </S.rowContainer>
