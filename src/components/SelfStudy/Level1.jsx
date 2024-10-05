@@ -9,7 +9,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Level1() {
   const data = useLocation().state;
-  // console.log(data);
   useEffect(() => {
     const newWordList = [...wordList];
     newWordList.map((el, index) => (el.word = data[index]));
@@ -38,7 +37,6 @@ export default function Level1() {
           if (response.status === 200 && token) {
             console.log("successful");
             const imgData = response.data.data;
-            //console.log(wordData);
             navigate("/level1result", { state: imgData });
           } else {
             throw new Error("Failed to fetch data");
@@ -124,7 +122,7 @@ export default function Level1() {
                     key={wordIndex}
                     style={{ backgroundColor: el.color }}
                     onClick={(e) => wordClick(e, wordIndex)}
-                    clickstate={el.clicked[wordIndex]}
+                    data-clickstate={el.clicked[wordIndex]}
                   >
                     {word}
                   </L.WordBox>

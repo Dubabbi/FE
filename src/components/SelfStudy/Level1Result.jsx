@@ -3,12 +3,10 @@ import * as S from "./SelfStudyStyle";
 import * as D from "../WordCreateTchr/WordDetailStyle";
 import * as L from "./Level1Style";
 import Back from "/src/assets/icon/back.svg";
-import picture from "/src/assets/image/word.svg";
 import { useLocation } from "react-router-dom";
 
 export default function Level1Result() {
   const resultData = useLocation().state;
-  // const [first, second, third] = useLocation().state;
 
   return (
     <>
@@ -22,10 +20,7 @@ export default function Level1Result() {
         <L.imgContainer src={resultData.img} />
         <L.SentenceContainer style={{ height: "70px" }}>
           <L.SecondTitle style={{ width: "100%" }}>
-            {
-              //`${first}이/가 ${second} ${third}`
-              resultData.sentence
-            }
+            {resultData.sentence}
           </L.SecondTitle>
         </L.SentenceContainer>
         <S.rowContainer width="30%">
@@ -34,7 +29,7 @@ export default function Level1Result() {
               그만 할래요.
             </D.BottomButton>
           </a>
-          <a href="/selfCategory">
+          <a href="/selfstudy">
             <D.BottomButton style={{ margin: "0 20px", width: "140px" }}>
               또 할래요!
             </D.BottomButton>

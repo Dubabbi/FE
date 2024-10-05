@@ -54,7 +54,8 @@ export const WordBox = styled.div`
   justify-content: center;
   font-size: 2rem;
   margin: 10px;
-  border: ${(props) => (props.clickstate ? "3px solid #4B518F" : "none")};
+  border: ${(props) =>
+    props["data-clickstate"] ? "3px solid #4B518F" : "none"};
 `;
 
 export const imgContainer = styled.img`
