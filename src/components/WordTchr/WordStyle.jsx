@@ -17,12 +17,12 @@ export const Section = styled.section`
   align-items: center;
   margin-bottom: 2%;
   h1{
-    font-size: 1.6vw;
+    font-size: 2.3rem;
     color: #2F327D;
   }
   @media (max-width: 768px) {
     h1{
-        font-size: 3vw;
+        font-size: 1.9rem;
     }
   }
 `
@@ -247,6 +247,17 @@ export const AddImage = styled.div`
     }
 `;
 
+export const WordImg = styled.img`
+    max-width: 200px;
+    border-radius: 7px;
+    border: 4px solid #ACAACC;
+    width: 100%;
+    height: auto;
+    margin-left: 0px;
+    @media(max-width: 780px){
+    
+    }
+`;
 
 export const Dropdown = styled.div`
     position: absolute;
@@ -266,3 +277,4 @@ export const Dropdown = styled.div`
         margin-left: 0px;
   }
 `;
+

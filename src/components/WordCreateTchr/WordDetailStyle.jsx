@@ -12,8 +12,16 @@ export const WordImage = styled.div`
 `;
 
 export const Select = styled.div`
+  margin-left: 13%;
+  width: 20%;
   @media (max-width: 1024px) {
+    
+  }
+  @media(max-width: 780px){
+    max-width: 70%;
+    width: 70%;
     margin-left: 13%;
+    margin-left: 0px;
   } 
 `;
 
@@ -218,6 +226,7 @@ export const SecondTitle = styled(Form)`
     @media (max-width: 768px) {
         font-size: 1.8rem;
         white-space: nowrap;
+        margin-bottom: 0px;
     }
 `   
 
@@ -225,13 +234,13 @@ export const WordTitle = styled(Form)`
     margin-left: 23%;
     width: 56%;
     height: 37px; 
-    font-size: 1.2vw; 
+    font-size: 1.7rem; 
     margin-bottom: 1%;
     display: flex;
     align-items: center;
     position: relative;
     @media (max-width: 768px) {
-        font-size: 2.4vw;
+        font-size: 1.5rem;
     }
 `
 
@@ -255,6 +264,37 @@ export const Title = styled(Form)`
         border-radius: 5px;
         padding-right: 10px; 
         padding-left: 10px;
+    }
+`;
+
+
+export const TitleText = styled(Form)`
+    margin-left: 22%;
+    width: 56%;
+    height: 37px; 
+    font-size: 17px; 
+    border-radius: 7px;
+    border: 1px solid #ACAACC;
+    margin-bottom: 2%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 15px;
+    min-width: 320px;
+    
+    .form-control {
+        height: 35px; 
+        font-size: 1.5rem; 
+        min-width: 100%;
+        border-radius: 5px;
+        padding-right: 10px; 
+        padding-left: 10px;
+    }
+    @media(max-width: 780px){
+        max-width: 70%;
+        width: 70%;
+        margin-left: 13%;
+        min-width: 70%;
     }
 `;
 
@@ -370,12 +410,17 @@ export const Box = styled.div`
     position: relative;
     width: 30%;
     margin-left: 17%;
+    @media(max-width: 780px){
+        width: 50%;
+        margin-bottom: 3%:
+    }
 `
 
 export const SecondBox = styled.div`
     justify-content: center;
     position: relative;
     width: 70%;
+    margin-top: 3%;
     @media (max-width: 1024px) {
         margin-left: 7%;
     } 
@@ -396,12 +441,12 @@ export const Line = styled.div`
 export const TitleLine = styled.div`
     margin-bottom: 2%;
     display: flex;
-    max-width: 73%;
-    justify-content: flex-start;
+    max-width: 60%;
+    justify-content: space-between;
     margin-left: 16%;
     gap: 0;
     flex-direction: row;
-    @media (max-width: 1024px) {
+    @media (max-width: 780px) {
         display: flex;
         flex-direction: column;
     } 
