@@ -39,6 +39,10 @@ export const Line = styled.div`
     justify-content: space-between;
     padding-right: 20px;
     flex-direction: row;
+  @media(max-width: 780px){
+    margin-bottom: 4%;
+    margin-left: 2%;
+  }
 `
 
 export const LineStd = styled.div`
@@ -59,6 +63,9 @@ export const Add = styled.div`
     align-items: center;
     justify-content: center;
     position: relative;
+    @media (max-width: 780px) {
+        display: none !important;
+    }
     a {
         color: #777777;
         margin: 0;
@@ -67,8 +74,8 @@ export const Add = styled.div`
         font-weight: bold;
     }
     &:hover {
-    background-color: #F8F9FA;
-    cursor: pointer;
+      background-color: #F8F9FA;
+    }
 `;
 
 export const StyledButton = styled(Button)`

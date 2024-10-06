@@ -9,6 +9,7 @@ import tem4Icon from "/src/assets/icon/template/template4icon.svg";
 import tem5Icon from "/src/assets/icon/template/template5icon.svg";
 import profileImg from "/src/assets/image/tchr.svg";
 import wordCardImg from "/src/assets/image/word.svg";
+import My from '/src/assets/image/profile.svg';
 import addStd from "/src/assets/icon/stdAdd.svg";
 import StdModal from "../MypageTchr/MatchingModal";
 
@@ -71,8 +72,13 @@ export default function MainTchr() {
       })
       .then((response) => {
         if (response.data.isSuccess) {
-          setStudents(response.data.data);
-          console.log("Fetched students:", response.data.data);
+          const fetchedStudents = response.data.data.length > 0 ? response.data.data : [{
+            studentId: 'default',
+            profileImage: My,
+            name: '* 학생을 추가해 주세요 *'
+          }];
+          setStudents(fetchedStudents);
+          console.log("Fetched students:", fetchedStudents);
         }
       })
       .catch((error) => {
@@ -83,13 +89,14 @@ export default function MainTchr() {
   const toggleMatchingModal = () => {
     setIsMatchingModalOpen(!isMatchingModalOpen);
   };
+
   return (
     <>
       <M.AppContainer>
         <M.MainContainer>
           {/* 나의 강의 */}
           <M.LessonContainer width="85%">
-            <M.rowContainer width="92%">
+          <M.rowContainer width="92%">
               <M.SectionTitle>나의 강의</M.SectionTitle>
               <M.arrowContainer>
                 <a href="/lessontchr">
@@ -122,31 +129,31 @@ export default function MainTchr() {
                 )}
               </M.ImgContainer>
             </M.CardContainer>
-            {/* 매칭된 학생 */}
-            <M.StdListContainer width="65%">
-              <M.SectionTitle>
-                매칭된 학생
-                <M.addStd src={addStd} onClick={toggleMatchingModal} />
-                <StdModal
-                  isOpen={isMatchingModalOpen}
-                  toggleModal={toggleMatchingModal}
-                />
-              </M.SectionTitle>
-              <M.rowContainer width="90%" style={{ minHeight: "162px" }}>
-                {students.map((student) => (
-                  <M.MatchingStdContainer key={student.studentId}>
-                    <img
-                      src={student.profileImage || profileImg}
-                      alt={student.stdName}
-                    />
-                    <div>{student.name}</div>
-                  </M.MatchingStdContainer>
-                ))}
-                <M.arrowContainer>
-                  <img src={arrowIcon} />
-                </M.arrowContainer>
-              </M.rowContainer>
-            </M.StdListContainer>
+          {/* 매칭된 학생 */}
+          <M.StdListContainer width="65%">
+            <M.SectionTitle>
+              매칭된 학생
+              <M.addStd src={addStd} onClick={toggleMatchingModal} />
+              <StdModal
+                isOpen={isMatchingModalOpen}
+                toggleModal={toggleMatchingModal}
+              />
+            </M.SectionTitle>
+            <M.rowContainer width="90%" style={{ minHeight: "162px" }}>
+              {students.map((student) => (
+                <M.MatchingStdContainer key={student.studentId}>
+                  <img
+                    src={student.profileImage || My}
+                    alt={student.name}
+                  />
+                  <div style={student.studentId === 'default' ? { fontSize: '1.2rem', color: 'grey', fontWeight: 'normal'} : {}}>{student.name}</div>
+                </M.MatchingStdContainer>
+              ))}
+              <M.arrowContainer>
+                <img src={arrowIcon} />
+              </M.arrowContainer>
+            </M.rowContainer>
+          </M.StdListContainer>
           </M.overContainer>
         </M.MainContainer>
       </M.AppContainer>
