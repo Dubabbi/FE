@@ -195,10 +195,10 @@ const WordCreateTchr = () => {
           <h1>낱말 카드 제작</h1>
         </W.Section>
       </W.LessonWrapper>
-        <D.TitleLine style={{marginTop: '0px'}}>
-          <div style={{ width: '50%' }}>
+        <D.TitleLine>
+          <div>
             <D.WordTitle>세트 이름</D.WordTitle>
-            <D.Title style={{ minWidth: '200px' }}>
+            <D.TitleText>
               <Form.Control
                 type="text"
                 placeholder="세트 이름을 입력하세요"
@@ -206,15 +206,15 @@ const WordCreateTchr = () => {
                 value={titleValue}
                 onChange={handleInputChange}
               />
-            </D.Title>
+            </D.TitleText>
           </div>
-          <D.Select style={{ width: '20%' }}>
-            <D.WordTitle style={{ minWidth: '80px' }}>낱말 개수</D.WordTitle>
+          <D.Select>
+            <D.WordTitle>낱말 개수</D.WordTitle>
             <Form.Select
               name="numberOfWords"
               value={formData.numberOfWords}
               onChange={handleInputChange}
-              style={{ paddingLeft: '10px', paddingRight: '0px', fontSize: '1.5rem', borderRadius: '7px', border: '1px solid #ACAACC', width: '100%', height: '38px', marginLeft: '22%' }}
+              style={{ paddingLeft: '10px', paddingRight: '0px', fontSize: '1.5rem', borderRadius: '7px', border: '1px solid #ACAACC', width: '100%', height: '38px', marginLeft: '19%' }}
             >
               {Array.from({ length: 30 }, (_, i) => i + 1).map((number) => (
                 <option key={number} value={number}>{number}개</option>
@@ -223,9 +223,9 @@ const WordCreateTchr = () => {
           </D.Select>
         </D.TitleLine>
         <D.TitleLine>
-        <div style={{ width: '50%' }}>
+        <div>
           <D.WordTitle>설명</D.WordTitle>
-          <D.Title style={{ minWidth: '200px' }}>
+          <D.TitleText>
             <Form.Control
               type="text"
               placeholder="세트 설명을 입력하세요"
@@ -233,15 +233,15 @@ const WordCreateTchr = () => {
               value={formData.description}
               onChange={e => setFormData({...formData, description: e.target.value})}
             />
-          </D.Title>
+          </D.TitleText>
         </div>
-        <D.Select style={{ width: '20%' }}>
+        <D.Select>
           <D.WordTitle>카테고리</D.WordTitle>
           <Form.Select
             name="category"
             value={category}
             onChange={handleCategoryChange}
-            style={{ paddingLeft: '10px', paddingRight: '0px', fontSize: '1.5rem', borderRadius: '7px', border: '1px solid #ACAACC', width: '100%', height: '38px', marginLeft: '22%' }}
+            style={{ paddingLeft: '10px', paddingRight: '0px', fontSize: '1.5rem', borderRadius: '7px', border: '1px solid #ACAACC', width: '100%', height: '38px', marginLeft: '19%' }}
           >
             <option value="">카테고리 선택</option>
             {Object.entries(categoryOptions).map(([key, value]) => (
@@ -260,10 +260,9 @@ const WordCreateTchr = () => {
               {isLoading && modalCardIndex === card.wordId ? ( // 이미지 생성 중인 경우
                   <p>이미지 생성 중...</p>
                 ) : card.imagePreviewUrl ? (
-                  <img
+                  <W.WordImg
                     src={card.imagePreviewUrl}
                     alt="미리보기"
-                    style={{ maxWidth: '200px' ,borderRadius: '7px', border: '4px solid #ACAACC', width: '100%', height: 'auto', marginLeft: '0px' }}
                   />
                 ) : (
                   <div>

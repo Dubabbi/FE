@@ -15,7 +15,8 @@ export default function Select() {
             </L.Logo>
         <L.LoginWrapper>
             <L.Page>
-            <L.TitleWrap>
+                <div style={{width: '100%'}}>
+            <L.TitleWrap style={{marginTop: '12%'}}>
             <p>Welcome!</p>
             </L.TitleWrap>
             <S.ChoiceBox>
@@ -24,6 +25,7 @@ export default function Select() {
                 <S.OptionLink href="/SignupTchr">교사
                     <br/><img src={Tchr} alt="" /></S.OptionLink>
                 </S.ChoiceBox>
+                </div>
                 </L.Page>
             </L.LoginWrapper>
         </L.AppContainer>

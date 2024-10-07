@@ -12,7 +12,7 @@ import hint from "../../assets/icon/hint.svg";
 import * as O from "./Template1Std";
 import Pink from "/src/assets/icon/heartpink.svg";
 import White from "/src/assets/icon/heartwhite.svg";
-import Reward from "../Reward/Reward";
+import Reward from "../Reward/Reward5";
 import { ModalOverlay } from "./Feedback2";
 
 export const HintBox = styled.div`
@@ -36,8 +36,9 @@ export const HintBox = styled.div`
 `;
 
 const Template5Std = () => {
-  const template5Id = useLocation().state;
+  const template5Id = useLocation().state?.templateId;
   const navigate = useNavigate();
+  const [userId, setUserId] = useState();
   const [feedbackData, setFeedbackData] = useState(null);
   const [showReward, setShowReward] = useState(false);
   const answerRef = useRef(false);
@@ -60,11 +61,13 @@ const Template5Std = () => {
       used: [0, 0, 0],
     },
   ]);
-  //const template5Id = 1;
 
   useEffect(() => {
+    const accessToken = localStorage.getItem("key");
     axios
-      .get(`https://maeummal.com/template5/get?temp5Id=${template5Id}`)
+      .get(`https://maeummal.com/template5/get?temp5Id=${template5Id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
       .then((response) => {
         if (response.data.isSuccess) {
           const data = response.data.data.wordCardList;
@@ -72,6 +75,21 @@ const Template5Std = () => {
           let newWord = [];
           data.map((el, index) => (newWord[index] = el.meaning));
           setWord(newWord.sort(() => Math.random() - 0.5));
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
+    axios
+      .get("https://maeummal.com/auth/userId", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setUserId(response.data);
         }
       })
       .catch((error) => {
@@ -158,7 +176,7 @@ const Template5Std = () => {
     const payload = {
       templateId: template5Id,
       answerList: finalAnswer,
-      studentId: 1,
+      studentId: userId,
       templateType: "TEMPLATE5",
     };
     axios

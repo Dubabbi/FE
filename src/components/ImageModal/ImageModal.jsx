@@ -64,7 +64,7 @@ const ModalComponent = ({
               )
             ) : (
               <div>
-                <p>이미지 설명을 입력해 주세요.</p>
+                <p style={{fontSize: '1.2rem'}}>이미지 설명을 <br />입력해 주세요.</p>
               </div>
             )}
           </C.ModalImage>

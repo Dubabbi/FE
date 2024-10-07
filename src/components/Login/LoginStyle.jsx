@@ -56,36 +56,40 @@ export const LoginWrapper = styled.div`
 
 export const Page = styled.div`
   position: fixed;
-  right: 5%;
-  top: 7%;
-  bottom: 7%;
-  width: 38%;
-  flex-direction: column;
-  border-radius: 2rem;
-  background-color: rgba(255, 255, 255, 0.8);
+  width: 70%;
+  margin-right: 5%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  min-height: 80vh;
   box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
-  overflow: auto;  // 내용이 많을 경우 스크롤 가능하도록 설정
+  background: #fff;
+  align-items: center;
+  border-radius: 10px;
+  position: relative;
+  border-radius: 1rem;
+  z-index: 2;
+  
 
-  @media (max-width: 1024px) { 
-    right: 5%;
-    top: 5%;
-    width: 50%;
-    padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center; 
+
+  @media (max-width: 1000px) {
+    width: 80%; 
+    padding: 6% 2%;
+    margin: 0 auto;
   }
-
-  @media (max-width: 768px) { 
-    right: 10%;
-    top: 5%;
-    bottom: 5%;
-    width: 80%;
-    padding: 0 1.5rem;
+  @media (max-width: 780px) {
+    width: 80%; 
+    padding: 7% 2%;
+    margin: 0 auto;
   }
 `;
 
 
 export const TitleWrap = styled.div`
   font-size: 2.6rem;
-  padding-top: 25%;
   margin-bottom: 7%;
   font-weight: bold;
   text-align: center;
@@ -94,6 +98,9 @@ export const TitleWrap = styled.div`
   line-height: 1.5;  
   @media (max-width: 1300px) { 
     font-size: 2.2rem;
+  }
+  @media (max-width: 768px) { 
+    padding-top: 8%;
   }
 `;
 
@@ -109,8 +116,8 @@ export const LostPwMessage = styled.div`
 `;
 
 export const InputTitle = styled.div`
-  margin-left: 21%;
-  max-width: 60%;
+  margin-left: 16%;
+  max-width: 70%;
   margin-bottom: 1%;
   font-size: 1.3rem;
 
@@ -126,8 +133,8 @@ export const InputWrap = styled.div`
   border-radius: 10px;
   padding: 1.3rem;
   margin-bottom: 4%;
-  margin-left: 20%;
-  max-width: 60%;
+  margin-left: 15%;
+  max-width: 70%;
   background-color: #E1E4E7;
 
 
@@ -196,8 +203,8 @@ export const ResetBox = styled.div`
 `
 
 export const BottomButton = styled.button`
-  margin-left: 20%;
-  width: 60%;
+  margin-left: 16%;
+  width: 70%;
   padding: 1.5rem;
   height: 5.5rem;
   border: none;
@@ -244,6 +251,9 @@ export const NoAccount = styled.div`
     &:hover {
       text-decoration: underline;
     
+  }
+  @media(max-width: 780px){
+    padding-bottom: 8%;
   }
 `
 

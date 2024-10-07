@@ -75,15 +75,16 @@ export const answerBox = styled.div`
   justify-content: center;
   font-size: 2rem;
   margin: 10px;
+  padding: 5px;
   border: ${(props) =>
-    props.clickstate ? "2px solid #1400FF" : "2px solid #FF0000"};
+    props["data-clickstate"] ? "2px solid #1400FF" : "2px solid #FF0000"};
 `;
 
 export const SentenceContainer = styled.div`
   width: 45%;
   height: 75px;
   border: ${(props) =>
-    props.answerType ? "2px solid #1400FF" : "2px solid #FF0000"};
+    props["data-answertype"] ? "2px solid #1400FF" : "2px solid #FF0000"};
   border-radius: 12px;
   margin: 30px 10px;
   display: flex;

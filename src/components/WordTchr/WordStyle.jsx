@@ -18,7 +18,11 @@ export const Section = styled.section`
   align-items: center;
   margin-bottom: 2%;
   h1{
+<<<<<<< HEAD
     font-size: 2.6rem;
+=======
+    font-size: 2.3rem;
+>>>>>>> 5f273dfe08cbdc83adecd9c075d88205a1a2472e
     color: #2F327D;
   }
   @media (max-width: 1024px) {
@@ -28,7 +32,7 @@ export const Section = styled.section`
   }
   @media (max-width: 768px) {
     h1{
-        font-size: 1.8rem;
+        font-size: 1.9rem;
     }
   }
 `
@@ -253,6 +257,17 @@ export const AddImage = styled.div`
     }
 `;
 
+export const WordImg = styled.img`
+    max-width: 200px;
+    border-radius: 7px;
+    border: 4px solid #ACAACC;
+    width: 100%;
+    height: auto;
+    margin-left: 0px;
+    @media(max-width: 780px){
+    
+    }
+`;
 
 export const Dropdown = styled.div`
     position: absolute;
@@ -272,3 +287,4 @@ export const Dropdown = styled.div`
         margin-left: 0px;
   }
 `;
+

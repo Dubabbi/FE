@@ -109,6 +109,7 @@ const SignupStd = () => {
       </L.Logo>
       <L.LoginWrapper>
         <L.Page>
+          <div style={{width: '100%'}}>
           {step === 1 && (
             <>
               <S.ImageWrap>
@@ -120,7 +121,7 @@ const SignupStd = () => {
                 <p>회원가입</p>
               </S.TitleWrap>
               <L.InputTitle>이름</L.InputTitle>
-              <S.SecondInputWrap $invalid={!formData.nameValid && formData.name.length > 0}>
+              <S.InputWrap $invalid={!formData.nameValid && formData.name.length > 0}>
                 <S.Input
                   type="name"
                   name="name"
@@ -128,12 +129,12 @@ const SignupStd = () => {
                   value={formData.name}
                   onChange={handleChange}
                 />
-              </S.SecondInputWrap>
+              </S.InputWrap>
               <S.ErrorMessageWrap $show={!formData.nameValid && formData.name.length > 0}>
                 올바른 이름 형식으로 입력해 주세요.
               </S.ErrorMessageWrap>
               <L.InputTitle>이메일</L.InputTitle>
-              <S.SecondInputWrap $invalid={!formData.emailValid && formData.email.length > 0}>
+              <S.InputWrap $invalid={!formData.emailValid && formData.email.length > 0}>
                 <S.Input
                   type="email"
                   name="email"
@@ -141,12 +142,12 @@ const SignupStd = () => {
                   value={formData.email}
                   onChange={handleChange}
                 />
-              </S.SecondInputWrap>
+              </S.InputWrap>
               <S.ErrorMessageWrap $show={!formData.emailValid && formData.email.length > 0}>
                 올바른 이메일 형식으로 입력해주세요.
               </S.ErrorMessageWrap>
               <L.InputTitle>비밀번호</L.InputTitle>
-              <S.SecondInputWrap $invalid={!formData.pwValid && formData.pw.length > 0}>
+              <S.InputWrap $invalid={!formData.pwValid && formData.pw.length > 0}>
                 <S.Input
                   type="password"
                   name="pw"
@@ -154,12 +155,12 @@ const SignupStd = () => {
                   value={formData.pw}
                   onChange={handleChange}
                 />
-              </S.SecondInputWrap>
+              </S.InputWrap>
               <S.ErrorMessageWrap $show={!formData.pwValid && formData.pw.length > 0}>
                 <div>영문, 숫자, 특수기호 조합 8자 이상으로 입력해주세요.</div>
               </S.ErrorMessageWrap>
               <L.InputTitle>비밀번호 확인</L.InputTitle>
-              <S.SecondInputWrap $invalid={formData.confirmPwMsg !== ""}>
+              <S.InputWrap $invalid={formData.confirmPwMsg !== ""}>
                 <S.Input
                   type="password"
                   name="confirmPw"
@@ -167,7 +168,7 @@ const SignupStd = () => {
                   value={formData.confirmPw}
                   onChange={handleChange}
                 />
-              </S.SecondInputWrap>
+              </S.InputWrap>
               <S.ErrorMessageWrap
                 $show={formData.confirmPwMsg && <div>{formData.confirmPwMsg}</div>}
               >
@@ -195,7 +196,7 @@ const SignupStd = () => {
                 <p>회원가입</p>
               </S.TitleWrap>
               <L.InputTitle>휴대폰 번호</L.InputTitle>
-              <S.SecondInputWrap $invalid={!formData.callValid && formData.call.length > 0}>
+              <S.InputWrap $invalid={!formData.callValid && formData.call.length > 0}>
                 <S.Input
                   type="text"
                   name="call"
@@ -203,12 +204,12 @@ const SignupStd = () => {
                   value={formData.call}
                   onChange={handleChange}
                 />
-              </S.SecondInputWrap>
+              </S.InputWrap>
               <S.ErrorMessageWrap $show={!formData.callValid && formData.call.length > 0}>
                 <div>올바른 휴대폰 번호 형식으로 입력해주세요.</div>
               </S.ErrorMessageWrap>
               <L.InputTitle>생년월일</L.InputTitle>
-              <S.SecondInputWrap>
+              <S.InputWrap>
                 <S.Input
                   type="date"
                   name="birthdate"
@@ -216,12 +217,12 @@ const SignupStd = () => {
                   onChange={handleChange}
                   style={{ width: "100%", fontSize: "16px" }}
                 />
-              </S.SecondInputWrap>
+              </S.InputWrap>
               <S.ErrorMessageWrap>
                 <div>.</div>
               </S.ErrorMessageWrap>
               <L.InputTitle>성별</L.InputTitle>
-              <S.SecondInputWrap>
+              <S.InputWrap>
                 <S.Select
                   name="gender"
                   value={formData.gender}
@@ -231,12 +232,12 @@ const SignupStd = () => {
                   <option value="남자">남자</option>
                   <option value="여자">여자</option>
                 </S.Select>
-              </S.SecondInputWrap>
+              </S.InputWrap>
               <S.ErrorMessageWrap>
                 <div>.</div>
               </S.ErrorMessageWrap>
               <L.InputTitle>지능지수 선택</L.InputTitle>
-              <S.SecondInputWrap>
+              <S.InputWrap>
                 <S.Select
                   name="iq"
                   value={formData.iq}
@@ -247,7 +248,7 @@ const SignupStd = () => {
                   <option value="35~49(중증도)">35~49(중증도)</option>
                   <option value="50~70(경도)">50~70(경도)</option>
                 </S.Select>
-              </S.SecondInputWrap>
+              </S.InputWrap>
               <S.ErrorMessageWrap>
                 <div>.</div>
               </S.ErrorMessageWrap>
@@ -261,7 +262,7 @@ const SignupStd = () => {
                 </p>
               </S.NoAccount>
             </>
-          )}
+          )}</div>
         </L.Page>
       </L.LoginWrapper>
     </L.AppContainer>

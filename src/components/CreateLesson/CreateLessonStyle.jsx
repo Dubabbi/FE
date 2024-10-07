@@ -249,7 +249,10 @@ export const ModalContent = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   h1{
     margin: 5%;
-    font-size: 1.2vw;
+    font-size: 1.8rem;
+    @media(max-width: 780px){
+      font-size: 1.6rem;
+    }
   }
 `;
 export const ImageBox = styled.div`

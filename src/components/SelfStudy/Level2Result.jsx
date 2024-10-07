@@ -4,7 +4,6 @@ import * as D from "../WordCreateTchr/WordDetailStyle";
 import * as L from "./Level1Style";
 import * as T from "./Level2Style";
 import Back from "/src/assets/icon/back.svg";
-//import picture from "/src/assets/image/word.svg";
 import hint from "/src/assets/image/hint.svg";
 import { useLocation } from "react-router-dom";
 
@@ -27,7 +26,7 @@ export default function Level2Result() {
         {/* 해답 */}
         <S.rowContainer width="90%">
           <T.SentenceContainer
-            answerType={answerType}
+            data-answertype={answerType}
             style={{ maxWidth: "180px" }}
           >
             {answerType ? "잘했어요!" : "다시 생각해 볼까요?"}
@@ -60,12 +59,12 @@ export default function Level2Result() {
               <L.SecondTitle style={{ width: "150px" }}>
                 {data.firstPart}
               </L.SecondTitle>
-              <T.answerBox clickstate={answerType}>
+              <T.answerBox data-clickstate={answerType}>
                 {dataList[selectNum - 1]}
               </T.answerBox>
             </S.rowContainer>
             {dataList.map((el, index) => (
-              <S.rowContainer onClick={() => numClick(el)}>
+              <S.rowContainer key={index} onClick={() => numClick(el)}>
                 <T.num>{index + 1}</T.num>
                 <T.list>{el}</T.list>
               </S.rowContainer>
