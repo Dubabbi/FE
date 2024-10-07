@@ -222,7 +222,7 @@ const Template2Std = () => {
   const handleCloseReward = () => {
     setShowReward(false);
     navigate('/Feedback2', {
-      state: { feedbackData, description: templateData.description }
+      state: { feedbackData, description: templateData.description, templateTitle: templateData.title }
     });
   };
 

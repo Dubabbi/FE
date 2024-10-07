@@ -263,7 +263,8 @@ const Template4Std = () => {
       state: {
         feedbackData,
         solution: templateData.description,
-        cardData
+        cardData,
+        templateTitle: templateData.title
       }
     });
   };
