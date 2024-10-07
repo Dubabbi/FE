@@ -46,7 +46,7 @@ export const Word = styled.div`
     display: block;
     margin: 0 auto;
     border: ${(props) =>
-      props.clickstate ? "5px solid #0029FF" : "5px solid #feeafa"};
+      props["data-clickstate"] ? "5px solid #0029FF" : "5px solid #feeafa"};
     border-radius: 10px;
   }
 `;
@@ -207,7 +207,7 @@ const Template1Tchr = () => {
                     <Word
                       key={el.wordSetId}
                       onClick={() => cardClick(index)}
-                      clickstate={el.clicked}
+                      data-clickstate={el.clicked}
                     >
                       <img src={el.wordList[0].image} alt={el} />
                       <W.SecondTitle style={{ justifyContent: "center" }}>

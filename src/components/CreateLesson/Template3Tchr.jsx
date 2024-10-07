@@ -6,6 +6,7 @@ import styled from "styled-components";
 import * as C from "./CreateLessonStyle";
 import * as L from "../LessonTchr/LessonStyle";
 import * as D from "../WordCreateTchr/WordDetailStyle";
+import * as T from "../StudyLesson/Template3Std";
 import Back from "/src/assets/icon/back.svg";
 import add from "../../assets/icon/add.svg";
 import Form from "react-bootstrap/Form";
@@ -290,21 +291,21 @@ const Template3Tchr = () => {
                     onChange={(e) => handleChange(e, index)}
                   />
                   <C.InputContainer>
-                  <C.TemHintBox>힌트</C.TemHintBox>
-                  <InputField
-                    style={{
-                      marginTop: "20px",
-                      height: "100px",
-                      paddingTop: "15px",
-                      borderRadius: "10px",
-                    }}
-                    type="text"
-                    name="hint"
-                    placeholder="힌트를 입력해주세요."
-                    as="textarea"
-                    value={values[index].hint}
-                    onChange={(e) => handleChange(e, index)}
-                  />
+                    <C.TemHintBox>힌트</C.TemHintBox>
+                    <InputField
+                      style={{
+                        marginTop: "20px",
+                        height: "100px",
+                        paddingTop: "15px",
+                        borderRadius: "10px",
+                      }}
+                      type="text"
+                      name="hint"
+                      placeholder="힌트를 입력해주세요."
+                      as="textarea"
+                      value={values[index].hint}
+                      onChange={(e) => handleChange(e, index)}
+                    />
                   </C.InputContainer>
                 </Card>
               )
@@ -312,17 +313,7 @@ const Template3Tchr = () => {
           </CardContainer>
         </C.StoryWrap>
         {/* 보기 */}
-        <C.StoryWrap
-          style={{
-            width: "70%",
-            borderRadius: "15px",
-            marginLeft: "15%",
-            marginTop: "40px",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "25px",
-          }}
-        >
+        <T.AiWrap style={{ padding: "25px" }}>
           <ExampleBox>보기</ExampleBox>
           <C.ExampleContainer>
             {Array.from({ length: 5 }).map((_, index) => (
@@ -347,18 +338,8 @@ const Template3Tchr = () => {
               />
             ))}
           </C.ExampleContainer>
-        </C.StoryWrap>
-        <C.StoryWrap
-          style={{
-            width: "70%",
-            borderRadius: "15px",
-            marginLeft: "15%",
-            marginTop: "30px",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "10px",
-          }}
-        >
+        </T.AiWrap>
+        <T.AiWrap style={{ padding: "10px" }}>
           <CardContainer
             style={{
               padding: "0px",
@@ -384,7 +365,7 @@ const Template3Tchr = () => {
               onChange={(e) => setInputComment(e.target.value)}
             />
           </CardContainer>
-        </C.StoryWrap>
+        </T.AiWrap>
         {modalOpen && (
           <ModalComponent
             isOpen={modalOpen}

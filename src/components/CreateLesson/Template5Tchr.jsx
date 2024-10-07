@@ -146,7 +146,7 @@ const Template5Tchr = () => {
                     <O.Word
                       key={el.wordSetId}
                       onClick={() => cardSetClick(index, el.wordSetId)}
-                      clickstate={el.clicked}
+                      data-clickstate={el.clicked}
                     >
                       <img src={el.wordList[0].image} alt={el} />
                       <W.SecondTitle style={{ justifyContent: "center" }}>
