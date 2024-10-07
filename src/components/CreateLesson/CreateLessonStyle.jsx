@@ -255,6 +255,29 @@ export const ModalContent = styled.div`
     }
   }
 `;
+
+export const LoadingContent = styled.div`
+  position: relative;
+  min-width: 450px;
+  height: 300px;
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  h1{
+    margin: 5%;
+    font-size: 1.8rem;
+    @media(max-width: 780px){
+      font-size: 1.6rem;
+    }
+  }
+`;
+
 export const ImageBox = styled.div`
   cursor: pointer;
   transition: transform 0.2s ease;

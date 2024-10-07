@@ -10,6 +10,7 @@ import { ModalOverlay } from './Feedback2';
 import axios from 'axios';
 import Reward from '../Reward/Reward4';
 import Toast from '/src/assets/icon/errortoast.svg';
+import LoadingModal from '../ImageModal/LoadingModal';
 
 const Template4Std = () => {
   const navigate = useNavigate();
@@ -27,7 +28,8 @@ const Template4Std = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCard, setSelectedCard] = useState(null);
   const [imageSelectionOrder, setImageSelectionOrder] = useState({});
-  const [firstFeedback, setFirstFeedback] = useState(null);
+  const [firstFeedback, setFirstFeedback] = useState(null);  
+  const [isCreatingFeedback, setIsCreatingFeedback] = useState(false);  
   useEffect(() => {
     const fetchUserId = async () => {
       const accessToken = localStorage.getItem('key');
@@ -60,7 +62,7 @@ const Template4Std = () => {
       console.error('Template ID is missing');
       return;
     }
-
+    setIsLoading(true); 
     const fetchTemplateData = async () => {
       const accessToken = localStorage.getItem("key");
       if (!accessToken) {
@@ -163,23 +165,28 @@ const Template4Std = () => {
     const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
   
     if (isCorrect) {
+      setIsCreatingFeedback(true); // Set loading true only for final feedback submission
       await submitFeedback(userAnswerOrder);
+      setShowReward(true);
       awardBadge();
+      setIsCreatingFeedback(false); // Reset loading state after feedback is submitted
     } else {
       if (lives > 1) {
         setLives(lives - 1);
         setSelectedImages([]);
         setImageSelectionOrder({});
-        await submitFirstFeedback(userAnswerOrder);
       } else {
         setLives(0);
         setShowHint(false);
         setSelectedImages([]);
         setImageSelectionOrder({});
+        setIsCreatingFeedback(true); // Set loading true for final unsuccessful attempt
         await submitFeedback(userAnswerOrder);
+        setIsCreatingFeedback(false); // Reset loading state after feedback is submitted
       }
     }
   };
+  
   
   const submitFirstFeedback = async (userOrder) => {
     try {
@@ -261,10 +268,9 @@ const Template4Std = () => {
     });
   };
 
-  if (isLoading) {
-    return <p>Loading...</p>; 
+  if (isLoading || isCreatingFeedback) { // Show loading modal when fetching data or creating feedback
+    return <LoadingModal isOpen={isLoading || isCreatingFeedback} />;
   }
-
   return (
     <>
       <D.ImageWrap>

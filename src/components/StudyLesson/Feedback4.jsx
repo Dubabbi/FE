@@ -47,7 +47,7 @@ const Feedback4 = () => {
       </D.ImageWrap>
       <L.LessonWrapper style={{ marginBottom: '5%' }}>
         <L.Section style={{ marginTop: '3%' }}>
-          <h1>{feedbackData.templateTitle || '애니메이션 up 이야기 알아보기'}</h1>
+          <h1>{feedbackData.templateTitle || '강의 제목'}</h1>
           <C.FeedbackContainer>
             <C.HalfLine />
             <C.FeedbackText>최종평가</C.FeedbackText>
