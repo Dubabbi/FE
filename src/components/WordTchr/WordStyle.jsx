@@ -9,6 +9,14 @@ export const LessonWrapper = styled.div`
     max-width: 1000px;
     margin: 0 auto; 
     padding-top: 3%;
+    min-height: 100vh;
+`;
+
+export const Wrapper = styled.div`
+    color: black;
+    max-width: 1000px;
+    margin: 0 auto; 
+    padding-top: 3%;
 `;
 
 export const Section = styled.section`
@@ -19,6 +27,11 @@ export const Section = styled.section`
   h1{
     font-size: 2.3rem;
     color: #2F327D;
+  }
+  @media (max-width: 1024px) {
+    h1{
+        font-size: 2.4rem;
+    }
   }
   @media (max-width: 768px) {
     h1{

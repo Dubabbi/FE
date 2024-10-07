@@ -123,7 +123,7 @@ export const Select = styled.select`
 
 
 export const ErrorMessageWrap = styled.div`
-  margin-left: 22%;
+  margin-left: 20%;
   margin-top: 0.5%;
   max-width: 60%;
   color: red;
@@ -195,4 +195,23 @@ export const SchoolItem = styled.div`
   &:hover {
     background: #f5f5f5;
   }
+`;
+
+export const InputWrap = styled.div`
+  display: flex;
+  border-radius: 10px;
+  padding: 1.3rem;
+  margin-bottom: 1%;
+  margin-left: 15%;
+  max-width: 70%;
+  background-color: #E1E4E7;
+
+
+  @media (max-width: 1024px) {
+    padding: 1.2rem;
+    margin-bottom: 4%;
+    margin-left: 15%;
+    max-width: 70%;
+  }
+
 `;

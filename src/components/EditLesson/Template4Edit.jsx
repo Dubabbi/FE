@@ -236,11 +236,6 @@ const Template4Edit = () => {
         </C.StoryWrap>
       </L.LessonWrapper>
 
-      <C.SubmitButton onClick={handleDeleteTemplate}>
-        <AiFillDelete style={{ marginRight: '8px' }} />
-        템플릿 삭제
-      </C.SubmitButton>
-
       <C.HintWrapper style={{marginTop: '3%'}}>
          <C.HintGroup controlId="formTitle">
             <C.Label>타이틀</C.Label>
@@ -290,8 +285,13 @@ const Template4Edit = () => {
           </C.HintBox>
         </C.HintGroup>
       </C.HintWrapper>
-      <C.SubmitButton onClick={handleSubmit}>제출</C.SubmitButton>
-
+      <C.ButtonContainer>
+      <C.DeleteButton onClick={handleDeleteTemplate}>
+            삭제
+            <AiFillDelete style={{ marginLeft: '5px' }} />
+          </C.DeleteButton>
+      <C.EditButton onClick={handleSubmit}>수정</C.EditButton>
+      </C.ButtonContainer>
       <UploadPhoto
         isOpen={isUploadModalOpen}
         toggleModal={() => setIsUploadModalOpen(false)}

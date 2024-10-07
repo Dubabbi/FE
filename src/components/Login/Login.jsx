@@ -68,6 +68,7 @@ const Login = () => {
           <L.TitleWrap>
             <p>로그인</p>
           </L.TitleWrap>
+          <div style={{width: '100%'}}>
           <L.InputTitle>이메일</L.InputTitle>
           <L.InputWrap>
             <L.Input
@@ -86,10 +87,12 @@ const Login = () => {
               onChange={handlePw}
             />
           </L.InputWrap>
+          
           <L.BottomButton onClick={onClickConfirmButton}>로그인</L.BottomButton>
           <L.NoAccount>
             <a href="/forgotid">아이디 찾기</a> | <a href="/resetpw">비밀번호 찾기</a> | <a href="/Select">회원가입</a>
           </L.NoAccount>
+          </div>
         </L.Page>
       </L.LoginWrapper>
     </L.AppContainer>

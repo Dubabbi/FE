@@ -240,13 +240,6 @@ export default function Template3Edit() {
                 </option>
               ))}
             </Form.Select>
-            <C.SubmitButton
-              style={{ minWidth: "100px" }}
-              onClick={handleDeleteTemplate}
-            >
-              <AiFillDelete style={{ marginRight: "8px" }} />
-              템플릿 삭제
-            </C.SubmitButton>
           </C.Line>
         </D.Select>
         <C.StoryWrap>
@@ -443,7 +436,13 @@ export default function Template3Edit() {
             generatedImageUrl={values[modalCardIndex].image}
           />
         )}
-        <C.SubmitButton onClick={handleCreate}>제출</C.SubmitButton>
+          <C.ButtonContainer>
+          <C.DeleteButton onClick={handleDeleteTemplate}>
+            삭제
+            <AiFillDelete style={{ marginLeft: '5px' }} />
+          </C.DeleteButton>
+          <C.EditButton onClick={handleCreate}>수정</C.EditButton>
+          </C.ButtonContainer>
       </L.LessonWrapper>
     </>
   );

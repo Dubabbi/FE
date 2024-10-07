@@ -194,10 +194,6 @@ const Template2Edit = () => {
           ))}
         </C.Line>
       </L.LessonWrapper>
-      <C.SubmitButton onClick={handleDeleteTemplate}>
-        <AiFillDelete style={{ marginRight: '8px' }} />
-        템플릿 삭제
-      </C.SubmitButton>
       <C.HintWrapper>
         <C.HintGroup>
           <C.Label>타이틀</C.Label>
@@ -263,7 +259,14 @@ const Template2Edit = () => {
           generatedImageUrl={storyCards[modalCardIndex]?.image}
         />
       )}
-      <C.SubmitButton onClick={handleSubmit}>제출</C.SubmitButton>
+
+      <C.ButtonContainer>
+      <C.DeleteButton onClick={handleDeleteTemplate}>
+            삭제
+            <AiFillDelete style={{ marginLeft: '5px' }} />
+          </C.DeleteButton>
+      <C.EditButton onClick={handleSubmit}>수정</C.EditButton>
+      </C.ButtonContainer>
     </>
   );
 };

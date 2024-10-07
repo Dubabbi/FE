@@ -7,6 +7,7 @@ export const LessonWrapper = styled.div`
     color: black;
     max-width: 1000px;
     margin: 0px auto;
+    min-height: 100vh;
     padding-top: 3%;
 `;
 

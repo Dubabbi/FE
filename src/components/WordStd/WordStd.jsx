@@ -88,7 +88,7 @@ export default function WordStd() {
             <W.LessonWrapper>
                 <W.Section>
                     <W.Section>
-                        <h1>낱말 카드 제작</h1>
+                        <h1>낱말 카드 학습</h1>
                     </W.Section>
                     <W.Line>
                     <W.Title>낱말 카드 세트 검색</W.Title>

@@ -858,3 +858,59 @@ export const StuTitle = styled.h1`
     margin-left: 5%;
     position: relative;
 `;
+
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; 
+  margin-top: 3%;
+  gap: 1%;
+  margin-bottom: 3%;
+`;
+
+export const EditButton = styled.button`
+  padding: 0.8rem;
+  height: 3.8rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #ACAACC;
+  color: white;
+  font-size: 1.7rem;
+  cursor: pointer;
+  width: 110px; 
+  &:hover {
+    background-color: #8C84B0;
+  }
+  @media (max-width: 1024px) {
+    font-size: 1.5rem;
+  }
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+  }
+`;
+
+
+export const DeleteButton = styled.button`
+  padding: 0.8rem;
+  height: 3.8rem;
+  border: none;
+  border-radius: 6px;
+  align-items: center;
+  background-color: #E57373;
+  color: white;
+  font-size: 1.7rem;
+  cursor: pointer;
+  width: 110px; 
+  &:hover {
+    background-color: #EF5350; 
+  }
+  @media (max-width: 1024px) {
+    font-size: 1.5rem;
+  }
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+  }
+`;
+

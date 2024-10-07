@@ -142,13 +142,6 @@ export default function Template1Edit() {
                 </C.HintBox>
               </C.HintGroup>
             </C.HintWrapper>
-            <C.SubmitButton
-              style={{ minWidth: "100px", margin: "0" }}
-              onClick={handleDeleteTemplate}
-            >
-              <AiFillDelete style={{ marginRight: "8px" }} />
-              템플릿 삭제
-            </C.SubmitButton>
           </O.Line>
           <O.Line style={{ justifyContent: "center", margin: "0" }}>
             {data?.words.map((el, index) => (
@@ -160,12 +153,13 @@ export default function Template1Edit() {
               </W.Section>
             ))}
           </O.Line>
-          <C.SubmitButton
-            style={{ margin: "0 auto", marginTop: "15px" }}
-            onClick={handleCreate}
-          >
-            "제출"
-          </C.SubmitButton>
+          <C.ButtonContainer>
+          <C.DeleteButton onClick={handleDeleteTemplate}>
+            삭제
+            <AiFillDelete style={{ marginLeft: '5px' }} />
+          </C.DeleteButton>
+          <C.EditButton onClick={handleCreate}>수정</C.EditButton>
+          </C.ButtonContainer>
         </W.Section>
       </W.LessonWrapper>
     </>
