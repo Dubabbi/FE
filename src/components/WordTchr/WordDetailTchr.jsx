@@ -18,6 +18,7 @@ const WordDetailTchr = () => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
   const [category, setCategory] = useState('');
+  const [error, setError] = useState('');
   const [wordSet, setWordSet] = useState({
     title: '',
     category: '',
@@ -157,20 +158,51 @@ const WordDetailTchr = () => {
     }
   }, [wordSet.wordCards]);
 
+  const handleDeleteTemplate = async () => {
+    const confirmDelete = window.confirm('정말 낱말 카드 세트를 삭제하시겠습니까?');
+    if (confirmDelete) {
+      try {
+        const response = await axios.delete(`https://maeummal.com/word/wordSet/${wordSetId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('key')}`
+          }
+        });
+
+        if (response.status === 204) {
+          alert('낱말 세트가 성공적으로 삭제되었습니다.');
+          navigate('/wordtchr'); 
+        }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status === 404) {
+            alert('낱말 세트를 찾을 수 없습니다.');
+          } else if (error.response.status === 403) {
+            alert('자신의 낱말 세트만 삭제할 수 있습니다.');
+          } else {
+            alert(`삭제 실패: ${error.response.data.message}`);
+          }
+        } else {
+          alert(`낱말 세트 삭제 중 오류가 발생했습니다: ${error.message}`);
+        }
+      }
+    }
+  };
+
+
   return (
     <>
       <D.ImageWrap>
         <a href="/WordTchr"><img src={Back} alt="Back to list" /></a>
       </D.ImageWrap>
-      <W.LessonWrapper>
+      <W.Wrapper>
         <W.Section style={{ marginTop: '4%' }}>
           <h1>낱말 카드 수정</h1>
         </W.Section>
-        </W.LessonWrapper>
+        </W.Wrapper>
         <D.TitleLine>
-          <div style={{ width: '50%' }}>
+          <div>
             <D.WordTitle>세트 이름</D.WordTitle>
-            <D.Title>
+            <D.TitleText>
               <Form.Control
                 type="text"
                 name="title"
@@ -178,15 +210,15 @@ const WordDetailTchr = () => {
                 onChange={handleInputChange}
                 placeholder="Enter set name"
               />
-            </D.Title>
+            </D.TitleText>
           </div>
-          <D.Select style={{ width: '20%' }}>
+          <D.Select>
             <D.WordTitle>낱말 개수</D.WordTitle>
             <Form.Select
               name="numberOfWords"
               value={formData.numberOfWords}
               onChange={handleInputChange}
-              style={{ paddingLeft: '10px', paddingRight: '0px', fontSize: '1.5rem', borderRadius: '7px', border: '1px solid #ACAACC', width: '100%', height: '38px', marginLeft: '22%' }}
+              style={{ paddingLeft: '10px', paddingRight: '0px', fontSize: '1.5rem', borderRadius: '7px', border: '1px solid #ACAACC', width: '100%', height: '38px', marginLeft: '19%' }}
             >
               {Array.from({ length: 30 }, (_, i) => i + 1).map((number) => (
                 <option key={number} value={number}>{number}개</option>
@@ -195,9 +227,9 @@ const WordDetailTchr = () => {
           </D.Select>
         </D.TitleLine>
         <D.TitleLine>
-          <div style={{ width: '50%' }}>
+          <div>
             <D.WordTitle>설명</D.WordTitle>
-            <D.Title style={{ minWidth: '200px' }}>
+            <D.TitleText>
               <Form.Control
                 type="text"
                 name="description"
@@ -205,9 +237,9 @@ const WordDetailTchr = () => {
                 onChange={handleInputChange}
                 placeholder="Enter description"
               />
-            </D.Title>
+            </D.TitleText>
           </div>
-        <D.Select style={{ width: '20%' }}>
+        <D.Select>
           <D.WordTitle>카테고리</D.WordTitle>
           <Form.Select
             name="category"
@@ -266,7 +298,7 @@ const WordDetailTchr = () => {
           handleModalSubmit={handleModalSubmit}
           generatedImageUrl={generatedImageUrl}
         />
-        <C.SubmitButton onClick={handleSubmit}>수정</C.SubmitButton>
+        <C.SubmitButton style={{ marginBottom: '15%', marginTop: '5%' }} onClick={handleSubmit}>수정</C.SubmitButton>
     </>
   );
 };

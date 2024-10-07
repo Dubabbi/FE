@@ -449,9 +449,9 @@ export const Line = styled.div`
 export const TitleLine = styled.div`
     margin-bottom: 2%;
     display: flex;
-    max-width: 60%;
+    max-width: 58%;
     justify-content: space-between;
-    margin-left: 16%;
+    margin-left: 18.5%;
     gap: 0;
     flex-direction: row;
     @media (max-width: 780px) {

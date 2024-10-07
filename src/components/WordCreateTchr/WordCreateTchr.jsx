@@ -190,11 +190,11 @@ const WordCreateTchr = () => {
       <D.ImageWrap>
         <a href="/WordTchr"><img src={Back} alt="뒤로 가기" /></a>
       </D.ImageWrap>
-      <W.LessonWrapper>
+      <W.Wrapper>
         <W.Section style={{ marginTop: '4%' }}>
           <h1>낱말 카드 제작</h1>
         </W.Section>
-      </W.LessonWrapper>
+      </W.Wrapper>
         <D.TitleLine>
           <div>
             <D.WordTitle>세트 이름</D.WordTitle>

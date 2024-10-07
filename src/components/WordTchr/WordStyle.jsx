@@ -12,17 +12,20 @@ export const LessonWrapper = styled.div`
     min-height: 100vh;
 `;
 
+export const Wrapper = styled.div`
+    color: black;
+    max-width: 1000px;
+    margin: 0 auto; 
+    padding-top: 3%;
+`;
+
 export const Section = styled.section`
   text-align: center; 
   padding: 50px 0;
   align-items: center;
   margin-bottom: 2%;
   h1{
-<<<<<<< HEAD
-    font-size: 2.6rem;
-=======
     font-size: 2.3rem;
->>>>>>> 5f273dfe08cbdc83adecd9c075d88205a1a2472e
     color: #2F327D;
   }
   @media (max-width: 1024px) {
