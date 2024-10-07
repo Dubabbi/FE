@@ -220,7 +220,7 @@ export default function Template5Edit() {
                     <O.Word
                       key={el.wordSetId}
                       onClick={() => cardSetClick(index, el.wordSetId)}
-                      clickstate={el.clicked}
+                      data-clickstate={el.clicked}
                     >
                       <img src={el.wordList[0].image} alt={el} />
                       <W.SecondTitle style={{ justifyContent: "center" }}>
@@ -234,12 +234,15 @@ export default function Template5Edit() {
           )}
         </W.Section>
         <C.ButtonContainer>
-        <C.DeleteButton onClick={handleDeleteTemplate}>
+          <C.DeleteButton onClick={handleDeleteTemplate}>
             삭제
-            <AiFillDelete style={{ marginLeft: '5px' }} />
+            <AiFillDelete style={{ marginLeft: "5px" }} />
           </C.DeleteButton>
-          <C.EditButton onClick={handleCreate}> {successful ? "수정" : "문제 생성"}</C.EditButton>
-          </C.ButtonContainer>
+          <C.EditButton onClick={handleCreate}>
+            {" "}
+            {successful ? "수정" : "문제 생성"}
+          </C.EditButton>
+        </C.ButtonContainer>
       </W.LessonWrapper>
     </>
   );
