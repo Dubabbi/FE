@@ -238,7 +238,7 @@ export const ModalOverlay = styled.div`
 export const ModalContent = styled.div`
   position: relative;
   min-width: 450px;
-  height: 50vh;
+  min-height: 355px;
   background: white;
   border-radius: 10px;
   padding: 20px;
@@ -369,6 +369,25 @@ export const StoryWrap = styled.div`
   border: 1px solid #DCDCDC;
   margin-left: 5%;
   flex-direction: column;
+`
+
+export const Result = styled.div`
+  width: 70%;
+  border-radius: 15px;
+  border: 1px solid #DCDCDC;
+  padding: 3%;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 18px;
+  @media(max-width: 780px){
+    flex-direction: column;
+    gap: 30px;
+    width: 80%;
+  }
 `
 
 export const CardContainer = styled.div`
@@ -509,10 +528,29 @@ export const FeedbackLine = styled.div`
     gap: 0;
     flex-direction: row;
     justify-content: space-between;
-    @media (max-width: 768px) {
+    @media (max-width: 780px) {
         display: flex;
         flex-direction: column;
         gap: 10px;
+        margin: 0 auto;
+        width: 100%;
+    }
+`
+
+
+export const ImageLine = styled.div`
+    margin: 0 auto;
+    max-width: 100%;
+    display: flex;
+    gap: 3px;
+    flex-direction: row;
+    justify-content: space-between;
+    @media (max-width: 780px) {
+        display: flex;
+        gap: 5px;
+        margin: 0 auto;
+        width: 70%;
+        justify-content: center;
     }
 `
 
@@ -563,7 +601,7 @@ export const SecondBox = styled.div`
     border-radius: 1.3rem;
     box-shadow: inset 0 0 0 4px #969696;
     background-color: rgba(217, 217, 217, 0.14);
-    font-size: 1.2vw;
+    font-size: 1.6rem;
     font-family: arial;
     width: 600px;
     height: 70px;
@@ -572,8 +610,9 @@ export const SecondBox = styled.div`
     align-items: center;
     margin: 0 auto;
     @media (max-width: 768px) {
-        width: 150px;
-        height: 150px;
+        max-width: 440px;
+        max-height: 150px;
+        margin: 0 auto;
     }
 `
 
@@ -658,6 +697,24 @@ export const HintWrapper2 = styled.div`
         width: 70%;
     }
 `;
+
+export const AIWrapper = styled.div`
+  flex: 0 0 auto;
+  text-align: center;
+  margin: 0 auto;
+  border-radius: 1.4rem;
+  border: 2px solid rgba(244, 244, 244, 1);
+  width: 70%;
+  padding: 1rem 0;
+  display: flex;
+  margin-top: 3%;
+  flex-direction: column;
+  align-items: center;
+    @media (max-width: 780px) {
+        width: 80%;
+    }
+`;
+
 
 export const HintGroup2 = styled.div`
   display: flex;
@@ -804,13 +861,18 @@ export const FeedImage = styled.div`
     align-items: center;
     margin: 0 auto;
     img{
-        width: 100%;
+        max-width: 100%;
         border-radius: 1.3rem;
         border: 2px solid #ACAACC;
     }
     @media (max-width: 768px) {
-        width: 150px;
+        width: 100px;
+        min-width: 100px;
         height: 150px;
+        img{
+          max-width: 100px;
+          min-width: 100px;
+        }
     }
 `
 export const FeedTitle = styled.h1`
@@ -853,9 +915,10 @@ export const Border = styled.div`
 
 export const StuTitle = styled.h1`
     display: flex;
+    white-space: nowrap;
     font-size: 1.7rem;
     max-width: 30%;
-    margin-left: 5%;
+    margin-left: 10%;
     position: relative;
 `;
 

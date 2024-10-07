@@ -13,6 +13,7 @@ export const LessonWrapper = styled.div`
 
 export const Section = styled.section`
   padding: 50px 0;
+  text-align: center;
   h1{
     font-size: 2.5rem;
     color: #2F327D;
