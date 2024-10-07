@@ -36,7 +36,10 @@ export const HintBox = styled.div`
 `;
 
 const Template5Std = () => {
-  const template5Id = useLocation().state?.templateId;
+  const accessToken = localStorage.getItem("key");
+  const [template5Id, setTemplate5Id] = useState(
+    useLocation().state?.templateId
+  );
   const navigate = useNavigate();
   const [userId, setUserId] = useState();
   const [feedbackData, setFeedbackData] = useState(null);
@@ -63,7 +66,6 @@ const Template5Std = () => {
   ]);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("key");
     axios
       .get(`https://maeummal.com/template5/get?temp5Id=${template5Id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -71,6 +73,7 @@ const Template5Std = () => {
       .then((response) => {
         if (response.data.isSuccess) {
           const data = response.data.data.wordCardList;
+          setTemplate5Id(response.data.data.temp5Id);
           setWordList(data);
           let newWord = [];
           data.map((el, index) => (newWord[index] = el.meaning));
@@ -182,12 +185,13 @@ const Template5Std = () => {
     axios
       .post("https://maeummal.com/feedback/create", payload, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("key")}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
         if (response.status === 200) {
           setShowReward(true);
+          awardBadge();
           setFeedbackData(response.data);
         }
       })
@@ -210,6 +214,35 @@ const Template5Std = () => {
     setLine([]);
     setfinalAnswer([]);
     setCorrect([]);
+  };
+
+  const awardBadge = async () => {
+    if (userId !== null) {
+      // userId가 null이 아닌지 확인
+      const memberId = userId;
+      const templateType = "TEMPLATE5";
+
+      try {
+        const response = await axios.post(
+          `https://maeummal.com/badges/award?memberId=${memberId}&templateType=${templateType}`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+        if (!response.data.isSuccess) {
+          // 응답 성공 여부 확인
+          console.log("Badge awarded successfully:", response.data);
+        }
+      } catch (error) {
+        console.error(
+          "Error awarding badge:",
+          error.response ? error.response.data : error
+        ); // 오류 응답 로그 개선
+      }
+    } else {
+      console.error("UserId is null, cannot award badge");
+    }
   };
 
   const handleCloseReward = () => {
@@ -245,7 +278,7 @@ const Template5Std = () => {
             {wordList.map((el, index) => (
               <O.ImgContainer
                 key={index}
-                clickstate={clicked[0].clicked[index]}
+                data-clickstate={clicked[0].clicked[index]}
               >
                 <O.Circle />
                 <img
@@ -283,7 +316,7 @@ const Template5Std = () => {
               <O.Text
                 key={index}
                 id="word"
-                clickstate={clicked[1].clicked[index]}
+                data-clickstate={clicked[1].clicked[index]}
                 onClick={(e) => boxClick(e, index)}
               >
                 <O.Circle style={{ left: "-30px" }} />

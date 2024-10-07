@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
-import * as C from '../CreateLesson/CreateLessonStyle';
-import * as L from '../LessonTchr/LessonStyle';
-import * as D from '../WordCreateTchr/WordDetailStyle';
-import Back from '/src/assets/icon/back.svg';
-import Pink from '/src/assets/icon/heartpink.svg';
-import White from '/src/assets/icon/heartwhite.svg';
-import { ModalOverlay } from './Feedback2';
-import Reward from '../Reward/Reward2';
-import Toast from '/src/assets/icon/errortoast.svg';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
+import * as C from "../CreateLesson/CreateLessonStyle";
+import * as L from "../LessonTchr/LessonStyle";
+import * as D from "../WordCreateTchr/WordDetailStyle";
+import Back from "/src/assets/icon/back.svg";
+import Pink from "/src/assets/icon/heartpink.svg";
+import White from "/src/assets/icon/heartwhite.svg";
+import { ModalOverlay } from "./Feedback2";
+import Reward from "../Reward/Reward2";
+import Toast from "/src/assets/icon/errortoast.svg";
 
 const Template2Std = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [userId, setUserId] = useState(null);
-  const [templateId, setTemplateId] = useState(location.state?.templateId || null);
+  const [templateId, setTemplateId] = useState(
+    location.state?.templateId || null
+  );
   const [showReward, setShowReward] = useState(false);
   const [feedbackData, setFeedbackData] = useState(null);
   const [templateData, setTemplateData] = useState(null);
@@ -26,60 +28,64 @@ const Template2Std = () => {
   const [imageSelectionOrder, setImageSelectionOrder] = useState({});
   useEffect(() => {
     const fetchUserId = async () => {
-      const accessToken = localStorage.getItem('key');
+      const accessToken = localStorage.getItem("key");
       if (!accessToken) {
-        console.error('Authentication token is missing');
+        console.error("Authentication token is missing");
         return;
       }
-  
+
       try {
-        const response = await axios.get('https://maeummal.com/auth/userId', {
-          headers: { Authorization: `Bearer ${accessToken}` }
+        const response = await axios.get("https://maeummal.com/auth/userId", {
+          headers: { Authorization: `Bearer ${accessToken}` },
         });
         if (response.status === 200) {
-          console.log('Fetched user ID:', response.data); // Log to see what is actually returned
+          console.log("Fetched user ID:", response.data); // Log to see what is actually returned
           setUserId(response.data); // Assuming the response is just the userId
         } else {
-          throw new Error('Failed to fetch user ID');
+          throw new Error("Failed to fetch user ID");
         }
       } catch (error) {
-        console.error('Error fetching user ID:', error.message || 'Unknown error');
+        console.error(
+          "Error fetching user ID:",
+          error.message || "Unknown error"
+        );
       }
     };
-  
+
     fetchUserId();
   }, []);
-  
-  
 
   useEffect(() => {
     if (!templateId) {
-      console.error('Template ID is missing');
+      console.error("Template ID is missing");
       return;
     }
 
     const fetchTemplateData = async () => {
       const accessToken = localStorage.getItem("key");
       if (!accessToken) {
-        console.error('Authentication required');
+        console.error("Authentication required");
         return;
       }
 
       try {
-        const response = await axios.get(`https://maeummal.com/template2/get?template2Id=${templateId}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
+        const response = await axios.get(
+          `https://maeummal.com/template2/get?template2Id=${templateId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
           }
-        });
+        );
 
         if (response.data.isSuccess && response.data.data) {
           setTemplateData(response.data.data);
           setSelectedImages([]);
         } else {
-          throw new Error('Failed to fetch data');
+          throw new Error("Failed to fetch data");
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       } finally {
         setIsLoading(false);
       }
@@ -89,41 +95,51 @@ const Template2Std = () => {
   }, [templateId]);
 
   const toggleSelectImage = (id) => {
-    const index = selectedImages.findIndex(item => item.id === id);
+    const index = selectedImages.findIndex((item) => item.id === id);
     if (index === -1) {
-      const newImages = [...selectedImages, { id, originalIndex: selectedImages.length + 1 }];
+      const newImages = [
+        ...selectedImages,
+        { id, originalIndex: selectedImages.length + 1 },
+      ];
       setSelectedImages(newImages);
-      setImageSelectionOrder(newImages.reduce((acc, item, idx) => {
-        acc[item.id] = idx + 1;
-        return acc;
-      }, {}));
+      setImageSelectionOrder(
+        newImages.reduce((acc, item, idx) => {
+          acc[item.id] = idx + 1;
+          return acc;
+        }, {})
+      );
     } else {
-      const newImages = selectedImages.filter(item => item.id !== id);
+      const newImages = selectedImages.filter((item) => item.id !== id);
       setSelectedImages(newImages);
-      setImageSelectionOrder(newImages.reduce((acc, item, idx) => {
-        acc[item.id] = idx + 1;
-        return acc;
-      }, {}));
+      setImageSelectionOrder(
+        newImages.reduce((acc, item, idx) => {
+          acc[item.id] = idx + 1;
+          return acc;
+        }, {})
+      );
     }
   };
 
   const handleSubmit = async () => {
     if (!templateData || !templateData.templateId) {
-      console.error('Template data is missing, please try again.');
+      console.error("Template data is missing, please try again.");
       return;
     }
 
     const userAnswerOrder = selectedImages
       .sort((a, b) => a.originalIndex - b.originalIndex)
-      .map(item => {
-        const card = templateData.storyCardEntityList.find(card => card.storyCardId === item.id);
+      .map((item) => {
+        const card = templateData.storyCardEntityList.find(
+          (card) => card.storyCardId === item.id
+        );
         return card.answerNumber;
       });
 
     const correctOrder = templateData.storyCardEntityList
-      .map(card => card.answerNumber)
+      .map((card) => card.answerNumber)
       .sort((a, b) => a - b);
-    const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
+    const isCorrect =
+      JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
 
     if (isCorrect) {
       await submitFeedback(userAnswerOrder);
@@ -145,53 +161,65 @@ const Template2Std = () => {
   const submitFeedback = async (userAnswerOrder) => {
     try {
       const accessToken = localStorage.getItem("key");
-      const response = await axios.post('https://maeummal.com/feedback/create', {
-        templateId: templateData.templateId,
-        answerList: userAnswerOrder.map(String),
-        studentId: userId,
-        templateType: "TEMPLATE2",
-        title: templateData.title
-      }, {
-        headers: { Authorization: `Bearer ${accessToken}` }
-      });
+      const response = await axios.post(
+        "https://maeummal.com/feedback/create",
+        {
+          templateId: templateData.templateId,
+          answerList: userAnswerOrder.map(String),
+          studentId: userId,
+          templateType: "TEMPLATE2",
+          title: templateData.title,
+        },
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
 
       if (response.data && response.data.id) {
         setFeedbackData(response.data);
         handleShowReward(true);
       } else {
-        console.error('Failed to submit feedback:', response.data.message || 'Unknown error');
+        console.error(
+          "Failed to submit feedback:",
+          response.data.message || "Unknown error"
+        );
       }
     } catch (error) {
-      console.error('Error during feedback submission:', error);
+      console.error("Error during feedback submission:", error);
     }
   };
 
   const awardBadge = async () => {
-    if (userId !== null) {  // userId가 null이 아닌지 확인
+    if (userId !== null) {
+      // userId가 null이 아닌지 확인
       const accessToken = localStorage.getItem("key");
       const memberId = userId;
       const templateType = "TEMPLATE2";
-      
+
       try {
         const response = await axios.post(
-          `https://maeummal.com/badges/award?memberId=${memberId}&templateType=${templateType}`, 
-          {}, 
+          `https://maeummal.com/badges/award?memberId=${memberId}&templateType=${templateType}`,
+          {},
           {
-            headers: { Authorization: `Bearer ${accessToken}` }
+            headers: { Authorization: `Bearer ${accessToken}` },
           }
         );
-  
-        if (!response.data.isSuccess) {  // 응답 성공 여부 확인
 
-        console.log('Badge awarded successfully:', response.data)}
+        if (!response.data.isSuccess) {
+          // 응답 성공 여부 확인
+
+          console.log("Badge awarded successfully:", response.data);
+        }
       } catch (error) {
-        console.error('Error awarding badge:', error.response ? error.response.data : error);  // 오류 응답 로그 개선
+        console.error(
+          "Error awarding badge:",
+          error.response ? error.response.data : error
+        ); // 오류 응답 로그 개선
       }
     } else {
-      console.error('UserId is null, cannot award badge');
+      console.error("UserId is null, cannot award badge");
     }
   };
-  
 
   const handleShowReward = (show) => {
     setShowReward(show);
@@ -199,8 +227,8 @@ const Template2Std = () => {
 
   const handleCloseReward = () => {
     setShowReward(false);
-    navigate('/Feedback2', {
-      state: { feedbackData, description: templateData.description }
+    navigate("/Feedback2", {
+      state: { feedbackData, title: templateData.title },
     });
   };
 
@@ -208,44 +236,79 @@ const Template2Std = () => {
     return <p>Loading...</p>;
   }
 
-
   return (
     <>
       <D.ImageWrap>
-        <a href="/MainTchr"><img src={Back} alt="Back" /></a>
+        <a href="/MainTchr">
+          <img src={Back} alt="Back" />
+        </a>
       </D.ImageWrap>
       <D.HeartWrap>
         {Array.from({ length: 2 }).map((_, index) => (
-          <img key={index} src={index < (2 - lives) ? White : Pink} alt="Heart" />
+          <img key={index} src={index < 2 - lives ? White : Pink} alt="Heart" />
         ))}
       </D.HeartWrap>
       <L.LessonWrapper>
         <L.Section>
-          <h1>{templateData ? templateData.title : 'Loading...'}</h1>
-          <p>{templateData ? templateData.description : 'Loading...'}</p>
+          <h1>{templateData ? templateData.title : "Loading..."}</h1>
+          <p>{templateData ? templateData.description : "Loading..."}</p>
         </L.Section>
         <C.Line>
-        {/* templateData.storyCardEntityList가 존재할 때만 map 호출 */}
-        {templateData && templateData.storyCardEntityList ? (
-          templateData.storyCardEntityList.map(card => (
-            <C.TemplateBox key={card.storyCardId} onClick={() => toggleSelectImage(card.storyCardId)} style={{ position: 'relative' }}>
-              <img src={card.image} alt={`Story card ${card.storyCardId}`} style={{ border: selectedImages.some(item => item.id === card.storyCardId) ? '4px solid #ACAACC' : '4px solid #eee' }} />
-              {imageSelectionOrder[card.storyCardId] && (
-                <div style={{ position: 'absolute', top: '5px', right: '5px', color: 'white', fontWeight: 'bold', background: 'rgba(0, 0, 0, 0.5)', padding: '2px 6px', borderRadius: '50%' }}>
-                  {imageSelectionOrder[card.storyCardId]}
-                </div>
-              )}
-            </C.TemplateBox>
-          ))
-        ) : (
-          <p>Loading cards...</p>
-        )}
+          {/* templateData.storyCardEntityList가 존재할 때만 map 호출 */}
+          {templateData && templateData.storyCardEntityList ? (
+            templateData.storyCardEntityList.map((card) => (
+              <C.TemplateBox
+                key={card.storyCardId}
+                onClick={() => toggleSelectImage(card.storyCardId)}
+                style={{ position: "relative" }}
+              >
+                <img
+                  src={card.image}
+                  alt={`Story card ${card.storyCardId}`}
+                  style={{
+                    border: selectedImages.some(
+                      (item) => item.id === card.storyCardId
+                    )
+                      ? "4px solid #ACAACC"
+                      : "4px solid #eee",
+                  }}
+                />
+                {imageSelectionOrder[card.storyCardId] && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "5px",
+                      right: "5px",
+                      color: "white",
+                      fontWeight: "bold",
+                      background: "rgba(0, 0, 0, 0.5)",
+                      padding: "2px 6px",
+                      borderRadius: "50%",
+                    }}
+                  >
+                    {imageSelectionOrder[card.storyCardId]}
+                  </div>
+                )}
+              </C.TemplateBox>
+            ))
+          ) : (
+            <p>Loading cards...</p>
+          )}
         </C.Line>
       </L.LessonWrapper>
       {showHint && (
-        <C.HintWrapper style={{border: 'none', position: 'fixed', width: '60%', marginLeft: '20%', marginTop: '-4%'}}>
-          <C.HintToast style={{ minWidth: '200px', backgroundColor: '#fff' }}>
-            <img src={Toast} alt="Hint" />{templateData ? templateData.hint : 'Loading...'}
+        <C.HintWrapper
+          style={{
+            border: "none",
+            position: "fixed",
+            width: "60%",
+            marginLeft: "20%",
+            marginTop: "-4%",
+          }}
+        >
+          <C.HintToast style={{ minWidth: "200px", backgroundColor: "#fff" }}>
+            <img src={Toast} alt="Hint" />
+            {templateData ? templateData.hint : "Loading..."}
           </C.HintToast>
         </C.HintWrapper>
       )}
