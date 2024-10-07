@@ -57,10 +57,10 @@ export const Title = styled.h2`
     display: flex;
     margin-top: 10px;
     margin-left: 2px;
-    font-size: 1.2vw;
+    font-size: 1.9rem;
     @media (max-width: 768px) {
         margin-bottom: 5%;
-        font-size: 2.5vw;
+        font-size: 1.7rem;
     }
   }
 `
@@ -69,10 +69,10 @@ export const SecondTitle = styled.h2`
     margin-top: 10%;
     margin-left: 2px;
     margin-bottom: 2%;
-    font-size: 1.2vw;
+    font-size: 1.9rem;
     @media (max-width: 768px) {
         margin-bottom: 5%;
-        font-size: 2.5vw;
+        font-size: 1.7rem;
     }
 `
 export const WordList = styled.div`
@@ -273,21 +273,18 @@ export const WordImg = styled.img`
 `;
 
 export const Dropdown = styled.div`
-    position: absolute;
-    width: 22.5%;
-    min-width: 320px;
-    margin-left: 23.8%;
-    height: auto; 
-    font-size: 10px; 
-    border-radius: 7px;
-    z-index: 1;
-    border: 1px solid #ACAACC;
-    align-items: center;
-    text-align: left;
-    padding-left: 1%;
-    background-color: #fff;
-      @media (max-width: 768px) {
-        margin-left: 0px;
-  }
+  position: absolute;
+  top: 100%;  // 검색창의 하단에 위치
+  left: 0;
+  width: 100%;  // 부모 컨테이너의 너비에 맞춤
+  background-color: white;
+  border: 1px solid #ACAACC;
+  border-radius: 7px;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 `;
-
+export const SearchContainer = styled.div`
+  position: relative;
+  width: 320px;
+  margin: auto;
+`;

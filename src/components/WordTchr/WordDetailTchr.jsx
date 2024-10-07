@@ -8,6 +8,7 @@ import * as D from '../WordCreateTchr/WordDetailStyle';
 import * as C from '../CreateLesson/CreateLessonStyle';
 import Back from '/src/assets/icon/back.svg';
 import placeholderImage from '/src/assets/icon/phimg.svg'; 
+import { AiFillDelete } from "react-icons/ai";
 
 const WordDetailTchr = () => {
   const navigate = useNavigate();
@@ -298,7 +299,13 @@ const WordDetailTchr = () => {
           handleModalSubmit={handleModalSubmit}
           generatedImageUrl={generatedImageUrl}
         />
-        <C.SubmitButton style={{ marginBottom: '15%', marginTop: '5%' }} onClick={handleSubmit}>수정</C.SubmitButton>
+                <C.ButtonContainer>
+        <C.DeleteButton onClick={handleDeleteTemplate}>
+            삭제
+            <AiFillDelete style={{ marginLeft: '5px' }} />
+          </C.DeleteButton>
+          <C.EditButton onClick={handleSubmit}>수정</C.EditButton>
+          </C.ButtonContainer>
     </>
   );
 };

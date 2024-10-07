@@ -92,33 +92,36 @@ export default function WordStd() {
                     </W.Section>
                     <W.Line>
                     <W.Title>낱말 카드 세트 검색</W.Title>
-                        <W.StyledForm onSubmit={(e) => e.preventDefault()}>
-                            <W.StyledButton type="submit" variant="none"><FaSearch size={15} /></W.StyledButton>
-                            <Form.Control
-                                type="text"
-                                placeholder="Search..."
-                                value={searchValue}
-                                onChange={handleSearchChange}
-                                onFocus={() => setShowDropdown(true)}
-                                onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
-                            />
-                        </W.StyledForm>
+                    <W.SearchContainer>
+                    <W.StyledForm onSubmit={(e) => e.preventDefault()}>
+                    <W.StyledButton type="submit" variant="none"><FaSearch size={15} /></W.StyledButton>
+                    <Form.Control
+                        type="text"
+                        placeholder="Search..."
+                        value={searchValue}
+                        onChange={handleSearchChange}
+                        onFocus={() => setShowDropdown(true)}
+                        onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+                    />
+                    </W.StyledForm>
+                    {showDropdown && (
+                    <W.Dropdown>
+                        {dropdownWordSets.map((wordSet) => (
+                        <div
+                            key={wordSet.wordSetId}
+                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px', cursor: 'pointer' }}
+                            onClick={() => handleWordClick(wordSet.wordSetId)}
+                        >
+                            <img src={wordSet.wordList && wordSet.wordList.length > 0 ? wordSet.wordList[0].image : placeholderImage} style={{ width: '50px', marginRight: '10px' }} />
+                            <span>{wordSet.title}</span>
+                            <img src={wordsave} alt="Save" style={{ width: '20px' }} onClick={(e) => handleSave(wordSet.wordSetId, e)} />
+                        </div>
+                        ))}
+                    </W.Dropdown>
+                    )}
+                </W.SearchContainer>
                         </W.Line>
-                        {showDropdown && (
-                            <W.Dropdown>
-                                {dropdownWordSets.map((wordSet) => (
-                                    <div
-                                        key={wordSet.wordSetId}
-                                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px', cursor: 'pointer' }}
-                                        onClick={() => handleWordClick(wordSet.wordSetId)}
-                                    >
-                                        <img src={wordSet.wordList && wordSet.wordList.length > 0 ? wordSet.wordList[0].image : placeholderImage} style={{ width: '50px', marginRight: '10px' }} />
-                                        <span>{wordSet.title}</span>
-                                        <img src={wordsave} alt="Save" style={{ width: '20px' }} onClick={(e) => handleSave(wordSet.wordSetId, e)} />
-                                    </div>
-                                ))}
-                            </W.Dropdown>
-                        )}
+
                     <W.SecondTitle>저장된 낱말 카드</W.SecondTitle>
                     <W.WordList>
                     <W.ChoiceBox>

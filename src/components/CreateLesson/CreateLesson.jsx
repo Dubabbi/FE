@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import * as C from './CreateLessonStyle';
 import * as D from '../WordCreateTchr/WordDetailStyle';
 import * as L from '../LessonTchr/LessonStyle';
+import * as W from '../WordTchr/WordStyle';
 import Back from '/src/assets/icon/back.svg';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
@@ -59,15 +60,15 @@ const CreateLesson = () => {
     };
 
     return (
-        <>
+        <div style={{minHeight: '100vh'}}>
             <D.ImageWrap>
                 <a href="/MainTchr"><img src={Back} alt="Back to main" /></a>
             </D.ImageWrap>
-            <L.LessonWrapper>
+            <W.Wrapper>
                 <L.Section>
                     <h1>강의 생성</h1>
                 </L.Section>
-            </L.LessonWrapper>
+            </W.Wrapper>
             <C.LessonBox>
                 <C.Title>강의 제목</C.Title>
                 <C.Input>
@@ -102,7 +103,7 @@ const CreateLesson = () => {
                 </C.TemplateList>
             </C.LessonBox>
             <C.SubmitButton onClick={handleSubmit} style={{ marginTop: '2%', marginBottom: '3%' }}>제출</C.SubmitButton>
-        </>
+        </div>
     );
 };
 
