@@ -25,8 +25,8 @@ export const ModalOverlay = styled.div`
 const FeedbackTem2 = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  // location.state에서 feedbackId를 가져옵니다.
+  const [userInfo, setUserInfo] = useState({});
+  const [error, setError] = useState('');
   const feedbackId = location.state?.feedbackId;
 
   const [feedbackData, setFeedbackData] = useState({});
@@ -69,13 +69,38 @@ const FeedbackTem2 = () => {
   const handleStop = () => {
     navigate('/MainStd');
   };
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const accessToken = localStorage.getItem("key");
+      if (!accessToken) {
+        setError('Authentication required');
+        return;
+      }
+      try {
+        const response = await axios.get('https://maeummal.com/user', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+        if (response.data.isSuccess) {
+          setUserInfo(response.data.data);
+        } else {
+          throw new Error(response.data.message || 'Failed to fetch user info');
+        }
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+        setError('Failed to fetch user info: ' + error.message);
+      }
+    };
+    fetchUserInfo();
+  }, []);
+
+  const BackLink = userInfo.iq != null ? '/mypagestd' : '/mypagetchr';
 
   const isCorrect = feedbackData.correctnessList ? feedbackData.correctnessList[0] : false;
 
   return (
     <>
       <D.ImageWrap>
-        <a href="/MainStd"><img src={Back} alt="" /></a>
+        <a href={BackLink}><img src={Back} alt="" /></a>
       </D.ImageWrap>
       <L.LessonWrapper style={{ marginBottom: '5%' }}>
         <L.Section>
@@ -84,7 +109,7 @@ const FeedbackTem2 = () => {
         
         {/* 한 번만 정답 또는 오답 표시 */}
         {isCorrect !== null && (
-          <C.FeedbackLine style={{ marginBottom: '5%' }}>
+          <C.FeedbackLine style={{marginBottom: '5%' }}>
             <C.FirstBox>
               <img src={isCorrect ? Correct : Incorrect} alt={isCorrect ? 'Correct' : 'Incorrect'} />
             </C.FirstBox>
@@ -93,33 +118,33 @@ const FeedbackTem2 = () => {
             </C.SecondBox>
           </C.FeedbackLine>
         )}
-        <C.Border>
+        <C.AIWrapper>
         {/* 학생이 선택한 카드 이미지와 설명 */}
         <L.Section>
           <C.StuTitle style={{ fontSize: '1.7rem' }}>학생이 선택한 이미지</C.StuTitle>
-          <C.FeedbackLine>
+          <C.ImageLine>
             {feedbackData.studentFeedbackCards && feedbackData.studentFeedbackCards.map((card, index) => (
               <C.FeedImage key={index}>
-                <img src={card.image} alt={`Student Card ${index + 1}`} style={{ maxWidth: '100%' }} />
+                <img src={card.image} alt={`Student Card ${index + 1}`} />
               </C.FeedImage>
             ))}
-          </C.FeedbackLine>
+          </C.ImageLine>
         </L.Section>
         {/* 정답 카드 이미지와 설명 */}
         <L.Section>
           <C.StuTitle style={{ fontSize: '1.7rem' }}>정답 이미지</C.StuTitle>
-          <C.FeedbackLine>
+          <C.ImageLine>
             {feedbackData.correctFeedbackCards && feedbackData.correctFeedbackCards.map((card, index) => (
               <C.FeedImage key={index}>
                 <img src={card.image} alt={`${card.adjective} ${card.noun}`} style={{ maxWidth: '100%' }} />
                 <span>{card.adjective} {card.noun}</span> {/* 예를 들어, 상큼한 사과 */}
               </C.FeedImage>
             ))}
-          </C.FeedbackLine>
+          </C.ImageLine>
         </L.Section>
-        </C.Border>
+        </C.AIWrapper>
         {/* AI 피드백 */}
-        <C.HintWrapper2 style={{ width: '70%', padding: '1rem 0' }}>
+        <C.AIWrapper>
           <C.HintGroup2 style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '100%', marginTop: '2%' }}>
               <C.Label style={{ marginLeft: '-3%' }}>AI 피드백</C.Label>
@@ -129,14 +154,8 @@ const FeedbackTem2 = () => {
               {feedbackData.aiFeedback || 'AI 피드백 없음'}
             </C.HintBox2>
           </C.HintGroup2>
-        </C.HintWrapper2>
-        {/* 버튼 */}
-        <C.InLineButton>
-          <C.FeedbackButton onClick={handleStop}>그만 할래요</C.FeedbackButton>
-          <C.FeedbackButton>다음 학습</C.FeedbackButton>
-        </C.InLineButton>
-        <h1 style={{ width: '100%', marginLeft: '60%', fontSize: '1vw', color: '#777' }}>➡ 추천 학습: 낱말 카드 학습</h1>
-      </L.LessonWrapper>
+        </C.AIWrapper>
+        </L.LessonWrapper>
     </>
   );
 };

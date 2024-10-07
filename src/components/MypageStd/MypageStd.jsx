@@ -19,6 +19,7 @@ import CodeModal from './CodeModal';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const MypageStd = () => {
+    const [lastFetchedUserId, setLastFetchedUserId] = useState(null);
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
     const [profileImage, setProfileImage] = useState(My);
     const [userId, setUserId] = useState(null);
@@ -40,65 +41,98 @@ const MypageStd = () => {
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate('');
-    useEffect(() => {
-        const fetchUserId = async () => {
-          const accessToken = localStorage.getItem('key');
-          if (!accessToken) {
-            console.error('Authentication token is missing');
+    const fetchStudentDetails = async (userId, accessToken) => {
+        if (!userId) return;
+        if (!accessToken) {
+            setError('Authentication required');
             return;
-          }
-      
-          try {
-            const response = await axios.get('https://maeummal.com/auth/userId', {
-              headers: { Authorization: `Bearer ${accessToken}` }
+        }
+
+        try {
+            const response = await axios.get(`https://maeummal.com/feedback/all?id=${userId}`, {
+                headers: { Authorization: `Bearer ${accessToken}` }
             });
-            if (response.status === 200 && response.data) {
-              if (response.data) {
-                setUserId(response.data);// Call fetch details using fetched userId
-              } 
+
+            if (response.data.isSuccess) {
+                setSelectedStudentDetails(response.data.data);
             } else {
-              throw new Error('Failed to fetch user ID');
+                throw new Error(response.data.message || 'Failed to fetch student details');
             }
-          } catch (error) {
-            console.error('Error fetching user ID:', error.message || 'Unknown error');
-          }
-        };
-      
-        fetchUserId();
-      }, []);
-      
-      // Fetching student details using userId
-      const fetchStudentDetails = async (userId) => {
-        if (userId !== null) {
+        } catch (error) {
+            console.error('Error fetching student details:', error);
+            setError('Failed to fetch student details: ' + error.message);
+        }
+    };
+
+    // Fetch full feedback once a valid userId is available
+    const fetchFullFeedback = async (userId) => {
+        if (!userId || userId === lastFetchedUserId) return; // Check if it's necessary to fetch
+
         const accessToken = localStorage.getItem('key');
         if (!accessToken) {
-          setError('Authentication required');
-          return;
+            setError('Authentication required');
+            return;
         }
+        setIsLoading(true);
+
         try {
-          const response = await axios.get(`https://maeummal.com/feedback/all?id=${userId}`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`
+            const response = await axios.get(`https://maeummal.com/feedback/all?id=${userId}`, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+            if (response.data.isSuccess) {
+                const sortedFeedback = response.data.data.sort((a, b) =>
+                    new Date(b.createdAt) - new Date(a.createdAt)
+                );
+                setSelectedStudentDetails(prevDetails => ({
+                    ...prevDetails,
+                    fullFeedback: sortedFeedback
+                }));
+                setLastFetchedUserId(userId);
+            } else {
+                throw new Error(response.data.message || 'Failed to fetch full feedback');
             }
-          });
-      
-          if (response.data.isSuccess) {
-            setSelectedStudentDetails(response.data.data);
-          } else {
-            throw new Error(response.data.message || 'Failed to fetch student details');
-          }
         } catch (error) {
-          console.error('Error fetching student details:', error);
-          setError('Failed to fetch student details: ' + error.message);
-        }}
-      };
-      
-      // Ensure this useEffect is triggered only when userId is available and has changed
-      useEffect(() => {
-        if (userId) {
-          fetchStudentDetails(userId);
+            console.error('Error fetching full feedback:', error);
+            setError('Failed to fetch full feedback: ' + error.message);
+        } finally {
+            setIsLoading(false);
         }
-      }, [userId]);
+    };
+
+    // Effect to fetch user ID
+    useEffect(() => {
+        const fetchUserId = async () => {
+            const accessToken = localStorage.getItem('key');
+            if (!accessToken) {
+                console.error('Authentication token is missing');
+                return;
+            }
+
+            try {
+                const response = await axios.get('https://maeummal.com/auth/userId', {
+                    headers: { Authorization: `Bearer ${accessToken}` }
+                });
+                if (response.status === 200 && response.data) {
+                    setUserId(response.data);
+                } else {
+                    throw new Error('Failed to fetch user ID');
+                }
+            } catch (error) {
+                console.error('Error fetching user ID:', error.message || 'Unknown error');
+            }
+        };
+
+        fetchUserId();
+    }, []);
+
+    // Effect to fetch student details and feedback when userId changes
+    useEffect(() => {
+        const accessToken = localStorage.getItem('key');
+        if (accessToken && userId) {
+            fetchStudentDetails(userId, accessToken);
+            fetchFullFeedback(userId);
+        }
+    }, [userId]);
       
 
     useEffect(() => {
@@ -198,37 +232,46 @@ const MypageStd = () => {
       };
 
 
-      const fetchFullFeedback = async (userId) => {
-        if (!userId) return;  // Ensure userId is present
-        const accessToken = localStorage.getItem('key');
-        if (!accessToken) {
-          setError('Authentication required');
-          return;
-        }
-        setIsLoading(true);
-        try {
-            const response = await axios.get(`https://maeummal.com/feedback/all?id=${userId}`, {
-                headers: { Authorization: `Bearer ${accessToken}` }
-            });
-            if (response.data.isSuccess) {
-                // Handle sorting and updating state
-                const sortedFeedback = response.data.data.sort((a, b) => 
-                    new Date(b.createdAt) - new Date(a.createdAt)
-                );
-                setSelectedStudentDetails(prevDetails => ({
-                    ...prevDetails,
-                    fullFeedback: sortedFeedback
-                }));
-            } else {
-                throw new Error(response.data.message || 'Failed to fetch full feedback');
+      useEffect(() => {
+        const fetchFullFeedback = async (userId) => {
+            if (!userId) return; // Ensure userId is present
+            if (userId === lastFetchedUserId) return; // 추가된 조건: 이전에 이미 같은 userId로 요청을 보냈다면 중복 요청 방지
+    
+            const accessToken = localStorage.getItem('key');
+            if (!accessToken) {
+                setError('Authentication required');
+                return;
             }
-        } catch (error) {
-            console.error('Error fetching full feedback:', error);
-            setError('Failed to fetch full feedback: ' + error.message);
-        } finally {
-            setIsLoading(false);
+            setIsLoading(true);
+    
+            try {
+                const response = await axios.get(`https://maeummal.com/feedback/all?id=${userId}`, {
+                    headers: { Authorization: `Bearer ${accessToken}` }
+                });
+                if (response.data.isSuccess) {
+                    const sortedFeedback = response.data.data.sort((a, b) =>
+                        new Date(b.createdAt) - new Date(a.createdAt)
+                    );
+                    setSelectedStudentDetails(prevDetails => ({
+                        ...prevDetails,
+                        fullFeedback: sortedFeedback
+                    }));
+                    setLastFetchedUserId(userId); // userId가 성공적으로 처리된 후에 상태 업데이트
+                } else {
+                    throw new Error(response.data.message || 'Failed to fetch full feedback');
+                }
+            } catch (error) {
+                console.error('Error fetching full feedback:', error);
+                setError('Failed to fetch full feedback: ' + error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+    
+        if (userId) {
+            fetchFullFeedback(userId);
         }
-    };
+    }, [userId])
     
 
     const toggleCodeModal = () => {
@@ -489,7 +532,7 @@ const MypageStd = () => {
                 {feedbackExtended && selectedStudentDetails && (
                 <M.Second style={{ paddingTop: '1.7%'}}>
                     <M.DetailTitle style={{ maxWidth: '100%', justifyContent: 'space-between'}}>
-                        <img src={Back} style={{maxWidth: '30px', cursor: 'pointer'}} onClick={handleToggleExtended} alt="Back to main" />
+                        <img src={Back} style={{maxWidth: '30px', cursor: 'pointer'}} onClick={closeAll} alt="Back to main" />
                         <M.DetailLabel>
                             <M.StuProfile src={studentInfo.profileImage || My} />
                             <M.InfoTitle>{studentInfo.name} 학생</M.InfoTitle>

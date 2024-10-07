@@ -42,6 +42,8 @@ export const Answer = ({ title, data, correctList = [true, true, true] }) => (
 
 const FeedbackTem5 = () => {
   const [feedbackData, setFeedbackData] = useState();
+  const [userInfo, setUserInfo] = useState({});
+  const [error, setError] = useState('');
   const feedbackId = 17;
   useEffect(() => {
     axios
@@ -56,73 +58,78 @@ const FeedbackTem5 = () => {
         console.error("Error fetching data:", error);
       });
   }, []);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const accessToken = localStorage.getItem("key");
+      if (!accessToken) {
+        setError('Authentication required');
+        return;
+      }
+      try {
+        const response = await axios.get('https://maeummal.com/user', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+        if (response.data.isSuccess) {
+          setUserInfo(response.data.data);
+        } else {
+          throw new Error(response.data.message || 'Failed to fetch user info');
+        }
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+        setError('Failed to fetch user info: ' + error.message);
+      }
+    };
+    fetchUserInfo();
+  }, []);
+  const BackLink = userInfo.iq != null ? '/mypagestd' : '/mypagetchr';
   return (
     <>
       <D.ImageWrap>
-        <a href="/MainTchr">
+        <a href={BackLink}>
           <img src={Back} alt="Back to main" />
         </a>
       </D.ImageWrap>
       {feedbackData && (
         <L.LessonWrapper style={{ marginBottom: "5%" }}>
-          <L.Section style={{ padding: "50px 0 10px 0" }}>
+          <L.Section>
             <h1>강의 제목</h1>
           </L.Section>
           <C.FeedbackLine
             style={{
               marginBottom: "5%",
-              justifyContent: "center",
-              margin: "20px 20px 40px 100px",
             }}
           >
+            <C.FirstBox>
             <img
-              style={{ height: "60px" }}
               src={
                 feedbackData.correctnessList.includes(false) ? wrong : correct
               }
-            />
-            <C.SecondBox style={{ margin: "0 25px", height: "60px" }}>
+            /></C.FirstBox>
+            <C.SecondBox>
               {feedbackData.solution || "No description provided."}
             </C.SecondBox>
           </C.FeedbackLine>
-          <C.StoryWrap
-            style={{
-              width: "70%",
-              borderRadius: "15px",
-              marginLeft: "15%",
-              marginTop: "30px",
-              alignItems: "center",
-              flexDirection: "row",
-              justifyContent: "center",
-              //padding: "55px 25px 15px 25px",
-              fontSize: "18px",
-              gap: "40px",
-            }}
-          >
+          <C.Result>
             <Answer
               title="학생이 입력한 답"
               data={feedbackData.studentFeedbackCards}
               correctList={feedbackData.correctnessList}
             />
             <Answer title="정답" data={feedbackData.correctFeedbackCards} />
-          </C.StoryWrap>
-          <C.StoryWrap
-            style={{
-              width: "70%",
-              borderRadius: "15px",
-              marginLeft: "15%",
-              marginTop: "30px",
-              alignItems: "center",
-              justifyContent: "left",
-              padding: "55px 25px 15px 25px",
-              fontSize: "18px",
-            }}
-          >
-            <E.ExampleBox style={{ top: "12px", left: "25px" }}>
-              AI 피드백
-            </E.ExampleBox>
+          </C.Result>
+          <C.AIWrapper>
+          <C.HintGroup2 style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '100%', marginTop: '2%' }}>
+              <C.Label style={{ marginLeft: '-3%' }}>AI 피드백</C.Label>
+              <div style={{ width: '70%' }}></div>
+            </div>
+            <C.HintBox2 style={{ width: '90%', border: 'none', fontSize: '1.2rem' , textAlign: 'left' }}>
+             
             {feedbackData.aiFeedback}
-          </C.StoryWrap>
+            </C.HintBox2>
+          </C.HintGroup2>
+        </C.AIWrapper>
         </L.LessonWrapper>
       )}
     </>

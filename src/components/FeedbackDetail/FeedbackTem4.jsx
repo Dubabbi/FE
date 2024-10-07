@@ -27,7 +27,8 @@ export const ModalOverlay = styled.div`
 const FeedbackTem4 = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [userInfo, setUserInfo] = useState({});
+  const [error, setError] = useState('');
   // location.state에서 feedbackId를 가져옵니다.
   const feedbackId = location.state?.feedbackId;
 
@@ -70,13 +71,37 @@ const FeedbackTem4 = () => {
   const handleStop = () => {
     navigate('/MainStd');
   };
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const accessToken = localStorage.getItem("key");
+      if (!accessToken) {
+        setError('Authentication required');
+        return;
+      }
+      try {
+        const response = await axios.get('https://maeummal.com/user', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+        if (response.data.isSuccess) {
+          setUserInfo(response.data.data);
+        } else {
+          throw new Error(response.data.message || 'Failed to fetch user info');
+        }
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+        setError('Failed to fetch user info: ' + error.message);
+      }
+    };
+    fetchUserInfo();
+  }, []);
 
+  const BackLink = userInfo.iq != null ? '/mypagestd' : '/mypagetchr';
   const isCorrect = feedbackData.correctnessList ? feedbackData.correctnessList[0] : false;
 
   return (
     <>
       <D.ImageWrap>
-        <a href="/MainStd"><img src={Back} alt="" /></a>
+        <a href={BackLink}><img src={Back} alt="" /></a>
       </D.ImageWrap>
       <L.LessonWrapper style={{ marginBottom: '5%' }}>
         <L.Section>
@@ -94,32 +119,52 @@ const FeedbackTem4 = () => {
             </C.SecondBox>
           </C.FeedbackLine>
         )}
-        <C.Border>
-        {/* 학생이 선택한 카드 이미지와 설명 */}
+
+        {/* 학생이 선택한 카드 이미지와 설명   */}
         <L.Section>
           <C.StuTitle style={{ fontSize: '1.7rem' }}>학생이 선택한 이미지</C.StuTitle>
-          <C.FeedbackLine>
-            {feedbackData.studentFeedbackCards && feedbackData.studentFeedbackCards.map((card, index) => (
-              <C.FeedImage key={index}>
-                <img src={card.image} alt={`Student Card ${index + 1}`} style={{ maxWidth: '100%' }} />
-              </C.FeedImage>
+          <C.StoryWrap style={{ marginBottom: '3%', border: 'none'  }}>
+          <C.CardContainer>
+            {/* 전달받은 cardData 배열을 사용해 설명과 이미지 렌더링 */}
+           {feedbackData.studentFeedbackCards && feedbackData.studentFeedbackCards.map((card, index) => (
+              <C.SelectCard key={index} style={{ border: '4px solid #eee' }}>
+                <C.StoryList>
+                  <img style={{ height: '100%', border: 'none' }} src={card.image} alt={`Story card ${card.storyCardId}`} />
+                </C.StoryList>
+                <C.Story>
+                  <p style={{ textAlign: 'left', fontSize: '1.2rem' }}>{card.description || '설명이 없습니다.'}</p>
+                </C.Story>
+              </C.SelectCard>
             ))}
-          </C.FeedbackLine>
+          </C.CardContainer>
+        </C.StoryWrap>
         </L.Section>
-        {/* 정답 카드 이미지와 설명 */}
+        {/* 정답 카드 이미지와 설명  */}
         <L.Section>
-          <C.StuTitle style={{ fontSize: '1.7rem' }}>정답 이미지</C.StuTitle>
-          <C.FeedbackLine>
-            {feedbackData.correctFeedbackCards && feedbackData.correctFeedbackCards.map((card, index) => (
-              <C.FeedImage key={index}>
-                <img src={card.image} alt={`Correct Card ${index + 1}`} style={{ maxWidth: '100%' }} />
-              </C.FeedImage>
+          <C.StuTitle style={{ fontSize: '1.7rem', marginLeft: '' }}>정답 이미지</C.StuTitle>
+          <C.StoryWrap style={{ marginBottom: '3%', border: 'none' }}>
+          <C.CardContainer>
+          {feedbackData.correctFeedbackCards && feedbackData.correctFeedbackCards.map((card, index) => (
+              <C.SelectCard key={index} style={{ border: '4px solid #eee' }}>
+                <C.StoryList>
+                  <img style={{ height: '100%', border: 'none' }} src={card.image} alt={`Story card ${card.storyCardId}`} />
+                </C.StoryList>
+                <C.Story>
+                  {/* Display description from studentFeedbackCards for the corresponding index */}
+                  <p style={{ textAlign: 'left', fontSize: '1.2rem' }}>
+                    {feedbackData.studentFeedbackCards && feedbackData.studentFeedbackCards[index]
+                    ? feedbackData.studentFeedbackCards[index].description
+                    : '설명이 없습니다.'}
+                  </p>
+                </C.Story>
+              </C.SelectCard>
             ))}
-          </C.FeedbackLine>
+          </C.CardContainer>
+        </C.StoryWrap>
         </L.Section>
-        </C.Border>
+
         {/* AI 피드백 */}
-        <C.HintWrapper2 style={{ width: '70%', padding: '1rem 0' }}>
+        <C.AIWrapper style={{ width: '70%', padding: '1rem 0' }}>
           <C.HintGroup2 style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '100%', marginTop: '2%' }}>
               <C.Label style={{ marginLeft: '-3%' }}>AI 피드백</C.Label>
@@ -129,7 +174,7 @@ const FeedbackTem4 = () => {
               {feedbackData.aiFeedback || 'AI 피드백 없음'}
             </C.HintBox2>
           </C.HintGroup2>
-        </C.HintWrapper2>
+        </C.AIWrapper>
         {/* 버튼 */}
         <C.InLineButton>
           <C.FeedbackButton onClick={handleStop}>그만 할래요</C.FeedbackButton>
