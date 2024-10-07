@@ -10,7 +10,6 @@ import Back from "/src/assets/icon/back.svg";
 
 const Feedback5 = () => {
   const [data, tempNum] = useLocation().state;
-  console.log(data);
   const [hint, setHint] = useState([false, false, false]);
   const count = data.correctnessList.filter(
     (element) => true === element
@@ -36,13 +35,15 @@ const Feedback5 = () => {
       <L.LessonWrapper style={{ marginBottom: "5%" }}>
         <L.Section style={{ padding: "50px 0 10px 0" }}>
           <h1>{tempNum === 1 ? "카테고리 분류하기" : "어휘카드 매칭 게임"}</h1>
-          <C.FeedbackContainer style={{ margin: "40px 0 20px 100px" }}>
+          <C.FeedbackContainer>
             <C.HalfLine />
             <C.FeedbackText>최종평가</C.FeedbackText>
             <C.HalfLine />
           </C.FeedbackContainer>
         </L.Section>
-        <C.FeedbackLine style={{ justifyContent: "center" }}>
+        <C.FeedbackLine
+          style={{ justifyContent: "center", alignItems: "center" }}
+        >
           <C.FirstBox
             style={{
               boxShadow: "none",
@@ -51,6 +52,7 @@ const Feedback5 = () => {
               height: "120px",
               width: "140px",
               fontSize: "25px",
+              borderRadius: "1rem",
             }}
           >
             {count === 3 ? "정답" : `${count}/3`}
@@ -73,38 +75,17 @@ const Feedback5 = () => {
             </T.ImageBox>
           ))}
         </C.FeedbackLine>
-        <C.StoryWrap
-          style={{
-            width: "70%",
-            borderRadius: "15px",
-            marginLeft: "15%",
-            marginTop: "60px",
-            marginBottom: "15px",
-            alignItems: "center",
-            justifyContent: "left",
-            padding: "55px 25px 15px 25px",
-            fontSize: "18px",
-          }}
-        >
+        <T.AiWrap>
           <E.ExampleBox style={{ top: "12px", left: "25px" }}>
             AI 피드백
           </E.ExampleBox>
           {data.aiFeedback}
-        </C.StoryWrap>
+        </T.AiWrap>
         <C.InLineButton>
           <C.FeedbackButton onClick={handleStop}>그만 할래요</C.FeedbackButton>
           <C.FeedbackButton>다음 학습</C.FeedbackButton>
         </C.InLineButton>
-        <h1
-          style={{
-            width: "100%",
-            marginLeft: "60%",
-            fontSize: "1vw",
-            color: "#777",
-          }}
-        >
-          ➡ 추천 학습: 낱말 카드 학습
-        </h1>
+        <C.RecommendText>➡ 추천 학습: 낱말 카드 학습</C.RecommendText>
       </L.LessonWrapper>
     </>
   );

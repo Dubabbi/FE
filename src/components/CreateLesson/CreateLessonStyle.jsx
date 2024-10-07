@@ -1,51 +1,51 @@
 import styled from "styled-components";
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
 
 export const Input = styled(Form)`
-    margin-left: 5%;
-    width: 40%;
-    min-width: 200px;
-    height: 37px; 
-    font-size: 16px; 
-    border-radius: 7px;
-    border: 1px solid #bbbbbb;
-    display: flex;
-    align-items: center;
-    position: relative;
-    margin-bottom: 5%;
-    
-    .form-control {
-        margin-left: 10px;
-        height: 35px; 
-        font-size: 1.5rem; 
-        border-radius: 5px;
-        padding-right: 80px; 
-        padding-left: 10px;
-    }
+  margin-left: 5%;
+  width: 40%;
+  min-width: 200px;
+  height: 37px;
+  font-size: 16px;
+  border-radius: 7px;
+  border: 1px solid #bbbbbb;
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 5%;
+
+  .form-control {
+    margin-left: 10px;
+    height: 35px;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    padding-right: 80px;
+    padding-left: 10px;
+  }
 `;
 
 export const Line = styled.div`
-    margin: 8%;
-    width: 80%;
-    margin-left: 10%;
+  margin: 8%;
+  width: 80%;
+  margin-left: 10%;
+  display: flex;
+  gap: 10%;
+  flex-direction: row;
+  justify-content: space-between;
+  @media (max-width: 768px) {
     display: flex;
-    gap: 10%;
-    flex-direction: row;
-    justify-content: space-between;
-    @media (max-width: 768px) {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-`
+    flex-direction: column;
+    gap: 10px;
+  }
+`;
 
 export const Title = styled(Form)`
-    margin-left: 5%;
-    width: 40%;;
-    height: 37px; 
-    font-size: 16px; 
-    display: flex;
-    position: relative;
+  margin-left: 5%;
+  width: 40%;
+  height: 37px;
+  font-size: 16px;
+  display: flex;
+  position: relative;
 `;
 export const LessonBox = styled.div`
   width: 70%;
@@ -71,13 +71,13 @@ export const TemplateList = styled.div`
   flex-wrap: nowrap; // 줄바꿈 방지
   overflow-x: auto; // 가로 스크롤 허용
   -webkit-overflow-scrolling: touch; // 모바일에서 부드러운 스크롤 경험 제공
-  img{
+  img {
     max-width: 17%;
   }
   @media (max-width: 1024px) {
     gap: 2%;
     margin-bottom: 5%;
-    img{
+    img {
       max-width: 25%;
       width: 25%;
     }
@@ -85,7 +85,7 @@ export const TemplateList = styled.div`
   @media (max-width: 768px) {
     gap: 1%;
     margin-bottom: 5%;
-    img{
+    img {
       max-width: 40%;
       width: 40%;
     }
@@ -98,7 +98,7 @@ export const TemHintBox = styled.div`
   position: absolute;
   background-color: #fed7d7;
   border-radius: 13px;
-  top: 5px; 
+  top: 5px;
   left: 50%; // 가로 중앙
   transform: translateX(-50%); // 중앙 정렬
   display: flex;
@@ -114,7 +114,7 @@ export const ExampleContainer = styled.div`
   overflow-x: auto;
   margin: 0 15px;
   justify-content: space-evenly;
-  @media(max-width: 780px){
+  @media (max-width: 780px) {
     padding-left: 0px;
     padding-right: 0px;
     padding-top: 0px;
@@ -125,7 +125,7 @@ export const ExampleContainer = styled.div`
 export const InputContainer = styled.div`
   position: relative;
   width: 170px;
-  margin-top: 20px; 
+  margin-top: 20px;
 `;
 
 export const SubmitButton = styled.button`
@@ -137,12 +137,12 @@ export const SubmitButton = styled.button`
   height: 3.8rem;
   border: none;
   border-radius: 6px;
-  background-color: #ACAACC;
+  background-color: #acaacc;
   color: white;
   font-size: 1.7rem;
   cursor: pointer;
   &:hover {
-    background-color: #8C84B0;
+    background-color: #8c84b0;
   }
   @media (max-width: 1024px) {
     width: 20%;
@@ -176,8 +176,6 @@ export const Page = styled.div`
   }
 `;
 
-
-
 export const Card = styled.div`
   background-color: rgba(217, 217, 217, 0.14);
   width: 62%;
@@ -196,9 +194,9 @@ export const TopTab = styled.div`
   width: fit-content;
   color: #ffffff;
   position: absolute;
-  bottom: 100%; 
-  left: 0px; 
-  transform: translate(-50%, 50%); 
+  bottom: 100%;
+  left: 0px;
+  transform: translate(-50%, 50%);
 `;
 
 export const Content = styled.div`
@@ -210,15 +208,15 @@ export const ContentInput = styled.input`
   padding: 40px 30px 30px;
   font-size: 1vw;
   resize: none;
-  width: 80%; 
+  width: 80%;
   margin-left: 10%;
   background-color: rgba(217, 217, 217, 0.14);
-  border: 2px solid #969696; 
-  border-radius: 8px; 
-  color: #333;  
-  outline: none; 
+  border: 2px solid #969696;
+  border-radius: 8px;
+  color: #333;
+  outline: none;
   &:focus {
-    background-color: #ffffff; 
+    background-color: #ffffff;
   }
 `;
 
@@ -247,10 +245,10 @@ export const ModalContent = styled.div`
   align-items: center;
   justify-content: space-around;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  h1{
+  h1 {
     margin: 5%;
     font-size: 1.8rem;
-    @media(max-width: 780px){
+    @media (max-width: 780px) {
       font-size: 1.6rem;
     }
   }
@@ -314,63 +312,63 @@ export const Send = styled.div`
   margin: 3.5px;
   transform: translateY(-50%);
   cursor: pointer;
-`
+`;
 
 export const ModalImg = styled.div`
-    flex: 0 0 auto;
-    text-align: center;
-    padding: 5px;
-    margin: 0 10px;
-    min-width: 130px;
-    div {
-      width: 130px; 
-      height: 130px;
-      display: flex; 
-      flex-direction: column; 
-      justify-content: center; 
-      align-items: center;
-      margin: 0 auto; 
-      border-radius: 5px;
-      background-color: rgba(217, 217, 217, 0.3);
-      img {
-        width: 20%;
-      }
+  flex: 0 0 auto;
+  text-align: center;
+  padding: 5px;
+  margin: 0 10px;
+  min-width: 130px;
+  div {
+    width: 130px;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: rgba(217, 217, 217, 0.3);
+    img {
+      width: 20%;
     }
-`
+  }
+`;
 
 export const ModalImage = styled.div`
-    flex: 0 0 auto;
-    text-align: center;
-    padding: 5px;
-    margin: 0 10px;
-    min-width: 130px;
-    div {
-      width: 130px; 
-      height: 130px;
-      display: flex; 
-      flex-direction: column; 
-      justify-content: center; 
-      align-items: center;
-      margin: 0 auto; 
-      border-radius: 5px;
-      background-color: rgba(217, 217, 217, 0.3);
-      img {
-        width: 30%;
-      }
+  flex: 0 0 auto;
+  text-align: center;
+  padding: 5px;
+  margin: 0 10px;
+  min-width: 130px;
+  div {
+    width: 130px;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: rgba(217, 217, 217, 0.3);
+    img {
+      width: 30%;
     }
-`
+  }
+`;
 
 export const ModalButton = styled.button`
   padding: 8px 20px;
   color: white;
-  background-color: #ACAACC;
+  background-color: #acaacc;
   border: none;
   margin-top: 5%;
   margin-bottom: 2%;
   border-radius: 5px;
   cursor: pointer;
   &:hover {
-    background-color: #8C84B0;
+    background-color: #8c84b0;
   }
   &:disabled {
     background-color: #d3d3d3;
@@ -389,15 +387,15 @@ export const StoryWrap = styled.div`
   display: flex;
   position: relative;
   border-radius: 5px;
-  border: 1px solid #DCDCDC;
+  border: 1px solid #dcdcdc;
   margin-left: 5%;
   flex-direction: column;
-`
+`;
 
 export const Result = styled.div`
   width: 70%;
   border-radius: 15px;
-  border: 1px solid #DCDCDC;
+  border: 1px solid #dcdcdc;
   padding: 3%;
   margin: 0 auto;
   position: relative;
@@ -406,32 +404,31 @@ export const Result = styled.div`
   flex-direction: row;
   justify-content: center;
   font-size: 18px;
-  @media(max-width: 780px){
+  @media (max-width: 780px) {
     flex-direction: column;
     gap: 30px;
     width: 80%;
   }
-`
+`;
 
 export const CardContainer = styled.div`
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;  
+  flex-wrap: nowrap;
   justify-content: space-around;
-  overflow-x: auto; 
-  width: 100%;       
-  padding-top: 20px;   
+  overflow-x: auto;
+  width: 100%;
+  padding-top: 20px;
 `;
 
 export const SelectCard = styled.div`
   width: 30%;
-  background: #FFFFFF;
+  background: #ffffff;
   border: 1px solid #ddd;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-    
 `;
 
 export const SelectBox = styled.div`
@@ -443,7 +440,7 @@ export const SelectBox = styled.div`
   div {
     width: 80%;
     height: 170px;
-    border: 2px solid #F6F6F6;
+    border: 2px solid #f6f6f6;
     border-radius: 1rem;
     display: flex;
     justify-content: center;
@@ -463,18 +460,18 @@ export const StoryField = styled.input`
   font-size: 1.4rem;
   border: none;
   border-radius: 5px;
-  background: #F6F6F6;
+  background: #f6f6f6;
   color: #777777;
   text-align: center;
   height: 100px;
-  outline: none; 
+  outline: none;
   &:focus {
     box-shadow: inset 0 0 0 2px #777777;
   }
   &::placeholder {
     color: #777777;
   }
-  @media(max-width: 780px){
+  @media (max-width: 780px) {
     font-size: 1.3rem;
   }
 `;
@@ -487,11 +484,11 @@ export const Story = styled.div`
   font-size: 0.8vw;
   border: none;
   border-radius: 5px;
-  background: #F6F6F6;
+  background: #f6f6f6;
   color: #333333;
   text-align: center;
   height: 100px;
-  outline: none; 
+  outline: none;
 `;
 
 export const ImageList = styled.div`
@@ -503,7 +500,7 @@ export const ImageList = styled.div`
   img {
     width: 100%;
     height: 170px;
-    border: 2px solid #F6F6F6;
+    border: 2px solid #f6f6f6;
     border-radius: 1rem;
     display: flex;
     justify-content: center;
@@ -531,7 +528,7 @@ export const InLineButton = styled.div`
 export const FeedbackButton = styled.button`
   padding: 10px 65px;
   color: white;
-  background-color: #ACAACC;
+  background-color: #acaacc;
   border: none;
   margin-top: 5%;
   width: 100%;
@@ -539,105 +536,85 @@ export const FeedbackButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   &:hover {
-    background-color: #8C84B0;
+    background-color: #8c84b0;
   }
 `;
 
 export const FeedbackLine = styled.div`
-    margin: 2%;
-    width: 80%;
-    margin-left: 10%;
+  margin: 2%;
+  width: 80%;
+  margin-left: 10%;
+  display: flex;
+  gap: 0;
+  flex-direction: row;
+  justify-content: space-between;
+  @media (max-width: 768px) {
     display: flex;
-    gap: 0;
-    flex-direction: row;
-    justify-content: space-between;
-    @media (max-width: 780px) {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin: 0 auto;
-        width: 100%;
-    }
-`
-
-
-export const ImageLine = styled.div`
-    margin: 0 auto;
-    max-width: 100%;
-    display: flex;
-    gap: 3px;
-    flex-direction: row;
-    justify-content: space-between;
-    @media (max-width: 780px) {
-        display: flex;
-        gap: 5px;
-        margin: 0 auto;
-        width: 70%;
-        justify-content: center;
-    }
-`
+    flex-direction: column;
+    gap: 10px;
+  }
+`;
 
 export const ImageListBox = styled.div`
-    flex: 0 0 auto;
-    text-align: center;
-    min-width: 200px; 
-    border-radius: 1.3rem;
-    border: 1px solid #ACAACC;
-    width: 200px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    img{
-        width: 40%;
-        cursor: pointer;
-    }
-    @media (max-width: 768px) {
-        width: 150px;
-        height: 150px;
-    }
-`
+  flex: 0 0 auto;
+  text-align: center;
+  min-width: 200px;
+  border-radius: 1.3rem;
+  border: 1px solid #acaacc;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  img {
+    width: 40%;
+    cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
+  }
+`;
 
 export const FirstBox = styled.div`
-    flex: 0 0 auto;
-    text-align: center;
-    width: auto;
+  flex: 0 0 auto;
+  text-align: center;
+  width: auto;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5vw;
+  margin: 0 auto;
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
+  }
+  img {
     height: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5vw;
-    margin: 0 auto;
-    @media (max-width: 768px) {
-        width: 150px;
-        height: 150px;
-    }
-    img{
-     height: 70px;
-    }
-`
+  }
+`;
 
 export const SecondBox = styled.div`
-    flex: 0 0 auto;
-    text-align: center;
-    border-radius: 1.3rem;
-    box-shadow: inset 0 0 0 4px #969696;
-    background-color: rgba(217, 217, 217, 0.14);
-    font-size: 1.6rem;
-    font-family: arial;
-    width: 600px;
-    height: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    @media (max-width: 768px) {
-        max-width: 440px;
-        max-height: 150px;
-        margin: 0 auto;
-    }
-`
+  flex: 0 0 auto;
+  text-align: center;
+  border-radius: 1.3rem;
+  box-shadow: inset 0 0 0 4px #969696;
+  background-color: rgba(217, 217, 217, 0.14);
+  font-size: 1.2vw;
+  font-family: arial;
+  width: 600px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
+  }
+`;
 
 export const FeedbackContainer = styled.div`
   display: flex;
@@ -662,47 +639,47 @@ export const FeedbackText = styled.div`
 `;
 
 export const HintWrapper = styled.div`
-    flex: 0 0 auto;
-    text-align: center;
-    min-width: 220px; 
-    border-radius: 1.4rem;
-    border: 2px solid rgba(244, 244, 244, 1);
-    width: 55%;
+  flex: 0 0 auto;
+  text-align: center;
+  min-width: 220px;
+  border-radius: 1.4rem;
+  border: 2px solid rgba(244, 244, 244, 1);
+  width: 55%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  @media (max-width: 768px) {
+    width: auto;
+    max-width: 90%;
     height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 auto;
-    @media (max-width: 768px) {
-        width: auto;
-        max-width: 90%;
-        height: auto;
-    }
-`
+  }
+`;
 
 export const HintBox = styled(Form)`
-    width: 75%;
-    height: 37px; 
-    font-size: 17px; 
-    border-radius: 7px;
-    border: 1.5px solid #ACAACC;
-    margin: 2%;
-    display: flex;
-    align-items: center;
-    position: relative;
-    padding-left: 15px;
-    
-    .form-control {
-        height: 35px; 
-        font-size: 1.5rem; 
-        min-width: 100%;
-        border-radius: 5px;
-        padding-right: 10px; 
-        padding-left: 10px;
-      @media(max-width: 780px){
-        font-size: 1.3rem;
-      }
+  width: 75%;
+  height: 37px;
+  font-size: 17px;
+  border-radius: 7px;
+  border: 1.5px solid #acaacc;
+  margin: 2%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 15px;
+
+  .form-control {
+    height: 35px;
+    font-size: 1.5rem;
+    min-width: 100%;
+    border-radius: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    @media (max-width: 780px) {
+      font-size: 1.3rem;
     }
+  }
 `;
 
 export const HintWrapper2 = styled.div`
@@ -716,9 +693,9 @@ export const HintWrapper2 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-      @media (max-width: 768px) {
-        width: 70%;
-    }
+  @media (max-width: 768px) {
+    width: 70%;
+  }
 `;
 
 export const AIWrapper = styled.div`
@@ -733,15 +710,14 @@ export const AIWrapper = styled.div`
   margin-top: 3%;
   flex-direction: column;
   align-items: center;
-    @media (max-width: 780px) {
-        width: 80%;
-    }
+  @media (max-width: 780px) {
+    width: 80%;
+  }
 `;
-
 
 export const HintGroup2 = styled.div`
   display: flex;
-  flex-direction: column;  /* Row에서 Column으로 변경 */
+  flex-direction: column; /* Row에서 Column으로 변경 */
   justify-content: flex-start;
   align-items: center;
   width: 100%;
@@ -752,34 +728,32 @@ export const HintBox2 = styled.div`
   width: 75%;
   font-size: 17px;
   border-radius: 7px;
-  border: 1.5px solid #ACAACC;
+  border: 1.5px solid #acaacc;
   margin: 2%;
   display: flex;
   align-items: center;
   position: relative;
   padding: 15px;
-  min-height: 37px;  /* 최소 높이 설정 */
-  height: auto;  /* 높이를 자동으로 설정 */
+  min-height: 37px; /* 최소 높이 설정 */
+  height: auto; /* 높이를 자동으로 설정 */
 
   .form-control {
-    width: 100%;  /* 넓이를 100%로 설정 */
+    width: 100%; /* 넓이를 100%로 설정 */
     font-size: 1.5rem;
     border-radius: 5px;
     padding: 10px;
-        padding-right: 10px; 
-        padding-left: 10px;/* 텍스트 영역의 크기 조정 비활성화 */
+    padding-right: 10px;
+    padding-left: 10px; /* 텍스트 영역의 크기 조정 비활성화 */
   }
-  
+
   /* 텍스트가 길어질 경우 줄바꿈 허용 */
   word-wrap: break-word;
   white-space: pre-wrap;
 `;
 
-
-
 export const Label = styled.div`
   font-size: 1.2rem;
-  background-color: #FED7D7;
+  background-color: #fed7d7;
   font-weight: bold;
   border-radius: 10px;
   color: #333;
@@ -795,115 +769,107 @@ export const HintGroup = styled.div`
   width: 100%;
 `;
 
-
 export const Box = styled.div`
-    flex: 0 0 auto;
-    text-align: center;
-    min-width: 200px; 
-    border-radius: 1.3rem;
-    border: 3px solid #eee;
-    width: 200px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    img{
-        width: 40%;
-        cursor: pointer;
-    }
-    @media (max-width: 768px) {
-        width: 150px;
-        height: 150px;
-    }
-`
-
-export const TemplateBox = styled.div`
-    flex: 0 0 auto;
-    text-align: center;
-    min-width: 200px; 
-    width: 200px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    img{
-        width: 100%;
-        cursor: pointer;
-        border-radius: 1.3rem;
-        border: 3px solid #eee;
-    }
-    @media (max-width: 768px) {
-        width: 150px;
-        height: 150px;
-    }
-`
-
-export const HintToast = styled.div` 
-    width: 75%;
-    minWidth: 200px;
-    height: 37px; 
-    font-size: 17px; 
-    flex-direction: row;
-    border-radius: 7px;
-    gap: 5%;
-    margin: 2%;
-    display: flex;
-    align-items: center;
-    position: relative;
-    padding-left: 15px;
-    border: 1.3px solid #B40000;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    img{
-      max-width: 28px;
-    }
+  flex: 0 0 auto;
+  text-align: center;
+  min-width: 200px;
+  border-radius: 1.3rem;
+  border: 3px solid #eee;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  img {
+    width: 40%;
+    cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
+  }
 `;
 
+export const TemplateBox = styled.div`
+  flex: 0 0 auto;
+  text-align: center;
+  min-width: 200px;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  img {
+    width: 100%;
+    cursor: pointer;
+    border-radius: 1.3rem;
+    border: 3px solid #eee;
+  }
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
+  }
+`;
+
+export const HintToast = styled.div`
+  width: 75%;
+  minwidth: 200px;
+  height: 37px;
+  font-size: 17px;
+  flex-direction: row;
+  border-radius: 7px;
+  gap: 5%;
+  margin: 2%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 15px;
+  border: 1.3px solid #b40000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  img {
+    max-width: 28px;
+  }
+`;
 
 export const Upload = styled.img`
-    width: 20%;
-    height: auto;
-    text-align: center;
-    align-items: center;
-    cursor: pointer;
-    @media(max-width: 780px){
-      width: 30%;
-    }
-`
-;
+  width: 20%;
+  height: auto;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+  @media (max-width: 780px) {
+    width: 30%;
+  }
+`;
 
 export const FeedImage = styled.div`
-    flex: 0 0 auto;
-    text-align: center;
-    min-width: 180px; 
-    width: 180px;
-    height: 180px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    img{
-        max-width: 100%;
-        border-radius: 1.3rem;
-        border: 2px solid #ACAACC;
-    }
-    @media (max-width: 768px) {
-        width: 100px;
-        min-width: 100px;
-        height: 150px;
-        img{
-          max-width: 100px;
-          min-width: 100px;
-        }
-    }
-`
+  flex: 0 0 auto;
+  text-align: center;
+  min-width: 180px;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  img {
+    width: 100%;
+    border-radius: 1.3rem;
+    border: 2px solid #acaacc;
+  }
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
+  }
+`;
 export const FeedTitle = styled.h1`
-    display: flex;
-    font-size: 1.7rem;
-    max-width: 30%;
-    margin-left: 15%;
-    position: relative;
+  display: flex;
+  font-size: 1.7rem;
+  max-width: 30%;
+  margin-left: 15%;
+  position: relative;
 `;
 
 export const StoryList = styled.div`
@@ -913,14 +879,14 @@ export const StoryList = styled.div`
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  border: 2px solid #F6F6F6;
+  border: 2px solid #f6f6f6;
   border-radius: 1rem;
 
   img {
     max-width: 95%;
     max-height: 100%;
     border-radius: 1rem;
-    object-fit: cover; 
+    object-fit: cover;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -928,29 +894,27 @@ export const StoryList = styled.div`
 `;
 
 export const Border = styled.div`
-    border-radius: 1.4rem;
-    border: 2px solid rgba(244, 244, 244, 1);
-    flex: 0 0 auto;
-    width: 70%;
-    margin-left: 15%;
-    margin-bottom: 5%;
-`
-
-export const StuTitle = styled.h1`
-    display: flex;
-    white-space: nowrap;
-    font-size: 1.7rem;
-    max-width: 30%;
-    margin-left: 10%;
-    position: relative;
+  border-radius: 1.4rem;
+  border: 2px solid rgba(244, 244, 244, 1);
+  flex: 0 0 auto;
+  width: 70%;
+  margin-left: 15%;
+  margin-bottom: 5%;
 `;
 
+export const StuTitle = styled.h1`
+  display: flex;
+  font-size: 1.7rem;
+  max-width: 30%;
+  margin-left: 5%;
+  position: relative;
+`;
 
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%; 
+  width: 100%;
   margin-top: 3%;
   gap: 1%;
   margin-bottom: 3%;
@@ -961,13 +925,13 @@ export const EditButton = styled.button`
   height: 3.8rem;
   border: none;
   border-radius: 6px;
-  background-color: #ACAACC;
+  background-color: #acaacc;
   color: white;
   font-size: 1.7rem;
   cursor: pointer;
-  width: 110px; 
+  width: 110px;
   &:hover {
-    background-color: #8C84B0;
+    background-color: #8c84b0;
   }
   @media (max-width: 1024px) {
     font-size: 1.5rem;
@@ -976,7 +940,6 @@ export const EditButton = styled.button`
     font-size: 1.4rem;
   }
 `;
-
 
 export const DeleteButton = styled.button`
   padding: 0.8rem;
@@ -984,13 +947,13 @@ export const DeleteButton = styled.button`
   border: none;
   border-radius: 6px;
   align-items: center;
-  background-color: #E57373;
+  background-color: #e57373;
   color: white;
   font-size: 1.7rem;
   cursor: pointer;
-  width: 110px; 
+  width: 110px;
   &:hover {
-    background-color: #EF5350; 
+    background-color: #ef5350;
   }
   @media (max-width: 1024px) {
     font-size: 1.5rem;
@@ -1000,3 +963,9 @@ export const DeleteButton = styled.button`
   }
 `;
 
+export const RecommendText = styled.h1`
+  width: 100%;
+  margin-left: 60%;
+  fontsize: 1vw;
+  color: #777;
+`;

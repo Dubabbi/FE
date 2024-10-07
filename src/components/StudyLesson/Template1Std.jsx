@@ -54,7 +54,8 @@ export const ImgContainer = styled.div`
     height: 110px;
     border-radius: 6px;
     margin: 15px;
-    border: ${(props) => (props.clickstate ? "3px solid #4B518F" : "none")};
+    border: ${(props) =>
+      props["data-clickstate"] ? "3px solid #4B518F" : "none"};
   }
 `;
 
@@ -69,27 +70,18 @@ export const Text = styled.div`
   margin: 15px;
   font-size: 2rem;
   background-color: #d9d9d9b3;
-  border: ${(props) => (props.clickstate ? "3px solid #4B518F" : "none")};
+  border: ${(props) =>
+    props["data-clickstate"] ? "3px solid #4B518F" : "none"};
 `;
 
 const Template1Std = () => {
-  const template1Id = useLocation().state?.templateId;
+  const accessToken = localStorage.getItem("key");
+  const [template1Id, setTemplate1Id] = useState(
+    useLocation().state?.templateId
+  );
   const [userId, setUserId] = useState();
-  const [category, setCatergory] = useState(["동물", "식물", "음식"]);
-  const randomCategory = [...category].sort(() => Math.random() - 0.5);
-  // const [dataList, setdataList] = useState([
-  //   {
-  //     img: [word, word, word],
-  //     clicked: [0, 0, 0],
-  //     used: [0, 0, 0],
-  //   },
-  //   {
-  //     category: [...randomCategory],
-  //     clicked: [0, 0, 0],
-  //     used: [0, 0, 0],
-  //   },
-  // ]);
-
+  //const [category, setCatergory] = useState(["동물", "식물", "음식"]);
+  //const randomCategory = [...category].sort(() => Math.random() - 0.5);
   const navigate = useNavigate();
   const [feedbackData, setFeedbackData] = useState(null);
   const [showReward, setShowReward] = useState(false);
@@ -115,7 +107,6 @@ const Template1Std = () => {
   ]);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("key");
     axios
       .get(`https://maeummal.com/api/temp1/get?temp1Id=${template1Id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -123,7 +114,7 @@ const Template1Std = () => {
       .then((response) => {
         if (response.status === 200) {
           const data = response.data.words;
-          console.log(data);
+          setTemplate1Id(response.data.id);
           setWordList(data);
           let newWord = [];
           data.map((el, index) => (newWord[index] = el.meaning));
@@ -235,12 +226,13 @@ const Template1Std = () => {
     axios
       .post("https://maeummal.com/feedback/create", payload, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("key")}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
         if (response.status === 200) {
           setShowReward(true);
+          awardBadge();
           setFeedbackData(response.data);
         }
       })
@@ -263,6 +255,35 @@ const Template1Std = () => {
     setLine([]);
     setfinalAnswer([]);
     setCorrect([]);
+  };
+
+  const awardBadge = async () => {
+    if (userId !== null) {
+      // userId가 null이 아닌지 확인
+      const memberId = userId;
+      const templateType = "TEMPLATE1";
+
+      try {
+        const response = await axios.post(
+          `https://maeummal.com/badges/award?memberId=${memberId}&templateType=${templateType}`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+        if (!response.data.isSuccess) {
+          // 응답 성공 여부 확인
+          console.log("Badge awarded successfully:", response.data);
+        }
+      } catch (error) {
+        console.error(
+          "Error awarding badge:",
+          error.response ? error.response.data : error
+        ); // 오류 응답 로그 개선
+      }
+    } else {
+      console.error("UserId is null, cannot award badge");
+    }
   };
 
   const handleCloseReward = () => {
@@ -296,7 +317,10 @@ const Template1Std = () => {
           )}
           <Container>
             {wordList.map((el, index) => (
-              <ImgContainer key={index} clickstate={clicked[0].clicked[index]}>
+              <ImgContainer
+                key={index}
+                data-clickstate={clicked[0].clicked[index]}
+              >
                 <Circle />
                 <img
                   id={el.meaning}
@@ -333,7 +357,7 @@ const Template1Std = () => {
               <Text
                 key={index}
                 id="word"
-                clickstate={clicked[1].clicked[index]}
+                data-clickstate={clicked[1].clicked[index]}
                 onClick={(e) => boxClick(e, index)}
               >
                 <Circle style={{ left: "-30px" }} />

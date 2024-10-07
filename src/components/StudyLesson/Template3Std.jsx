@@ -41,8 +41,8 @@ export const InputBox = styled.input`
 export const WordBox = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  gap: 10px;
 `;
 
 const Example = styled.div`
@@ -82,7 +82,23 @@ export const ImageBox = styled.div`
   }
 `;
 
+export const AiWrap = styled.div`
+  display: flex;
+  position: relative;
+  border: 1px solid #dcdcdc;
+  margin-left: 15%;
+  flex-direction: column;
+  width: 70%;
+  border-radius: 15px;
+  margin-top: 30px;
+  align-items: center;
+  justify-content: left;
+  padding: 55px 25px 15px 25px;
+  font-size: 18px;
+`;
+
 const Template3Std = () => {
+  const accessToken = localStorage.getItem("key");
   const template3Id = useLocation().state?.templateId;
   const navigate = useNavigate();
   const [userId, setUserId] = useState();
@@ -95,7 +111,6 @@ const Template3Std = () => {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("key");
     axios
       .get(`https://maeummal.com/template3/get?template3Id=${template3Id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -163,7 +178,7 @@ const Template3Std = () => {
 
   const feedback = () => {
     const payload = {
-      templateId: template3Id,
+      templateId: data.templateId,
       answerList: inputValue,
       studentId: userId,
       templateType: "TEMPLATE3",
@@ -171,18 +186,48 @@ const Template3Std = () => {
     axios
       .post(`https://maeummal.com/feedback/create`, payload, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("key")}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
         if (response.status === 200) {
           setShowReward(true);
+          awardBadge();
           setFeedbackData(response.data);
         }
       })
       .catch((error) => {
         console.error("Error while create feedback:", error);
       });
+  };
+
+  const awardBadge = async () => {
+    if (userId !== null) {
+      // userId가 null이 아닌지 확인
+      const memberId = userId;
+      const templateType = "TEMPLATE3";
+
+      try {
+        const response = await axios.post(
+          `https://maeummal.com/badges/award?memberId=${memberId}&templateType=${templateType}`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+        if (!response.data.isSuccess) {
+          // 응답 성공 여부 확인
+          console.log("Badge awarded successfully:", response.data);
+        }
+      } catch (error) {
+        console.error(
+          "Error awarding badge:",
+          error.response ? error.response.data : error
+        ); // 오류 응답 로그 개선
+      }
+    } else {
+      console.error("UserId is null, cannot award badge");
+    }
   };
 
   const handleCloseReward = () => {
@@ -207,16 +252,7 @@ const Template3Std = () => {
         <h2 style={{ fontSize: "1.8rem", margin: "40px 0 30px 0" }}>
           빈칸에 들어갈 관형구를 보기에서 골라 봅시다!
         </h2>
-        <C.StoryWrap
-          style={{
-            width: "70%",
-            borderRadius: "15px",
-            margin: "0 0 10px 0",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "20px",
-          }}
-        >
+        <AiWrap style={{ margin: "0 0 10px 0", padding: "20px" }}>
           <T.ExampleBox>보기</T.ExampleBox>
           <T.CardContainer
             style={{ padding: "0px", justifyContent: "space-evenly" }}
@@ -225,7 +261,7 @@ const Template3Std = () => {
               <Example key={index}>{el}</Example>
             ))}
           </T.CardContainer>
-        </C.StoryWrap>
+        </AiWrap>
         <O.Row
           style={{
             margin: "0",
