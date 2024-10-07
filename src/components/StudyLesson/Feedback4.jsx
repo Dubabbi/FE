@@ -28,8 +28,9 @@ const Feedback4 = () => {
   // 기본값 설정으로 빈 데이터에 대한 처리
   const feedbackData = location.state?.feedbackData || {};
   const feedbackDescription = location.state?.description || "설명이 없습니다.";
-  const cardData = location.state?.cardData || []; // 카드 데이터 받아오기
-
+  const cardData = location.state?.cardData || [];
+  const { state } = useLocation();
+  const templateTitle = state.templateTitle;
   const handleStop = () => {
     navigate("/MainStd");
   };
@@ -51,9 +52,7 @@ const Feedback4 = () => {
       </D.ImageWrap>
       <L.LessonWrapper style={{ marginBottom: "5%" }}>
         <L.Section style={{ marginTop: "3%" }}>
-          <h1>
-            {feedbackData.templateTitle || "애니메이션 up 이야기 알아보기"}
-          </h1>
+          <h1>{templateTitle || "강의 제목"}</h1>
           <C.FeedbackContainer>
             <C.HalfLine />
             <C.FeedbackText>최종평가</C.FeedbackText>

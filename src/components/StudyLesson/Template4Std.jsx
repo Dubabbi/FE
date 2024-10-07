@@ -10,6 +10,7 @@ import { ModalOverlay } from './Feedback2';
 import axios from 'axios';
 import Reward from '../Reward/Reward4';
 import Toast from '/src/assets/icon/errortoast.svg';
+import LoadingModal from '../ImageModal/LoadingModal';
 
 const Template4Std = () => {
   const navigate = useNavigate();
@@ -27,7 +28,8 @@ const Template4Std = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCard, setSelectedCard] = useState(null);
   const [imageSelectionOrder, setImageSelectionOrder] = useState({});
-  const [firstFeedback, setFirstFeedback] = useState(null);
+  const [firstFeedback, setFirstFeedback] = useState(null);  
+  const [isCreatingFeedback, setIsCreatingFeedback] = useState(false);  
   useEffect(() => {
     const fetchUserId = async () => {
       const accessToken = localStorage.getItem('key');
@@ -60,7 +62,7 @@ const Template4Std = () => {
       console.error('Template ID is missing');
       return;
     }
-
+    setIsLoading(true); 
     const fetchTemplateData = async () => {
       const accessToken = localStorage.getItem("key");
       if (!accessToken) {
@@ -91,32 +93,7 @@ const Template4Std = () => {
     fetchTemplateData();
   }, [templateId]);  // templateId가 변경될 때마다 데이터를 새로 가져옵니다.
 
-  const submitFirstFeedback = async (userOrder) => {
-    try {
-      const accessToken = localStorage.getItem("token");
-      const response = await axios.post('https://maeummal.com/feedback/createFirst', {
-        templateId: templateData.templateId,
-        answerList: userOrder.map(String),
-        studentId: userId,
-        templateType: "TEMPLATE4",
-        solution: templateData.description 
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
 
-      if (response.data) {
-        setFirstFeedback(response.data);
-        setLives(response.data.heartCount);
-        setShowHint(true);
-      } else {
-        console.error('Failed to submit first feedback');
-      }
-    } catch (error) {
-      console.error('Error submitting first feedback:', error);
-    }
-  };
 
   const toggleSelectImage = (id) => {
     const cardInfo = templateData.storyCardEntityList.find(card => card.storyCardId === id);
@@ -136,44 +113,16 @@ const Template4Std = () => {
     }
   };
 
-  const handleSubmit = async () => {
-    if (!templateData || !templateData.templateId) {
-      console.error('Template data is missing, please try again.');
-      return;
-    }
-  
-    const userAnswerOrder = selectedImages.map(item => item.answerNumber);
-    const correctOrder = templateData.storyCardEntityList
-      .sort((a, b) => a.answerNumber - b.answerNumber)
-      .map(card => card.answerNumber);
-  
-    const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
-  
-    if (isCorrect) {
-      await submitFeedback(userAnswerOrder);
-      setShowReward(true);
-      awardBadge();
-    } else {
-      if (lives > 1) {
-        setLives(lives - 1);
-        setSelectedImages([]);
-        await submitFirstFeedback(userAnswerOrder);
-      } else {
-        setLives(0);
-        await submitFeedback(userAnswerOrder);
-      }
-    }
-  };
-
   const submitFeedback = async (userOrder) => {
     try {
-      const accessToken = localStorage.getItem("token");
+      const accessToken = localStorage.getItem("key");
       const response = await axios.post('https://maeummal.com/feedback/create', {
         templateId: templateData.templateId,
         answerList: userOrder.map(String),
         studentId: userId,
         templateType: "TEMPLATE4",
-        solution: templateData.description 
+        title: templateData.title,
+        solution: templateData.description
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -187,9 +136,89 @@ const Template4Std = () => {
         console.error('Failed to submit feedback:', response.data.message || 'Unknown error');
       }
     } catch (error) {
-      console.error('Error submitting feedback:', error);
+      console.error('Error during feedback submission:', error);
     }
   };
+  
+  const handleSubmit = async () => {
+    if (!templateData || !templateData.templateId) {
+      console.error('Template data is missing, please try again.');
+      return;
+    }
+  
+    if (selectedImages.length !== templateData.storyCardEntityList.length) {
+      alert('모든 카드를 선택해야 합니다.');
+      return;
+    }
+  
+    const userAnswerOrder = selectedImages
+      .sort((a, b) => a.originalIndex - b.originalIndex)
+      .map(item => {
+        const card = templateData.storyCardEntityList.find(card => card.storyCardId === item.id);
+        return card.answerNumber.toString();
+      });
+  
+    const correctOrder = templateData.storyCardEntityList
+      .map(card => card.answerNumber.toString())
+      .sort((a, b) => a - b);
+  
+    const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
+  
+    if (isCorrect) {
+      setIsCreatingFeedback(true); // Set loading true only for final feedback submission
+      await submitFeedback(userAnswerOrder);
+      setShowReward(true);
+      awardBadge();
+      setIsCreatingFeedback(false); // Reset loading state after feedback is submitted
+    } else {
+      if (lives > 1) {
+        setLives(lives - 1);
+        setSelectedImages([]);
+        setImageSelectionOrder({});
+      } else {
+        setLives(0);
+        setShowHint(false);
+        setSelectedImages([]);
+        setImageSelectionOrder({});
+        setIsCreatingFeedback(true); // Set loading true for final unsuccessful attempt
+        await submitFeedback(userAnswerOrder);
+        setIsCreatingFeedback(false); // Reset loading state after feedback is submitted
+      }
+    }
+  };
+  
+  
+  const submitFirstFeedback = async (userOrder) => {
+    try {
+      const accessToken = localStorage.getItem("key");
+      const response = await axios.post('https://maeummal.com/feedback/createFirst', {
+        templateId: templateData.templateId,
+        answerList: userOrder.map(String),
+        studentId: userId,
+        templateType: "TEMPLATE4",
+        solution: templateData.description 
+      }, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+  
+      if (response.data) {
+        setFirstFeedback(response.data);
+        setLives(response.data.heartCount);
+        setShowHint(true);
+        setSelectedImages([]); // 첫 번째 피드백 후 이미지 선택 초기화
+        setImageSelectionOrder({}); // 첫 번째 피드백 후 이미지 넘버링 초기화
+      } else {
+        console.error('Failed to submit first feedback');
+      }
+    } catch (error) {
+      console.error('Error submitting first feedback:', error);
+    }
+  };
+  
+
+
 
   const awardBadge = async () => {
     if (userId !== null) {  // userId가 null이 아닌지 확인
@@ -234,15 +263,15 @@ const Template4Std = () => {
       state: {
         feedbackData,
         solution: templateData.description,
-        cardData
+        cardData,
+        templateTitle: templateData.title
       }
     });
   };
 
-  if (isLoading) {
-    return <p>Loading...</p>; 
+  if (isLoading || isCreatingFeedback) { // Show loading modal when fetching data or creating feedback
+    return <LoadingModal isOpen={isLoading || isCreatingFeedback} />;
   }
-
   return (
     <>
       <D.ImageWrap>

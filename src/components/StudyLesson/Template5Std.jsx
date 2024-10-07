@@ -14,6 +14,7 @@ import Pink from "/src/assets/icon/heartpink.svg";
 import White from "/src/assets/icon/heartwhite.svg";
 import Reward from "../Reward/Reward5";
 import { ModalOverlay } from "./Feedback2";
+import LoadingModal from '../ImageModal/LoadingModal';
 
 export const HintBox = styled.div`
   position: relative;

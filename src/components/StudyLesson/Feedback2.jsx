@@ -25,9 +25,8 @@ const Feedback2 = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const feedbackData = location.state?.feedbackData || {};
-  const tempTitle = location.state?.title || "강의 제목";
-
-  // 모든 정답 체크를 진행하여 isCorrect 계산
+  const { state } = useLocation();
+  const templateTitle = state.templateTitle;
   const isCorrect = feedbackData.correctnessList?.every((val) => val === true);
 
   const handleStop = () => {
@@ -43,7 +42,7 @@ const Feedback2 = () => {
       </D.ImageWrap>
       <L.LessonWrapper style={{ marginBottom: "5%" }}>
         <L.Section>
-          <h1>{tempTitle}</h1>
+          <h1>{templateTitle || "강의 제목"}</h1>
           <C.FeedbackContainer>
             <C.HalfLine />
             <C.FeedbackText>최종평가</C.FeedbackText>
