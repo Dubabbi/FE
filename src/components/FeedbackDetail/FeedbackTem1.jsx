@@ -13,6 +13,8 @@ import { Answer } from "./FeedbackTem5";
 
 const FeedbackTem1 = () => {
   const [feedbackData, setFeedbackData] = useState();
+  const [userInfo, setUserInfo] = useState({});
+  const [error, setError] = useState('');
   const feedbackId = 111;
   useEffect(() => {
     axios
@@ -27,10 +29,35 @@ const FeedbackTem1 = () => {
         console.error("Error fetching data:", error);
       });
   }, []);
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const accessToken = localStorage.getItem("key");
+      if (!accessToken) {
+        setError('Authentication required');
+        return;
+      }
+      try {
+        const response = await axios.get('https://maeummal.com/user', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+        if (response.data.isSuccess) {
+          setUserInfo(response.data.data);
+        } else {
+          throw new Error(response.data.message || 'Failed to fetch user info');
+        }
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+        setError('Failed to fetch user info: ' + error.message);
+      }
+    };
+    fetchUserInfo();
+  }, []);
+
+  const BackLink = userInfo.iq != null ? '/mypagestd' : '/mypagetchr';
   return (
     <>
       <D.ImageWrap>
-        <a href="/MainTchr">
+        <a href={BackLink}>
           <img src={Back} alt="Back to main" />
         </a>
       </D.ImageWrap>

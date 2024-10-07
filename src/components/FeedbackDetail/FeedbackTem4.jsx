@@ -27,7 +27,8 @@ export const ModalOverlay = styled.div`
 const FeedbackTem4 = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [userInfo, setUserInfo] = useState({});
+  const [error, setError] = useState('');
   // location.state에서 feedbackId를 가져옵니다.
   const feedbackId = location.state?.feedbackId;
 
@@ -70,13 +71,37 @@ const FeedbackTem4 = () => {
   const handleStop = () => {
     navigate('/MainStd');
   };
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const accessToken = localStorage.getItem("key");
+      if (!accessToken) {
+        setError('Authentication required');
+        return;
+      }
+      try {
+        const response = await axios.get('https://maeummal.com/user', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+        if (response.data.isSuccess) {
+          setUserInfo(response.data.data);
+        } else {
+          throw new Error(response.data.message || 'Failed to fetch user info');
+        }
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+        setError('Failed to fetch user info: ' + error.message);
+      }
+    };
+    fetchUserInfo();
+  }, []);
 
+  const BackLink = userInfo.iq != null ? '/mypagestd' : '/mypagetchr';
   const isCorrect = feedbackData.correctnessList ? feedbackData.correctnessList[0] : false;
 
   return (
     <>
       <D.ImageWrap>
-        <a href="/MainStd"><img src={Back} alt="" /></a>
+        <a href={BackLink}><img src={Back} alt="" /></a>
       </D.ImageWrap>
       <L.LessonWrapper style={{ marginBottom: '5%' }}>
         <L.Section>
