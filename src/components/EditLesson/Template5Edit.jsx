@@ -203,13 +203,6 @@ export default function Template5Edit() {
                     </C.HintBox>
                   </C.HintGroup>
                 </C.HintWrapper>
-                <C.SubmitButton
-                  style={{ minWidth: "100px", margin: "0" }}
-                  onClick={handleDeleteTemplate}
-                >
-                  <AiFillDelete style={{ marginRight: "8px" }} />
-                  템플릿 삭제
-                </C.SubmitButton>
               </W.Line>
               <W.SecondTitle style={{ marginTop: "10px" }}>
                 나의 낱말 카드 세트
@@ -239,10 +232,14 @@ export default function Template5Edit() {
               </W.WordList>
             </>
           )}
-          <C.SubmitButton style={{ margin: "0 auto" }} onClick={handleCreate}>
-            {successful ? "제출" : "문제 생성"}
-          </C.SubmitButton>
         </W.Section>
+        <C.ButtonContainer>
+        <C.DeleteButton onClick={handleDeleteTemplate}>
+            삭제
+            <AiFillDelete style={{ marginLeft: '5px' }} />
+          </C.DeleteButton>
+          <C.EditButton onClick={handleCreate}> {successful ? "수정" : "문제 생성"}</C.EditButton>
+          </C.ButtonContainer>
       </W.LessonWrapper>
     </>
   );
