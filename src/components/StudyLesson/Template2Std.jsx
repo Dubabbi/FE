@@ -88,9 +88,12 @@ const Template2Std = () => {
     fetchTemplateData();
   }, [templateId]);
 
+
+
   const toggleSelectImage = (id) => {
     const index = selectedImages.findIndex(item => item.id === id);
     if (index === -1) {
+      // 이미지가 선택되지 않았다면 추가
       const newImages = [...selectedImages, { id, originalIndex: selectedImages.length + 1 }];
       setSelectedImages(newImages);
       setImageSelectionOrder(newImages.reduce((acc, item, idx) => {
@@ -98,6 +101,7 @@ const Template2Std = () => {
         return acc;
       }, {}));
     } else {
+      // 이미지가 이미 선택되었다면 제거
       const newImages = selectedImages.filter(item => item.id !== id);
       setSelectedImages(newImages);
       setImageSelectionOrder(newImages.reduce((acc, item, idx) => {
@@ -106,25 +110,32 @@ const Template2Std = () => {
       }, {}));
     }
   };
-
+  
   const handleSubmit = async () => {
     if (!templateData || !templateData.templateId) {
       console.error('Template data is missing, please try again.');
       return;
     }
-
+  
+    // 이미지가 모든 카드를 선택했는지 확인
+    if (selectedImages.length !== templateData.storyCardEntityList.length) {
+      alert('모든 카드를 선택해야 합니다.');
+      return;
+    }
+  
     const userAnswerOrder = selectedImages
       .sort((a, b) => a.originalIndex - b.originalIndex)
       .map(item => {
         const card = templateData.storyCardEntityList.find(card => card.storyCardId === item.id);
-        return card.answerNumber;
+        return card.answerNumber.toString();
       });
-
+  
     const correctOrder = templateData.storyCardEntityList
-      .map(card => card.answerNumber)
+      .map(card => card.answerNumber.toString())
       .sort((a, b) => a - b);
+  
     const isCorrect = JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
-
+  
     if (isCorrect) {
       await submitFeedback(userAnswerOrder);
       setShowReward(true);
@@ -133,14 +144,21 @@ const Template2Std = () => {
       if (lives > 1) {
         setLives(lives - 1);
         setShowHint(true);
+        // 오답 선택 시 선택과 넘버링 초기화
         setSelectedImages([]);
+        setImageSelectionOrder({});
       } else {
         setLives(0);
         setShowHint(false);
         await submitFeedback(userAnswerOrder);
+        // 게임 오버 시 선택과 넘버링 초기화
+        setSelectedImages([]);
+        setImageSelectionOrder({});
       }
     }
   };
+  
+  
 
   const submitFeedback = async (userAnswerOrder) => {
     try {
@@ -167,7 +185,7 @@ const Template2Std = () => {
   };
 
   const awardBadge = async () => {
-    if (userId !== null) {  // userId가 null이 아닌지 확인
+    if (userId !== null) {  
       const accessToken = localStorage.getItem("key");
       const memberId = userId;
       const templateType = "TEMPLATE2";
