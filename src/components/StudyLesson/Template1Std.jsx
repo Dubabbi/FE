@@ -15,7 +15,7 @@ import reset from "../../assets/icon/reset.svg";
 import hint from "../../assets/icon/hint.svg";
 import { ModalOverlay } from "./Feedback2";
 import Reward from "../Reward/Reward";
-import LoadingModal from '../ImageModal/LoadingModal';
+import LoadingModal from "../ImageModal/LoadingModal";
 
 export const Row = styled.div`
   display: flex;
@@ -53,6 +53,7 @@ export const ImgContainer = styled.div`
   align-items: center;
   img {
     height: 110px;
+    cursor: pointer;
     border-radius: 6px;
     margin: 15px;
     border: ${(props) =>
@@ -71,15 +72,18 @@ export const Text = styled.div`
   margin: 15px;
   font-size: 2rem;
   background-color: #d9d9d9b3;
+  cursor: pointer;
   border: ${(props) =>
     props["data-clickstate"] ? "3px solid #4B518F" : "none"};
 `;
 
 const Template1Std = () => {
   const accessToken = localStorage.getItem("key");
-  const [template1Id, setTemplate1Id] = useState(useLocation().state?.templateId);
+  const [template1Id, setTemplate1Id] = useState(
+    useLocation().state?.templateId
+  );
   const [userId, setUserId] = useState();
-    //const [category, setCatergory] = useState(["동물", "식물", "음식"]);
+  //const [category, setCatergory] = useState(["동물", "식물", "음식"]);
   //const randomCategory = [...category].sort(() => Math.random() - 0.5);
   const navigate = useNavigate();
   const [feedbackData, setFeedbackData] = useState(null);
@@ -140,7 +144,7 @@ const Template1Std = () => {
         console.error("Error fetching data:", error);
       });
   }, []);
-  
+
   const boxClick = (event, index) => {
     const newClicked = [...clicked];
     const newAddLine = [...addLine];
@@ -388,7 +392,7 @@ const Template1Std = () => {
           <Reward onClose={handleCloseReward} />
         </ModalOverlay>
       )}
-      <LoadingModal isOpen={isLoading} /> 
+      <LoadingModal isOpen={isLoading} />
     </>
   );
 };

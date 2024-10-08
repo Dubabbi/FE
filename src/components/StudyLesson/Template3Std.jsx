@@ -13,7 +13,7 @@ import White from "/src/assets/icon/heartwhite.svg";
 import * as O from "./Template1Std";
 import Reward from "../Reward/Reward3";
 import { ModalOverlay } from "./Feedback2";
-import LoadingModal from '../ImageModal/LoadingModal'; 
+import LoadingModal from "../ImageModal/LoadingModal";
 
 export const Box = styled.div`
   width: 75px;
@@ -68,6 +68,7 @@ export const ImageBox = styled.div`
   img {
     height: 100%;
     border-radius: 12px;
+    cursor: pointer;
   }
   p {
     position: absolute;

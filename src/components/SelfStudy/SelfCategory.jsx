@@ -32,11 +32,7 @@ export default function SelfCategory() {
         .then((response) => {
           if (response.status === 200 && token) {
             const wordData = response.data.data;
-            const wordList = [
-              [wordData.noun1, wordData.noun2, wordData.noun3, wordData.noun4],
-              [wordData.adv1, wordData.adv2, wordData.adv3, wordData.adv4],
-              [wordData.verb1, wordData.verb2, wordData.verb3, wordData.verb4],
-            ];
+            const wordList = [wordData.nouns, wordData.adverbs, wordData.verbs];
             navigate("/level1", { state: wordList });
           }
         })

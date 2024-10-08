@@ -45,6 +45,7 @@ export const Word = styled.div`
     height: 130px;
     display: block;
     margin: 0 auto;
+    cursor: pointer;
     border: ${(props) =>
       props["data-clickstate"] ? "5px solid #0029FF" : "5px solid #feeafa"};
     border-radius: 10px;

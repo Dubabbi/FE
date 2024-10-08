@@ -239,6 +239,7 @@ const Template3Tchr = () => {
                 height: "36px",
                 marginLeft: "22%",
                 marginBottom: "10px",
+                cursor: "pointer",
               }}
             >
               {Array.from({ length: 4 }, (_, i) => i + 1).map((number) => (
