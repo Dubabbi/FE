@@ -275,7 +275,7 @@ const Template4Std = () => {
   return (
     <>
       <D.ImageWrap>
-        <a href="/MainTchr"><img src={Back} alt="" /></a>
+        <a href="/lessonstd"><img src={Back} alt="" /></a>
       </D.ImageWrap>
       <D.HeartWrap>
         {Array.from({ length: 2 }).map((_, index) => (
