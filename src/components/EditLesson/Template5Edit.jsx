@@ -82,7 +82,7 @@ export default function Template5Edit() {
         const token = localStorage.getItem("key");
         axios
           .patch(
-            `https://thingproxy.freeboard.io/fetch/https://maeummal.com/template5/update?temp5Id=${template5Id}`,
+            `https://maeummal.com/template5/update?temp5Id=${template5Id}`,
             {
               title: data.title,
               level: parseInt(data.level),
