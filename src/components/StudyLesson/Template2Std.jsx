@@ -264,7 +264,7 @@ const Template2Std = () => {
   return (
     <>
       <D.ImageWrap>
-        <a href="/MainTchr">
+        <a href="/lessonstd">
           <img src={Back} alt="Back" />
         </a>
       </D.ImageWrap>

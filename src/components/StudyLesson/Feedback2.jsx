@@ -36,7 +36,7 @@ const Feedback2 = () => {
   return (
     <>
       <D.ImageWrap>
-        <a href="/MainStd">
+        <a href="/lessonstd">
           <img src={Back} alt="Back" />
         </a>
       </D.ImageWrap>

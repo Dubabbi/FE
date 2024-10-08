@@ -969,3 +969,18 @@ export const RecommendText = styled.h1`
   fontsize: 1vw;
   color: #777;
 `;
+export const ImageLine = styled.div`
+    margin: 0 auto;
+    max-width: 100%;
+    display: flex;
+    gap: 3px;
+    flex-direction: row;
+    justify-content: space-between;
+    @media (max-width: 780px) {
+        display: flex;
+        gap: 5px;
+        margin: 0 auto;
+        width: 70%;
+        justify-content: center;
+    }
+`

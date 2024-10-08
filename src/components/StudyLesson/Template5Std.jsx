@@ -38,9 +38,7 @@ export const HintBox = styled.div`
 
 const Template5Std = () => {
   const accessToken = localStorage.getItem("key");
-  const [template5Id, setTemplate5Id] = useState(
-    useLocation().state?.templateId
-  );
+  const [template5Id, setTemplate5Id] = useState(useLocation().state?.templateId);
   const navigate = useNavigate();
   const [userId, setUserId] = useState();
   const [feedbackData, setFeedbackData] = useState(null);
@@ -65,6 +63,7 @@ const Template5Std = () => {
       used: [0, 0, 0],
     },
   ]);
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
 
   useEffect(() => {
     axios
@@ -100,7 +99,7 @@ const Template5Std = () => {
         console.error("Error fetching data:", error);
       });
   }, []);
-
+  
   const boxClick = (event, index) => {
     const newClicked = [...clicked];
     const newAddLine = [...addLine];
@@ -177,6 +176,7 @@ const Template5Std = () => {
   }, [correct]);
 
   const feedback = () => {
+    setIsLoading(true); // 로딩 시작
     const payload = {
       templateId: template5Id,
       answerList: finalAnswer,
@@ -198,9 +198,12 @@ const Template5Std = () => {
       })
       .catch((error) => {
         console.error("Error while create feedback:", error);
+      })
+      .finally(() => {
+        setIsLoading(false); // 로딩 종료
       });
   };
-
+  
   const handleReset = () => {
     setClicked([
       {
@@ -219,7 +222,6 @@ const Template5Std = () => {
 
   const awardBadge = async () => {
     if (userId !== null) {
-      // userId가 null이 아닌지 확인
       const memberId = userId;
       const templateType = "TEMPLATE5";
 
@@ -232,14 +234,13 @@ const Template5Std = () => {
           }
         );
         if (!response.data.isSuccess) {
-          // 응답 성공 여부 확인
           console.log("Badge awarded successfully:", response.data);
         }
       } catch (error) {
         console.error(
           "Error awarding badge:",
           error.response ? error.response.data : error
-        ); // 오류 응답 로그 개선
+        );
       }
     } else {
       console.error("UserId is null, cannot award badge");
@@ -250,10 +251,11 @@ const Template5Std = () => {
     setShowReward(false);
     navigate("/feedback5", { state: [feedbackData, 5] });
   };
+
   return (
     <>
       <D.ImageWrap>
-        <a href="/mainstd">
+        <a href="/lessonstd">
           <img src={Back} alt="" />
         </a>
       </D.ImageWrap>
@@ -345,6 +347,7 @@ const Template5Std = () => {
           <Reward onClose={handleCloseReward} />
         </ModalOverlay>
       )}
+      <LoadingModal isOpen={isLoading} />
     </>
   );
 };
