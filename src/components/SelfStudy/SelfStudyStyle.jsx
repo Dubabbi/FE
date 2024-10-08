@@ -52,6 +52,7 @@ export const level = styled.div`
   justify-content: center;
   font-size: 1.7rem;
   margin: 10px 20px;
+  cursor: pointer;
   img {
     height: 80px;
   }

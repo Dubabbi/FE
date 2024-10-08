@@ -54,6 +54,7 @@ export const WordBox = styled.div`
   justify-content: center;
   font-size: 2rem;
   margin: 10px;
+  cursor: pointer;
   border: ${(props) =>
     props["data-clickstate"] ? "3px solid #4B518F" : "none"};
 `;
