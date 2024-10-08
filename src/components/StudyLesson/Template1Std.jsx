@@ -15,6 +15,7 @@ import reset from "../../assets/icon/reset.svg";
 import hint from "../../assets/icon/hint.svg";
 import { ModalOverlay } from "./Feedback2";
 import Reward from "../Reward/Reward";
+import LoadingModal from '../ImageModal/LoadingModal';
 
 export const Row = styled.div`
   display: flex;
@@ -76,15 +77,14 @@ export const Text = styled.div`
 
 const Template1Std = () => {
   const accessToken = localStorage.getItem("key");
-  const [template1Id, setTemplate1Id] = useState(
-    useLocation().state?.templateId
-  );
+  const [template1Id, setTemplate1Id] = useState(useLocation().state?.templateId);
   const [userId, setUserId] = useState();
-  //const [category, setCatergory] = useState(["동물", "식물", "음식"]);
+    //const [category, setCatergory] = useState(["동물", "식물", "음식"]);
   //const randomCategory = [...category].sort(() => Math.random() - 0.5);
   const navigate = useNavigate();
   const [feedbackData, setFeedbackData] = useState(null);
   const [showReward, setShowReward] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
   const answerRef = useRef(false);
   const [lives, setLives] = useState(2);
   const [correct, setCorrect] = useState([]);
@@ -140,7 +140,7 @@ const Template1Std = () => {
         console.error("Error fetching data:", error);
       });
   }, []);
-
+  
   const boxClick = (event, index) => {
     const newClicked = [...clicked];
     const newAddLine = [...addLine];
@@ -217,6 +217,7 @@ const Template1Std = () => {
   }, [correct]);
 
   const feedback = () => {
+    setIsLoading(true); // 로딩 시작
     const payload = {
       templateId: template1Id,
       answerList: finalAnswer,
@@ -238,6 +239,9 @@ const Template1Std = () => {
       })
       .catch((error) => {
         console.error("Error while create feedback:", error);
+      })
+      .finally(() => {
+        setIsLoading(false); // 로딩 종료
       });
   };
 
@@ -259,7 +263,6 @@ const Template1Std = () => {
 
   const awardBadge = async () => {
     if (userId !== null) {
-      // userId가 null이 아닌지 확인
       const memberId = userId;
       const templateType = "TEMPLATE1";
 
@@ -272,14 +275,13 @@ const Template1Std = () => {
           }
         );
         if (!response.data.isSuccess) {
-          // 응답 성공 여부 확인
           console.log("Badge awarded successfully:", response.data);
         }
       } catch (error) {
         console.error(
           "Error awarding badge:",
           error.response ? error.response.data : error
-        ); // 오류 응답 로그 개선
+        );
       }
     } else {
       console.error("UserId is null, cannot award badge");
@@ -290,6 +292,7 @@ const Template1Std = () => {
     setShowReward(false);
     navigate("/feedback5", { state: [feedbackData, 1] });
   };
+
   return (
     <>
       <D.ImageWrap>
@@ -385,6 +388,7 @@ const Template1Std = () => {
           <Reward onClose={handleCloseReward} />
         </ModalOverlay>
       )}
+      <LoadingModal isOpen={isLoading} /> 
     </>
   );
 };

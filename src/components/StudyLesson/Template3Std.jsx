@@ -13,7 +13,7 @@ import White from "/src/assets/icon/heartwhite.svg";
 import * as O from "./Template1Std";
 import Reward from "../Reward/Reward3";
 import { ModalOverlay } from "./Feedback2";
-import LoadingModal from '../ImageModal/LoadingModal';
+import LoadingModal from '../ImageModal/LoadingModal'; 
 
 export const Box = styled.div`
   width: 75px;
@@ -109,6 +109,7 @@ const Template3Std = () => {
   const [firstTime, setFirstTime] = useState(true);
   const [inputValue, setInputValue] = useState([]);
   const [data, setData] = useState({});
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
 
   useEffect(() => {
     axios
@@ -177,6 +178,7 @@ const Template3Std = () => {
   }, [correct]);
 
   const feedback = () => {
+    setIsLoading(true); // 로딩 시작
     const payload = {
       templateId: data.templateId,
       answerList: inputValue,
@@ -198,12 +200,14 @@ const Template3Std = () => {
       })
       .catch((error) => {
         console.error("Error while create feedback:", error);
+      })
+      .finally(() => {
+        setIsLoading(false); // 로딩 종료
       });
   };
 
   const awardBadge = async () => {
     if (userId !== null) {
-      // userId가 null이 아닌지 확인
       const memberId = userId;
       const templateType = "TEMPLATE3";
 
@@ -216,14 +220,13 @@ const Template3Std = () => {
           }
         );
         if (!response.data.isSuccess) {
-          // 응답 성공 여부 확인
           console.log("Badge awarded successfully:", response.data);
         }
       } catch (error) {
         console.error(
           "Error awarding badge:",
           error.response ? error.response.data : error
-        ); // 오류 응답 로그 개선
+        );
       }
     } else {
       console.error("UserId is null, cannot award badge");
@@ -306,6 +309,7 @@ const Template3Std = () => {
           <Reward onClose={handleCloseReward} />
         </ModalOverlay>
       )}
+      <LoadingModal isOpen={isLoading} />
     </>
   );
 };
