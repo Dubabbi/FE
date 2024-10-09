@@ -44,7 +44,7 @@ const UploadPhoto = ({ isOpen, toggleModal, updateProfileImage  }) => {
 
         try {
             const accessToken = localStorage.getItem("key");
-            const response = await axios.patch('https://thingproxy.freeboard.io/fetch/https://maeummal.com/user/updateProfileImage', formData, {
+            const response = await axios.patch('https://maeummal.com/user/updateProfileImage', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${accessToken}`
@@ -54,6 +54,7 @@ const UploadPhoto = ({ isOpen, toggleModal, updateProfileImage  }) => {
             if (response.data.isSuccess) {
                 updateProfileImage(response.data.data.profileImage);
                 console.log('Image uploaded successfully', response.data);
+                
             } else {
                 console.error('Failed to upload image', response.data.message);
             }
