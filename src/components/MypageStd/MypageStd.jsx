@@ -187,7 +187,7 @@ const MypageStd = () => {
                 phoneNum: updatedPhoneNum
             };
     
-            const response = await axios.patch('https://thingproxy.freeboard.io/fetch/https://maeummal.com/user/student', body, {
+            const response = await axios.patch('https://maeummal.com/user/student', body, {
                 headers: { Authorization: `Bearer ${accessToken}` }
             });
     
@@ -213,7 +213,7 @@ const MypageStd = () => {
       
         try {
           const response = await axios.patch(
-            `https://thingproxy.freeboard.io/fetch/https://maeummal.com/user/changePassword?currentPassword=${currentPassword}&newPassword=${newPassword}`,
+            `https://maeummal.com/user/changePassword?currentPassword=${currentPassword}&newPassword=${newPassword}`,
             {}, 
             {
               headers: { Authorization: `Bearer ${accessToken}` }
@@ -292,16 +292,49 @@ const MypageStd = () => {
         }
     };
 
-    const handleAddImage = (file) => {
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setProfileImage(reader.result);
-            };
-            reader.readAsDataURL(file);
+    const handleAddImage = async (file) => {
+        if (!file) return;
+    
+        const formData = new FormData();
+        formData.append('image', file);
+    
+        try {
+            const accessToken = localStorage.getItem("key");
+            if (!accessToken) {
+                console.error('Authentication token is missing');
+                return;
+            }
+    
+
+            const uploadResponse = await axios.post('https://maeummal.com/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+    
+            if (!uploadResponse.data.isSuccess) {
+                throw new Error('Image upload failed');
+            }
+    
+            const imageUrl = uploadResponse.data.data.profileImage;
+            const updateResponse = await axios.patch('https://maeummal.com/user/updateProfileImage', {
+                profileImage: imageUrl
+            }, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+    
+            if (updateResponse.data.isSuccess) {
+                setProfileImage(imageUrl); 
+                alert('프로필 이미지가 성공적으로 업데이트되었습니다.');
+            } else {
+                throw new Error('Failed to update profile image');
+            }
+        } catch (error) {
+            console.error('Error updating profile image:', error);
         }
-        toggleUploadModal();
     };
+    
 
     const handleToggleExtended = () => {
         setIsSettingExtended(false);
