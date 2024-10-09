@@ -72,8 +72,8 @@ export default function Nav() {
   
 
   const closeModal = () => setShowModal(false);
-  const profilePageLink = userInfo.iq != null ? '/mypagestd' : '/mypagetchr';
-  const mainPageLink = userInfo.iq != null ? '/mainstd' : '/maintchr';
+  const profilePageLink = userInfo.pinCode != null ? '/mypagestd' : '/mypagetchr';
+  const mainPageLink = userInfo.pinCode != null ? '/mainstd' : '/maintchr';
 
   return (
     <>
@@ -90,7 +90,7 @@ export default function Nav() {
           <a href={profilePageLink}>
             <ProfileCard>
               <ProfileName>
-                {userInfo.name} {userInfo.iq != null ? '학생' : '선생님'}
+                {userInfo.name} {userInfo.pinCode != null ? '학생' : '선생님'}
               </ProfileName>
               <ProfileImageContainer>
                 <ProfileImage src={profileImage} alt="Profile" />
