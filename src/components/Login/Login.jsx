@@ -47,7 +47,7 @@ const Login = () => {
 
       if (response.data.isSuccess) {
         const userData = response.data.data;
-        navigate(userData.iq != null ? '/mainstd' : '/maintchr');
+        navigate(userData.pinCode != null ? '/mainstd' : '/maintchr');
       } else {
         throw new Error(response.data.message);
       }

@@ -37,7 +37,7 @@ export default function FloatingButton() {
 
     const handleFloatingButtonClick = () => {
         // Navigate based on the presence of the 'iq' field
-        if (userInfo.iq != null) {
+        if (userInfo.pinCode != null) {
             navigate('/selfstudy'); // For students
         } else {
             navigate('/createlesson'); // For teachers
