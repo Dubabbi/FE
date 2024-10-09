@@ -251,47 +251,15 @@ const MypageTchr = () => {
         }
     };
 
-    const handleAddImage = async (file) => {
-        if (!file) return;
-    
-        const formData = new FormData();
-        formData.append('image', file);
-    
-        try {
-            const accessToken = localStorage.getItem("key");
-            if (!accessToken) {
-                console.error('Authentication token is missing');
-                return;
-            }
-    
-            // 파일을 먼저 서버에 업로드
-            const uploadResponse = await axios.post('https://maeummal.com/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${accessToken}`
-                }
-            });
-    
-            if (!uploadResponse.data.isSuccess) {
-                throw new Error('Image upload failed');
-            }
-    
-            const imageUrl = uploadResponse.data.data.profileImage;
-            const updateResponse = await axios.patch('https://maeummal.com/user/updateProfileImage', {
-                profileImage: imageUrl
-            }, {
-                headers: { Authorization: `Bearer ${accessToken}` }
-            });
-    
-            if (updateResponse.data.isSuccess) {
-                setProfileImage(imageUrl); // 상태 업데이트
-                alert('프로필 이미지가 성공적으로 업데이트되었습니다.');
-            } else {
-                throw new Error('Failed to update profile image');
-            }
-        } catch (error) {
-            console.error('Error updating profile image:', error);
+    const handleAddImage = (file) => {
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfileImage(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
+        toggleUploadModal();
     };
 
     const handleToggleExtended = () => {
