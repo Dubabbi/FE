@@ -84,7 +84,7 @@ const MypageTchr = () => {
                 phoneNum: updatedPhoneNum
             };
     
-            const response = await axios.patch('https://thingproxy.freeboard.io/fetch/https://maeummal.com/user/teacher', body, {
+            const response = await axios.patch('https://maeummal.com/user/teacher', body, {
                 headers: { Authorization: `Bearer ${accessToken}` }
             });
     
@@ -117,10 +117,9 @@ const MypageTchr = () => {
         }
       
         try {
-          // currentPassword와 newPassword를 쿼리 파라미터로 직접 전달
           const response = await axios.patch(
-            `https://thingproxy.freeboard.io/fetch/https://maeummal.com/user/changePassword?currentPassword=${currentPassword}&newPassword=${newPassword}`,
-            {}, // PATCH 요청에서는 빈 본문을 보낼 수 있습니다
+            `https://maeummal.com/user/changePassword?currentPassword=${currentPassword}&newPassword=${newPassword}`,
+            {}, 
             {
               headers: { Authorization: `Bearer ${accessToken}` }
             }
@@ -177,8 +176,8 @@ const MypageTchr = () => {
                 return;
             }
     
-            await fetchStudentDetails(studentId); // 학생의 상세 정보를 동적으로 불러옵니다.
-            await fetchFullFeedback(studentId); // 학생의 피드백 정보를 동적으로 불러옵니다.
+            await fetchStudentDetails(studentId);
+            await fetchFullFeedback(studentId); 
     
             setIsStdinfoExtended(true);
             setIsExtended(false);
@@ -252,15 +251,47 @@ const MypageTchr = () => {
         }
     };
 
-    const handleAddImage = (file) => {
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setProfileImage(reader.result);
-            };
-            reader.readAsDataURL(file);
+    const handleAddImage = async (file) => {
+        if (!file) return;
+    
+        const formData = new FormData();
+        formData.append('image', file);
+    
+        try {
+            const accessToken = localStorage.getItem("key");
+            if (!accessToken) {
+                console.error('Authentication token is missing');
+                return;
+            }
+    
+            // 파일을 먼저 서버에 업로드
+            const uploadResponse = await axios.post('https://maeummal.com/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+    
+            if (!uploadResponse.data.isSuccess) {
+                throw new Error('Image upload failed');
+            }
+    
+            const imageUrl = uploadResponse.data.data.profileImage;
+            const updateResponse = await axios.patch('https://maeummal.com/user/updateProfileImage', {
+                profileImage: imageUrl
+            }, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+    
+            if (updateResponse.data.isSuccess) {
+                setProfileImage(imageUrl); // 상태 업데이트
+                alert('프로필 이미지가 성공적으로 업데이트되었습니다.');
+            } else {
+                throw new Error('Failed to update profile image');
+            }
+        } catch (error) {
+            console.error('Error updating profile image:', error);
         }
-        toggleUploadModal();
     };
 
     const handleToggleExtended = () => {
