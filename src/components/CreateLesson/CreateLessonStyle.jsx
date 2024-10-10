@@ -602,7 +602,7 @@ export const SecondBox = styled.div`
   border-radius: 1.3rem;
   box-shadow: inset 0 0 0 4px #969696;
   background-color: rgba(217, 217, 217, 0.14);
-  font-size: 1.2vw;
+  font-size: 1.7rem;
   font-family: arial;
   width: 600px;
   height: 70px;
@@ -845,25 +845,31 @@ export const Upload = styled.img`
 `;
 
 export const FeedImage = styled.div`
-  flex: 0 0 auto;
-  text-align: center;
-  min-width: 180px;
-  width: 180px;
-  height: 180px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  img {
-    width: 100%;
-    border-radius: 1.3rem;
-    border: 2px solid #acaacc;
-  }
-  @media (max-width: 768px) {
-    width: 150px;
-    height: 150px;
-  }
-`;
+    flex: 0 0 auto;
+    text-align: center;
+    min-width: 180px; 
+    width: 180px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    img{
+        max-width: 100%;
+        border-radius: 1.3rem;
+        border: 2px solid #ACAACC;
+    }
+    @media (max-width: 768px) {
+        width: 100px;
+        min-width: 100px;
+        height: 150px;
+        img{
+          max-width: 100px;
+          min-width: 100px;
+        }
+    }
+`
+
 export const FeedTitle = styled.h1`
   display: flex;
   font-size: 1.7rem;
