@@ -392,7 +392,7 @@ const Template1Std = () => {
           <Reward onClose={handleCloseReward} />
         </ModalOverlay>
       )}
-      <LoadingModal isOpen={isLoading} />
+      <LoadingModal isOpen={isLoading} text={"피드백"} />
     </>
   );
 };

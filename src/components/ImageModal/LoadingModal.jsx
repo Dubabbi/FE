@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import * as C from '../CreateLesson/CreateLessonStyle';
+import React, { useState, useEffect } from "react";
+import * as C from "../CreateLesson/CreateLessonStyle";
 
-const LoadingModal = ({
-  isOpen
-}) => {
+const LoadingModal = ({ isOpen, text }) => {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
 
@@ -11,7 +9,7 @@ const LoadingModal = ({
     if (isOpen) {
       setLoading(true);
       const timer = setInterval(() => {
-        setProgress(prevProgress => {
+        setProgress((prevProgress) => {
           const nextProgress = prevProgress + 10;
           if (nextProgress >= 100) {
             clearInterval(timer);
@@ -33,15 +31,26 @@ const LoadingModal = ({
     <C.ModalOverlay>
       <C.LoadingContent>
         {loading ? (
-          <div style={{ width: '100%', textAlign: 'center' }}>
-            <p style={{ color: '#8344B5', fontSize: '1.8rem', marginBottom: '3%' }}>
-              피드백 생성 중입니다.
+          <div style={{ width: "100%", textAlign: "center" }}>
+            <p
+              style={{
+                color: "#8344B5",
+                fontSize: "1.8rem",
+                marginBottom: "3%",
+              }}
+            >
+              {`${text} 생성 중입니다.`}
             </p>
-            <p style={{ color: '#888', fontSize: '1.4rem', marginBottom: '5%' }}>
+            <p
+              style={{ color: "#888", fontSize: "1.4rem", marginBottom: "5%" }}
+            >
               💜잠시만 기다려 주세요!💜
             </p>
             <div className="loading-bar">
-              <div className="loading-progress" style={{ width: `${progress}%`, marginBottom: '5%'  }}></div>
+              <div
+                className="loading-progress"
+                style={{ width: `${progress}%`, marginBottom: "5%" }}
+              ></div>
             </div>
           </div>
         ) : (
