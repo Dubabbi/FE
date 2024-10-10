@@ -14,7 +14,7 @@ import Pink from "/src/assets/icon/heartpink.svg";
 import White from "/src/assets/icon/heartwhite.svg";
 import Reward from "../Reward/Reward5";
 import { ModalOverlay } from "./Feedback2";
-import LoadingModal from '../ImageModal/LoadingModal';
+import LoadingModal from "../ImageModal/LoadingModal";
 
 export const HintBox = styled.div`
   position: relative;
@@ -38,7 +38,9 @@ export const HintBox = styled.div`
 
 const Template5Std = () => {
   const accessToken = localStorage.getItem("key");
-  const [template5Id, setTemplate5Id] = useState(useLocation().state?.templateId);
+  const [template5Id, setTemplate5Id] = useState(
+    useLocation().state?.templateId
+  );
   const navigate = useNavigate();
   const [userId, setUserId] = useState();
   const [feedbackData, setFeedbackData] = useState(null);
@@ -99,7 +101,7 @@ const Template5Std = () => {
         console.error("Error fetching data:", error);
       });
   }, []);
-  
+
   const boxClick = (event, index) => {
     const newClicked = [...clicked];
     const newAddLine = [...addLine];
@@ -203,7 +205,7 @@ const Template5Std = () => {
         setIsLoading(false); // 로딩 종료
       });
   };
-  
+
   const handleReset = () => {
     setClicked([
       {
@@ -347,7 +349,7 @@ const Template5Std = () => {
           <Reward onClose={handleCloseReward} />
         </ModalOverlay>
       )}
-      <LoadingModal isOpen={isLoading} />
+      <LoadingModal isOpen={isLoading} text={"피드백"} />
     </>
   );
 };
