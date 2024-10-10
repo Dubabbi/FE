@@ -27,7 +27,7 @@ const Feedback4 = () => {
 
   // 기본값 설정으로 빈 데이터에 대한 처리
   const feedbackData = location.state?.feedbackData || {};
-  const feedbackDescription = location.state?.description || "설명이 없습니다.";
+  const feedbackDescription = location.state?.solution || "설명이 없습니다.";
   const cardData = location.state?.cardData || [];
   const { state } = useLocation();
   const templateTitle = state.templateTitle;
