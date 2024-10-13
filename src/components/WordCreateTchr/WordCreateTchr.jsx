@@ -93,7 +93,9 @@ const WordCreateTchr = () => {
   const handleModalSubmit = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.post('https://maeummal.com/ai/image', { prompt: inputModalValue });
+      const response = await axios.post('https://maeummal.com/ai/image', 
+        { prompt: inputModalValue },
+        { headers: { Authorization: `Bearer ${localStorage.getItem("key")}` }});
       if (response.status === 200 && response.data) {
         const updatedCards = [...wordCards];
         const index = updatedCards.findIndex(card => card.wordId === modalCardIndex);
@@ -115,7 +117,7 @@ const WordCreateTchr = () => {
     try {
       const response = await axios.post('https://maeummal.com/ai/image', 
         { prompt: inputModalValue }, 
-        { headers: { 'Content-Type': 'bearer' } }
+        { headers: { Authorization: `Bearer ${localStorage.getItem("key")}` }}
       );
       if (response.status === 200 && response.data) {
         setGeneratedImageUrl(response.data);
@@ -153,28 +155,28 @@ const WordCreateTchr = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const wordSetDTO = {
       title: titleValue,
       description: description,
       category: category
     };
-
+  
     const wordDTOList = wordCards.map(card => ({
-      meaning: card.meaning,
-      image: card.imagePreviewUrl,
-      prompt: card.prompt || inputModalValue,
-      description: card.description
+      meaning: card.meaning, 
+      image: card.imagePreviewUrl, 
+      prompt: card.prompt,
+      description: card.description 
     }));
-
+  
     const data = {
       wordSetDTO,
       wordDTOList
     };
-
+  
     try {
       const response = await axios.post('https://maeummal.com/word/wordSet', data, {
-        headers: { 'Content-Type': 'application/json' }
+        headers: { Authorization: `Bearer ${localStorage.getItem("key")}` }
       });
       console.log('Response:', response.data);
       alert('낱말 카드 세트가 성공적으로 생성되었습니다.');
@@ -184,6 +186,7 @@ const WordCreateTchr = () => {
       alert('낱말 카드 세트 생성에 실패했습니다.');
     }
   };
+  
 
   return (
     <>
