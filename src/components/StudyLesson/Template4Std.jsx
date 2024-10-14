@@ -379,7 +379,7 @@ const Template4Std = () => {
       </L.LessonWrapper>
 
       {showHint && firstFeedback && (
-        <C.HintWrapper
+        <C.ToastWrapper
           style={{
             border: "none",
             position: "fixed",
@@ -392,7 +392,7 @@ const Template4Std = () => {
             <img src={Toast} alt="Hint" />
             {firstFeedback.hint ? firstFeedback.hint : "힌트가 없습니다."}
           </C.HintToast>
-        </C.HintWrapper>
+        </C.ToastWrapper>
       )}
 
       <C.SubmitButton onClick={handleSubmit}>제출</C.SubmitButton>

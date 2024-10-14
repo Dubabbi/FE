@@ -324,7 +324,7 @@ const Template2Std = () => {
         </C.Line>
       </L.LessonWrapper>
       {showHint && (
-        <C.HintWrapper
+        <C.ToastWrapper
           style={{
             border: "none",
             position: "fixed",
@@ -337,7 +337,7 @@ const Template2Std = () => {
             <img src={Toast} alt="Hint" />
             {templateData ? templateData.hint : "Loading..."}
           </C.HintToast>
-        </C.HintWrapper>
+        </C.ToastWrapper>
       )}
       <C.SubmitButton onClick={handleSubmit}>제출</C.SubmitButton>
       {showReward && (

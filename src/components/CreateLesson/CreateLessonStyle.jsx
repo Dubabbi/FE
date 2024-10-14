@@ -638,7 +638,27 @@ export const FeedbackText = styled.div`
   font-size: 1.2vw;
 `;
 
+
+
 export const HintWrapper = styled.div`
+  flex: 0 0 auto;
+  text-align: center;
+  min-width: 220px;
+  border-radius: 1.4rem;
+  border: 2px solid rgba(244, 244, 244, 1);
+  width: 55%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  @media (max-width: 768px) {
+    width: auto;
+    max-width: 90%;
+    height: auto;
+  }
+`;
+export const ToastWrapper = styled.div`
   flex: 0 0 auto;
   text-align: center;
   position: fixed;
@@ -658,7 +678,6 @@ export const HintWrapper = styled.div`
     height: auto;
   }
 `;
-
 
 export const HintBox = styled(Form)`
   width: 75%;
