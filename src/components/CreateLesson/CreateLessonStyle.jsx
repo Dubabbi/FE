@@ -641,6 +641,8 @@ export const FeedbackText = styled.div`
 export const HintWrapper = styled.div`
   flex: 0 0 auto;
   text-align: center;
+  position: fixed;
+  bottom: 5px; 
   min-width: 220px;
   border-radius: 1.4rem;
   border: 2px solid rgba(244, 244, 244, 1);
@@ -656,6 +658,7 @@ export const HintWrapper = styled.div`
     height: auto;
   }
 `;
+
 
 export const HintBox = styled(Form)`
   width: 75%;
@@ -815,8 +818,9 @@ export const TemplateBox = styled.div`
 
 export const HintToast = styled.div`
   width: 75%;
-  minwidth: 200px;
-  height: 37px;
+  min-width: 200px;
+  min-height: 37px; 
+  height: auto; 
   font-size: 17px;
   flex-direction: row;
   border-radius: 7px;
@@ -825,13 +829,15 @@ export const HintToast = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  padding-left: 15px;
+  padding: 10px 15px;
   border: 1.3px solid #b40000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
   img {
     max-width: 28px;
   }
 `;
+
 
 export const Upload = styled.img`
   width: 20%;

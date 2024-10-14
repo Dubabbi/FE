@@ -186,13 +186,16 @@ const Template4Std = () => {
       JSON.stringify(userAnswerOrder) === JSON.stringify(correctOrder);
 
     if (isCorrect) {
-      setIsCreatingFeedback(true); // Set loading true only for final feedback submission
+      setIsCreatingFeedback(true);
       await submitFeedback(userAnswerOrder);
       setShowReward(true);
       awardBadge();
-      setIsCreatingFeedback(false); // Reset loading state after feedback is submitted
+      setIsCreatingFeedback(false);
     } else {
-      if (lives > 1) {
+      if (lives === 2) {
+        // 첫 번째 실패일 경우 첫 번째 피드백 제공
+        await submitFirstFeedback(userAnswerOrder);
+      } else if (lives > 1) {
         setLives(lives - 1);
         setSelectedImages([]);
         setImageSelectionOrder({});
@@ -201,13 +204,15 @@ const Template4Std = () => {
         setShowHint(false);
         setSelectedImages([]);
         setImageSelectionOrder({});
-        setIsCreatingFeedback(true); // Set loading true for final unsuccessful attempt
+        setIsCreatingFeedback(true);
         await submitFeedback(userAnswerOrder);
-        setIsCreatingFeedback(false); // Reset loading state after feedback is submitted
+        setIsCreatingFeedback(false);
       }
     }
   };
-
+  
+  
+  
   const submitFirstFeedback = async (userOrder) => {
     try {
       const accessToken = localStorage.getItem("key");
@@ -283,16 +288,18 @@ const Template4Std = () => {
       image: card.image,
       storyCardId: card.storyCardId,
     }));
-
+    const orderedCardData = selectedImages.map(({ id }) =>
+      templateData.storyCardEntityList.find((card) => card.storyCardId === id)
+    );
     setShowReward(false);
 
     navigate("/Feedback4", {
       state: {
         feedbackData,
         solution: templateData.description,
-        cardData,
-        templateTitle: templateData.title,
-      },
+        cardData: orderedCardData,
+        templateTitle: templateData.title
+      }
     });
   };
 
@@ -316,8 +323,8 @@ const Template4Std = () => {
       </D.HeartWrap>
       <L.LessonWrapper>
         <L.Section>
-          <h1>{templateData ? templateData.title : "Loading..."}</h1>
-          <p>{templateData ? templateData.description : "Loading..."}</p>
+          <h1>{templateData ? templateData.title : 'Loading...'}</h1>
+          {/* <p>{templateData ? templateData.description : 'Loading...'}</p> */}
         </L.Section>
         <D.Select
           style={{ width: "20%", marginLeft: "7px", marginBottom: "5px" }}
