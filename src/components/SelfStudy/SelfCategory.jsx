@@ -8,7 +8,7 @@ import school from "/src/assets/image/selfCategory/school.svg";
 import food from "/src/assets/image/selfCategory/food.svg";
 import animal from "/src/assets/image/selfCategory/animal.svg";
 import weather from "/src/assets/image/selfCategory/weather.svg";
-import { Loading } from "./Loading";
+import LoadingModal from "../ImageModal/LoadingModal";
 
 export default function SelfCategory() {
   const navigate = useNavigate();
@@ -76,33 +76,25 @@ export default function SelfCategory() {
           <img src={Back} alt="" />
         </a>
       </D.ImageWrap>
-      {loading ? (
-        <S.AppContainer>
-          <Loading title="문제" subtitle="문제를" />
-        </S.AppContainer>
-      ) : (
-        <S.AppContainer>
-          <h1>자율학습</h1>
-          <S.CategoryContainer>
-            <S.SecondTitle>학습할 카테고리를 선택해 주세요.</S.SecondTitle>
-            <S.rowContainer>
-              <S.overContainer>
-                {CategoryList.map((item, index) => (
-                  <S.Category
-                    key={index}
-                    onClick={() => onClickCategory(index)}
-                  >
-                    <S.level style={{ width: "130px", height: "125px" }}>
-                      <img src={item.src} alt="" />
-                    </S.level>
-                    <p>{item.category}</p>
-                  </S.Category>
-                ))}
-              </S.overContainer>
-            </S.rowContainer>
-          </S.CategoryContainer>
-        </S.AppContainer>
-      )}
+      <S.AppContainer>
+        <h1>자율학습</h1>
+        <S.CategoryContainer>
+          <S.SecondTitle>학습할 카테고리를 선택해 주세요.</S.SecondTitle>
+          <S.rowContainer>
+            <S.overContainer>
+              {CategoryList.map((item, index) => (
+                <S.Category key={index} onClick={() => onClickCategory(index)}>
+                  <S.level style={{ width: "130px", height: "125px" }}>
+                    <img src={item.src} alt="" />
+                  </S.level>
+                  <p>{item.category}</p>
+                </S.Category>
+              ))}
+            </S.overContainer>
+          </S.rowContainer>
+        </S.CategoryContainer>
+      </S.AppContainer>
+      <LoadingModal isOpen={loading} text={"문제"} />
     </>
   );
 }

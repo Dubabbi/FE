@@ -94,7 +94,9 @@ const Template2Std = () => {
   }, [templateId]);
 
   if (isLoading || isCreatingFeedback) {
-    return <LoadingModal isOpen={isLoading || isCreatingFeedback} />;
+    return (
+      <LoadingModal isOpen={isLoading || isCreatingFeedback} text={"피드백"} />
+    );
   }
 
   const toggleSelectImage = (id) => {
