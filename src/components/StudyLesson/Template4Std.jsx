@@ -288,20 +288,20 @@ const Template4Std = () => {
       image: card.image,
       storyCardId: card.storyCardId,
     }));
-    const orderedCardData = selectedImages.map(({ id }) =>
-      templateData.storyCardEntityList.find((card) => card.storyCardId === id)
-    );
+    
     setShowReward(false);
-
+  
+    // 피드백 페이지로 이동할 때 모든 카드 데이터를 전달
     navigate("/Feedback4", {
       state: {
         feedbackData,
         solution: templateData.description,
-        cardData: orderedCardData,
-        templateTitle: templateData.title
-      }
+        cardData, // 정답 여부와 관계없이 모든 카드 전달
+        templateTitle: templateData.title,
+      },
     });
   };
+  
 
   if (isLoading || isCreatingFeedback) {
     // Show loading modal when fetching data or creating feedback
