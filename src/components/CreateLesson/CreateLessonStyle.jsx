@@ -419,6 +419,9 @@ export const CardContainer = styled.div`
   overflow-x: auto;
   width: 100%;
   padding-top: 20px;
+  @media(max-width: 780px){
+    flex-direction: column;
+  }
 `;
 
 export const SelectCard = styled.div`
@@ -429,6 +432,11 @@ export const SelectCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: auto;
+  @media(max-width: 780px){
+      width: 80%;
+      margin: 0 auto;
+  }
 `;
 
 export const SelectBox = styled.div`
@@ -463,7 +471,8 @@ export const StoryField = styled.input`
   background: #f6f6f6;
   color: #777777;
   text-align: center;
-  height: 100px;
+  min-height: 100px;
+  height: auto;
   outline: none;
   &:focus {
     box-shadow: inset 0 0 0 2px #777777;
@@ -481,13 +490,16 @@ export const Story = styled.div`
   padding: 10px;
   resize: none;
   margin: 10px;
-  font-size: 0.8vw;
+  font-size: 1.5rem;
   border: none;
   border-radius: 5px;
   background: #f6f6f6;
   color: #333333;
   text-align: center;
-  height: 100px;
+  height: auto;
+  min-height: 150px;
+  word-break: break-word;
+  overflow: visible; 
   outline: none;
 `;
 
@@ -912,7 +924,7 @@ export const StoryList = styled.div`
   overflow: hidden;
   border: 2px solid #f6f6f6;
   border-radius: 1rem;
-
+  
   img {
     max-width: 95%;
     max-height: 100%;
